@@ -5,7 +5,7 @@
         "Link": "https://www.finnair.com/en/baggage-on-finnair-flights/carry-on-baggage",
         "Inches": "16 x 12 x 6",
         "Centimeters": "40 x 30 x 15",
-        "Pounds ": 17.5,
+        "Pounds": 17.5,
         "Kilograms": 8.0
     },
     {
@@ -14,7 +14,7 @@
         "Link": "https://www.lionairthai.com/en/ThaiLionAir-Experience/Baggage-Allowance",
         "Inches": "16 x 12 x 8",
         "Centimeters": "40 x 30 x 20",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -23,7 +23,7 @@
         "Link": "https://wizzair.com/en-gb/information-and-services/travel-information/baggage#2",
         "Inches": "16 x 12 x 8",
         "Centimeters": "40 x 30 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -32,7 +32,7 @@
         "Link": "https://www.loganair.co.uk/travel-help/luggage/",
         "Inches": "16 x 14 x 7",
         "Centimeters": "40 x 35 x 18",
-        "Pounds ": 13.0,
+        "Pounds": 13.0,
         "Kilograms": 6.0
     },
     {
@@ -41,7 +41,7 @@
         "Link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
         "Inches": "19 x 13 x 8",
         "Centimeters": "48 x 33 x 20",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -50,7 +50,7 @@
         "Link": "https://www.airvanuatu.com/travel-info/baggage",
         "Inches": "19 x 13 x 9",
         "Centimeters": "48 x 34 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -59,7 +59,7 @@
         "Link": "https://www.rex.com.au/FlightInfo/BaggageAllowance.aspx",
         "Inches": "19 x 13 x 9",
         "Centimeters": "48 x 34 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -68,7 +68,7 @@
         "Link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
         "Inches": "19 x 13 x 9",
         "Centimeters": "48 x 34 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -77,7 +77,7 @@
         "Link": "https://www.astra-airlines.gr/pages.php?cat=6&s=1",
         "Inches": "20 x 12 x 8",
         "Centimeters": "50 x 30 x 20",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -86,7 +86,7 @@
         "Link": "https://www.qatarairways.com/en/baggage/allowance.html",
         "Inches": "20 x 15 x 10",
         "Centimeters": "50 x 37 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -95,7 +95,7 @@
         "Link": "https://www.airmoldova.md/hand-baggage-en/",
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -104,7 +104,7 @@
         "Link": "https://www.atlanticairways.com/en/travel-info/luggage",
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -113,7 +113,7 @@
         "Link": "https://www.etihad.com/en-us/fly-etihad/baggage",
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -122,7 +122,7 @@
         "Link": "https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions",
         "Inches": "20 x 16 x 9",
         "Centimeters": "51 x 40 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -131,7 +131,7 @@
         "Link": "https://www.sunwing.ca/en/sunwing-airlines/baggage-info",
         "Inches": "20 x 16 x 9",
         "Centimeters": "51 x 40 x 23",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -140,7 +140,7 @@
         "Link": "https://www.westjet.com/en-ca/baggage/allowance",
         "Inches": "21 x 15 x 9",
         "Centimeters": "53 x 38 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -149,7 +149,7 @@
         "Link": "https://www.aerolineas.com.ar/en-ar/baggage/franchise",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -158,7 +158,7 @@
         "Link": "https://www.aircorsica.com/flights/cabin-hold-baggage.html",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -166,7 +166,7 @@
         "Region": "Europe",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -175,7 +175,7 @@
         "Link": "https://wwws.airfrance.us/information/bagages/bagage-cabine-soute",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 26.0,
+        "Pounds": 26.0,
         "Kilograms": 12.0
     },
     {
@@ -184,7 +184,7 @@
         "Link": "https://www.airindia.in/hand-luggage.htm",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -193,7 +193,7 @@
         "Link": "https://www.airmauritius.com/baggage/carry-on",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -202,7 +202,7 @@
         "Link": "https://www.airtahiti.com/en/carry-on-baggage",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -211,7 +211,7 @@
         "Link": "https://ayuda.avianca.com/hc/en-us/articles/13080259544219-What-is-carry-on-baggage-and-how-can-I-purchase-it",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -219,7 +219,7 @@
         "Region": "Europe",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -228,7 +228,7 @@
         "Link": "https://www.voegol.com.br/en/information/baggage",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -237,7 +237,7 @@
         "Link": "https://www.goindigo.in/travel-information/en/baggage-allowance.html",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -245,7 +245,7 @@
         "Region": "Africa",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 26.4,
+        "Pounds": 26.4,
         "Kilograms": 12.0
     },
     {
@@ -254,7 +254,7 @@
         "Link": "https://www.klm.us/information/baggage/checked-baggage-allowance",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 26.0,
+        "Pounds": 26.0,
         "Kilograms": 12.0
     },
     {
@@ -263,7 +263,7 @@
         "Link": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 17.0,
+        "Pounds": 17.0,
         "Kilograms": 8.0
     },
     {
@@ -272,7 +272,7 @@
         "Link": "https://corporate.spicejet.com/AirTravelBaggageFaq.aspx",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -281,7 +281,7 @@
         "Link": "https://www.transavia.com/en-EU/faq/hand-luggage/",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -290,7 +290,7 @@
         "Link": "https://www.aurigny.com/faqs",
         "Inches": "22 x 14 x 8",
         "Centimeters": "55 x 36 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -299,7 +299,7 @@
         "Link": "https://www.emirates.com/us/english/before-you-fly/baggage/cabin-baggage-rules/",
         "Inches": "22 x 15 x 8",
         "Centimeters": "55 x 38 x 20",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -308,7 +308,7 @@
         "Link": "https://www.flyroyalbrunei.com/brunei/en/information/cabin-baggage/",
         "Inches": "22 x 15 x 8",
         "Centimeters": "55 x 38 x 20",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -317,7 +317,7 @@
         "Link": "https://www.air-austral.com/en/prepare-your-flight/your-baggage/carry-on-baggage.html",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -326,7 +326,7 @@
         "Link": "https://www.airchina.us/US/GB/info/carry-on-baggage/",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -335,7 +335,7 @@
         "Link": "https://www.airtahitinui.com/us-en/baggage-policies",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -344,7 +344,7 @@
         "Link": "https://www.armenianairlines.com/en/baggage-policy",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -353,7 +353,7 @@
         "Link": "https://flyasiana.com/C/US/EN/contents/carry-on-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -362,7 +362,7 @@
         "Link": "https://www.azoresairlines.pt/en/information/baggage/carry-on-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 17.0,
+        "Pounds": 17.0,
         "Kilograms": 8.0
     },
     {
@@ -370,7 +370,7 @@
         "Region": "Latin America",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -379,7 +379,7 @@
         "Link": "https://www.carpatair.com/baggage-rules/",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -388,7 +388,7 @@
         "Link": "https://www.csair.com/us/en/tourguide/luggage_service/carryon_luggage/",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -397,7 +397,7 @@
         "Link": "https://www.condor.com/eu/flight-preparation/baggage-and-animals/carry-on.jsp",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -406,7 +406,7 @@
         "Link": "https://www.flycorsair.com/en-ca/cabin-luggage/cabin-luggage-allowance",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 26.5,
+        "Pounds": 26.5,
         "Kilograms": 12.0
     },
     {
@@ -415,7 +415,7 @@
         "Link": "https://www.croatiaairlines.com/Baggage/Hand-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -423,7 +423,7 @@
         "Region": "Latin America",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -432,7 +432,7 @@
         "Link": "https://www.hainanairlines.com/HUPortal/dyn/portal/DisplayPage?COUNTRY_SITE=US&SITE=CBHZCBHZ&LANGUAGE=US&PAGE=CABA",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -441,7 +441,7 @@
         "Link": "https://www.helvetic.com/en/travelinfo#!info=baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -450,7 +450,7 @@
         "Link": "https://www.icelandair.com/support/baggage/allowance/#carry-on-baggage-allowance",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -458,7 +458,7 @@
         "Region": "Europe",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -467,7 +467,7 @@
         "Link": "https://www.koreanair.com/contents/plan-your-travel/baggage/carry-on-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -476,7 +476,7 @@
         "Link": "https://www.miat.com/pagecontent.php?pageId=151&lang=en",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -485,7 +485,7 @@
         "Link": "https://plusultra.com/equipaje/equipaje-en-cabina/",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -493,7 +493,7 @@
         "Region": "Europe",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -502,7 +502,7 @@
         "Link": "https://www.ryanair.com/gb/en/useful-info/help-centre/terms-and-conditions/termsandconditionsar_696869348",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -511,7 +511,7 @@
         "Link": "https://en.ch.com/flights/excess-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -520,7 +520,7 @@
         "Link": "https://www.flytap.com/en-de/baggage/hand-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 17.0,
+        "Pounds": 17.0,
         "Kilograms": 8.0
     },
     {
@@ -529,7 +529,7 @@
         "Link": "https://www.flytap.com/en-de/baggage/hand-baggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -538,7 +538,7 @@
         "Link": "https://www.tui.com/service-kontakt/flug/handgepaeck",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 13.2,
+        "Pounds": 13.2,
         "Kilograms": 6.0
     },
     {
@@ -546,7 +546,7 @@
         "Region": "Europe",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -554,7 +554,7 @@
         "Region": "South America",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -563,7 +563,7 @@
         "Link": "https://www.vueling.com/en/vueling-services/prepare-your-trip/luggage",
         "Inches": "22 x 16 x 8",
         "Centimeters": "55 x 40 x 20",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -572,7 +572,7 @@
         "Link": "https://www.airbaltic.com/en/baggage/cabin-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -581,7 +581,7 @@
         "Link": "https://www.aircanada.com/us/en/aco/home/plan/baggage/carry-on.html#/",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -590,7 +590,7 @@
         "Link": "https://www.airnewzealand.com/carry-on-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -599,7 +599,7 @@
         "Link": "https://www.airserbia.com/en/information/baggage/hand-luggage/hand-luggage-weight",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -608,7 +608,7 @@
         "Link": "https://www.austrian.com/gb/en/carry-on-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -617,7 +617,7 @@
         "Link": "https://www.azal.az/en/information/baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -626,7 +626,7 @@
         "Link": "https://www.brusselsairlines.com/be/en/extra-services/baggage/carry-on-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 26.5,
+        "Pounds": 26.5,
         "Kilograms": 8.0
     },
     {
@@ -635,7 +635,7 @@
         "Link": "https://www.air.bg/en/customer-support/your-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -644,7 +644,7 @@
         "Link": "https://www.flyedelweiss.com/EN/prepare/baggage/free-baggage/Pages/hand-baggage.aspx",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -653,7 +653,7 @@
         "Link": "https://www.egyptair.com/en/fly/baggage/Pages/baggage-allowance.aspx",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -662,7 +662,7 @@
         "Link": "https://www.ethiopianairlines.com/aa/information/baggage-information/carry-on-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -671,7 +671,7 @@
         "Link": "https://www.fijiairways.com/manage/baggage-allowances",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -680,7 +680,7 @@
         "Link": "https://www.lufthansa.com/us/en/carry-on-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -689,7 +689,7 @@
         "Link": "https://www.luxair.lu/en/information/hand-luggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -698,7 +698,7 @@
         "Link": "https://www.norwegian.com/en/travel-info/baggage/hand-baggage/",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -707,7 +707,7 @@
         "Link": "https://www.olympicair.com/en/travel-information/travelling-with-olympic-air/baggage/baggage-allowances/",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 12.0,
+        "Pounds": 12.0,
         "Kilograms": 6.0
     },
     {
@@ -716,7 +716,7 @@
         "Link": "https://www.s7.ru/en/info/norma-provoza-bagazha/",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -725,7 +725,7 @@
         "Link": "https://www.flysas.com/us-en/travel-info/baggage/carry-on/",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -733,7 +733,7 @@
         "Region": "Asia",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 16.0,
+        "Pounds": 16.0,
         "Kilograms": 8.0
     },
     {
@@ -742,7 +742,7 @@
         "Link": "https://www.swiss.com/de/en/prepare/baggage/hand-baggage",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -751,7 +751,7 @@
         "Link": "https://www.turkishairlines.com/en-us/any-questions/carry-on-baggage/index.html",
         "Inches": "22 x 16 x 9",
         "Centimeters": "55 x 40 x 23",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -760,7 +760,7 @@
         "Link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
         "Inches": "22 x 16 x 9.5",
         "Centimeters": "55 x 40 x 24",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -769,7 +769,7 @@
         "Link": "https://www.aeroflot.ru/ru-en/information/preparation/luggage#baggage_tab2",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -778,7 +778,7 @@
         "Link": "https://aeromexico.com/en-us/travel-information/baggage/carry-on-baggage",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -787,7 +787,7 @@
         "Link": "https://www.ana.co.jp/en/us/travel-information/baggage-information/carry-on/",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -796,7 +796,7 @@
         "Link": "https://en.belavia.by/baggage/unchecked_baggage/",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -805,7 +805,7 @@
         "Link": "http://www.bhairlines.com/page.php?id=38",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -814,7 +814,7 @@
         "Link": "https://cms.volaris.com/en/travel-info/baggage-policy/",
         "Inches": "22 x 16 x 10",
         "Centimeters": "55 x 40 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -823,7 +823,7 @@
         "Link": "https://www.csa.cz/en/travel-information/",
         "Inches": "22 x 18 x 10",
         "Centimeters": "55 x 45 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -832,7 +832,7 @@
         "Link": "https://www.wingo.com/centro-de-ayuda/equipaje/equipaje-de-mano-adicional",
         "Inches": "22 x 18 x 10",
         "Centimeters": "55 x 45 x 25",
-        "Pounds ": 26.5,
+        "Pounds": 26.5,
         "Kilograms": 12.0
     },
     {
@@ -841,7 +841,7 @@
         "Link": "https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -850,7 +850,7 @@
         "Link": "https://www.alaskaair.com/content/travel-info/baggage/carry-on-luggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -859,7 +859,7 @@
         "Link": "https://www.allegiantair.com/baggage-1",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -868,7 +868,7 @@
         "Link": "https://www.aa.com/i18n/travel-info/baggage/carry-on-baggage.jsp",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -877,7 +877,7 @@
         "Link": "https://bahamasair.com/baggage-information/baggage-rates-baggage-claim-form-pdf",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 20.0,
+        "Pounds": 20.0,
         "Kilograms": 9.0
     },
     {
@@ -886,7 +886,7 @@
         "Link": "https://www.bangkokair.com/baggage-allowance",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -895,7 +895,7 @@
         "Link": "https://cambodiaangkorair.com/index.php/post/55/baggage-policy#baggage-policy",
         "Inches": "22 x 11 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -904,7 +904,7 @@
         "Link": "https://www.caribbean-airlines.com/#/baggage/carry-on",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -913,7 +913,7 @@
         "Link": "https://www.cathaypacific.com/cx/en_US/baggage.html",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -922,7 +922,7 @@
         "Link": "https://www.cebupacificair.com/pages/travel-info/baggage-information/carry-on-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -931,7 +931,7 @@
         "Link": "https://www.china-airlines.com/us/en/fly/prepare-for-the-fly/baggage/carry-on-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -940,7 +940,7 @@
         "Link": "https://www.delta.com/us/en/baggage/carry-on-baggage#baggageFees.html",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -948,7 +948,7 @@
         "Region": "Asia",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -957,7 +957,7 @@
         "Link": "https://hawaiianair.custhelp.com/app/answers/detail/a_id/2815/~/carry-on-bag-allowance",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 25.0,
+        "Pounds": 25.0,
         "Kilograms": 11.0
     },
     {
@@ -966,7 +966,7 @@
         "Link": "https://www.hkexpress.com/en-hk/plan/travel-information/baggage-information/carry-on-baggage/",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -975,7 +975,7 @@
         "Link": "http://www.hkairlines.com/en_HK/fly-with-us/baggage/handcarry",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -984,7 +984,7 @@
         "Link": "https://www.jal.co.jp/jp/en/inter/baggage/inflight/#anchorlink001",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -993,7 +993,7 @@
         "Link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -1002,7 +1002,7 @@
         "Link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1011,7 +1011,7 @@
         "Link": "https://laoairlines.com/en/baggage-optional-service-charges/",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -1019,7 +1019,7 @@
         "Region": "South Africa",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -1028,7 +1028,7 @@
         "Link": "https://content.nokair.com/en/Journey-Planning/Baggage/Hand-Baggage-allowance.aspx",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -1036,7 +1036,7 @@
         "Region": "Africa",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1045,7 +1045,7 @@
         "Link": "http://www.flypeach.com/en/lm/ai/airports/baggage/carry_on_bag",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -1053,7 +1053,7 @@
         "Region": "Asia",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1062,7 +1062,7 @@
         "Link": "https://www.flyporter.com/en/travel-information/baggage/carry-on-allowance",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 20.0,
+        "Pounds": 20.0,
         "Kilograms": 9.0
     },
     {
@@ -1071,7 +1071,7 @@
         "Link": "https://www.qantas.com/au/en/travel-info/baggage/carry-on-baggage.html#carry-on-baggage-allowances",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1080,7 +1080,7 @@
         "Link": "https://www.royalairmaroc.com/int-en/carry-on-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1089,7 +1089,7 @@
         "Link": "https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1098,7 +1098,7 @@
         "Link": "https://www.saudia.com/before-flying/baggage/hand-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1107,7 +1107,7 @@
         "Link": "https://www.flyscoot.com/en/plan/booking-your-flight/baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1116,7 +1116,7 @@
         "Link": "https://www.singaporeair.com/en_UK/us/travel-info/baggage/cabin-baggage/",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1125,7 +1125,7 @@
         "Link": "https://www.flysaa.com/manage-fly/baggage/hand-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -1134,7 +1134,7 @@
         "Link": "https://www.srilankan.com/en_uk/plan-and-book/luggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 15.4,
+        "Pounds": 15.4,
         "Kilograms": 7.0
     },
     {
@@ -1143,7 +1143,7 @@
         "Link": "https://www.united.com/ual/en/us/fly/travel/baggage/carry-on.html",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -1152,7 +1152,7 @@
         "Link": "https://www.vietnamairlines.com/vn/en/travel-information/baggage/baggage-allowance-hand-baggage",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 26.0,
+        "Pounds": 26.0,
         "Kilograms": 12.0
     },
     {
@@ -1161,7 +1161,7 @@
         "Link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1170,7 +1170,7 @@
         "Link": "https://www.xiamenair.com/en-ww/article-detail?articleLink=%2Fcms-i18n-ow%2Fcms-en-ww%2Fchannels%2F11310.json",
         "Inches": "22 x 14 x 9",
         "Centimeters": "56 x 36 x 23",
-        "Pounds ": 11.0,
+        "Pounds": 11.0,
         "Kilograms": 5.0
     },
     {
@@ -1179,7 +1179,7 @@
         "Link": "https://www.copaair.com/en/web/gs/carry-on-luggage",
         "Inches": "22 x 14 x 10",
         "Centimeters": "56 x 36 x 26",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1188,7 +1188,7 @@
         "Link": "https://en.aegeanair.com/travel-information/baggage/cabin-baggage/",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -1196,7 +1196,7 @@
         "Region": "Central Asia",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -1204,7 +1204,7 @@
         "Region": "Europe",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 51.0,
+        "Pounds": 51.0,
         "Kilograms": 23.0
     },
     {
@@ -1213,7 +1213,7 @@
         "Link": "https://www.easyjet.com/en/help/baggage/cabin-bag-and-hold-luggage",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 33.0,
+        "Pounds": 33.0,
         "Kilograms": 15.0
     },
     {
@@ -1222,7 +1222,7 @@
         "Link": "https://www.elal.com/en/PassengersInfo/Baggage/Hand-Baggage/Pages/Policy.aspx",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -1231,7 +1231,7 @@
         "Link": "https://www.iberia.com/us/luggage/hand-luggage/",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1240,7 +1240,7 @@
         "Link": "https://www.jet2.com/faqs?topic=baggage-and-sports-equipment&category=hand-luggage-allowances",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1249,7 +1249,7 @@
         "Link": "https://www.smartwings.com/en/what-is-the-baggage-allowance",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 17.6,
+        "Pounds": 17.6,
         "Kilograms": 8.0
     },
     {
@@ -1258,7 +1258,7 @@
         "Link": "https://www.thaiairways.com/en/travel_information/baggage.page",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 45 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1267,7 +1267,7 @@
         "Link": "https://www.kuwaitairways.com/en/is/free-carry-on-baggage",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 46 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1276,7 +1276,7 @@
         "Link": "https://www.malaysiaairlines.com/ph/en/plan-your-trip/baggage/checked-baggage.html",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 46 x 25",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 7.0
     },
     {
@@ -1285,7 +1285,7 @@
         "Link": "https://flynorse.com/support/optional-fees",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 46 x 25",
-        "Pounds ": 22.0,
+        "Pounds": 22.0,
         "Kilograms": 10.0
     },
     {
@@ -1293,7 +1293,7 @@
         "Region": "North America",
         "Inches": "22 x 18 x 10",
         "Centimeters": "56 x 46 x 25",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -1302,7 +1302,7 @@
         "Link": "https://www.flyfrontier.com/travel/travel-info/bag-options/#Carry-on",
         "Inches": "24 x 16 x 10",
         "Centimeters": "60 x 41 x 25",
-        "Pounds ": 35.0,
+        "Pounds": 35.0,
         "Kilograms": 16.0
     },
     {
@@ -1311,7 +1311,7 @@
         "Link": "https://www.caymanairways.com/baggage-policy",
         "Inches": "24 x 16 x 11",
         "Centimeters": "60.9 x 40.6 x 27.9",
-        "Pounds ": 15.0,
+        "Pounds": 15.0,
         "Kilograms": 6.8
     },
     {
@@ -1320,7 +1320,7 @@
         "Link": "https://www.southwest.com/help/baggage/carryon-baggage",
         "Inches": "24 x 16 x 10",
         "Centimeters": "61 x 40.6 x 25.4",
-        "Pounds ": null,
+        "Pounds": null,
         "Kilograms": null
     },
     {
@@ -1329,7 +1329,7 @@
         "Link": "https://suncountry.com/bags-optional-services",
         "Inches": "24 x 16 x 11",
         "Centimeters": "61 x 40.6 x 28",
-        "Pounds ": 35.0,
+        "Pounds": 35.0,
         "Kilograms": 16.0
     }
 ]

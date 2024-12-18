@@ -1,12 +1,47 @@
 <script lang="ts">
-	import airlineData from '$lib/carry-on-limits.json';
+	import airlineJsonData from '$lib/carry-on-limits.json';
+
+    interface Airline {
+        Airline: string;
+        Region: string;
+        Link?: string;
+        Inches: Dimensions;
+        Centimeters: Dimensions;
+        Pounds?: number;
+        Kilograms?: number;
+    }
+
+    interface Dimensions {
+        length: number;
+        width: number;
+        height: number;
+    }
+
+    const airlineData = airlineJsonData.map((airline) => ({
+        Airline: airline.Airline,
+        Region: airline.Region,
+        Link: airline.Link,
+        Inches: {
+            length: Number(airline.Inches.split(' x ')[0]),
+            width: Number(airline.Inches.split(' x ')[1]),
+            height: Number(airline.Inches.split(' x ')[2])
+        },
+        Centimeters: {
+            length: Number(airline.Centimeters.split(' x ')[0]),
+            width: Number(airline.Centimeters.split(' x ')[1]),
+            height: Number(airline.Centimeters.split(' x ')[2])
+        },
+        Pounds: airline.Pounds ?? undefined,
+        Kilograms: airline.Kilograms ?? undefined
+    } as Airline));
+
     const SORT_OPTIONS = ['Airline', 'Region'];
     const SORT_DIRECTIONS = ['asc', 'desc'];
 
 	let userDimensions = {
-		length: '',
-		width: '',
-		height: '',
+		length: 0,
+		width: 0,
+		height: 0,
 		unit: 'cm' // or 'in'
 	};
 
@@ -39,24 +74,17 @@
 		selectedRegions = selectedRegions; // trigger reactivity
 	}
 
-	function calculateCompliance(airline) {
+	function checkCompliance(airline: Airline) {
 		if (!userDimensions.length || !userDimensions.width || !userDimensions.height) return null;
 
-		const dimensions =
-			userDimensions.unit === 'cm'
-				? [userDimensions.length, userDimensions.width, userDimensions.height]
-				: [
-						Number(userDimensions.length) * 2.54,
-						Number(userDimensions.width) * 2.54,
-						Number(userDimensions.height) * 2.54
-					];
-
-		const airlineDimensions = airline.Centimeters.split(' x ').map(Number);
+		const airlineDimensions = userDimensions.unit === 'cm'
+			? airline.Centimeters
+			: airline.Inches;
 
 		return {
-			length: dimensions[0] <= airlineDimensions[0],
-			width: dimensions[1] <= airlineDimensions[1],
-			height: dimensions[2] <= airlineDimensions[2]
+			length: userDimensions.length <= airlineDimensions.length,
+			width: userDimensions.width <= airlineDimensions.width,
+			height: userDimensions.height <= airlineDimensions.height
 		};
 	}
 
@@ -65,12 +93,12 @@
 			.filter((airline) => selectedRegions.has(airline.Region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
-				return a[sortBy] > b[sortBy] ? direction : -direction;
+				return (a[sortBy as keyof typeof a] as string).localeCompare((b[sortBy as keyof typeof b] as string)) * direction;
 			});
 
 		if (userDimensions.length && userDimensions.width && userDimensions.height) {
 			const compliantAirlines = filteredAirlines.filter((airline) => {
-				const compliance = calculateCompliance(airline);
+				const compliance = checkCompliance(airline);
 				return compliance && compliance.length && compliance.width && compliance.height;
 			});
 			if (filteredAirlines.length === 0 || compliantAirlines.length === 0) {
@@ -249,34 +277,38 @@
 					</thead>
 					<tbody>
 						{#each filteredAirlines as airline}
-							{@const compliance = calculateCompliance(airline)}
+							{@const compliance = checkCompliance(airline)}
+
 							<tr class="border-t">
 								<td class="p-3">{airline.Airline}</td>
 								<td class="p-3">{airline.Region}</td>
 								<td class="p-3">
 									{#if compliance}
 										{@const dimensions = userDimensions.unit === 'in' 
-											? airline.Inches.split(' x ')
-											: airline.Centimeters.split(' x ')}
+											? airline.Inches
+											: airline.Centimeters}
 										<span class={compliance.length ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[0]}</span
+											>{dimensions.length}</span
 										>
 										x
 										<span class={compliance.width ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[1]}</span
+											>{dimensions.width}</span
 										>
 										x
 										<span class={compliance.height ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[2]}</span
+											>{dimensions.height}</span
 										>
 									{:else}
-										{userDimensions.unit === 'in' ? airline.Inches : airline.Centimeters}
+										{@const dimensions = userDimensions.unit === 'in' 
+											? airline.Inches
+											: airline.Centimeters}
+										{ `${dimensions.length} x ${dimensions.width} x ${dimensions.height}` }
 									{/if}
 								</td>
 								<td class="p-3">
 									{#if airline.Kilograms}
 										{userDimensions.unit === 'in' 
-											? `${airline['Pounds ']} lb`
+											? `${airline.Pounds} lb`
 											: `${airline.Kilograms} kg`}
 									{:else}
 										N/A
