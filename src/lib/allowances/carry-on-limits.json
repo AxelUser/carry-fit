@@ -169,13 +169,7 @@
         "inches": "20 x 16 x 9",
         "centimeters": "51 x 40 x 23",
         "pounds": 11,
-        "kilograms": 5,
-        "test": {
-            "interact": {
-                "clickLinkWithName": "Image of Personal items and"
-            },
-            "text": "40 cm x 25 cm x 16 cm"
-        }
+        "kilograms": 5
     },
     {
         "airline": "WestJet",
