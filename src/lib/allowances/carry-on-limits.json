@@ -1,0 +1,1442 @@
+[
+    {
+        "airline": "Finnair",
+        "region": "Europe",
+        "link": "https://www.finnair.com/en/baggage-on-finnair-flights/carry-on-baggage",
+        "inches": "16 x 12 x 6",
+        "centimeters": "40 x 30 x 15",
+        "pounds": 17.5,
+        "kilograms": 8,
+        "test": {
+            "text": "maximum dimensions (length x width x height) 55cm x 40cm x 23cm (22in x 16in x 9in)",
+            "lastTestPass": "2024-12-19T09:51:37.634Z"
+        }
+    },
+    {
+        "airline": "Thai Lion Air",
+        "region": "Asia",
+        "link": "https://www.lionairthai.com/en/ThaiLionAir-Experience/Baggage-Allowance",
+        "inches": "16 x 12 x 8",
+        "centimeters": "40 x 30 x 20",
+        "pounds": 15.4,
+        "kilograms": 7,
+        "test": {
+            "text": "not exceed 30 x 40 x 20 cm"
+        }
+    },
+    {
+        "airline": "Wizz Air",
+        "region": "Europe",
+        "link": "https://wizzair.com/en-gb/help-centre/booking-information-and-services/baggage/baggage-allowance/cabin-baggage",
+        "inches": "16 x 12 x 8",
+        "centimeters": "40 x 30 x 20",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "Maximum size: 40 x 30 x 20 cm, 10kg"
+        }
+    },
+    {
+        "airline": "Loganair",
+        "region": "Europe",
+        "link": "https://www.loganair.co.uk/travel-help/luggage/",
+        "inches": "16 x 14 x 7",
+        "centimeters": "40 x 35 x 18",
+        "pounds": 13,
+        "kilograms": 6,
+        "test": {
+            "text": "not exceed dimensions of 40cm x 35cm x 18cm"
+        }
+    },
+    {
+        "airline": "Aer Lingus Regional ",
+        "region": "Europe",
+        "link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
+        "inches": "19 x 13 x 8",
+        "centimeters": "48 x 33 x 20",
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "Height: 48cm (18.5\") Width: 33cm (13\") and Depth: 20cm (8\")"
+        }
+    },
+    {
+        "airline": "Air Vanuatu",
+        "region": "Oceania",
+        "link": "https://www.airvanuatu.com/travel-info/baggage",
+        "inches": "19 x 13 x 9",
+        "centimeters": "48 x 34 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "REX Regional Express Airlines",
+        "region": "Oceania",
+        "link": "https://www.rex.com.au/FlightInfo/BaggageAllowance.aspx",
+        "inches": "19 x 13 x 9",
+        "centimeters": "48 x 34 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Virgin Australia",
+        "region": "Oceania",
+        "link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7,
+        "test": {
+            "text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)"
+        }
+    },
+    {
+        "airline": "Astra Airlines",
+        "region": "Europe",
+        "link": "https://www.astra-airlines.gr/pages.php?cat=6&s=1",
+        "inches": "20 x 12 x 8",
+        "centimeters": "50 x 30 x 20",
+        "pounds": 15.4,
+        "kilograms": 7,
+        "test": {
+            "text": "50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος"
+        }
+    },
+    {
+        "airline": "Qatar Airways",
+        "region": "Asia",
+        "link": "https://www.qatarairways.com/en/baggage/allowance.html",
+        "inches": "20 x 15 x 10",
+        "centimeters": "50 x 37 x 25",
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)"
+        }
+    },
+    {
+        "airline": "Air Moldova",
+        "region": "Europe",
+        "link": "https://www.airmoldova.md/hand-baggage-en/",
+        "inches": "19.5 x 15.5 x 10",
+        "centimeters": "50 x 40 x 25",
+        "pounds": 17.6,
+        "kilograms": 8,
+        "test": {
+            "text": "maximum total size of 115 cm (50 x 40 x 25 cm)"
+        }
+    },
+    {
+        "airline": "Atlantic Airways",
+        "region": "Europe",
+        "link": "https://www.atlanticairways.com/en/travel-info/luggage",
+        "inches": "19.5 x 15.5 x 10",
+        "centimeters": "50 x 40 x 25",
+        "pounds": 17.6,
+        "kilograms": 8,
+        "test": {
+            "text": "Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag"
+        }
+    },
+    {
+        "airline": "Etihad Airways",
+        "region": "Africa",
+        "link": "https://www.etihad.com/en-us/fly-etihad/baggage/cabin-bags",
+        "inches": "19.5 x 15.5 x 10",
+        "centimeters": "50 x 40 x 25",
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm."
+        }
+    },
+    {
+        "airline": "Air Transat",
+        "region": "North America",
+        "link": "https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions",
+        "inches": "16 x 9 x 22",
+        "centimeters": "40 x 23 x 55",
+        "pounds": null,
+        "kilograms": null,
+        "test": {
+            "text": "40 cm in length, 23 cm in width and 55 cm in height"
+        }
+    },
+    {
+        "airline": "Sunwing Airlines",
+        "region": "North America",
+        "link": "https://www.sunwing.ca/en/sunwing-airlines/baggage-info",
+        "inches": "20 x 16 x 9",
+        "centimeters": "51 x 40 x 23",
+        "pounds": 11,
+        "kilograms": 5,
+        "test": {
+            "interact": {
+                "clickLinkWithName": "Image of Personal items and"
+            },
+            "text": "40 cm x 25 cm x 16 cm"
+        }
+    },
+    {
+        "airline": "WestJet",
+        "region": "North America",
+        "link": "https://www.westjet.com/en-ca/baggage#baggage-carry-on",
+        "inches": "21 x 15 x 9",
+        "centimeters": "53 x 38 x 23",
+        "pounds": null,
+        "kilograms": null,
+        "test": {
+            "text": "53 cm x 23 cm x 38 cm"
+        }
+    },
+    {
+        "airline": "Aerolineas Argentinas",
+        "region": "Latin America",
+        "link": "https://www.aerolineas.com.ar/en-ar/baggage/franchise",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Air Corsica",
+        "region": "Europe",
+        "link": "https://www.aircorsica.com/flights/cabin-hold-baggage.html",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 17.6,
+        "kilograms": 8,
+        "test": {
+            "text": "x 35 cm in width x 25 cm in depth"
+        }
+    },
+    {
+        "airline": "Air Europa",
+        "region": "Europe",
+        "link": "https://www.aireuropa.com/ot/en/aea/travel-information/baggage/carry-on-luggage.html",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "Its maximum dimensions are height x width x length: 55 x 35 x 25 cm"
+        }
+    },
+    {
+        "airline": "Air France",
+        "region": "Europe",
+        "link": "https://wwws.airfrance.us/information/bagages/bagage-cabine-soute",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 26,
+        "kilograms": 12,
+        "test": {
+            "text": "The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in."
+        }
+    },
+    {
+        "airline": "Air India",
+        "region": "Asia",
+        "link": "https://www.airindia.in/hand-luggage.htm",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 17.6,
+        "kilograms": 8,
+        "test": {
+            "text": [
+                "55 cm",
+                "(21.6 in)",
+                "40 cm",
+                "(15.7 in)",
+                "20 cm",
+                "(7.8 in)"
+            ]
+        }
+    },
+    {
+        "airline": "Air Mauritius",
+        "region": "Africa",
+        "link": "https://www.airmauritius.com/baggage/carry-on",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "hand baggage with dimensions 35 x 55 x 25 cm"
+        }
+    },
+    {
+        "airline": "Air Tahiti",
+        "region": "Oceania",
+        "link": "https://www.airtahiti.com/en/carry-on-baggage",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 11,
+        "kilograms": 5,
+        "test": {
+            "text": "Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)"
+        }
+    },
+    {
+        "airline": "Avianca Airlines",
+        "region": "Latin America",
+        "link": "https://ayuda.avianca.com/hc/en-us/articles/13080259544219-What-is-carry-on-baggage-and-how-can-I-purchase-it",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "not exceeding 22 x 14 x 10 in. (height, length, width)"
+        }
+    },
+    {
+        "airline": "Georgian Airways",
+        "region": "Europe",
+        "link": "https://georgian-airways.com/en/service/baggage-information",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 17.6,
+        "kilograms": 8,
+        "test": {
+            "text": "not more than 8 kg (115 cm by the sum of 3 dimensions)"
+        }
+    },
+    {
+        "airline": "GOL Airlines",
+        "region": "Latin America",
+        "link": "https://www.voegol.com.br/en/information/baggage",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "35 cm wide, 55 cm high and 25 cm deep"
+        }
+    },
+    {
+        "airline": "IndiGo Airlines",
+        "region": "Asia",
+        "link": "https://www.goindigo.in/baggage/baggage-allowance.html",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 15.4,
+        "kilograms": 7,
+        "test": {
+            "text": "One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger"
+        }
+    },
+    {
+        "airline": "Kenya Airways",
+        "region": "Africa",
+        "link": "https://www.kenya-airways.com/en/plan/baggage-information/hand-baggage/",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 26.4,
+        "kilograms": 12,
+        "test": {
+            "text": "(max L55xW25xH35cm each)"
+        }
+    },
+    {
+        "airline": "KLM Royal Dutch Airlines",
+        "region": "Europe",
+        "link": "https://www.klm.hr/information/baggage/hand-baggage-allowance",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 26,
+        "kilograms": 12,
+        "test": {
+            "text": "maximum size of 55 x 35 x 25 cm"
+        }
+    },
+    {
+        "airline": "LATAM Airlines",
+        "region": "Latin America",
+        "link": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on",
+        "inches": "18 x 14 x 8",
+        "centimeters": "45 x 35 x 20",
+        "pounds": 17,
+        "kilograms": 8,
+        "test": {
+            "text": "(17.8 x 13.8 x 7.9 in)"
+        }
+    },
+    {
+        "airline": "SpiceJet",
+        "region": "Asia",
+        "link": "https://corporate.spicejet.com/AirTravelBaggageFaq.aspx",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 15.4,
+        "kilograms": 7,
+        "test": {
+            "text": "Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400"
+        }
+    },
+    {
+        "airline": "Transavia",
+        "region": "Europe",
+        "link": "https://www.transavia.com/help/en-eu/luggage/cabin-luggage/cabin-bag",
+        "inches": "22 x 14 x 10",
+        "centimeters": "55 x 35 x 25",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "cabin bag (55 x 35 x 25 cm*)"
+        }
+    },
+    {
+        "airline": "Aurigny",
+        "region": "Europe",
+        "link": "https://www.aurigny.com/faqs",
+        "inches": "22 x 14 x 8",
+        "centimeters": "55 x 36 x 20",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "One piece with maximum dimensions of 55x36x20cm"
+        }
+    },
+    {
+        "airline": "Emirates",
+        "region": "Asia",
+        "link": "https://www.emirates.com/us/english/before-you-fly/baggage/cabin-baggage-rules/",
+        "inches": "22 x 15 x 8",
+        "centimeters": "55 x 38 x 20",
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "Carry-on dimensions should not exceed 55 x 38 x 22cm"
+        }
+    },
+    {
+        "airline": "Royal Brunei Airlines",
+        "region": "Asia",
+        "link": "https://www.flyroyalbrunei.com/brunei/en/information/cabin-baggage/",
+        "inches": "22 x 15 x 8",
+        "centimeters": "55 x 38 x 20",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Air Austral",
+        "region": "Europe",
+        "link": "https://www.air-austral.com/en/prepare-your-flight/your-baggage/carry-on-baggage.html",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Air China",
+        "region": "Asia",
+        "link": "https://www.airchina.us/US/GB/info/carry-on-baggage/",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Air Tahiti Nui",
+        "region": "Oceania",
+        "link": "https://www.airtahitinui.com/us-en/baggage-policies",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Armenia Aircompany",
+        "region": "Asia",
+        "link": "https://www.armenianairlines.com/en/baggage-policy",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Asiana Airlines",
+        "region": "Asia",
+        "link": "https://flyasiana.com/C/US/EN/contents/carry-on-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Azores Airlines",
+        "region": "Europe",
+        "link": "https://www.azoresairlines.pt/en/information/baggage/carry-on-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 17,
+        "kilograms": 8
+    },
+    {
+        "airline": "Azul",
+        "region": "Latin America",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Carpatair",
+        "region": "Europe",
+        "link": "https://www.carpatair.com/baggage-rules/",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "China Southern",
+        "region": "Asia",
+        "link": "https://www.csair.com/us/en/tourguide/luggage_service/carryon_luggage/",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Condor",
+        "region": "Europe",
+        "link": "https://www.condor.com/eu/flight-preparation/baggage-and-animals/carry-on.jsp",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Corsair International",
+        "region": "Europe",
+        "link": "https://www.flycorsair.com/en-ca/cabin-luggage/cabin-luggage-allowance",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 26.5,
+        "kilograms": 12
+    },
+    {
+        "airline": "Croatia Airlines",
+        "region": "Europe",
+        "link": "https://www.croatiaairlines.com/Baggage/Hand-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Cubana",
+        "region": "Latin America",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Hainan Airlines",
+        "region": "Asia",
+        "link": "https://www.hainanairlines.com/HUPortal/dyn/portal/DisplayPage?COUNTRY_SITE=US&SITE=CBHZCBHZ&LANGUAGE=US&PAGE=CABA",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Helvetic Airways",
+        "region": "Europe",
+        "link": "https://www.helvetic.com/en/travelinfo#!info=baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Icelandair",
+        "region": "Europe",
+        "link": "https://www.icelandair.com/support/baggage/allowance/#carry-on-baggage-allowance",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Jet Time",
+        "region": "Europe",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Korean Air",
+        "region": "Asia",
+        "link": "https://www.koreanair.com/contents/plan-your-travel/baggage/carry-on-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "MIAT Mongolian Airlines",
+        "region": "Asia",
+        "link": "https://www.miat.com/pagecontent.php?pageId=151&lang=en",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Pegasus Airlines",
+        "region": "Asia",
+        "link": "https://plusultra.com/equipaje/equipaje-en-cabina/",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Plus Ultra",
+        "region": "Europe",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Ryanair",
+        "region": "Europe",
+        "link": "https://www.ryanair.com/gb/en/useful-info/help-centre/terms-and-conditions/termsandconditionsar_696869348",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Spring Airlines",
+        "region": "Asia",
+        "link": "https://en.ch.com/flights/excess-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "TAP Portugal",
+        "region": "Europe",
+        "link": "https://www.flytap.com/en-de/baggage/hand-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 17,
+        "kilograms": 8
+    },
+    {
+        "airline": "TAROM",
+        "region": "Europe",
+        "link": "https://www.flytap.com/en-de/baggage/hand-baggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "TUIfly",
+        "region": "Europe",
+        "link": "https://www.tui.com/service-kontakt/flug/handgepaeck",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 13.2,
+        "kilograms": 6
+    },
+    {
+        "airline": "Ukraine International Airlines",
+        "region": "Europe",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "VivaAerobus",
+        "region": "South America",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Vueling",
+        "region": "Europe",
+        "link": "https://www.vueling.com/en/vueling-services/prepare-your-trip/luggage",
+        "inches": "22 x 16 x 8",
+        "centimeters": "55 x 40 x 20",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Air Baltic",
+        "region": "Europe",
+        "link": "https://www.airbaltic.com/en/baggage/cabin-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Air Canada",
+        "region": "North America",
+        "link": "https://www.aircanada.com/us/en/aco/home/plan/baggage/carry-on.html#/",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Air New Zealand",
+        "region": "Oceania",
+        "link": "https://www.airnewzealand.com/carry-on-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Air Serbia",
+        "region": "Europe",
+        "link": "https://www.airserbia.com/en/information/baggage/hand-luggage/hand-luggage-weight",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Austrian Airlines",
+        "region": "Europe",
+        "link": "https://www.austrian.com/gb/en/carry-on-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Azerbaijan Airlines",
+        "region": "Asia",
+        "link": "https://www.azal.az/en/information/baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Brussels Airlines",
+        "region": "Europe",
+        "link": "https://www.brusselsairlines.com/be/en/extra-services/baggage/carry-on-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 26.5,
+        "kilograms": 8
+    },
+    {
+        "airline": "Bulgaria Air",
+        "region": "Europe",
+        "link": "https://www.air.bg/en/customer-support/your-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Edelweiss",
+        "region": "Europe",
+        "link": "https://www.flyedelweiss.com/EN/prepare/baggage/free-baggage/Pages/hand-baggage.aspx",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Egypt Air",
+        "region": "Africa",
+        "link": "https://www.egyptair.com/en/fly/baggage/Pages/baggage-allowance.aspx",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Ethiopian Airlines",
+        "region": "Africa",
+        "link": "https://www.ethiopianairlines.com/aa/information/baggage-information/carry-on-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Fiji Airways",
+        "region": "Oceania",
+        "link": "https://www.fijiairways.com/manage/baggage-allowances",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Lufthansa",
+        "region": "Europe",
+        "link": "https://www.lufthansa.com/us/en/carry-on-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Luxair",
+        "region": "Europe",
+        "link": "https://www.luxair.lu/en/information/hand-luggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Norwegian",
+        "region": "Europe",
+        "link": "https://www.norwegian.com/en/travel-info/baggage/hand-baggage/",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Olympic Air",
+        "region": "Europe",
+        "link": "https://www.olympicair.com/en/travel-information/travelling-with-olympic-air/baggage/baggage-allowances/",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 12,
+        "kilograms": 6
+    },
+    {
+        "airline": "S7 Airlines",
+        "region": "Russia",
+        "link": "https://www.s7.ru/en/info/norma-provoza-bagazha/",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "SAS Scandinavian Airlines",
+        "region": "Europe",
+        "link": "https://www.flysas.com/us-en/travel-info/baggage/carry-on/",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "SunExpress",
+        "region": "Asia",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 16,
+        "kilograms": 8
+    },
+    {
+        "airline": "Swiss International Air Lines",
+        "region": "Europe",
+        "link": "https://www.swiss.com/de/en/prepare/baggage/hand-baggage",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Turkish Airlines",
+        "region": "Asia",
+        "link": "https://www.turkishairlines.com/en-us/any-questions/carry-on-baggage/index.html",
+        "inches": "22 x 16 x 9",
+        "centimeters": "55 x 40 x 23",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Aer Lingus",
+        "region": "Europe",
+        "link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
+        "inches": "22 x 16 x 9.5",
+        "centimeters": "55 x 40 x 24",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Aeroflot",
+        "region": "Russia",
+        "link": "https://www.aeroflot.ru/ru-en/information/preparation/luggage#baggage_tab2",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Aeroméxico",
+        "region": "Latin America",
+        "link": "https://aeromexico.com/en-us/travel-information/baggage/carry-on-baggage",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "ANA",
+        "region": "Asia",
+        "link": "https://www.ana.co.jp/en/us/travel-information/baggage-information/carry-on/",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Belavia",
+        "region": "Europe",
+        "link": "https://en.belavia.by/baggage/unchecked_baggage/",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "BH Air",
+        "region": "Europe",
+        "link": "http://www.bhairlines.com/page.php?id=38",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Volaris",
+        "region": "South America",
+        "link": "https://cms.volaris.com/en/travel-info/baggage-policy/",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Czech Airlines",
+        "region": "Europe",
+        "link": "https://www.csa.cz/en/travel-information/",
+        "inches": "22 x 18 x 10",
+        "centimeters": "55 x 45 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Wingo",
+        "region": "South America",
+        "link": "https://www.wingo.com/centro-de-ayuda/equipaje/equipaje-de-mano-adicional",
+        "inches": "22 x 18 x 10",
+        "centimeters": "55 x 45 x 25",
+        "pounds": 26.5,
+        "kilograms": 12
+    },
+    {
+        "airline": "Air Asia",
+        "region": "Asia-Pacific",
+        "link": "https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Alaska Airlines",
+        "region": "North America",
+        "link": "https://www.alaskaair.com/content/travel-info/baggage/carry-on-luggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Allegiant Air",
+        "region": "North America",
+        "link": "https://www.allegiantair.com/baggage-1",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "American Airlines",
+        "region": "North America",
+        "link": "https://www.aa.com/i18n/travel-info/baggage/carry-on-baggage.jsp",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Bahamasair",
+        "region": "North America",
+        "link": "https://bahamasair.com/baggage-information/baggage-rates-baggage-claim-form-pdf",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 20,
+        "kilograms": 9
+    },
+    {
+        "airline": "Bangkok Airways",
+        "region": "Asia",
+        "link": "https://www.bangkokair.com/baggage-allowance",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Cambodia Angkor Air",
+        "region": "Asia",
+        "link": "https://cambodiaangkorair.com/index.php/post/55/baggage-policy#baggage-policy",
+        "inches": "22 x 11 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Caribbean Airlines",
+        "region": "Latin America",
+        "link": "https://www.caribbean-airlines.com/#/baggage/carry-on",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Cathay Pacific",
+        "region": "Asia",
+        "link": "https://www.cathaypacific.com/cx/en_US/baggage.html",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Cebu Pacific",
+        "region": "Asia",
+        "link": "https://www.cebupacificair.com/pages/travel-info/baggage-information/carry-on-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "China Airlines",
+        "region": "Asia",
+        "link": "https://www.china-airlines.com/us/en/fly/prepare-for-the-fly/baggage/carry-on-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Delta Air Lines",
+        "region": "North America",
+        "link": "https://www.delta.com/us/en/baggage/carry-on-baggage#baggageFees.html",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Garuda Indonesia",
+        "region": "Asia",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Hawaiian Airlines",
+        "region": "North America",
+        "link": "https://hawaiianair.custhelp.com/app/answers/detail/a_id/2815/~/carry-on-bag-allowance",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 25,
+        "kilograms": 11
+    },
+    {
+        "airline": "HK Express",
+        "region": "Asia",
+        "link": "https://www.hkexpress.com/en-hk/plan/travel-information/baggage-information/carry-on-baggage/",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Hong Kong Airlines",
+        "region": "Asia",
+        "link": "http://www.hkairlines.com/en_HK/fly-with-us/baggage/handcarry",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Japan Airlines",
+        "region": "Asia",
+        "link": "https://www.jal.co.jp/jp/en/inter/baggage/inflight/#anchorlink001",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "JetBlue Airways",
+        "region": "North America",
+        "link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Jetstar",
+        "region": "North America",
+        "link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Lao Airlines",
+        "region": "Asia",
+        "link": "https://laoairlines.com/en/baggage-optional-service-charges/",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Mango Airlines",
+        "region": "South Africa",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "NokAir",
+        "region": "Asia",
+        "link": "https://content.nokair.com/en/Journey-Planning/Baggage/Hand-Baggage-allowance.aspx",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Oman Air",
+        "region": "Africa",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Peach",
+        "region": "Asia",
+        "link": "http://www.flypeach.com/en/lm/ai/airports/baggage/carry_on_bag",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "Philippines Airlines",
+        "region": "Asia",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Porter Airlines",
+        "region": "North America",
+        "link": "https://www.flyporter.com/en/travel-information/baggage/carry-on-allowance",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 20,
+        "kilograms": 9
+    },
+    {
+        "airline": "Qantas",
+        "region": "Oceania",
+        "link": "https://www.qantas.com/au/en/travel-info/baggage/carry-on-baggage.html#carry-on-baggage-allowances",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Royal Air Maroc",
+        "region": "Africa",
+        "link": "https://www.royalairmaroc.com/int-en/carry-on-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Royal Jordanian Airlines",
+        "region": "Asia",
+        "link": "https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Saudia Airlines",
+        "region": "Asia",
+        "link": "https://www.saudia.com/before-flying/baggage/hand-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Scoot Airlines",
+        "region": "Asia",
+        "link": "https://www.flyscoot.com/en/plan/booking-your-flight/baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Singapore Airlines",
+        "region": "Asia",
+        "link": "https://www.singaporeair.com/en_UK/us/travel-info/baggage/cabin-baggage/",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "South African Airways",
+        "region": "Africa",
+        "link": "https://www.flysaa.com/manage-fly/baggage/hand-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Sri Lankan Airlines",
+        "region": "Asia",
+        "link": "https://www.srilankan.com/en_uk/plan-and-book/luggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 15.4,
+        "kilograms": 7
+    },
+    {
+        "airline": "United Airlines",
+        "region": "North America",
+        "link": "https://www.united.com/ual/en/us/fly/travel/baggage/carry-on.html",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Vietnam Airlines",
+        "region": "Asia",
+        "link": "https://www.vietnamairlines.com/vn/en/travel-information/baggage/baggage-allowance-hand-baggage",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 26,
+        "kilograms": 12
+    },
+    {
+        "airline": "Virgin Atlantic Airways",
+        "region": "Europe",
+        "link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Xiamen Airlines",
+        "region": "Asia",
+        "link": "https://www.xiamenair.com/en-ww/article-detail?articleLink=%2Fcms-i18n-ow%2Fcms-en-ww%2Fchannels%2F11310.json",
+        "inches": "22 x 14 x 9",
+        "centimeters": "56 x 36 x 23",
+        "pounds": 11,
+        "kilograms": 5
+    },
+    {
+        "airline": "Copa Airlines",
+        "region": "Latin America",
+        "link": "https://www.copaair.com/en/web/gs/carry-on-luggage",
+        "inches": "22 x 14 x 10",
+        "centimeters": "56 x 36 x 26",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Aegean Airlines",
+        "region": "Europe",
+        "link": "https://en.aegeanair.com/travel-information/baggage/cabin-baggage/",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Air Astana",
+        "region": "Central Asia",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "British Airways",
+        "region": "Europe",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 51,
+        "kilograms": 23
+    },
+    {
+        "airline": "easyJet",
+        "region": "Europe",
+        "link": "https://www.easyjet.com/en/help/baggage/cabin-bag-and-hold-luggage",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 33,
+        "kilograms": 15
+    },
+    {
+        "airline": "El Al",
+        "region": "Asia",
+        "link": "https://www.elal.com/en/PassengersInfo/Baggage/Hand-Baggage/Pages/Policy.aspx",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Iberia",
+        "region": "Europe",
+        "link": "https://www.iberia.com/us/luggage/hand-luggage/",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Jet2.com",
+        "region": "Europe",
+        "link": "https://www.jet2.com/faqs?topic=baggage-and-sports-equipment&category=hand-luggage-allowances",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "SmartWings",
+        "region": "Europe",
+        "link": "https://www.smartwings.com/en/what-is-the-baggage-allowance",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 17.6,
+        "kilograms": 8
+    },
+    {
+        "airline": "Thai Airways",
+        "region": "Asia",
+        "link": "https://www.thaiairways.com/en/travel_information/baggage.page",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 45 x 25",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Kuwait Airways",
+        "region": "Asia",
+        "link": "https://www.kuwaitairways.com/en/is/free-carry-on-baggage",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 46 x 25",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Malaysia Airlines",
+        "region": "Asia",
+        "link": "https://www.malaysiaairlines.com/ph/en/plan-your-trip/baggage/checked-baggage.html",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 46 x 25",
+        "pounds": 15,
+        "kilograms": 7
+    },
+    {
+        "airline": "Norse Atlantic Airways",
+        "region": "Europe",
+        "link": "https://flynorse.com/support/optional-fees",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 46 x 25",
+        "pounds": 22,
+        "kilograms": 10
+    },
+    {
+        "airline": "Spirit Airlines",
+        "region": "North America",
+        "inches": "22 x 18 x 10",
+        "centimeters": "56 x 46 x 25",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Frontier Airlines",
+        "region": "North America",
+        "link": "https://www.flyfrontier.com/travel/travel-info/bag-options/#Carry-on",
+        "inches": "24 x 16 x 10",
+        "centimeters": "60 x 41 x 25",
+        "pounds": 35,
+        "kilograms": 16
+    },
+    {
+        "airline": "Cayman Airways",
+        "region": "North America",
+        "link": "https://www.caymanairways.com/baggage-policy",
+        "inches": "24 x 16 x 11",
+        "centimeters": "60.9 x 40.6 x 27.9",
+        "pounds": 15,
+        "kilograms": 6.8
+    },
+    {
+        "airline": "Southwest Airlines",
+        "region": "North America",
+        "link": "https://www.southwest.com/help/baggage/carryon-baggage",
+        "inches": "24 x 16 x 10",
+        "centimeters": "61 x 40.6 x 25.4",
+        "pounds": null,
+        "kilograms": null
+    },
+    {
+        "airline": "Sun Country Airlines",
+        "region": "North America",
+        "link": "https://suncountry.com/bags-optional-services",
+        "inches": "24 x 16 x 11",
+        "centimeters": "61 x 40.6 x 28",
+        "pounds": 35,
+        "kilograms": 16
+    }
+]
