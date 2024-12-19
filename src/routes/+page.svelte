@@ -55,6 +55,7 @@
 
 	let filteredAirlines = airlineData;
 	let compliancePercentage = 0;
+	let compliantAirlines = [];
 
 	// Get unique regions from the data
 	const regions = [...new Set(airlineData.map(airline => airline.region))].sort();
@@ -102,7 +103,7 @@
 			});
 
 		if (userDimensions.length && userDimensions.width && userDimensions.height) {
-			const compliantAirlines = filteredAirlines.filter((airline) => {
+			compliantAirlines = filteredAirlines.filter((airline) => {
 				const compliance = checkCompliance(airline);
 				return compliance && compliance.length && compliance.width && compliance.height;
 			});
@@ -216,6 +217,9 @@
 								? 'text-yellow-600'
 								: 'text-green-600'
 						}>{compliancePercentage.toFixed(1)}%</span> of airlines
+						<div class="text-sm text-gray-600">
+							({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
+						</div>
 					</div>
 				{/if}
 			</div>
