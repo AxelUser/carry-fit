@@ -1,15 +1,18 @@
 <script lang="ts">
 	import airlineJsonData from '$lib/allowances/carry-on-limits.json';
 	import Alert from '$lib/components/alert.svelte';
+	import Tested from '$lib/components/tested.svelte';
+	import * as Tooltip from "$lib/components/ui/tooltip";
 
     interface Airline {
-        Airline: string;
-        Region: string;
-        Link?: string;
-        Inches: Dimensions;
-        Centimeters: Dimensions;
-        Pounds?: number;
-        Kilograms?: number;
+        airline: string;
+        region: string;
+        link?: string;
+        inches: Dimensions;
+        centimeters: Dimensions;
+        pounds?: number;
+        kilograms?: number;
+		lastTestPass?: Date;
     }
 
     interface Dimensions {
@@ -19,24 +22,25 @@
     }
 
     const airlineData = airlineJsonData.map((airline) => ({
-        Airline: airline.airline,
-        Region: airline.region,
-        Link: airline.link,
-        Inches: {
+        airline: airline.airline,
+        region: airline.region,
+        link: airline.link,
+        inches: {
             length: Number(airline.inches.split(' x ')[0]),
             width: Number(airline.inches.split(' x ')[1]),
             height: Number(airline.inches.split(' x ')[2])
         },
-        Centimeters: {
+        centimeters: {
             length: Number(airline.centimeters.split(' x ')[0]),
             width: Number(airline.centimeters.split(' x ')[1]),
             height: Number(airline.centimeters.split(' x ')[2])
         },
-        Pounds: airline.pounds ?? undefined,
-        Kilograms: airline.kilograms ?? undefined
+        pounds: airline.pounds ?? undefined,
+        kilograms: airline.kilograms ?? undefined,
+		lastTestPass: airline.test?.lastTestPass ? new Date(airline.test.lastTestPass) : undefined
     } as Airline));
 
-    const SORT_OPTIONS = ['Airline', 'Region'];
+    const SORT_OPTIONS = ['airline', 'region'];
     const SORT_DIRECTIONS = ['asc', 'desc'];
 
 	let userDimensions = {
@@ -53,7 +57,7 @@
 	let compliancePercentage = 0;
 
 	// Get unique regions from the data
-	const regions = [...new Set(airlineData.map(airline => airline.Region))].sort();
+	const regions = [...new Set(airlineData.map(airline => airline.region))].sort();
 
 	// Track selected regions in a Set
 	let selectedRegions = new Set(regions); // Start with all regions selected
@@ -79,8 +83,8 @@
 		if (!userDimensions.length || !userDimensions.width || !userDimensions.height) return null;
 
 		const airlineDimensions = userDimensions.unit === 'cm'
-			? airline.Centimeters
-			: airline.Inches;
+			? airline.centimeters
+			: airline.inches;
 
 		return {
 			length: userDimensions.length <= airlineDimensions.length,
@@ -91,7 +95,7 @@
 
 	$: {
 		filteredAirlines = airlineData
-			.filter((airline) => selectedRegions.has(airline.Region))
+			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
 				return (a[sortBy as keyof typeof a] as string).localeCompare((b[sortBy as keyof typeof b] as string)) * direction;
@@ -149,9 +153,11 @@
 						<Alert class="h-5 w-5 text-yellow-400" />
 					</div>
 
-					<p class="ml-3 text-sm text-yellow-700 leading-relaxed">
-						Warning: Baggage allowances may change over time. Please verify the dimensions and weight limits on the airline's official website before traveling.
-					</p>
+					<div class="ml-3 text-sm text-yellow-700 leading-relaxed">
+						<p>
+							Airlines marked with <Tested class="w-4 h-4 text-green-600 inline" /> are automatically tested for updates, but the allowances may still not be accurate due to bugs. Especially airlines that are not covered by tests. Always verify the requirements yourself.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -284,13 +290,29 @@
 							{@const compliance = checkCompliance(airline)}
 
 							<tr class="border-t">
-								<td class="p-3">{airline.Airline}</td>
-								<td class="p-3">{airline.Region}</td>
+								<td class="p-3">
+									<div class="flex items-center gap-2">
+										{airline.airline}
+										{#if airline.lastTestPass}
+											<Tooltip.Root>
+												<Tooltip.Trigger>
+													<Tested class="w-4 h-4 text-green-600" />
+												</Tooltip.Trigger>
+												<Tooltip.Content>
+													<p>
+														Last Test Passed: {airline.lastTestPass.toLocaleDateString()}
+													</p>
+												</Tooltip.Content>
+											</Tooltip.Root>
+										{/if}
+									</div>
+								</td>
+								<td class="p-3">{airline.region}</td>
 								<td class="p-3">
 									{#if compliance}
 										{@const dimensions = userDimensions.unit === 'in' 
-											? airline.Inches
-											: airline.Centimeters}
+											? airline.inches
+											: airline.centimeters}
 										<span class={compliance.length ? 'text-green-600' : 'text-red-600'}
 											>{dimensions.length}</span
 										>
@@ -304,24 +326,24 @@
 										>
 									{:else}
 										{@const dimensions = userDimensions.unit === 'in' 
-											? airline.Inches
-											: airline.Centimeters}
+											? airline.inches
+											: airline.centimeters}
 										{ `${dimensions.length} x ${dimensions.width} x ${dimensions.height}` }
 									{/if}
 								</td>
 								<td class="p-3">
-									{#if airline.Kilograms}
+									{#if airline.kilograms}
 										{userDimensions.unit === 'in' 
-											? `${airline.Pounds} lb`
-											: `${airline.Kilograms} kg`}
+											? `${airline.pounds} lb`
+											: `${airline.kilograms} kg`}
 									{:else}
 										N/A
 									{/if}
 								</td>
 								<td class="p-3">
-									{#if airline.Link}
+									{#if airline.link}
 										<a 
-											href={airline.Link} 
+											href={airline.link} 
 											target="_blank" 
 											rel="noopener noreferrer" 
 											class="text-blue-600 hover:text-blue-800 hover:underline"

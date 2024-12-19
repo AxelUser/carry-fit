@@ -4,6 +4,8 @@ import * as path from 'path';
 import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert { type: 'json' };
 type AirlineData = typeof airlinesJsonData[number];
 
+let jsonData: AirlineData[];
+
 async function setupTestPage(url: string): Promise<{ browser: Browser; context: BrowserContext; page: Page }> {
     const browser = await chromium.launch({
         headless: false,
@@ -19,23 +21,45 @@ async function setupTestPage(url: string): Promise<{ browser: Browser; context: 
     return { browser, context, page };
 }
 
-async function updateTestReport(airline: string): Promise<void> {
+async function loadTestReport(): Promise<void> {
     const jsonPath = path.join(process.cwd(), 'src/lib/allowances/carry-on-limits.json');
-    const jsonData = JSON.parse(await fs.readFile(jsonPath, 'utf-8'));
-    
+    jsonData = JSON.parse(await fs.readFile(jsonPath, 'utf-8'));
+}
+
+async function saveTestReport(): Promise<void> {
+    const jsonPath = path.join(process.cwd(), 'src/lib/allowances/carry-on-limits.json');
+    await fs.writeFile(
+        jsonPath, 
+        JSON.stringify(jsonData, null, 4),
+        'utf-8'
+    );
+}
+
+function updateAirlineTestResult(airline: string): void {
     const airlineIndex = jsonData.findIndex((a: AirlineData) => a.airline === airline);
     if (airlineIndex !== -1) {
-        jsonData[airlineIndex].test.lastTestPass = new Date().toISOString();
-        
-        await fs.writeFile(
-            jsonPath, 
-            JSON.stringify(jsonData, null, 4),
-            'utf-8'
-        );
+        const lastTestPass = new Date().toISOString();
+        const airlineData = jsonData[airlineIndex];
+        if (airlineData.test == undefined) {
+            airlineData.test = {
+                lastTestPass: lastTestPass
+            }
+        } else {
+            airlineData.test.lastTestPass = lastTestPass;
+        }
+        jsonData[airlineIndex] = airlineData;
     }
 }
 
 test.describe('Airline Allowance Consistency @manual', () => {
+    test.beforeAll(async () => {
+        await loadTestReport();
+    });
+
+    test.afterAll(async () => {
+        await saveTestReport();
+    });
+
     for (const data of airlinesJsonData) {
         if (!data.test?.text) {
             continue;
@@ -56,7 +80,7 @@ test.describe('Airline Allowance Consistency @manual', () => {
                 { timeout: 30000 }
             );
             
-            await updateTestReport(data.airline);
+            updateAirlineTestResult(data.airline);
             await browser.close();
         });
     }

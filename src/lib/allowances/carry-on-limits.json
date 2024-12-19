@@ -9,7 +9,7 @@
         "kilograms": 8,
         "test": {
             "text": "maximum dimensions (length x width x height) 55cm x 40cm x 23cm (22in x 16in x 9in)",
-            "lastTestPass": "2024-12-19T09:51:37.634Z"
+            "lastTestPass": "2024-12-19T22:42:38.083Z"
         }
     },
     {
@@ -21,7 +21,8 @@
         "pounds": 15.4,
         "kilograms": 7,
         "test": {
-            "text": "not exceed 30 x 40 x 20 cm"
+            "text": "not exceed 30 x 40 x 20 cm",
+            "lastTestPass": "2024-12-19T22:42:40.696Z"
         }
     },
     {
@@ -33,7 +34,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "Maximum size: 40 x 30 x 20 cm, 10kg"
+            "text": "Maximum size: 40 x 30 x 20 cm, 10kg",
+            "lastTestPass": "2024-12-19T22:42:42.428Z"
         }
     },
     {
@@ -45,7 +47,8 @@
         "pounds": 13,
         "kilograms": 6,
         "test": {
-            "text": "not exceed dimensions of 40cm x 35cm x 18cm"
+            "text": "not exceed dimensions of 40cm x 35cm x 18cm",
+            "lastTestPass": "2024-12-19T22:42:43.753Z"
         }
     },
     {
@@ -57,7 +60,8 @@
         "pounds": 15,
         "kilograms": 7,
         "test": {
-            "text": "Height: 48cm (18.5\") Width: 33cm (13\") and Depth: 20cm (8\")"
+            "text": "Height: 48cm (18.5\") Width: 33cm (13\") and Depth: 20cm (8\")",
+            "lastTestPass": "2024-12-19T22:42:47.010Z"
         }
     },
     {
@@ -87,7 +91,8 @@
         "pounds": 15.4,
         "kilograms": 7,
         "test": {
-            "text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)"
+            "text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)",
+            "lastTestPass": "2024-12-19T22:42:48.556Z"
         }
     },
     {
@@ -99,7 +104,8 @@
         "pounds": 15.4,
         "kilograms": 7,
         "test": {
-            "text": "50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος"
+            "text": "50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος",
+            "lastTestPass": "2024-12-19T22:42:50.016Z"
         }
     },
     {
@@ -111,7 +117,8 @@
         "pounds": 15,
         "kilograms": 7,
         "test": {
-            "text": "Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)"
+            "text": "Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)",
+            "lastTestPass": "2024-12-19T22:42:54.495Z"
         }
     },
     {
@@ -123,7 +130,8 @@
         "pounds": 17.6,
         "kilograms": 8,
         "test": {
-            "text": "maximum total size of 115 cm (50 x 40 x 25 cm)"
+            "text": "maximum total size of 115 cm (50 x 40 x 25 cm)",
+            "lastTestPass": "2024-12-19T22:42:58.370Z"
         }
     },
     {
@@ -135,7 +143,8 @@
         "pounds": 17.6,
         "kilograms": 8,
         "test": {
-            "text": "Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag"
+            "text": "Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag",
+            "lastTestPass": "2024-12-19T22:43:00.942Z"
         }
     },
     {
@@ -147,7 +156,8 @@
         "pounds": 15,
         "kilograms": 7,
         "test": {
-            "text": "You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm."
+            "text": "You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm.",
+            "lastTestPass": "2024-12-19T22:43:03.587Z"
         }
     },
     {
@@ -159,7 +169,8 @@
         "pounds": null,
         "kilograms": null,
         "test": {
-            "text": "40 cm in length, 23 cm in width and 55 cm in height"
+            "text": "40 cm in length, 23 cm in width and 55 cm in height",
+            "lastTestPass": "2024-12-19T22:43:06.537Z"
         }
     },
     {
@@ -180,7 +191,8 @@
         "pounds": null,
         "kilograms": null,
         "test": {
-            "text": "53 cm x 23 cm x 38 cm"
+            "text": "53 cm x 23 cm x 38 cm",
+            "lastTestPass": "2024-12-19T22:43:12.406Z"
         }
     },
     {
@@ -201,7 +213,8 @@
         "pounds": 17.6,
         "kilograms": 8,
         "test": {
-            "text": "x 35 cm in width x 25 cm in depth"
+            "text": "x 35 cm in width x 25 cm in depth",
+            "lastTestPass": "2024-12-19T22:43:14.672Z"
         }
     },
     {
@@ -213,7 +226,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "Its maximum dimensions are height x width x length: 55 x 35 x 25 cm"
+            "text": "Its maximum dimensions are height x width x length: 55 x 35 x 25 cm",
+            "lastTestPass": "2024-12-19T22:43:17.221Z"
         }
     },
     {
@@ -225,7 +239,8 @@
         "pounds": 26,
         "kilograms": 12,
         "test": {
-            "text": "The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in."
+            "text": "The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in.",
+            "lastTestPass": "2024-12-19T22:43:20.168Z"
         }
     },
     {
@@ -244,7 +259,8 @@
                 "(15.7 in)",
                 "20 cm",
                 "(7.8 in)"
-            ]
+            ],
+            "lastTestPass": "2024-12-19T22:43:23.579Z"
         }
     },
     {
@@ -256,7 +272,8 @@
         "pounds": 15,
         "kilograms": 7,
         "test": {
-            "text": "hand baggage with dimensions 35 x 55 x 25 cm"
+            "text": "hand baggage with dimensions 35 x 55 x 25 cm",
+            "lastTestPass": "2024-12-19T22:43:27.268Z"
         }
     },
     {
@@ -268,7 +285,8 @@
         "pounds": 11,
         "kilograms": 5,
         "test": {
-            "text": "Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)"
+            "text": "Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)",
+            "lastTestPass": "2024-12-19T22:43:29.308Z"
         }
     },
     {
@@ -280,7 +298,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "not exceeding 22 x 14 x 10 in. (height, length, width)"
+            "text": "not exceeding 22 x 14 x 10 in. (height, length, width)",
+            "lastTestPass": "2024-12-19T22:43:31.372Z"
         }
     },
     {
@@ -292,7 +311,8 @@
         "pounds": 17.6,
         "kilograms": 8,
         "test": {
-            "text": "not more than 8 kg (115 cm by the sum of 3 dimensions)"
+            "text": "not more than 8 kg (115 cm by the sum of 3 dimensions)",
+            "lastTestPass": "2024-12-19T22:43:34.347Z"
         }
     },
     {
@@ -304,7 +324,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "35 cm wide, 55 cm high and 25 cm deep"
+            "text": "35 cm wide, 55 cm high and 25 cm deep",
+            "lastTestPass": "2024-12-19T22:43:38.321Z"
         }
     },
     {
@@ -316,7 +337,8 @@
         "pounds": 15.4,
         "kilograms": 7,
         "test": {
-            "text": "One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger"
+            "text": "One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger",
+            "lastTestPass": "2024-12-19T22:43:40.758Z"
         }
     },
     {
@@ -328,7 +350,8 @@
         "pounds": 26.4,
         "kilograms": 12,
         "test": {
-            "text": "(max L55xW25xH35cm each)"
+            "text": "(max L55xW25xH35cm each)",
+            "lastTestPass": "2024-12-19T22:43:43.456Z"
         }
     },
     {
@@ -340,7 +363,8 @@
         "pounds": 26,
         "kilograms": 12,
         "test": {
-            "text": "maximum size of 55 x 35 x 25 cm"
+            "text": "maximum size of 55 x 35 x 25 cm",
+            "lastTestPass": "2024-12-19T22:43:46.522Z"
         }
     },
     {
@@ -352,7 +376,8 @@
         "pounds": 17,
         "kilograms": 8,
         "test": {
-            "text": "(17.8 x 13.8 x 7.9 in)"
+            "text": "(17.8 x 13.8 x 7.9 in)",
+            "lastTestPass": "2024-12-19T22:43:48.871Z"
         }
     },
     {
@@ -364,7 +389,8 @@
         "pounds": 15.4,
         "kilograms": 7,
         "test": {
-            "text": "Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400"
+            "text": "Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400",
+            "lastTestPass": "2024-12-19T22:43:51.008Z"
         }
     },
     {
@@ -376,7 +402,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "cabin bag (55 x 35 x 25 cm*)"
+            "text": "cabin bag (55 x 35 x 25 cm*)",
+            "lastTestPass": "2024-12-19T22:43:53.175Z"
         }
     },
     {
@@ -388,7 +415,8 @@
         "pounds": 22,
         "kilograms": 10,
         "test": {
-            "text": "One piece with maximum dimensions of 55x36x20cm"
+            "text": "One piece with maximum dimensions of 55x36x20cm",
+            "lastTestPass": "2024-12-19T22:43:55.788Z"
         }
     },
     {
@@ -400,7 +428,8 @@
         "pounds": 15,
         "kilograms": 7,
         "test": {
-            "text": "Carry-on dimensions should not exceed 55 x 38 x 22cm"
+            "text": "Carry-on dimensions should not exceed 55 x 38 x 22cm",
+            "lastTestPass": "2024-12-19T22:43:58.410Z"
         }
     },
     {
