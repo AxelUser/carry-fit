@@ -6,7 +6,10 @@
         "Inches": "16 x 12 x 6",
         "Centimeters": "40 x 30 x 15",
         "Pounds": 17.5,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "maximum dimensions (length x width x height) 55cm x 40cm x 23cm (22in x 16in x 9in)"
+        }
     },
     {
         "Airline": "Thai Lion Air",
@@ -15,16 +18,22 @@
         "Inches": "16 x 12 x 8",
         "Centimeters": "40 x 30 x 20",
         "Pounds": 15.4,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "not exceed 30 x 40 x 20 cm"
+        }
     },
     {
         "Airline": "Wizz Air",
         "Region": "Europe",
-        "Link": "https://wizzair.com/en-gb/information-and-services/travel-information/baggage#2",
+        "Link": "https://wizzair.com/en-gb/help-centre/booking-information-and-services/baggage/baggage-allowance/cabin-baggage",
         "Inches": "16 x 12 x 8",
         "Centimeters": "40 x 30 x 20",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "Maximum size: 40 x 30 x 20 cm, 10kg"
+        }
     },
     {
         "Airline": "Loganair",
@@ -33,7 +42,10 @@
         "Inches": "16 x 14 x 7",
         "Centimeters": "40 x 35 x 18",
         "Pounds": 13.0,
-        "Kilograms": 6.0
+        "Kilograms": 6.0,
+        "Test": {
+            "Text": "not exceed dimensions of 40cm x 35cm x 18cm"
+        }
     },
     {
         "Airline": "Aer Lingus Regional ",
@@ -42,7 +54,10 @@
         "Inches": "19 x 13 x 8",
         "Centimeters": "48 x 33 x 20",
         "Pounds": 15.0,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "Height: 48cm (18.5\") Width: 33cm (13\") and Depth: 20cm (8\")"
+        }
     },
     {
         "Airline": "Air Vanuatu",
@@ -66,10 +81,13 @@
         "Airline": "Virgin Australia",
         "Region": "Oceania",
         "Link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
-        "Inches": "19 x 13 x 9",
-        "Centimeters": "48 x 34 x 23",
+        "Inches": "22 x 14 x 9",
+        "Centimeters": "56 x 36 x 23",
         "Pounds": 15.4,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)"
+        }
     },
     {
         "Airline": "Astra Airlines",
@@ -78,7 +96,10 @@
         "Inches": "20 x 12 x 8",
         "Centimeters": "50 x 30 x 20",
         "Pounds": 15.4,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος"
+        }
     },
     {
         "Airline": "Qatar Airways",
@@ -87,7 +108,10 @@
         "Inches": "20 x 15 x 10",
         "Centimeters": "50 x 37 x 25",
         "Pounds": 15.0,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)"
+        }
     },
     {
         "Airline": "Air Moldova",
@@ -96,7 +120,10 @@
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
         "Pounds": 17.6,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "maximum total size of 115 cm (50 x 40 x 25 cm)"
+        }
     },
     {
         "Airline": "Atlantic Airways",
@@ -105,25 +132,34 @@
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
         "Pounds": 17.6,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag"
+        }
     },
     {
         "Airline": "Etihad Airways",
         "Region": "Africa",
-        "Link": "https://www.etihad.com/en-us/fly-etihad/baggage",
+        "Link": "https://www.etihad.com/en-us/fly-etihad/baggage/cabin-bags",
         "Inches": "19.5 x 15.5 x 10",
         "Centimeters": "50 x 40 x 25",
         "Pounds": 15.0,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm."
+        }
     },
     {
         "Airline": "Air Transat",
         "Region": "North America",
         "Link": "https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions",
-        "Inches": "20 x 16 x 9",
-        "Centimeters": "51 x 40 x 23",
+        "Inches": "16 x 9 x 22",
+        "Centimeters": "40 x 23 x 55",
         "Pounds": null,
-        "Kilograms": null
+        "Kilograms": null,
+        "Test": {
+            "Text": "40 cm in length, 23 cm in width and 55 cm in height"
+        }
     },
     {
         "Airline": "Sunwing Airlines",
@@ -132,16 +168,25 @@
         "Inches": "20 x 16 x 9",
         "Centimeters": "51 x 40 x 23",
         "Pounds": 11.0,
-        "Kilograms": 5.0
+        "Kilograms": 5.0,
+        "Test": {
+            "Interact": {
+                "ClickLinkWithName": "Image of Personal items and"
+            },
+            "Text": "40 cm x 25 cm x 16 cm"
+        }
     },
     {
         "Airline": "WestJet",
         "Region": "North America",
-        "Link": "https://www.westjet.com/en-ca/baggage/allowance",
+        "Link": "https://www.westjet.com/en-ca/baggage#baggage-carry-on",
         "Inches": "21 x 15 x 9",
         "Centimeters": "53 x 38 x 23",
         "Pounds": null,
-        "Kilograms": null
+        "Kilograms": null,
+        "Test": {
+            "Text": "53 cm x 23 cm x 38 cm"
+        }
     },
     {
         "Airline": "Aerolineas Argentinas",
@@ -159,15 +204,22 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 17.6,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "x 35 cm in width x 25 cm in depth"
+        }
     },
     {
         "Airline": "Air Europa",
         "Region": "Europe",
+        "Link": "https://www.aireuropa.com/ot/en/aea/travel-information/baggage/carry-on-luggage.html",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "Its maximum dimensions are height x width x length: 55 x 35 x 25 cm"
+        }
     },
     {
         "Airline": "Air France",
@@ -176,7 +228,10 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 26.0,
-        "Kilograms": 12.0
+        "Kilograms": 12.0,
+        "Test": {
+            "Text": "The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in."
+        }
     },
     {
         "Airline": "Air India",
@@ -185,7 +240,17 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 17.6,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": [
+                "55 cm",
+                "(21.6 in)",
+                "40 cm",
+                "(15.7 in)",
+                "20 cm",
+                "(7.8 in)"
+            ]
+        }
     },
     {
         "Airline": "Air Mauritius",
@@ -194,7 +259,10 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 15.0,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "hand baggage with dimensions 35 x 55 x 25 cm"
+        }
     },
     {
         "Airline": "Air Tahiti",
@@ -203,7 +271,10 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 11.0,
-        "Kilograms": 5.0
+        "Kilograms": 5.0,
+        "Test": {
+            "Text": "Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)"
+        }
     },
     {
         "Airline": "Avianca Airlines",
@@ -212,15 +283,22 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "not exceeding 22 x 14 x 10 in. (height, length, width)"
+        }
     },
     {
         "Airline": "Georgian Airways",
         "Region": "Europe",
+        "Link": "https://georgian-airways.com/en/service/baggage-information",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 17.6,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "not more than 8 kg (115 cm by the sum of 3 dimensions)"
+        }
     },
     {
         "Airline": "GOL Airlines",
@@ -229,42 +307,58 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "35 cm wide, 55 cm high and 25 cm deep"
+        }
     },
     {
         "Airline": "IndiGo Airlines",
         "Region": "Asia",
-        "Link": "https://www.goindigo.in/travel-information/en/baggage-allowance.html",
+        "Link": "https://www.goindigo.in/baggage/baggage-allowance.html",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 15.4,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger"
+        }
     },
     {
         "Airline": "Kenya Airways",
         "Region": "Africa",
+        "Link": "https://www.kenya-airways.com/en/plan/baggage-information/hand-baggage/",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 26.4,
-        "Kilograms": 12.0
+        "Kilograms": 12.0,
+        "Test": {
+            "Text": "(max L55xW25xH35cm each)"
+        }
     },
     {
         "Airline": "KLM Royal Dutch Airlines",
         "Region": "Europe",
-        "Link": "https://www.klm.us/information/baggage/checked-baggage-allowance",
+        "Link": "https://www.klm.hr/information/baggage/hand-baggage-allowance",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 26.0,
-        "Kilograms": 12.0
+        "Kilograms": 12.0,
+        "Test": {
+            "Text": "maximum size of 55 x 35 x 25 cm"
+        }
     },
     {
         "Airline": "LATAM Airlines",
         "Region": "Latin America",
         "Link": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on",
-        "Inches": "22 x 14 x 10",
-        "Centimeters": "55 x 35 x 25",
+        "Inches": "18 x 14 x 8",
+        "Centimeters": "45 x 35 x 20",
         "Pounds": 17.0,
-        "Kilograms": 8.0
+        "Kilograms": 8.0,
+        "Test": {
+            "Text": "(17.8 x 13.8 x 7.9 in)"
+        }
     },
     {
         "Airline": "SpiceJet",
@@ -273,16 +367,22 @@
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 15.4,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400"
+        }
     },
     {
         "Airline": "Transavia",
         "Region": "Europe",
-        "Link": "https://www.transavia.com/en-EU/faq/hand-luggage/",
+        "Link": "https://www.transavia.com/help/en-eu/luggage/cabin-luggage/cabin-bag",
         "Inches": "22 x 14 x 10",
         "Centimeters": "55 x 35 x 25",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "cabin bag (55 x 35 x 25 cm*)"
+        }
     },
     {
         "Airline": "Aurigny",
@@ -291,7 +391,10 @@
         "Inches": "22 x 14 x 8",
         "Centimeters": "55 x 36 x 20",
         "Pounds": 22.0,
-        "Kilograms": 10.0
+        "Kilograms": 10.0,
+        "Test": {
+            "Text": "One piece with maximum dimensions of 55x36x20cm"
+        }
     },
     {
         "Airline": "Emirates",
@@ -300,7 +403,10 @@
         "Inches": "22 x 15 x 8",
         "Centimeters": "55 x 38 x 20",
         "Pounds": 15.0,
-        "Kilograms": 7.0
+        "Kilograms": 7.0,
+        "Test": {
+            "Text": "Carry-on dimensions should not exceed 55 x 38 x 22cm"
+        }
     },
     {
         "Airline": "Royal Brunei Airlines",

@@ -1,10 +1,13 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-	webServer: {
-		command: 'npm run build && npm run preview',
-		port: 4173
+	testDir: 'e2e',
+	reporter: [
+		['html'],
+		['list']
+	],
+	use: {
+		screenshot: 'only-on-failure',
 	},
-
-	testDir: 'e2e'
+	retries: 1
 });
