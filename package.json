@@ -11,8 +11,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"test:e2e": "playwright test",
-		"test": "npm run test:e2e"
+		"test:e2e": "playwright test --grep-invert @manual",
+		"test": "pnpm run test:e2e && pnpm run test:unit -- --run",
+		"test:unit": "vitest"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
@@ -38,7 +39,8 @@
 		"tailwindcss": "^3.4.9",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.0.0",
-		"vite": "^6.0.0"
+		"vite": "^6.0.0",
+		"vitest": "^2.0.4"
 	},
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.9"

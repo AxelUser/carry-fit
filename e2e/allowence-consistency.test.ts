@@ -51,7 +51,7 @@ function updateAirlineTestResult(airline: string): void {
     }
 }
 
-test.describe('Airline Allowance Consistency @manual', () => {
+test.describe('Airline Allowance Consistency', {tag: '@manual' },  () => {
     test.beforeAll(async () => {
         await loadTestReport();
     });
