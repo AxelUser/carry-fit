@@ -16,16 +16,35 @@
     }
 
     const airlineData = airlineJsonData.map((airline) => {
-		const centimeters = airline.centimeters.split(' x ').map(Number).sort((a, b) => b - a);
-		const inches = airline.inches.split(' x ').map(Number).sort((a, b) => b - a);
+		const parsedCentimeters = airline.centimeters.split(' x ').map(Number).sort((a, b) => b - a);
+		let parsedInches = airline.inches?.split(' x ').map(Number).sort((a, b) => b - a);
+
+		if (!parsedCentimeters && !parsedInches) {
+			throw new Error(`No dimensions for ${airline.airline}`);
+		}
+		if (!parsedInches) {
+			parsedInches = parsedCentimeters.map((value) => Math.round(value / 2.54));
+		}
+
+		let pounds = airline.pounds;
+		let kilograms = airline.kilograms;
+
+		if (!kilograms && typeof pounds == "number") {
+			kilograms = Math.round(pounds / 2.205);
+		}
+
+		if (!pounds && typeof kilograms == "number") {
+			pounds = Math.round(kilograms * 2.205);
+		}
+
         return {
             airline: airline.airline,
             region: airline.region,
             link: airline.link,
-            inches: inches,
-            centimeters: centimeters,
-            pounds: airline.pounds ?? undefined,
-            kilograms: airline.kilograms ?? undefined,
+            inches: parsedInches,
+            centimeters: parsedCentimeters,
+            pounds: pounds,
+            kilograms: kilograms,
 			lastTestPass: airline.test?.lastTestPass ? new Date(airline.test.lastTestPass) : undefined
 		} as Airline;
 	});
