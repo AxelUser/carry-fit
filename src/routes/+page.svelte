@@ -8,37 +8,27 @@
         airline: string;
         region: string;
         link?: string;
-        inches: Dimensions;
-        centimeters: Dimensions;
+        inches: number[];
+        centimeters: number[];
         pounds?: number;
         kilograms?: number;
 		lastTestPass?: Date;
     }
 
-    interface Dimensions {
-        length: number;
-        width: number;
-        height: number;
-    }
-
-    const airlineData = airlineJsonData.map((airline) => ({
-        airline: airline.airline,
-        region: airline.region,
-        link: airline.link,
-        inches: {
-            length: Number(airline.inches.split(' x ')[0]),
-            width: Number(airline.inches.split(' x ')[1]),
-            height: Number(airline.inches.split(' x ')[2])
-        },
-        centimeters: {
-            length: Number(airline.centimeters.split(' x ')[0]),
-            width: Number(airline.centimeters.split(' x ')[1]),
-            height: Number(airline.centimeters.split(' x ')[2])
-        },
-        pounds: airline.pounds ?? undefined,
-        kilograms: airline.kilograms ?? undefined,
-		lastTestPass: airline.test?.lastTestPass ? new Date(airline.test.lastTestPass) : undefined
-    } as Airline));
+    const airlineData = airlineJsonData.map((airline) => {
+		const centimeters = airline.centimeters.split(' x ').map(Number).sort((a, b) => b - a);
+		const inches = airline.inches.split(' x ').map(Number).sort((a, b) => b - a);
+        return {
+            airline: airline.airline,
+            region: airline.region,
+            link: airline.link,
+            inches: inches,
+            centimeters: centimeters,
+            pounds: airline.pounds ?? undefined,
+            kilograms: airline.kilograms ?? undefined,
+			lastTestPass: airline.test?.lastTestPass ? new Date(airline.test.lastTestPass) : undefined
+		} as Airline;
+	});
 
     const SORT_OPTIONS = ['airline', 'region'];
     const SORT_DIRECTIONS = ['asc', 'desc'];
@@ -86,11 +76,17 @@
 		const airlineDimensions = userDimensions.unit === 'cm'
 			? airline.centimeters
 			: airline.inches;
+		
+		const bagDims = [
+			userDimensions.length,
+			userDimensions.width,
+			userDimensions.height
+		].sort((a, b) => b - a);
 
 		return {
-			length: userDimensions.length <= airlineDimensions.length,
-			width: userDimensions.width <= airlineDimensions.width,
-			height: userDimensions.height <= airlineDimensions.height
+			length: bagDims[0] <= airlineDimensions[0],
+			width: bagDims[1] <= airlineDimensions[1],
+			height: bagDims[2] <= airlineDimensions[2]
 		};
 	}
 
@@ -318,21 +314,21 @@
 											? airline.inches
 											: airline.centimeters}
 										<span class={compliance.length ? 'text-green-600' : 'text-red-600'}
-											>{dimensions.length}</span
+											>{dimensions[0]}</span
 										>
 										x
 										<span class={compliance.width ? 'text-green-600' : 'text-red-600'}
-											>{dimensions.width}</span
+											>{dimensions[1]}</span
 										>
 										x
 										<span class={compliance.height ? 'text-green-600' : 'text-red-600'}
-											>{dimensions.height}</span
+											>{dimensions[2]}</span
 										>
 									{:else}
 										{@const dimensions = userDimensions.unit === 'in' 
 											? airline.inches
 											: airline.centimeters}
-										{ `${dimensions.length} x ${dimensions.width} x ${dimensions.height}` }
+										{ `${dimensions[0]} x ${dimensions[1]} x ${dimensions[2]}` }
 									{/if}
 								</td>
 								<td class="p-3">
