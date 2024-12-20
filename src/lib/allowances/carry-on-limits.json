@@ -9,7 +9,7 @@
         "kilograms": 8,
         "test": {
             "text": "maximum dimensions (length x width x height) 55cm x 40cm x 23cm (22in x 16in x 9in)",
-            "lastTestPass": "2024-12-20T15:34:13.446Z"
+            "lastTestPass": "2024-12-20T17:39:25.484Z"
         }
     },
     {
@@ -22,7 +22,7 @@
         "kilograms": 7,
         "test": {
             "text": "not exceed 30 x 40 x 20 cm",
-            "lastTestPass": "2024-12-20T15:34:16.705Z"
+            "lastTestPass": "2024-12-20T17:39:28.150Z"
         }
     },
     {
@@ -35,7 +35,7 @@
         "kilograms": 10,
         "test": {
             "text": "Maximum size: 40 x 30 x 20 cm, 10kg",
-            "lastTestPass": "2024-12-20T15:34:18.878Z"
+            "lastTestPass": "2024-12-20T17:39:30.146Z"
         }
     },
     {
@@ -48,7 +48,7 @@
         "kilograms": 6,
         "test": {
             "text": "not exceed dimensions of 40cm x 35cm x 18cm",
-            "lastTestPass": "2024-12-20T15:34:20.524Z"
+            "lastTestPass": "2024-12-20T17:39:32.236Z"
         }
     },
     {
@@ -61,7 +61,7 @@
         "kilograms": 7,
         "test": {
             "text": "Height: 48cm (18.5\") Width: 33cm (13\") and Depth: 20cm (8\")",
-            "lastTestPass": "2024-12-20T15:34:22.764Z"
+            "lastTestPass": "2024-12-20T17:39:34.763Z"
         }
     },
     {
@@ -92,7 +92,7 @@
         "kilograms": 7,
         "test": {
             "text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)",
-            "lastTestPass": "2024-12-20T15:34:24.378Z"
+            "lastTestPass": "2024-12-20T17:39:36.528Z"
         }
     },
     {
@@ -105,7 +105,7 @@
         "kilograms": 7,
         "test": {
             "text": "50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος",
-            "lastTestPass": "2024-12-20T15:34:25.926Z"
+            "lastTestPass": "2024-12-20T17:39:37.967Z"
         }
     },
     {
@@ -118,7 +118,7 @@
         "kilograms": 7,
         "test": {
             "text": "Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)",
-            "lastTestPass": "2024-12-20T15:34:29.561Z"
+            "lastTestPass": "2024-12-20T17:39:42.713Z"
         }
     },
     {
@@ -131,7 +131,7 @@
         "kilograms": 8,
         "test": {
             "text": "maximum total size of 115 cm (50 x 40 x 25 cm)",
-            "lastTestPass": "2024-12-20T15:34:33.476Z"
+            "lastTestPass": "2024-12-20T17:39:46.432Z"
         }
     },
     {
@@ -144,7 +144,7 @@
         "kilograms": 8,
         "test": {
             "text": "Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag",
-            "lastTestPass": "2024-12-20T15:34:36.105Z"
+            "lastTestPass": "2024-12-20T17:39:48.695Z"
         }
     },
     {
@@ -157,7 +157,7 @@
         "kilograms": 7,
         "test": {
             "text": "You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm.",
-            "lastTestPass": "2024-12-20T15:34:38.715Z"
+            "lastTestPass": "2024-12-20T17:39:51.596Z"
         }
     },
     {
@@ -170,7 +170,7 @@
         "kilograms": null,
         "test": {
             "text": "40 cm in length, 23 cm in width and 55 cm in height",
-            "lastTestPass": "2024-12-20T15:34:41.007Z"
+            "lastTestPass": "2024-12-20T17:39:53.794Z"
         }
     },
     {
@@ -192,13 +192,13 @@
         "kilograms": null,
         "test": {
             "text": "53 cm x 23 cm x 38 cm",
-            "lastTestPass": "2024-12-20T15:34:45.357Z"
+            "lastTestPass": "2024-12-20T17:40:04.977Z"
         }
     },
     {
         "airline": "Aerolineas Argentinas",
         "region": "Latin America",
-        "link": "https://www.aerolineas.com.ar/en-ar/baggage/franchise",
+        "link": "https://www.aerolineas.com.ar/en-us/baggage-allowance",
         "inches": "22 x 14 x 10",
         "centimeters": "55 x 35 x 25",
         "pounds": 17.6,
@@ -214,7 +214,7 @@
         "kilograms": 8,
         "test": {
             "text": "x 35 cm in width x 25 cm in depth",
-            "lastTestPass": "2024-12-20T15:34:47.567Z"
+            "lastTestPass": "2024-12-20T17:40:06.689Z"
         }
     },
     {
@@ -227,7 +227,7 @@
         "kilograms": 10,
         "test": {
             "text": "Its maximum dimensions are height x width x length: 55 x 35 x 25 cm",
-            "lastTestPass": "2024-12-20T15:34:49.943Z"
+            "lastTestPass": "2024-12-20T17:40:09.264Z"
         }
     },
     {
@@ -240,7 +240,7 @@
         "kilograms": 12,
         "test": {
             "text": "The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in.",
-            "lastTestPass": "2024-12-20T15:34:52.920Z"
+            "lastTestPass": "2024-12-20T17:40:11.775Z"
         }
     },
     {
@@ -260,7 +260,7 @@
                 "20 cm",
                 "(7.8 in)"
             ],
-            "lastTestPass": "2024-12-20T15:34:55.699Z"
+            "lastTestPass": "2024-12-20T17:40:14.237Z"
         }
     },
     {
@@ -273,7 +273,7 @@
         "kilograms": 7,
         "test": {
             "text": "hand baggage with dimensions 35 x 55 x 25 cm",
-            "lastTestPass": "2024-12-20T15:35:00.292Z"
+            "lastTestPass": "2024-12-20T17:40:18.636Z"
         }
     },
     {
@@ -286,7 +286,7 @@
         "kilograms": 5,
         "test": {
             "text": "Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)",
-            "lastTestPass": "2024-12-20T15:35:03.736Z"
+            "lastTestPass": "2024-12-20T17:40:24.310Z"
         }
     },
     {
@@ -299,7 +299,7 @@
         "kilograms": 10,
         "test": {
             "text": "not exceeding 22 x 14 x 10 in. (height, length, width)",
-            "lastTestPass": "2024-12-20T15:35:05.883Z"
+            "lastTestPass": "2024-12-20T17:40:26.564Z"
         }
     },
     {
@@ -312,7 +312,7 @@
         "kilograms": 8,
         "test": {
             "text": "not more than 8 kg (115 cm by the sum of 3 dimensions)",
-            "lastTestPass": "2024-12-20T15:35:08.459Z"
+            "lastTestPass": "2024-12-20T17:40:29.405Z"
         }
     },
     {
@@ -325,7 +325,7 @@
         "kilograms": 10,
         "test": {
             "text": "35 cm wide, 55 cm high and 25 cm deep",
-            "lastTestPass": "2024-12-20T15:35:24.712Z"
+            "lastTestPass": "2024-12-20T17:40:33.559Z"
         }
     },
     {
@@ -338,7 +338,7 @@
         "kilograms": 7,
         "test": {
             "text": "One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger",
-            "lastTestPass": "2024-12-20T15:35:28.578Z"
+            "lastTestPass": "2024-12-20T17:40:35.870Z"
         }
     },
     {
@@ -351,7 +351,7 @@
         "kilograms": 12,
         "test": {
             "text": "(max L55xW25xH35cm each)",
-            "lastTestPass": "2024-12-20T15:35:31.515Z"
+            "lastTestPass": "2024-12-20T17:40:39.676Z"
         }
     },
     {
@@ -364,7 +364,7 @@
         "kilograms": 12,
         "test": {
             "text": "maximum size of 55 x 35 x 25 cm",
-            "lastTestPass": "2024-12-20T15:35:34.925Z"
+            "lastTestPass": "2024-12-20T17:40:42.338Z"
         }
     },
     {
@@ -377,7 +377,7 @@
         "kilograms": 8,
         "test": {
             "text": "(17.8 x 13.8 x 7.9 in)",
-            "lastTestPass": "2024-12-20T15:35:37.569Z"
+            "lastTestPass": "2024-12-20T17:40:45.081Z"
         }
     },
     {
@@ -390,7 +390,7 @@
         "kilograms": 7,
         "test": {
             "text": "Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400",
-            "lastTestPass": "2024-12-20T15:35:44.694Z"
+            "lastTestPass": "2024-12-20T17:40:47.454Z"
         }
     },
     {
@@ -403,7 +403,7 @@
         "kilograms": 10,
         "test": {
             "text": "cabin bag (55 x 35 x 25 cm*)",
-            "lastTestPass": "2024-12-20T15:35:47.174Z"
+            "lastTestPass": "2024-12-20T17:40:49.639Z"
         }
     },
     {
@@ -416,7 +416,7 @@
         "kilograms": 10,
         "test": {
             "text": "One piece with maximum dimensions of 55x36x20cm",
-            "lastTestPass": "2024-12-20T15:35:49.846Z"
+            "lastTestPass": "2024-12-20T17:40:52.078Z"
         }
     },
     {
@@ -429,7 +429,7 @@
         "kilograms": 7,
         "test": {
             "text": "Carry-on dimensions should not exceed 55 x 38 x 22cm",
-            "lastTestPass": "2024-12-20T15:35:52.425Z"
+            "lastTestPass": "2024-12-20T17:40:54.913Z"
         }
     },
     {
@@ -439,7 +439,11 @@
         "inches": "22 x 15 x 8",
         "centimeters": "55 x 38 x 20",
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "1 Bag 55 x 38 x 20 cms",
+            "lastTestPass": "2024-12-20T17:40:59.730Z"
+        }
     },
     {
         "airline": "Air Austral",
@@ -448,7 +452,11 @@
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "55x35x25 cm ( pockets, wheels and handles included )",
+            "lastTestPass": "2024-12-20T17:41:02.089Z"
+        }
     },
     {
         "airline": "Air China",
@@ -457,51 +465,68 @@
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": 11,
-        "kilograms": 5
+        "kilograms": 5,
+        "test": {
+            "text": "Each carry-on must not be more than 55cm (22”) in length,\n  40cm (16”) in width and 20cm (8”) in height",
+            "lastTestPass": "2024-12-20T17:41:05.153Z"
+        }
     },
     {
         "airline": "Air Tahiti Nui",
         "region": "Oceania",
-        "link": "https://www.airtahitinui.com/us-en/baggage-policies",
-        "inches": "22 x 16 x 8",
+        "link": "https://us.airtahitinui.com/baggage-allowances",
         "centimeters": "55 x 40 x 20",
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "All cabin baggage must be less than or equal to 115 cm / 45 inches (sum of the 3 dimensions A + B + C).",
+            "lastTestPass": "2024-12-20T17:41:06.811Z"
+        }
     },
     {
         "airline": "Armenia Aircompany",
         "region": "Asia",
-        "link": "https://www.armenianairlines.com/en/baggage-policy",
-        "inches": "22 x 16 x 8",
+        "link": "https://armenianairlines.am/en/baggage/hand-luggage",
         "centimeters": "55 x 40 x 20",
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "dimensions do not exceed 55x40x20 cm",
+            "lastTestPass": "2024-12-20T17:41:09.935Z"
+        }
     },
     {
         "airline": "Asiana Airlines",
         "region": "Asia",
         "link": "https://flyasiana.com/C/US/EN/contents/carry-on-baggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "the maximum dimension of each side is A (height) 55 cm x B (depth) 20 cm X C (width) 40 cm",
+            "lastTestPass": "2024-12-20T17:41:13.972Z"
+        }
     },
     {
         "airline": "Azores Airlines",
         "region": "Europe",
         "link": "https://www.azoresairlines.pt/en/information/baggage/carry-on-baggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": 17,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "55x40x20 cm"
+        }
     },
     {
         "airline": "Azul",
         "region": "Latin America",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
-        "pounds": 22,
-        "kilograms": 10
+        "link": "https://www.voeazul.com.br/fr/en/your-trip/plan/luggage/carry-on-and-personal-luggage",
+        "centimeters": "55 x 35 x 25",
+        "kilograms": 10,
+        "test": {
+            "text": "The maximum limit for this type of luggage is up to 115 cm (adding up all sides of the suitcase, including pockets, wheels, and handles) and up to 10kg.",
+            "lastTestPass": "2024-12-20T17:41:22.008Z"
+        }
     },
     {
         "airline": "Carpatair",
@@ -510,7 +535,11 @@
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": 11,
-        "kilograms": 5
+        "kilograms": 5,
+        "test": {
+            "text": "that may not exceed 5 kg in weight and dimensions may not exceed 55cm x 40cm x 20cm",
+            "lastTestPass": "2024-12-20T17:41:27.393Z"
+        }
     },
     {
         "airline": "China Southern",
@@ -518,43 +547,44 @@
         "link": "https://www.csair.com/us/en/tourguide/luggage_service/carryon_luggage/",
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 5,
+        "test": {
+            "text": "The length, width and height of each carry-on shall not exceed ：55 * 40 * 20 cm (or 22 * 16 * 8 inches)",
+            "lastTestPass": "2024-12-20T17:41:32.676Z"
+        }
     },
     {
         "airline": "Condor",
         "region": "Europe",
         "link": "https://www.condor.com/eu/flight-preparation/baggage-and-animals/carry-on.jsp",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "Max. size: 55 x 40 x 20 cm",
+            "lastTestPass": "2024-12-20T17:41:34.274Z"
+        }
     },
     {
         "airline": "Corsair International",
         "region": "Europe",
         "link": "https://www.flycorsair.com/en-ca/cabin-luggage/cabin-luggage-allowance",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 26.5,
-        "kilograms": 12
+        "kilograms": 12,
+        "test": {
+            "text": "55 x 40 x 20 cm",
+            "lastTestPass": "2024-12-20T17:41:35.742Z"
+        }
     },
     {
         "airline": "Croatia Airlines",
         "region": "Europe",
         "link": "https://www.croatiaairlines.com/Baggage/Hand-baggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 17.6,
-        "kilograms": 8
-    },
-    {
-        "airline": "Cubana",
-        "region": "Latin America",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 8,
+        "test": {
+            "text": "max 115 cm (55x40x20 cm)",
+            "lastTestPass": "2024-12-20T17:41:37.318Z"
+        }
     },
     {
         "airline": "Hainan Airlines",
@@ -562,52 +592,69 @@
         "link": "https://www.hainanairlines.com/HUPortal/dyn/portal/DisplayPage?COUNTRY_SITE=US&SITE=CBHZCBHZ&LANGUAGE=US&PAGE=CABA",
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "No more than 55cm (22in) X 40cm (16in) X 20cm (8in) (length, width, and height)",
+            "lastTestPass": "2024-12-20T17:41:39.505Z"
+        }
     },
     {
         "airline": "Helvetic Airways",
         "region": "Europe",
         "link": "https://www.helvetic.com/en/travelinfo#!info=baggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 8,
+        "test": {
+            "text": "(dimensions 55x40x20 cm)",
+            "lastTestPass": "2024-12-20T17:41:41.318Z"
+        }
     },
     {
         "airline": "Icelandair",
         "region": "Europe",
         "link": "https://www.icelandair.com/support/baggage/allowance/#carry-on-baggage-allowance",
-        "inches": "22 x 16 x 8",
+        "inches": "21.6 x 15.7 x 7.8",
         "centimeters": "55 x 40 x 20",
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Maximum size (including handles and wheels): 21.6x15.7x7.8 inches (55x40x20 cm).",
+            "lastTestPass": "2024-12-20T17:41:44.762Z"
+        }
     },
     {
         "airline": "Jet Time",
         "region": "Europe",
-        "inches": "22 x 16 x 8",
+        "link": "https://jettime.com/bagage/hand-baggage",
         "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 5,
+        "test": {
+            "text": "Max. 5 kg     -     55L x 40W x 20H",
+            "lastTestPass": "2024-12-20T17:41:45.603Z"
+        }
     },
     {
         "airline": "Korean Air",
         "region": "Asia",
         "link": "https://www.koreanair.com/contents/plan-your-travel/baggage/carry-on-baggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Within 115 cm (45 in) in total length x width x height (including handles and wheels)",
+            "lastTestPass": "2024-12-20T17:41:47.742Z"
+        }
     },
     {
         "airline": "MIAT Mongolian Airlines",
         "region": "Asia",
         "link": "https://www.miat.com/pagecontent.php?pageId=151&lang=en",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 8,
+        "test": {
+            "text": "Dimensions cannot exceed 115сm /55(A)x40(C)x20(B) cm",
+            "lastTestPass": "2024-12-20T17:41:50.911Z"
+        }
     },
     {
         "airline": "Pegasus Airlines",
@@ -1470,7 +1517,7 @@
         "kilograms": 10,
         "test": {
             "text": "36x30x27 см",
-            "lastTestPass": "2024-12-20T15:35:54.705Z"
+            "lastTestPass": "2024-12-20T17:41:54.121Z"
         }
     }
 ]
