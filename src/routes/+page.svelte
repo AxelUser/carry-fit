@@ -307,8 +307,9 @@
 					<tbody>
 						{#each filteredAirlines as airline}
 							{@const compliance = checkCompliance(airline)}
+							{@const isCompliant = compliance && compliance.length && compliance.width && compliance.height}
 
-							<tr class="border-t">
+							<tr class="border-t {isCompliant ? 'bg-green-50' : ''}">
 								<td class="p-3">
 									<div class="flex items-center gap-2">
 										{airline.airline}
@@ -328,26 +329,20 @@
 								</td>
 								<td class="p-3">{airline.region}</td>
 								<td class="p-3">
-									{#if compliance}
+									{#if compliance && !isCompliant}
 										{@const dimensions = userDimensions.unit === 'in' 
 											? airline.inches
 											: airline.centimeters}
-										<span class={compliance.length ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[0]}</span
-										>
+										<span class={compliance.length ? '' : 'text-red-600'}>{dimensions[0]}</span>
 										x
-										<span class={compliance.width ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[1]}</span
-										>
+										<span class={compliance.width ? '' : 'text-red-600'}>{dimensions[1]}</span>
 										x
-										<span class={compliance.height ? 'text-green-600' : 'text-red-600'}
-											>{dimensions[2]}</span
-										>
+										<span class={compliance.height ? '' : 'text-red-600'}>{dimensions[2]}</span>
 									{:else}
 										{@const dimensions = userDimensions.unit === 'in' 
 											? airline.inches
 											: airline.centimeters}
-										{ `${dimensions[0]} x ${dimensions[1]} x ${dimensions[2]}` }
+										{`${dimensions[0]} x ${dimensions[1]} x ${dimensions[2]}`}
 									{/if}
 								</td>
 								<td class="p-3">
