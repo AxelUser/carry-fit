@@ -1,132 +1,51 @@
 <script lang="ts">
-	import airlineJsonData from '$lib/allowances/carry-on-limits.json';
-	import Alert from '$lib/components/alert.svelte';
-	import Tested from '$lib/components/tested.svelte';
+	import Alert from '$lib/components/icons/alert.svelte';
+	import Tested from '$lib/components/icons/tested.svelte';
 	import * as Tooltip from "$lib/components/ui/tooltip";
+	import DimensionsInput from '$lib/components/main/dimensions-input.svelte';
+	import RegionFilter from '$lib/components/main/region-filter.svelte';
+	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
+	import type { Airline, UserDimensions } from '$lib/types';
 
-    interface Airline {
-        airline: string;
-        region: string;
-        link?: string;
-        inches: number[];
-        centimeters: number[];
-        pounds?: number;
-        kilograms?: number;
-		lastTestPass?: Date;
-    }
+	const airlineData = getAirlineAllowances();
 
-    const airlineData = airlineJsonData.map((airline) => {
-		const parsedCentimeters = airline.centimeters.split(' x ').map(Number).sort((a, b) => b - a);
-		let parsedInches = airline.inches?.split(' x ').map(Number).sort((a, b) => b - a);
+	const SORT_OPTIONS = ['airline', 'region'] as const;
+	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
+	type SortOption = typeof SORT_OPTIONS[number];
+	type SortDirection = typeof SORT_DIRECTIONS[number];
 
-		if (!parsedCentimeters && !parsedInches) {
-			throw new Error(`No dimensions for ${airline.airline}`);
-		}
-		if (!parsedInches) {
-			parsedInches = parsedCentimeters.map((value) => Math.round(value / 2.54));
-		}
-
-		let pounds = airline.pounds;
-		let kilograms = airline.kilograms;
-
-		if (!kilograms && typeof pounds == "number") {
-			kilograms = Math.round(pounds / 2.205);
-		}
-
-		if (!pounds && typeof kilograms == "number") {
-			pounds = Math.round(kilograms * 2.205);
-		}
-
-        return {
-            airline: airline.airline,
-            region: airline.region,
-            link: airline.link,
-            inches: parsedInches,
-            centimeters: parsedCentimeters,
-            pounds: pounds,
-            kilograms: kilograms,
-			lastTestPass: airline.test?.lastTestPass ? new Date(airline.test.lastTestPass) : undefined
-		} as Airline;
-	});
-
-    const SORT_OPTIONS = ['airline', 'region'];
-    const SORT_DIRECTIONS = ['asc', 'desc'];
-
-	let userDimensions = {
+	let userDimensions: UserDimensions = {
 		length: 0,
 		width: 0,
 		height: 0,
-		unit: 'cm' // or 'in'
+		unit: 'cm'
 	};
 
-	let sortBy = SORT_OPTIONS[0];
-	let sortDirection = SORT_DIRECTIONS[0];
+	let sortBy: SortOption = SORT_OPTIONS[0];
+	let sortDirection: SortDirection = SORT_DIRECTIONS[0];
 
 	let filteredAirlines = airlineData;
 	let compliancePercentage = 0;
-	let compliantAirlines = [];
+	let compliantAirlines: Airline[] = [];
 
-	// Get unique regions from the data
 	const regions = [...new Set(airlineData.map(airline => airline.region))].sort();
-
-	// Track selected regions in a Set
-	let selectedRegions = new Set(regions); // Start with all regions selected
-
-	function selectAllRegions() {
-		selectedRegions = new Set(regions);
-	}
-
-	function unselectAllRegions() {
-		selectedRegions = new Set();
-	}
-
-	function toggleRegion(region: string) {
-		if (selectedRegions.has(region)) {
-			selectedRegions.delete(region);
-		} else {
-			selectedRegions.add(region);
-		}
-		selectedRegions = selectedRegions;
-	}
-
-	function checkCompliance(airline: Airline) {
-		if (!userDimensions.length || !userDimensions.width || !userDimensions.height) return null;
-
-		const airlineDimensions = userDimensions.unit === 'cm'
-			? airline.centimeters
-			: airline.inches;
-		
-		const bagDims = [
-			userDimensions.length,
-			userDimensions.width,
-			userDimensions.height
-		].sort((a, b) => b - a);
-
-		return {
-			length: bagDims[0] <= airlineDimensions[0],
-			width: bagDims[1] <= airlineDimensions[1],
-			height: bagDims[2] <= airlineDimensions[2]
-		};
-	}
+	let selectedRegions = new Set(regions);
 
 	$: {
 		filteredAirlines = airlineData
 			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
-				return (a[sortBy as keyof typeof a] as string).localeCompare((b[sortBy as keyof typeof b] as string)) * direction;
+				return (a[sortBy] as string).localeCompare(b[sortBy] as string) * direction;
 			});
 
 		if (userDimensions.length && userDimensions.width && userDimensions.height) {
 			compliantAirlines = filteredAirlines.filter((airline) => {
-				const compliance = checkCompliance(airline);
+				const compliance = checkCompliance(airline, userDimensions);
 				return compliance && compliance.length && compliance.width && compliance.height;
 			});
-			if (filteredAirlines.length === 0 || compliantAirlines.length === 0) {
-				compliancePercentage = 0;
-			} else {
-				compliancePercentage = (compliantAirlines.length / filteredAirlines.length) * 100;
-			}
+			compliancePercentage = filteredAirlines.length === 0 ? 0 
+				: (compliantAirlines.length / filteredAirlines.length) * 100;
 		}
 	}
 </script>
@@ -180,50 +99,8 @@
 
 		<div class="lg:flex-1 max-w-2xl mx-auto lg:mx-0">
 			<div class="bg-white rounded-lg shadow-md p-6">
-				<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-					<div>
-						<label for="length" class="block text-sm font-medium text-gray-700 mb-1">Length</label>
-						<input
-							type="number"
-							id="length"
-							bind:value={userDimensions.length}
-							class="w-full rounded border-gray-300 text-sm"
-							min="0"
-						/>
-					</div>
-					<div>
-						<label for="width" class="block text-sm font-medium text-gray-700 mb-1">Width</label>
-						<input
-							type="number"
-							id="width"
-							bind:value={userDimensions.width}
-							class="w-full rounded border-gray-300 text-sm"
-							min="0"
-						/>
-					</div>
-					<div>
-						<label for="height" class="block text-sm font-medium text-gray-700 mb-1">Height</label>
-						<input
-							type="number"
-							id="height"
-							bind:value={userDimensions.height}
-							class="w-full rounded border-gray-300 text-sm"
-							min="0"
-						/>
-					</div>
-					<div>
-						<label for="unit" class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
-						<select
-							id="unit"
-							bind:value={userDimensions.unit}
-							class="w-full rounded border-gray-300 text-sm"
-						>
-							<option value="cm">Centimeters</option>
-							<option value="in">Inches</option>
-						</select>
-					</div>
-				</div>
-
+				<DimensionsInput bind:userDimensions />
+				
 				{#if userDimensions.length && userDimensions.width && userDimensions.height}
 					<div class="text-center text-lg font-medium">
 						Compliance: <span class={compliancePercentage <= 60 
@@ -242,50 +119,21 @@
 	</div>
 
 	<div class="bg-white rounded-lg shadow-md p-6">
-		<div class="flex flex-col gap-4 mb-4">
-			<div class="flex gap-2 text-sm">
-				<button
-					class="px-3 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200"
-					on:click={selectAllRegions}
-				>
-					Select All
-				</button>
-				<button
-					class="px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
-					on:click={unselectAllRegions}
-				>
-					Unselect All
-				</button>
-			</div>
-
-			<div class="flex flex-wrap gap-2">
-				{#each regions as region}
-					<button
-						class="px-4 py-2 rounded-full text-sm font-medium transition-colors
-							{selectedRegions.has(region)
-								? 'bg-blue-600 text-white'
-								: 'bg-gray-100 text-gray-700 hover:bg-gray-200'}"
-						on:click={() => toggleRegion(region)}
-					>
-						{region}
-					</button>
+		<RegionFilter {regions} bind:selectedRegions />
+		
+		<div class="flex flex-wrap gap-2 items-center">
+			<select bind:value={sortBy} class="rounded border-gray-300">
+				{#each SORT_OPTIONS as option}
+					<option value={option}>Sort by {option}</option>
 				{/each}
-			</div>
+			</select>
 
-			<div class="flex flex-wrap gap-2 items-center">
-				<select bind:value={sortBy} class="rounded border-gray-300">
-					{#each SORT_OPTIONS as option}
-						<option value={option}>Sort by {option}</option>
-					{/each}
-				</select>
-
-				<button
-					on:click={() => (sortDirection = sortDirection === SORT_DIRECTIONS[0] ? SORT_DIRECTIONS[1] : SORT_DIRECTIONS[0])}
-					class="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-				>
-					{sortDirection === SORT_DIRECTIONS[0] ? '↑' : '↓'}
-				</button>
-			</div>
+			<button
+				on:click={() => (sortDirection = sortDirection === SORT_DIRECTIONS[0] ? SORT_DIRECTIONS[1] : SORT_DIRECTIONS[0])}
+				class="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+			>
+				{sortDirection === SORT_DIRECTIONS[0] ? '↑' : '↓'}
+			</button>
 		</div>
 
 		<div class="overflow-x-auto">
@@ -306,7 +154,7 @@
 					</thead>
 					<tbody>
 						{#each filteredAirlines as airline}
-							{@const compliance = checkCompliance(airline)}
+							{@const compliance = checkCompliance(airline, userDimensions)}
 							{@const isCompliant = compliance && compliance.length && compliance.width && compliance.height}
 
 							<tr class="border-t {isCompliant ? 'bg-green-50' : ''}">
