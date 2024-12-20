@@ -18,13 +18,13 @@ Thank you for your interest in contributing to CarryFit! This document provides 
    - Airline data is stored in `src/lib/carry-on-limits.json`
    - Each airline entry should include:     ```json
      {
-       "Airline": "Airline Name",
-       "Region": "Region Name",
-       "Link": "URL to baggage policy (optional)",
-       "Inches": "L x W x H",
-       "Centimeters": "L x W x H",
-       "Pounds": number (null if not applicable),
-       "Kilograms": number (null if not applicable)
+       "airline": "Airline Name",
+       "region": "Region Name",
+       "link": "URL to baggage policy (optional)",
+       "inches": "L x W x H",
+       "centimeters": "L x W x H",
+       "pounds": number (null if not applicable),
+       "kilograms": number (null if not applicable)
      }     ```
    - Please include source links for any data updates
 
@@ -60,5 +60,6 @@ Thank you for your interest in contributing to CarryFit! This document provides 
 ## Questions?
 
 Feel free to reach out to the maintainer:
-- Email: alexey.maltsev.work@gmail.com
-- Twitter: [@axel_user](https://x.com/axel_user) 
+
+- Email: [alexey.maltsev.work@gmail.com](mailto:alexey.maltsev.work@gmail.com)
+- Twitter: [@axel_user](https://x.com/axel_user)
