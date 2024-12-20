@@ -2,7 +2,22 @@ import { chromium, test, Browser, Page, BrowserContext } from '@playwright/test'
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert { type: 'json' };
-type AirlineData = typeof airlinesJsonData[number];
+
+type AirlineTest = {
+    text?: string;
+    lastTestPass?: string;
+};
+
+type AirlineData = {
+    airline: string;
+    region: string;
+    link?: string;
+    inches: string;
+    centimeters: string;
+    pounds?: number;
+    kilograms?: number;
+    test?: AirlineTest;
+};
 
 let jsonData: AirlineData[];
 
@@ -40,10 +55,10 @@ function updateAirlineTestResult(airline: string): void {
     if (airlineIndex !== -1) {
         const lastTestPass = new Date().toISOString();
         const airlineData = jsonData[airlineIndex];
-        if (airlineData.test == undefined) {
+        if (!airlineData.test) {
             airlineData.test = {
                 lastTestPass: lastTestPass
-            }
+            };
         } else {
             airlineData.test.lastTestPass = lastTestPass;
         }

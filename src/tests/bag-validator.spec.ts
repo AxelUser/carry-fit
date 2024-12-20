@@ -10,7 +10,7 @@ describe('Bag Validator', () => {
 		centimeters: [56, 36, 23],
 	};
 
-	it('should return null when dimensions are missing', () => {
+	it('should return null when dimensions are zeros', () => {
 		const dimensions: UserDimensions = {
 			length: 0,
 			width: 10,
