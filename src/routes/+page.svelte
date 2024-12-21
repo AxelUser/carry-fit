@@ -274,14 +274,16 @@
 		<td class="p-3">
 			<div class="flex items-center gap-2">
 				{airline.airline}
-				{#if airline.lastTestPass}
+				{#if airline.testResult}
 					<Tooltip.Root>
 						<Tooltip.Trigger>
-							<Tested class="h-4 w-4 text-green-600" />
+							<Tested
+								class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
+							/>
 						</Tooltip.Trigger>
 						<Tooltip.Content>
 							<p>
-								Last Test Passed: {airline.lastTestPass.toLocaleDateString()}
+								{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
 							</p>
 						</Tooltip.Content>
 					</Tooltip.Root>
@@ -291,7 +293,9 @@
 		<td class="p-3">{airline.region}</td>
 		<td class="p-3">
 			{#if dimensions.length === 1}
-				<span class={isCompliant ? '' : 'text-red-600'}> {`Total ${dimensions[0]}`}</span>
+				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
+					{`Total ${dimensions[0]}`}</span
+				>
 			{:else}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>{dimensions[0]}</span>
 				x

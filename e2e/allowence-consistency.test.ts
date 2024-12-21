@@ -8,6 +8,11 @@ type AirlineTest = {
 	lastTestPass?: string;
 };
 
+type AirlineTestResult = {
+	lastTestPass?: string;
+	lastTestFail?: string;
+};
+
 type AirlineData = {
 	airline: string;
 	region: string;
@@ -17,6 +22,7 @@ type AirlineData = {
 	pounds?: number;
 	kilograms?: number;
 	test?: AirlineTest;
+	testResult?: AirlineTestResult;
 };
 
 let jsonData: AirlineData[];
@@ -50,17 +56,22 @@ async function saveTestReport(): Promise<void> {
 	await fs.writeFile(jsonPath, JSON.stringify(jsonData, null, 4), 'utf-8');
 }
 
-function updateAirlineTestResult(airline: string): void {
+function updateAirlineTestResult(airline: string, success: boolean): void {
 	const airlineIndex = jsonData.findIndex((a: AirlineData) => a.airline === airline);
 	if (airlineIndex !== -1) {
-		const lastTestPass = new Date().toISOString();
+		const currentTime = new Date().toISOString();
 		const airlineData = jsonData[airlineIndex];
-		if (!airlineData.test) {
-			airlineData.test = {
-				lastTestPass: lastTestPass
+		if (!airlineData.testResult) {
+			airlineData.testResult = {
+				lastTestPass: success ? currentTime : undefined,
+				lastTestFail: success ? undefined : currentTime
 			};
 		} else {
-			airlineData.test.lastTestPass = lastTestPass;
+			if (success) {
+				airlineData.testResult.lastTestPass = currentTime;
+			} else {
+				airlineData.testResult.lastTestFail = currentTime;
+			}
 		}
 		jsonData[airlineIndex] = airlineData;
 	}
@@ -83,25 +94,31 @@ test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
 		test(`${data.airline} website contains expected text: "${data.test.text}"`, async () => {
 			const { browser, page } = await setupTestPage(data.link!);
 
-			await page.waitForFunction(
-				(expectedText: string | string[]) => {
-					try {
-						if (typeof expectedText === 'string') {
-							return document.body?.textContent?.includes(expectedText);
-						} else {
-							return expectedText.every((text) => document.body?.textContent?.includes(text));
+			try {
+				await page.waitForFunction(
+					(expectedText: string | string[]) => {
+						try {
+							if (typeof expectedText === 'string') {
+								return document.body?.textContent?.includes(expectedText);
+							} else {
+								return expectedText.every((text) => document.body?.textContent?.includes(text));
+							}
+						} catch (error) {
+							console.error(error);
+							return false;
 						}
-					} catch (error) {
-						console.error(error);
-						return false;
-					}
-				},
-				data.test.text,
-				{ timeout: 30000 }
-			);
+					},
+					data.test.text,
+					{ timeout: 30000 }
+				);
 
-			updateAirlineTestResult(data.airline);
-			await browser.close();
+				updateAirlineTestResult(data.airline, true);
+			} catch (error) {
+				updateAirlineTestResult(data.airline, false);
+				throw error; // Re-throw to make the test fail
+			} finally {
+				await browser.close();
+			}
 		});
 	}
 });

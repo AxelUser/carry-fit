@@ -34,6 +34,8 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		pounds = convertWeight(kilograms, true);
 	}
 
+	const parsedTestResult = getLastTest(rawAirline);
+
 	return {
 		airline: rawAirline.airline,
 		region: rawAirline.region,
@@ -42,9 +44,28 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		centimeters: parsedCentimeters,
 		pounds,
 		kilograms,
-		lastTestPass: rawAirline.test?.lastTestPass ? new Date(rawAirline.test.lastTestPass) : undefined
+		testResult: parsedTestResult
 	};
 }
+
+function getLastTest(rawAirline: AirlineData): { lastTest: Date; success: boolean } | undefined {
+	if (!rawAirline.testResult) {
+		return undefined;
+	}
+
+	const lastTestPass = rawAirline.testResult?.lastTestPass
+		? new Date(rawAirline.testResult.lastTestPass)
+		: undefined;
+	const lastTestFail = rawAirline.testResult?.lastTestFail
+		? new Date(rawAirline.testResult.lastTestFail)
+		: undefined;
+
+	const lastTest = [lastTestPass, lastTestFail]
+		.filter(Boolean)
+		.sort((a, b) => b!.getTime() - a!.getTime())[0];
+	return { lastTest: lastTest!, success: lastTest === lastTestPass };
+}
+
 function getDimensions(dimensions: number | number[]): number | number[] {
 	if (typeof dimensions === 'number') {
 		return dimensions;
