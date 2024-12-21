@@ -166,8 +166,6 @@
         "link": "https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions",
         "inches": "16 x 9 x 22",
         "centimeters": "40 x 23 x 55",
-        "pounds": null,
-        "kilograms": null,
         "test": {
             "text": "40 cm in length, 23 cm in width and 55 cm in height",
             "lastTestPass": "2024-12-20T23:23:55.086Z"
@@ -188,8 +186,6 @@
         "link": "https://www.westjet.com/en-ca/baggage#baggage-carry-on",
         "inches": "21 x 15 x 9",
         "centimeters": "53 x 38 x 23",
-        "pounds": null,
-        "kilograms": null,
         "test": {
             "text": "53 cm x 23 cm x 38 cm",
             "lastTestPass": "2024-12-20T23:24:01.281Z"
@@ -662,104 +658,110 @@
         "link": "https://www.flypgs.com/en/pegasus-baggage-allowance",
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": null,
-        "kilograms": null
+        "kilograms": 8
     },
     {
         "airline": "Plus Ultra",
         "region": "Europe",
-        "inches": "22 x 16 x 8",
+        "link": "https://www.plusultra.com/es-es/informacion/equipaje/equipaje-en-cabina/",
         "centimeters": "55 x 40 x 20",
-        "pounds": null,
-        "kilograms": null
+        "kilograms": 10,
+        "test": {
+            "text": "55x40x20 cm"
+        }
     },
     {
         "airline": "Ryanair",
         "region": "Europe",
         "link": "https://www.ryanair.com/gb/en/useful-info/help-centre/terms-and-conditions/termsandconditionsar_696869348",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "large piece of Cabin Baggage, weighing up to 10kg with maximum dimensions of 55cm x 40cm x 20cm"
+        }
     },
     {
         "airline": "Spring Airlines",
         "region": "Asia",
         "link": "https://en.ch.com/flights/excess-baggage",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
-        "pounds": 11,
-        "kilograms": 5
+        "centimeters": "40 x 30 x 20",
+        "kilograms": 7,
+        "test": {
+            "text": "L: 30cm W: 20cm  H: 40cm"
+        }
     },
     {
         "airline": "TAP Portugal",
         "region": "Europe",
         "link": "https://www.flytap.com/en-de/baggage/hand-baggage",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
-        "pounds": 17,
-        "kilograms": 8
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
+        "pounds": 22,
+        "kilograms": 10,
+        "test": {
+            "text": "Dimensões máximas: 55 x 40 x 25 cm / 22 x 16 x 10 in (altura x comprimento x largura)."
+        }
     },
     {
         "airline": "TAROM",
         "region": "Europe",
-        "link": "https://www.flytap.com/en-de/baggage/hand-baggage",
-        "inches": "22 x 16 x 8",
+        "link": "https://www.tarom.ro/en/passenger-information/baggage/hand-baggage/",
         "centimeters": "55 x 40 x 20",
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 8,
+        "test": {
+            "text": "in the cabin one hand baggage sized maximum 55x 40x 20cm"
+        }
     },
     {
         "airline": "TUIfly",
         "region": "Europe",
         "link": "https://www.tui.com/service-kontakt/flug/handgepaeck",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 13.2,
-        "kilograms": 6
-    },
-    {
-        "airline": "Ukraine International Airlines",
-        "region": "Europe",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 10,
+        "test": {
+            "text": "55 x 40 x 20 cm"
+        }
     },
     {
         "airline": "VivaAerobus",
         "region": "South America",
-        "inches": "22 x 16 x 8",
-        "centimeters": "55 x 40 x 20",
+        "link": "https://blog.vivaaerobus.com/en/baggage-policies/",
+        "inches": "22 x 16 x 10",
+        "centimeters": "55 x 40 x 25",
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "For Light, Extra, and Smart, your carry-on bag can be 16in long x 10in wide x 22in high (40 cm long, 25cm wide, and 55 cm high)."
+        }
     },
     {
         "airline": "Vueling",
         "region": "Europe",
         "link": "https://www.vueling.com/en/vueling-services/prepare-your-trip/luggage",
-        "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "10 kg (55x40x20 cm.)"
+        }
     },
     {
         "airline": "Air Baltic",
         "region": "Europe",
         "link": "https://www.airbaltic.com/en/baggage/cabin-baggage",
-        "inches": "22 x 16 x 9",
         "centimeters": "55 x 40 x 23",
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "cabin bag (55 x 40 x 23 cm)"
+        }
     },
     {
         "airline": "Air Canada",
         "region": "North America",
         "link": "https://www.aircanada.com/us/en/aco/home/plan/baggage/carry-on.html#/",
-        "inches": "22 x 16 x 9",
         "centimeters": "55 x 40 x 23",
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "measures 55 cm (21.5 in) in height, 23 cm (9 in) in depth, and 40 cm (15.5 in) in width"
+        }
     },
     {
         "airline": "Air New Zealand",
@@ -768,7 +770,10 @@
         "inches": "22 x 16 x 9",
         "centimeters": "55 x 40 x 23",
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "The total can be up to 118cm (46.5 inches)"
+        }
     },
     {
         "airline": "Air Serbia",
