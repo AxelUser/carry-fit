@@ -659,11 +659,20 @@
     {
         "airline": "Pegasus Airlines",
         "region": "Asia",
-        "link": "https://plusultra.com/equipaje/equipaje-en-cabina/",
+        "link": "https://www.flypgs.com/en/pegasus-baggage-allowance",
         "inches": "22 x 16 x 8",
         "centimeters": "55 x 40 x 20",
         "pounds": null,
-        "kilograms": null
+        "kilograms": 8
+    },
+        {
+        "airline": "Pegasus Airlines (light)",
+        "region": "Asia",
+        "link": "https://www.flypgs.com/en/pegasus-baggage-allowance",
+        "inches": "16 x 12 x 6",
+        "centimeters": "40 x 30 x 15",
+        "pounds": null,
+        "kilograms": 3
     },
     {
         "airline": "Plus Ultra",
@@ -908,6 +917,7 @@
     {
         "airline": "SunExpress",
         "region": "Asia",
+        "link": "https://www.sunexpress.com/en-gb/information/luggage-info/cabin-baggage/"
         "inches": "22 x 16 x 9",
         "centimeters": "55 x 40 x 23",
         "pounds": 16,
