@@ -4,14 +4,14 @@
         "region": "Europe",
         "link": "https://www.finnair.com/en/baggage-on-finnair-flights/carry-on-baggage",
         "inches": [
+            22,
             16,
-            12,
-            6
+            9
         ],
         "centimeters": [
+            55,
             40,
-            30,
-            15
+            23
         ],
         "pounds": 17.5,
         "kilograms": 8,
