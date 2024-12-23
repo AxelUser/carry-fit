@@ -1938,7 +1938,10 @@
             23
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "piece of cabin baggage, which must not exceed 45 inches ( 22\" x 14\" x 9\" or 56cm x 36cm x 23cm) in size and 7kg/15Ibs in weight."
+        }
     },
     {
         "airline": "Japan Airlines",
@@ -1946,137 +1949,123 @@
         "link": "https://www.jal.co.jp/jp/en/inter/baggage/inflight/#anchorlink001",
         "inches": [
             22,
-            14,
-            9
+            16,
+            10
         ],
         "centimeters": [
             56,
-            36,
-            23
+            40,
+            25
         ],
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "W: within 55cm×H: within 40cm×D: within 25cm"
+        }
     },
     {
         "airline": "JetBlue Airways",
         "region": "North America",
-        "link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
+        "link": "https://www.jetblue.com/help/carry-on-bags",
         "inches": [
             22,
             14,
             9
         ],
         "centimeters": [
-            56,
-            36,
-            23
+            56.88,
+            35.56,
+            22.86
         ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "carry-on bags must not exceed 22\" L (55.88 cm) x 14\" W (35.56 cm) x 9\" H (22.86 cm)."
+        }
     },
     {
         "airline": "Jetstar",
         "region": "North America",
         "link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 7,
+        "test": {
+            "text": "not exceed 56cm (height) x 36cm (width) x 23cm (depth) including wheels and handles."
+        }
     },
     {
         "airline": "Lao Airlines",
         "region": "Asia",
         "link": "https://laoairlines.com/en/baggage-optional-service-charges/",
         "inches": [
-            22,
-            14,
-            9
+            24,
+            12,
+            7
         ],
         "centimeters": [
-            56,
-            36,
-            23
+            60,
+            30,
+            18
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "maximum weight of 7kg and the sum of the three dimensions shall not exceed 115 cm (30 cm x 60 cm x 18 cm) or (12 x 24 x 7 inches)"
+        }
     },
     {
         "airline": "Mango Airlines",
         "region": "South Africa",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "comment": "Carry-on bag limits are not statically available on the website, got size limits from another source"
+        }
     },
     {
         "airline": "NokAir",
         "region": "Asia",
         "link": "https://content.nokair.com/en/Journey-Planning/Baggage/Hand-Baggage-allowance.aspx",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "not exceed the dimensions of 56cm X 36cm X 23cm and provided that it does not weigh more than 7kg"
+        }
     },
     {
         "airline": "Oman Air",
         "region": "Africa",
-        "inches": [
-            22,
-            14,
-            9
-        ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
-        "pounds": 15,
-        "kilograms": 7
+        "link": "https://www.omanair.com/en/baggage-policy/baggage-allowance",
+        "inches": 45,
+        "centimeters": 115,
+        "kilograms": 7,
+        "test": {
+            "text": "Hand baggage per guest of 7kg and a maximum dimension of linear 115 cm (45 in)."
+        }
     },
     {
         "airline": "Peach",
         "region": "Asia",
         "link": "http://www.flypeach.com/en/lm/ai/airports/baggage/carry_on_bag",
-        "inches": [
-            22,
-            14,
-            9
-        ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "centimeters": 115,
+        "kilograms": 7,
+        "test": {
+            "text": "Sum of the three dimensions should be less than 115 cm"
+        }
     },
     {
         "airline": "Philippines Airlines",
         "region": "Asia",
+        "link": "https://www.philippineairlines.com/ph/en/before-you-fly/baggage-information/baggage-allowance/baggage-allowance-fees/carry-on-baggage.html",
         "inches": [
             22,
             14,
@@ -2088,75 +2077,75 @@
             23
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "maximum total dimension of 56cm x 36cm x 23cm (22in x 14in x 9in) and maximum weight of 7 kgs. (15 lbs)."
+        }
     },
     {
         "airline": "Porter Airlines",
         "region": "North America",
         "link": "https://www.flyporter.com/en/travel-information/baggage/carry-on-allowance",
         "inches": [
-            22,
-            14,
+            21.5,
+            15.5,
             9
         ],
         "centimeters": [
-            56,
-            36,
+            55,
+            40,
             23
         ],
-        "pounds": 20,
-        "kilograms": 9
+        "test": {
+            "text": "55 x 40 x 23 cm (21.5 x 15.5 x 9 in)"
+        }
     },
     {
         "airline": "Qantas",
         "region": "Oceania",
         "link": "https://www.qantas.com/au/en/travel-info/baggage/carry-on-baggage.html#carry-on-baggage-allowances",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "Bag size: 56cm long x 36cm wide x 23cm deep"
+        }
     },
     {
         "airline": "Royal Air Maroc",
         "region": "Africa",
         "link": "https://www.royalairmaroc.com/int-en/carry-on-baggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
-            56,
-            36,
-            23
+            55,
+            40,
+            20
         ],
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Length + width + height which does not exceed 115 cm (length: 55cm, width: 40cm, height: 20cm)"
+        }
     },
     {
         "airline": "Royal Jordanian Airlines",
         "region": "Asia",
         "link": "https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces",
         "inches": [
-            22,
-            14,
+            20,
+            16,
             9
         ],
         "centimeters": [
-            56,
-            36,
+            51,
+            41,
             23
         ],
-        "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "maximum dimensions of (9X16X20in) or (23X41X51cm) however"
+        }
     },
     {
         "airline": "Saudia Airlines",
@@ -2164,16 +2153,18 @@
         "link": "https://www.saudia.com/before-flying/baggage/hand-baggage",
         "inches": [
             22,
-            14,
-            9
+            18,
+            10
         ],
         "centimeters": [
             56,
-            36,
-            23
+            45,
+            25
         ],
-        "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "Hand bag (the size of the piece not to exceed 56 X 45 X 25 (Cm) (22 X 18 X 10) (In))"
+        }
     },
     {
         "airline": "Scoot Airlines",
