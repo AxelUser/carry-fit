@@ -1668,18 +1668,15 @@
         "airline": "Air Asia",
         "region": "Asia-Pacific",
         "link": "https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "test": "must not exceed 56cm x 36cm x 23cm"
+        }
     },
     {
         "airline": "Alaska Airlines",
@@ -1690,13 +1687,9 @@
             14,
             9
         ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "maximum dimension 22\" x 14\" x 9\" or 45 linear inches, including wheels and handle"
+        }
     },
     {
         "airline": "Allegiant Air",
@@ -1704,16 +1697,17 @@
         "link": "https://www.allegiantair.com/baggage-1",
         "inches": [
             22,
-            14,
-            9
+            16,
+            10
         ],
         "centimeters": [
-            56,
-            36,
-            23
+            55,
+            40,
+            25
         ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "comment": "Can't access the website for automated testing, got size limits from Google preview"
+        }
     },
     {
         "airline": "American Airlines",
@@ -1725,12 +1719,15 @@
             9
         ],
         "centimeters": [
-            56,
+            55,
             36,
             23
         ],
         "pounds": null,
-        "kilograms": null
+        "kilograms": null,
+        "test": {
+            "text": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches"
+        }
     },
     {
         "airline": "Bahamasair",
@@ -1747,24 +1744,24 @@
             23
         ],
         "pounds": 20,
-        "kilograms": 9
+        "kilograms": 9,
+        "test": {
+            "text": "Maximum size: 22″ x 14″ x 9″ & 20 lbs (9.07 kg) FREE"
+        }
     },
     {
         "airline": "Bangkok Airways",
         "region": "Asia",
         "link": "https://www.bangkokair.com/baggage-allowance",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
-            56,
+            50,
             36,
             23
         ],
-        "pounds": 11,
-        "kilograms": 5
+        "kilograms": 7,
+        "test": {
+            "text": "50 x 36 x 23 centimeter"
+        }
     },
     {
         "airline": "Cambodia Angkor Air",
@@ -1781,7 +1778,10 @@
             23
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "115 cm (56cm x 36cm x 23cm)"
+        }
     },
     {
         "airline": "Caribbean Airlines",
@@ -1794,11 +1794,14 @@
         ],
         "centimeters": [
             56,
-            36,
+            35,
             23
         ],
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Max. Size -: L 22”x W 14” x H 9” (56cm x 35cm x 23cm)"
+        }
     },
     {
         "airline": "Cathay Pacific",
@@ -1815,24 +1818,24 @@
             23
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "comment": "Carry-on bag is not statically available on the website, got size limits from another source"
+        }
     },
     {
         "airline": "Cebu Pacific",
         "region": "Asia",
-        "link": "https://www.cebupacificair.com/pages/travel-info/baggage-information/carry-on-baggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
+        "link": "https://www.cebupacificair.com/en-PH/pages/travel-info/baggage-information/carry-on-baggage",
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "maximum weight of seven (7) kilograms and dimension of up to 56cm x 36cm x 23cm"
+        }
     },
     {
         "airline": "China Airlines",
@@ -1848,8 +1851,11 @@
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "pounds": 15,
+        "kilograms": 7,
+        "test": {
+            "text": "56x36x23 CM (22x14x9 IN)"
+        }
     },
     {
         "airline": "Delta Air Lines",
@@ -1862,27 +1868,26 @@
         ],
         "centimeters": [
             56,
-            36,
+            35,
             23
         ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "measurements may not exceed 22” x 14” x 9” (56 cm x 35 cm x 23 cm)"
+        }
     },
     {
         "airline": "Garuda Indonesia",
         "region": "Asia",
-        "inches": [
-            22,
-            14,
-            9
-        ],
+        "link": "https://www.garuda-indonesia.com/id/en/garuda-indonesia-experience/baggage-info",
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "The maximum size for cabin baggage shall not exceed: length 56 cm, width 36 cm\n                        or depth 23 cm"
+        }
     },
     {
         "airline": "Hawaiian Airlines",
@@ -1893,18 +1898,16 @@
             14,
             9
         ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
         "pounds": 25,
-        "kilograms": 11
+        "kilograms": 11,
+        "test": {
+            "text": "22 inches x 14 inches x 9 inches"
+        }
     },
     {
         "airline": "HK Express",
         "region": "Asia",
-        "link": "https://www.hkexpress.com/en-hk/plan/travel-information/baggage-information/carry-on-baggage/",
+        "link": "https://www.hkexpress.com/en/Plan/Extras/Baggage/Carry-On-Baggage",
         "inches": [
             22,
             14,
@@ -1915,8 +1918,10 @@
             36,
             23
         ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "Cannot exceed 56 (L) x 36 (W) x 23 (H) cm (22” x 14” x 9”)"
+        }
     },
     {
         "airline": "Hong Kong Airlines",

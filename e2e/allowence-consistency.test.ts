@@ -5,7 +5,7 @@ import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert
 
 type AirlineTest = {
 	text?: string;
-	lastTestPass?: string;
+	comment?: string;
 };
 
 type AirlineTestResult = {
@@ -91,24 +91,26 @@ test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
 			continue;
 		}
 
-		test(`${data.airline} website contains expected text: "${data.test.text}"`, async () => {
+		const expectedText = data.test.text;
+
+		test(`${data.airline} website contains expected text: "${expectedText}"`, async () => {
 			const { browser, page } = await setupTestPage(data.link!);
 
 			try {
 				await page.waitForFunction(
-					(expectedText: string | string[]) => {
+					(text: string | string[]) => {
 						try {
-							if (typeof expectedText === 'string') {
-								return document.body?.textContent?.includes(expectedText);
+							if (typeof text === 'string') {
+								return document.body?.textContent?.includes(text);
 							} else {
-								return expectedText.every((text) => document.body?.textContent?.includes(text));
+								return text.every((textPart) => document.body?.textContent?.includes(textPart));
 							}
 						} catch (error) {
 							console.error(error);
 							return false;
 						}
 					},
-					data.test.text,
+					expectedText,
 					{ timeout: 30000 }
 				);
 
