@@ -140,8 +140,9 @@
 					<div class="ml-3 text-sm leading-relaxed text-yellow-700">
 						<p>
 							Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically
-							tested for updates, but the allowances may still not be accurate due to bugs. Especially
-							airlines that are not covered by tests. Always verify the requirements yourself.
+							tested for policy updates, but not in real-time. Policies may change between checks, and
+							unmarked airlines are not monitored. Always verify requirements on the airline's website
+							before traveling.
 						</p>
 					</div>
 				</div>
