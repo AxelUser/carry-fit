@@ -2323,5 +2323,19 @@
         "test": {
             "text": "36x30x27 см"
         }
+    },
+    {
+        "airline": "ZIPAIR",
+        "region": "Asia",
+        "link": "https://www.zipair.net/en/service/baggage",
+        "centimeters": [
+            55,
+            40,
+            25
+        ],
+        "kilograms": 7,
+        "test": {
+            "text": "(1st piece: 55 cm x 40 cm x 25 cm, 2nd piece: 35 cm x 45 cm x 25 cm). The total weight of all carry-on baggage must not exceed 7 kg."
+        }
     }
 ]
