@@ -101,8 +101,16 @@
 						>
 					</p>
 					<div class="mb-2">
-						Found an error? You can:
+						Found an error or have a feature suggestion? You can:
 						<ul class="ml-2 list-inside list-disc">
+							<li>
+								Create an issue or submit a pull request on <a
+									href="https://github.com/AxelUser/carry-fit"
+									class="text-blue-600 hover:text-blue-800 hover:underline"
+									target="_blank"
+									rel="noopener noreferrer">GitHub</a
+								>
+							</li>
 							<li>
 								Email me at <a
 									href="mailto:alexey.maltsev.work@gmail.com"
@@ -116,14 +124,6 @@
 									class="text-blue-600 hover:text-blue-800 hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">X (Twitter)</a
-								>
-							</li>
-							<li>
-								Submit a pull request on <a
-									href="https://github.com/AxelUser/carry-fit"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									target="_blank"
-									rel="noopener noreferrer">GitHub</a
 								>
 							</li>
 						</ul>
