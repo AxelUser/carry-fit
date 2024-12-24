@@ -2170,69 +2170,49 @@
         "airline": "Scoot Airlines",
         "region": "Asia",
         "link": "https://www.flyscoot.com/en/plan/booking-your-flight/baggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
-            56,
-            36,
+            54,
+            38,
             23
         ],
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "must fit within the dimensions of 54cm x 38cm x 23cm (total linear dimensions cannot exceed 115cm) to fit in the overhead compartment in the aircraft"
+        }
     },
     {
         "airline": "Singapore Airlines",
         "region": "Asia",
         "link": "https://www.singaporeair.com/en_UK/us/travel-info/baggage/cabin-baggage/",
-        "inches": [
-            22,
-            14,
-            9
-        ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
-        "pounds": 15,
-        "kilograms": 7
+        "centimeters": 115,
+        "kilograms": 7,
+        "test": {
+            "text": "Sum of length, width and height of each piece should not exceed 115cm."
+        }
     },
     {
         "airline": "South African Airways",
         "region": "Africa",
         "link": "https://www.flysaa.com/manage-fly/baggage/hand-baggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": null,
-        "kilograms": null
+        "kilograms": 8,
+        "test": {
+            "text": "56cm (l) 36cm (w) 23cm (h)"
+        }
     },
     {
         "airline": "Sri Lankan Airlines",
         "region": "Asia",
         "link": "https://www.srilankan.com/en_uk/plan-and-book/luggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
-        "pounds": 15.4,
-        "kilograms": 7
+        "centimeters": 115,
+        "kilograms": 7,
+        "test": {
+            "text": "Each piece of hand baggage must weigh no more than 7 kg and measure no more than a total of 115cm (l+h+w)"
+        }
     },
     {
         "airline": "United Airlines",
@@ -2245,28 +2225,26 @@
         ],
         "centimeters": [
             56,
-            36,
+            35,
             23
         ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "it must be 9 in x 14 in x 22 in (23 cm x 35 cm x 56 cm)"
+        }
     },
     {
         "airline": "Vietnam Airlines",
         "region": "Asia",
         "link": "https://www.vietnamairlines.com/vn/en/travel-information/baggage/baggage-allowance-hand-baggage",
-        "inches": [
-            22,
-            14,
-            9
-        ],
         "centimeters": [
             56,
             36,
             23
         ],
-        "pounds": 26,
-        "kilograms": 12
+        "kilograms": 10,
+        "test": {
+            "text": "piece of baggage: 56cm x 36cm x 23cm"
+        }
     },
     {
         "airline": "Virgin Atlantic Airways",
@@ -2283,24 +2261,22 @@
             23
         ],
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)."
+        }
     },
     {
         "airline": "Xiamen Airlines",
         "region": "Asia",
         "link": "https://www.xiamenair.com/en-ww/article-detail?articleLink=%2Fcms-i18n-ow%2Fcms-en-ww%2Fchannels%2F11310.json",
-        "inches": [
-            22,
-            14,
-            9
-        ],
-        "centimeters": [
-            56,
-            36,
-            23
-        ],
+        "inches": 45,
+        "centimeters": 115,
         "pounds": 11,
-        "kilograms": 5
+        "kilograms": 5,
+        "test": {
+            "text": "No more than 115 cm (45 inches)"
+        }
     },
     {
         "airline": "Copa Airlines",
@@ -2317,44 +2293,43 @@
             26
         ],
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "up to 46 linear inches (118 cm): 22'' high x 14'' long x 10'' wide (56 cm high x 36 cm long x 26 cm wide)"
+        }
     },
     {
         "airline": "Aegean Airlines",
         "region": "Europe",
         "link": "https://en.aegeanair.com/travel-information/baggage/cabin-baggage/",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
             56,
             45,
             25
         ],
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "carry-on bag up to 8kg and dimensions up to 56cm X 45cm X 25cm"
+        }
     },
     {
         "airline": "Air Astana",
         "region": "Central Asia",
-        "inches": [
-            22,
-            18,
-            10
-        ],
+        "link": "https://airastana.com/global-en/information/carry-on-baggage",
         "centimeters": [
             56,
             45,
             25
         ],
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "must be no larger than 56 x 45 x 25cm, with a maximum weight of 8kg"
+        }
     },
     {
         "airline": "British Airways",
         "region": "Europe",
+        "link": "https://www.britishairways.com/en-gb/information/baggage-essentials",
         "inches": [
             22,
             18,
@@ -2366,92 +2341,80 @@
             25
         ],
         "pounds": 51,
-        "kilograms": 23
+        "kilograms": 23,
+        "test": {
+            "text": "Up to 56 x 45 x 25cm (22 x 18 x 10in) - includes wheels and handles"
+        }
     },
     {
         "airline": "easyJet",
         "region": "Europe",
         "link": "https://www.easyjet.com/en/help/baggage/cabin-bag-and-hold-luggage",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
-            56,
             45,
-            25
+            36,
+            20
         ],
-        "pounds": 33,
-        "kilograms": 15
+        "kilograms": 15,
+        "test": {
+            "text": "maximum size of 45 x 36 x 20 cm (including any handles and wheels)"
+        }
     },
     {
         "airline": "El Al",
         "region": "Asia",
         "link": "https://www.elal.com/en/PassengersInfo/Baggage/Hand-Baggage/Pages/Policy.aspx",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
             56,
             45,
             25
         ],
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "up to 56 cm (length), 45 cm (width), and 25 cm (depth), not exceeding a total dimension of 115 cm"
+        }
     },
     {
         "airline": "Iberia",
         "region": "Europe",
         "link": "https://www.iberia.com/us/luggage/hand-luggage/",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
             56,
-            45,
+            40,
             25
         ],
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "cabin bag\n56x40x25cm/10kg"
+        }
     },
     {
         "airline": "Jet2.com",
         "region": "Europe",
         "link": "https://www.jet2.com/faqs?topic=baggage-and-sports-equipment&category=hand-luggage-allowances",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
             56,
             45,
             25
         ],
-        "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Hand luggage must be no more than 10kg and no larger than 56cm x 45cm x 25cm."
+        }
     },
     {
         "airline": "SmartWings",
         "region": "Europe",
         "link": "https://www.smartwings.com/en/what-is-the-baggage-allowance",
-        "inches": [
-            22,
-            18,
-            10
-        ],
         "centimeters": [
-            56,
-            45,
-            25
+            55,
+            40,
+            23
         ],
-        "pounds": 17.6,
-        "kilograms": 8
+        "kilograms": 8,
+        "test": {
+            "text": "with max. dimensions of 55x40x23 cm and weight of up to 8 kg"
+        }
     },
     {
         "airline": "Thai Airways",
@@ -2468,7 +2431,10 @@
             25
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "carry one baggage at maximum length 56 cm (22 inches), width 45 cm (18 inches) and thickness 25 cm (10 inches)"
+        }
     },
     {
         "airline": "Kuwait Airways",
@@ -2484,25 +2450,30 @@
             46,
             25
         ],
-        "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "56 X 46 X 25 cm"
+        }
     },
     {
         "airline": "Malaysia Airlines",
         "region": "Asia",
-        "link": "https://www.malaysiaairlines.com/ph/en/plan-your-trip/baggage/checked-baggage.html",
+        "link": "https://www.malaysiaairlines.com/ph/en/travel-info/baggage/cabin-baggage.html",
         "inches": [
             22,
-            18,
-            10
+            14,
+            9
         ],
         "centimeters": [
             56,
-            46,
-            25
+            36,
+            23
         ],
         "pounds": 15,
-        "kilograms": 7
+        "kilograms": 7,
+        "test": {
+            "text": "56cm\n(22in)\n\n36cm\n(14in)\n\n23cm\n(09in)\n\n115cm\n(45in)"
+        }
     },
     {
         "airline": "Norse Atlantic Airways",
@@ -2515,15 +2486,19 @@
         ],
         "centimeters": [
             56,
-            46,
+            45,
             25
         ],
         "pounds": 22,
-        "kilograms": 10
+        "kilograms": 10,
+        "test": {
+            "text": "Carry-on, Economy cabin  (10kg / 22lbs) 56 x 45 x 25 cm (22 x 18 x 10 in)"
+        }
     },
     {
         "airline": "Spirit Airlines",
         "region": "North America",
+        "link": "https://customersupport.spirit.com/en-us/category/article/KA-01535",
         "inches": [
             22,
             18,
@@ -2534,8 +2509,9 @@
             46,
             25
         ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "Maximum of 22 x 18  x 10  inches (56 x 46 x 25 cm)"
+        }
     },
     {
         "airline": "Frontier Airlines",
@@ -2546,13 +2522,10 @@
             16,
             10
         ],
-        "centimeters": [
-            60,
-            41,
-            25
-        ],
         "pounds": 35,
-        "kilograms": 16
+        "test": {
+            "text": "Size: 24\"H X 16\"W X 10\"D"
+        }
     },
     {
         "airline": "Cayman Airways",
@@ -2563,13 +2536,9 @@
             16,
             11
         ],
-        "centimeters": [
-            60.9,
-            40.6,
-            27.9
-        ],
-        "pounds": 15,
-        "kilograms": 6.8
+        "test": {
+            "text": "51 inches (11” x 16” x 24”)"
+        }
     },
     {
         "airline": "Southwest Airlines",
@@ -2580,13 +2549,9 @@
             16,
             10
         ],
-        "centimeters": [
-            61,
-            40.6,
-            25.4
-        ],
-        "pounds": null,
-        "kilograms": null
+        "test": {
+            "text": "Size limits: 24” (L) + 16” (W) + 10” (H)"
+        }
     },
     {
         "airline": "Sun Country Airlines",
@@ -2597,13 +2562,10 @@
             16,
             11
         ],
-        "centimeters": [
-            61,
-            40.6,
-            28
-        ],
         "pounds": 35,
-        "kilograms": 16
+        "test": {
+            "text": "must fit within current overhead size restrictions and may not exceed any of the following dimensions: 24” long x 16” wide x 11” tall"
+        }
     },
     {
         "airline": "Pobeda",
