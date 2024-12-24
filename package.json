@@ -12,8 +12,9 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:e2e": "playwright test --grep-invert @manual",
-		"test": "pnpm run test:e2e && pnpm run test:unit -- --run",
-		"test:unit": "vitest"
+		"test:allowance": "playwright test --grep @manual",
+		"test": "pnpm run test:e2e && pnpm run test:unit",
+		"test:unit": "vitest run"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
