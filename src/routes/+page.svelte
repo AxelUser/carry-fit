@@ -199,11 +199,11 @@
 				<table class="w-full">
 					<thead>
 						<tr class="bg-gray-50">
-							<th class="p-3 text-left">Airline</th>
-							<th class="p-3 text-left">Region</th>
-							<th class="p-3 text-left">Dimensions ({userDimensions.unit})</th>
-							<th class="p-3 text-left">Weight Limit</th>
-							<th class="p-3 text-left">Policy</th>
+							<th class="p-3 text-left" role="columnheader">Airline</th>
+							<th class="p-3 text-left" role="columnheader">Region</th>
+							<th class="p-3 text-left" role="columnheader">Dimensions ({userDimensions.unit})</th>
+							<th class="p-3 text-left" role="columnheader">Weight Limit</th>
+							<th class="p-3 text-left" role="columnheader">Policy</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -278,7 +278,7 @@
 	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t {isCompliant ? 'bg-green-50' : ''}">
-		<td class="p-3">
+		<td class="p-3" data-testid="airline">
 			<div class="flex items-center gap-2">
 				{airline.airline}
 				{#if airline.testResult}
@@ -297,8 +297,8 @@
 				{/if}
 			</div>
 		</td>
-		<td class="p-3">{airline.region}</td>
-		<td class="p-3">
+		<td class="p-3" data-testid="region">{airline.region}</td>
+		<td class="p-3" data-testid="dimensions">
 			{#if dimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
 					{`Total ${dimensions[0]}`}</span
@@ -311,14 +311,14 @@
 				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{dimensions[2]}</span>
 			{/if}
 		</td>
-		<td class="p-3">
+		<td class="p-3" data-testid="weight-limit">
 			{#if airline.kilograms}
 				{userDimensions.unit === 'in' ? `${airline.pounds} lb` : `${airline.kilograms} kg`}
 			{:else}
 				N/A
 			{/if}
 		</td>
-		<td class="p-3">
+		<td class="p-3" data-testid="policy-link">
 			{#if airline.link}
 				<a
 					href={airline.link}
