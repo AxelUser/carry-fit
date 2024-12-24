@@ -1,4 +1,4 @@
-import type { Airline, TestResults } from '$lib/types';
+import type { Airline, TestResult } from '$lib/types';
 import rawAirlinesJson from '$lib/allowances/carry-on-limits.json';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 type AirlineData = (typeof rawAirlinesJson)[number];
@@ -17,11 +17,11 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		throw new Error(`No dimensions for ${rawAirline.airline}`);
 	}
 	if (!parsedInches) {
-		parsedInches = convertDimensions(parsedCentimeters!);
+		parsedInches = convertDimensions(parsedCentimeters!, (value) => value / 2.54);
 	}
 
 	if (!parsedCentimeters) {
-		parsedCentimeters = convertDimensions(parsedInches!);
+		parsedCentimeters = convertDimensions(parsedInches!, (value) => value * 2.54);
 	}
 
 	let pounds = rawAirline.pounds ?? undefined;
@@ -35,9 +35,9 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		pounds = convertWeight(kilograms, true);
 	}
 
-	const testResult =
-		allowanceConsistencyResults[rawAirline.airline as keyof typeof allowanceConsistencyResults];
-	const parsedTestResult = testResult ? getLastTest(testResult as TestResults) : undefined;
+	const parsedTestResult = getLastTest(
+		allowanceConsistencyResults[rawAirline.airline as keyof typeof allowanceConsistencyResults]
+	);
 
 	return {
 		airline: rawAirline.airline,
@@ -51,17 +51,13 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 	};
 }
 
-function getLastTest(result: TestResults): { lastTest: Date; success: boolean } | undefined {
-	if (!result.lastTestPass && !result.lastTestFail) {
+function getLastTest(result?: TestResult): { lastTest: Date; success: boolean } | undefined {
+	if (!result?.lastTestPass && !result?.lastTestFail) {
 		return undefined;
 	}
 
-	const lastTestPass = result.testResult?.lastTestPass
-		? new Date(result.testResult.lastTestPass)
-		: undefined;
-	const lastTestFail = result.testResult?.lastTestFail
-		? new Date(result.testResult.lastTestFail)
-		: undefined;
+	const lastTestPass = result?.lastTestPass ? new Date(result.lastTestPass) : undefined;
+	const lastTestFail = result?.lastTestFail ? new Date(result.lastTestFail) : undefined;
 
 	const lastTest = [lastTestPass, lastTestFail]
 		.filter(Boolean)
@@ -76,11 +72,14 @@ function getDimensions(dimensions: number | number[]): number | number[] {
 	return dimensions.sort((a, b) => b - a);
 }
 
-function convertDimensions(dimensions: number | number[]): number | number[] {
+function convertDimensions(
+	dimensions: number | number[],
+	func: (value: number) => number
+): number | number[] {
 	if (typeof dimensions === 'number') {
-		return Math.round(dimensions / 2.54);
+		return Math.round(func(dimensions));
 	}
-	return dimensions.map((value) => Math.round(value / 2.54));
+	return dimensions.map((value) => Math.round(func(value)));
 }
 
 function convertWeight(value: number, fromKg: boolean): number {

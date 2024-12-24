@@ -26,8 +26,10 @@ export interface DimensionsCheck {
 }
 
 export type TestResults = {
-	[airline: string]: {
-		lastTestPass?: string;
-		lastTestFail?: string;
-	};
+	[airline: string]: TestResult;
+};
+
+export type TestResult = {
+	lastTestPass?: string;
+	lastTestFail?: string;
 };
