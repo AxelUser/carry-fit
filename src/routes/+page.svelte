@@ -101,8 +101,16 @@
 						>
 					</p>
 					<div class="mb-2">
-						Found an error? You can:
+						Found an error or have a feature suggestion? You can:
 						<ul class="ml-2 list-inside list-disc">
+							<li>
+								Create an issue or submit a pull request on <a
+									href="https://github.com/AxelUser/carry-fit"
+									class="text-blue-600 hover:text-blue-800 hover:underline"
+									target="_blank"
+									rel="noopener noreferrer">GitHub</a
+								>
+							</li>
 							<li>
 								Email me at <a
 									href="mailto:alexey.maltsev.work@gmail.com"
@@ -116,14 +124,6 @@
 									class="text-blue-600 hover:text-blue-800 hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">X (Twitter)</a
-								>
-							</li>
-							<li>
-								Submit a pull request on <a
-									href="https://github.com/AxelUser/carry-fit"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									target="_blank"
-									rel="noopener noreferrer">GitHub</a
 								>
 							</li>
 						</ul>
@@ -140,8 +140,9 @@
 					<div class="ml-3 text-sm leading-relaxed text-yellow-700">
 						<p>
 							Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically
-							tested for updates, but the allowances may still not be accurate due to bugs. Especially
-							airlines that are not covered by tests. Always verify the requirements yourself.
+							tested for policy updates, but not in real-time. Policies may change between checks, and
+							unmarked airlines are not monitored. Always verify requirements on the airline's website
+							before traveling.
 						</p>
 					</div>
 				</div>
@@ -217,47 +218,53 @@
 </div>
 
 {#snippet bagInput()}
-	<div class="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-		<div>
-			<label for="length" class="mb-1 block text-sm font-medium text-gray-700">Length</label>
-			<input
-				type="number"
-				id="length"
-				bind:value={userDimensions.length}
-				class="w-full rounded border-gray-300 text-sm"
-				min="0"
-			/>
-		</div>
-		<div>
-			<label for="width" class="mb-1 block text-sm font-medium text-gray-700">Width</label>
-			<input
-				type="number"
-				id="width"
-				bind:value={userDimensions.width}
-				class="w-full rounded border-gray-300 text-sm"
-				min="0"
-			/>
-		</div>
-		<div>
-			<label for="height" class="mb-1 block text-sm font-medium text-gray-700">Height</label>
-			<input
-				type="number"
-				id="height"
-				bind:value={userDimensions.height}
-				class="w-full rounded border-gray-300 text-sm"
-				min="0"
-			/>
-		</div>
-		<div>
-			<label for="unit" class="mb-1 block text-sm font-medium text-gray-700">Unit</label>
-			<select
-				id="unit"
-				bind:value={userDimensions.unit}
-				class="w-full rounded border-gray-300 text-sm"
-			>
-				<option value="cm">Centimeters</option>
-				<option value="in">Inches</option>
-			</select>
+	<div class="mb-4">
+		<p class="mb-2 text-sm text-gray-600">
+			Enter your bag's dimensions. The order doesn't matter - we'll automatically sort them to find
+			the best fit.
+		</p>
+		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+			<div>
+				<label for="height" class="mb-1 block text-sm font-medium text-gray-700">Height</label>
+				<input
+					type="number"
+					id="height"
+					bind:value={userDimensions.height}
+					class="w-full rounded border-gray-300 text-sm"
+					min="0"
+				/>
+			</div>
+			<div>
+				<label for="width" class="mb-1 block text-sm font-medium text-gray-700">Width</label>
+				<input
+					type="number"
+					id="width"
+					bind:value={userDimensions.width}
+					class="w-full rounded border-gray-300 text-sm"
+					min="0"
+				/>
+			</div>
+			<div>
+				<label for="depth" class="mb-1 block text-sm font-medium text-gray-700">Depth</label>
+				<input
+					type="number"
+					id="depth"
+					bind:value={userDimensions.length}
+					class="w-full rounded border-gray-300 text-sm"
+					min="0"
+				/>
+			</div>
+			<div>
+				<label for="unit" class="mb-1 block text-sm font-medium text-gray-700">Unit</label>
+				<select
+					id="unit"
+					bind:value={userDimensions.unit}
+					class="w-full rounded border-gray-300 text-sm"
+				>
+					<option value="cm">Centimeters</option>
+					<option value="in">Inches</option>
+				</select>
+			</div>
 		</div>
 	</div>
 {/snippet}
