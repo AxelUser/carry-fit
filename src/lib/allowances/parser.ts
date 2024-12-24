@@ -1,5 +1,6 @@
-import type { Airline } from '$lib/types';
+import type { Airline, TestResults } from '$lib/types';
 import rawAirlinesJson from '$lib/allowances/carry-on-limits.json';
+import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 type AirlineData = (typeof rawAirlinesJson)[number];
 
 export function getAirlineAllowances(): Airline[] {
@@ -34,7 +35,9 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		pounds = convertWeight(kilograms, true);
 	}
 
-	const parsedTestResult = getLastTest(rawAirline);
+	const testResult =
+		allowanceConsistencyResults[rawAirline.airline as keyof typeof allowanceConsistencyResults];
+	const parsedTestResult = testResult ? getLastTest(testResult as TestResults) : undefined;
 
 	return {
 		airline: rawAirline.airline,
@@ -48,16 +51,16 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 	};
 }
 
-function getLastTest(rawAirline: AirlineData): { lastTest: Date; success: boolean } | undefined {
-	if (!rawAirline.testResult) {
+function getLastTest(result: TestResults): { lastTest: Date; success: boolean } | undefined {
+	if (!result.lastTestPass && !result.lastTestFail) {
 		return undefined;
 	}
 
-	const lastTestPass = rawAirline.testResult?.lastTestPass
-		? new Date(rawAirline.testResult.lastTestPass)
+	const lastTestPass = result.testResult?.lastTestPass
+		? new Date(result.testResult.lastTestPass)
 		: undefined;
-	const lastTestFail = rawAirline.testResult?.lastTestFail
-		? new Date(rawAirline.testResult.lastTestFail)
+	const lastTestFail = result.testResult?.lastTestFail
+		? new Date(result.testResult.lastTestFail)
 		: undefined;
 
 	const lastTest = [lastTestPass, lastTestFail]

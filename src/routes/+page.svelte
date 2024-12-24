@@ -4,7 +4,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import RegionFilter from '$lib/components/main/region-filter.svelte';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
-	import type { Airline, DimensionsCheck, UserDimensions } from '$lib/types';
+	import type { Airline, UserDimensions } from '$lib/types';
 
 	const airlineData = getAirlineAllowances();
 

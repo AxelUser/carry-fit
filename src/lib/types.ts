@@ -24,3 +24,10 @@ export interface DimensionsCheck {
 	width: boolean;
 	height: boolean;
 }
+
+export type TestResults = {
+	[airline: string]: {
+		lastTestPass?: string;
+		lastTestFail?: string;
+	};
+};
