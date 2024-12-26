@@ -26,7 +26,13 @@
 <div class="mb-6">
 	<div class="mb-4">
 		<h3 class="text-lg font-semibold text-sky-900">Filter by Region</h3>
-		<p class="text-sm text-sky-600">Select the regions you want to check your luggage against</p>
+		<p class="text-sm text-sky-600">
+			{#if selectedRegions.size === 0}
+				Choose regions to start comparing
+			{:else}
+				Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
+			{/if}
+		</p>
 	</div>
 
 	<div class="flex flex-wrap items-center gap-3">

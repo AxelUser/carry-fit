@@ -212,7 +212,12 @@
 
 				<div class="overflow-x-auto rounded-lg">
 					{#if selectedRegions.size === 0}
-						<div class="py-8 text-center text-sky-500">Please select a region</div>
+						<div class="w-full py-8 text-center">
+							<p class="text-2xl font-medium text-sky-300">✈️ Ready to check your carry-on?</p>
+							<p class="mt-2 text-lg text-sky-400">
+								Select regions to see which airlines will accept your bag
+							</p>
+						</div>
 					{:else}
 						<table class="w-full">
 							<thead>
@@ -242,10 +247,6 @@
 {#snippet bagInput()}
 	<div class="mb-4">
 		<h2 class="mb-4 text-center text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
-		<p class="mb-4 text-sm text-sky-700">
-			Enter your bag's dimensions. The order doesn't matter - we'll automatically sort them to find
-			the best fit.
-		</p>
 		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
@@ -289,8 +290,9 @@
 				</select>
 			</div>
 		</div>
-		<div class="mt-4 text-center text-xs text-sky-600">
-			All dimensions will be automatically sorted to maximize compatibility
+		<div class="mx-auto mt-4 h-px w-32 bg-sky-100" />
+		<div class="mt-4 text-center text-sm font-medium text-sky-700">
+			Don't worry about the order - we'll find the best fit
 		</div>
 	</div>
 {/snippet}
