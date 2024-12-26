@@ -5,6 +5,7 @@
 	import RegionFilter from '$lib/components/main/region-filter.svelte';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
 	import type { Airline, UserDimensions } from '$lib/types';
+	import CarryOnChecked from '$lib/components/icons/carry-on-checked.svelte';
 
 	const airlineData = getAirlineAllowances();
 
@@ -83,7 +84,9 @@
 					>
 						CarryFit
 					</span>
-					<span class="ml-2 inline-block animate-bounce text-5xl">✈️</span>
+					<span class="ml-2 inline-flex translate-y-2">
+						<CarryOnChecked class="h-16 w-16" />
+					</span>
 				</h1>
 				<p class="text-xl font-medium text-sky-900">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"

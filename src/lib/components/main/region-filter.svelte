@@ -50,7 +50,7 @@
 		{#each regions as region}
 			{@const isSelected = selectedRegions.has(region)}
 			<button
-				class="group relative transform rounded-full px-4 py-2 text-sm font-medium transition-transform duration-200 ease-out hover:scale-105
+				class="transform rounded-full px-4 py-2 text-sm font-medium transition-transform duration-200 ease-out hover:scale-105
                     {isSelected
 					? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md'
 					: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
