@@ -205,8 +205,8 @@
 				<div class="overflow-x-auto rounded-lg">
 					{#if selectedRegions.size === 0}
 						<div class="w-full py-8 text-center">
-							<p class="text-2xl font-medium text-sky-300">✈️ Ready to check your carry-on?</p>
-							<p class="mt-2 text-lg text-sky-400">
+							<p class="text-2xl font-medium text-sky-600">✈️ Ready to check your carry-on?</p>
+							<p class="mt-2 text-lg text-sky-500">
 								Select regions to see which airlines will accept your bag
 							</p>
 						</div>
