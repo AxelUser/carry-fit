@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" {...$$props}>
+<script lang="ts">
+	let allProps = $props();
+</script>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" {...allProps}>
 	<g
 		fill="none"
 		stroke="currentColor"
