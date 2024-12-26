@@ -1,0 +1,9 @@
+# https://carryon.fit
+User-agent: *
+Allow: /
+
+# Host
+Host: https://carryon.fit
+
+# Cache time
+Crawl-delay: 10 
