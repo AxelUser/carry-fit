@@ -242,9 +242,10 @@
 				<input
 					type="number"
 					id="height"
-					bind:value={userDimensions.height}
+					value={userDimensions.height}
+					oninput={(e) => (userDimensions.height = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
@@ -252,9 +253,10 @@
 				<input
 					type="number"
 					id="width"
-					bind:value={userDimensions.width}
+					value={userDimensions.width}
+					oninput={(e) => (userDimensions.width = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
@@ -262,9 +264,10 @@
 				<input
 					type="number"
 					id="depth"
-					bind:value={userDimensions.length}
+					value={userDimensions.length}
+					oninput={(e) => (userDimensions.length = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
