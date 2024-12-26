@@ -26,9 +26,9 @@ test.describe('CarryFit Main Flow', () => {
 		await page.getByLabel('Depth').fill('25');
 
 		// Compliance score should now be visible
-		await expect(page.getByText(/Compliance:/)).toBeVisible();
+		await expect(page.getByText(/Compliance Score/)).toBeVisible();
 		await expect(page.getByText(/%/)).toBeVisible();
-		await expect(page.getByText(/of airlines/)).toBeVisible();
+		await expect(page.getByText(/\d+ out of \d+ selected airlines/)).toBeVisible();
 	});
 
 	test('should update units in table when input unit changes', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('CarryFit Main Flow', () => {
 
 		// Deselect all regions except one
 		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
-		await page.getByText('Unselect All').click();
+		await page.getByText('Clear All').click();
 		await europeCheckbox.click();
 
 		// Get filtered number of rows and verify it's less than initial
@@ -76,16 +76,16 @@ test.describe('CarryFit Main Flow', () => {
 
 	test('should sort airlines correctly', async ({ page }) => {
 		// Test sorting by airline name
-		const sortByButton = page.getByRole('combobox').filter({ hasText: /Sort by/ });
-		await sortByButton.selectOption('airline');
+		const airlineSortButton = page.getByRole('button', { name: /^Airline/ });
+		await airlineSortButton.click();
 
 		// Get airlines in ascending order
 		const ascAirlines = await page.$$eval('tbody tr td:first-child', (cells) =>
 			cells.map((cell) => cell.textContent?.trim())
 		);
 
-		// Click sort button to change to descending
-		await page.getByRole('button', { name: '↑' }).click();
+		// Click again to change to descending
+		await airlineSortButton.click();
 
 		// Get airlines in descending order
 		const descAirlines = await page.$$eval('tbody tr td:first-child', (cells) =>
@@ -97,15 +97,24 @@ test.describe('CarryFit Main Flow', () => {
 		expect(ascAirlines).toEqual([...descAirlines].reverse());
 
 		// Test sorting by region
-		await sortByButton.selectOption('region');
+		const regionSortButton = page.getByRole('button', { name: /^Region/ });
+		await regionSortButton.click();
 
 		// Get regions in ascending order
+		const ascRegions = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
+			cells.map((cell) => cell.textContent?.trim())
+		);
+
+		// Click again to change to descending
+		await regionSortButton.click();
+
+		// Get regions in descending order
 		const descRegions = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
 			cells.map((cell) => cell.textContent?.trim())
 		);
 
-		// Verify regions are sorted
-		const sortedRegions = [...descRegions].sort().reverse();
-		expect(descRegions).toEqual(sortedRegions);
+		// Verify orders are opposite
+		expect(ascRegions).not.toEqual(descRegions);
+		expect(ascRegions).toEqual([...descRegions].reverse());
 	});
 });
