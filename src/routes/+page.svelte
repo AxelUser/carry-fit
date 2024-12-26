@@ -6,6 +6,8 @@
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
 	import type { Airline, UserDimensions } from '$lib/types';
 	import CarryOnChecked from '$lib/components/icons/carry-on-checked.svelte';
+	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
+	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
 
 	const airlineData = getAirlineAllowances();
 
@@ -193,23 +195,6 @@
 			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm">
 				<RegionFilter {regions} bind:selectedRegions />
 
-				<div class="mb-4 flex flex-wrap items-center gap-2">
-					<select bind:value={sortBy} class="rounded-lg border-sky-200 bg-sky-50 py-2">
-						{#each SORT_OPTIONS as option}
-							<option value={option}>Sort by {option}</option>
-						{/each}
-					</select>
-
-					<button
-						on:click={() =>
-							(sortDirection =
-								sortDirection === SORT_DIRECTIONS[0] ? SORT_DIRECTIONS[1] : SORT_DIRECTIONS[0])}
-						class="rounded-lg bg-sky-100 px-4 py-2 text-sky-700 hover:bg-sky-200"
-					>
-						{sortDirection === SORT_DIRECTIONS[0] ? '↑' : '↓'}
-					</button>
-				</div>
-
 				<div class="overflow-x-auto rounded-lg">
 					{#if selectedRegions.size === 0}
 						<div class="w-full py-8 text-center">
@@ -222,8 +207,50 @@
 						<table class="w-full">
 							<thead>
 								<tr class="bg-sky-50">
-									<th class="p-3 text-left text-sky-900" role="columnheader">Airline</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Region</th>
+									<th class="p-3 text-left text-sky-900" role="columnheader">
+										<button
+											class="flex items-center gap-2 font-semibold hover:text-sky-700"
+											on:click={() => {
+												if (sortBy === 'airline') {
+													sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+												} else {
+													sortBy = 'airline';
+													sortDirection = 'asc';
+												}
+											}}
+										>
+											Airline
+											{#if sortBy === 'airline'}
+												{#if sortDirection === 'asc'}
+													<SortTextAsc class="h-5 w-5" />
+												{:else}
+													<SortTextDesc class="h-5 w-5" />
+												{/if}
+											{/if}
+										</button>
+									</th>
+									<th class="p-3 text-left text-sky-900" role="columnheader">
+										<button
+											class="flex items-center gap-2 font-semibold hover:text-sky-700"
+											on:click={() => {
+												if (sortBy === 'region') {
+													sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+												} else {
+													sortBy = 'region';
+													sortDirection = 'asc';
+												}
+											}}
+										>
+											Region
+											{#if sortBy === 'region'}
+												{#if sortDirection === 'asc'}
+													<SortTextAsc class="h-5 w-5" />
+												{:else}
+													<SortTextDesc class="h-5 w-5" />
+												{/if}
+											{/if}
+										</button>
+									</th>
 									<th class="p-3 text-left text-sky-900" role="columnheader">
 										Dimensions ({userDimensions.unit})
 									</th>
