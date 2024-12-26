@@ -96,71 +96,40 @@
 
 			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
 				<div class="mx-auto mb-8 max-w-2xl lg:mx-0 lg:mb-0 lg:flex-1">
-					<div
-						class="mb-4 rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm"
+					<details
+						class="group mb-4 overflow-hidden rounded-xl bg-white/95 shadow-xl ring-1 ring-sky-100 lg:hidden"
 					>
-						<p class="mb-4 leading-relaxed text-sky-900">
-							This tool helps you check if your carry-on luggage meets the size requirements for
-							different airlines worldwide. Enter your bag's dimensions, and we'll show you which
-							airlines will accept it as cabin baggage.
-						</p>
-						<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
-							<p class="mb-2">
-								Created by <a
-									href="https://www.maltsev.space/"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									target="_blank"
-									rel="noopener noreferrer">Aleksey Maltsev</a
-								>
-							</p>
-							<div class="mb-2">
-								Found an error or have a feature suggestion? You can:
-								<ul class="ml-2 list-inside list-disc">
-									<li>
-										Create an issue or submit a pull request on <a
-											href="https://github.com/AxelUser/carry-fit"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											target="_blank"
-											rel="noopener noreferrer">GitHub</a
-										>
-									</li>
-									<li>
-										Email me at <a
-											href="mailto:alexey.maltsev.work@gmail.com"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											>alexey.maltsev.work@gmail.com</a
-										>
-									</li>
-									<li>
-										Contact me on <a
-											href="https://x.com/axel_user"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											target="_blank"
-											rel="noopener noreferrer">X (Twitter)</a
-										>
-									</li>
-								</ul>
-							</div>
+						<summary class="cursor-pointer p-4 font-medium text-sky-900 hover:bg-sky-50">
+							About CarryFit
+						</summary>
+						<div class="border-t border-sky-100 p-6 pt-4">
+							{@render aboutContent()}
 						</div>
+					</details>
+
+					<div
+						class="mb-4 hidden rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm lg:block"
+					>
+						{@render aboutContent()}
 					</div>
 
-					<div
-						class="rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md backdrop-blur-sm"
+					<details
+						class="group overflow-hidden rounded-xl bg-amber-50/90 shadow-md ring-1 ring-amber-200 lg:hidden"
 					>
-						<div class="flex items-start">
-							<div class="mt-0.5 flex-shrink-0">
-								<Alert class="h-5 w-5 text-amber-400" />
-							</div>
-
-							<div class="ml-3 text-sm leading-relaxed text-amber-700">
-								<p>
-									Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically
-									tested for policy updates, but not in real-time. Policies may change between checks,
-									and unmarked airlines are not monitored. Always verify requirements on the airline's
-									website before traveling.
-								</p>
-							</div>
+						<summary
+							class="cursor-pointer border-l-4 border-amber-400 p-4 font-medium text-amber-700 hover:bg-amber-100/90"
+						>
+							Can I trust this tool?
+						</summary>
+						<div class="border-l-4 border-t border-amber-200 border-l-amber-400 p-5 pt-3">
+							{@render warningContent()}
 						</div>
+					</details>
+
+					<div
+						class="hidden rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md backdrop-blur-sm lg:block"
+					>
+						{@render warningContent()}
 					</div>
 				</div>
 
@@ -366,4 +335,66 @@
 			{/if}
 		</td>
 	</tr>
+{/snippet}
+
+{#snippet aboutContent()}
+	<p class="mb-4 leading-relaxed text-sky-900">
+		This tool helps you check if your carry-on luggage meets the size requirements for different
+		airlines worldwide. Enter your bag's dimensions, and we'll show you which airlines will accept
+		it as cabin baggage.
+	</p>
+	<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
+		<p class="mb-2">
+			Created by <a
+				href="https://www.maltsev.space/"
+				class="text-blue-600 hover:text-blue-800 hover:underline"
+				target="_blank"
+				rel="noopener noreferrer">Aleksey Maltsev</a
+			>
+		</p>
+		<div class="mb-2">
+			Found an error or have a feature suggestion? You can:
+			<ul class="ml-2 list-inside list-disc">
+				<li>
+					Create an issue or submit a pull request on <a
+						href="https://github.com/AxelUser/carry-fit"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						target="_blank"
+						rel="noopener noreferrer">GitHub</a
+					>
+				</li>
+				<li>
+					Email me at <a
+						href="mailto:alexey.maltsev.work@gmail.com"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						>alexey.maltsev.work@gmail.com</a
+					>
+				</li>
+				<li>
+					Contact me on <a
+						href="https://x.com/axel_user"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						target="_blank"
+						rel="noopener noreferrer">X (Twitter)</a
+					>
+				</li>
+			</ul>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet warningContent()}
+	<div class="flex items-start">
+		<div class="mt-0.5 flex-shrink-0">
+			<Alert class="h-5 w-5 text-amber-400" />
+		</div>
+
+		<div class="ml-3 text-sm leading-relaxed text-amber-700">
+			<p>
+				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically tested
+				for policy updates, but not in real-time. Policies may change between checks, and unmarked airlines
+				are not monitored. Always verify requirements on the airline's website before traveling.
+			</p>
+		</div>
+	</div>
 {/snippet}
