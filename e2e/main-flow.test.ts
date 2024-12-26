@@ -95,26 +95,5 @@ test.describe('CarryFit Main Flow', () => {
 		// Verify orders are opposite
 		expect(ascAirlines).not.toEqual(descAirlines);
 		expect(ascAirlines).toEqual([...descAirlines].reverse());
-
-		// Test sorting by region
-		const regionSortButton = page.getByRole('button', { name: /^Region/ });
-		await regionSortButton.click();
-
-		// Get regions in ascending order
-		const ascRegions = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
-			cells.map((cell) => cell.textContent?.trim())
-		);
-
-		// Click again to change to descending
-		await regionSortButton.click();
-
-		// Get regions in descending order
-		const descRegions = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
-			cells.map((cell) => cell.textContent?.trim())
-		);
-
-		// Verify orders are opposite
-		expect(ascRegions).not.toEqual(descRegions);
-		expect(ascRegions).toEqual([...descRegions].reverse());
 	});
 });

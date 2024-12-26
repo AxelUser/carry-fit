@@ -11,9 +11,7 @@
 
 	const airlineData = getAirlineAllowances();
 
-	const SORT_OPTIONS = ['airline', 'region'] as const;
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
-	type SortOption = (typeof SORT_OPTIONS)[number];
 	type SortDirection = (typeof SORT_DIRECTIONS)[number];
 
 	let userDimensions: UserDimensions = {
@@ -23,7 +21,6 @@
 		unit: 'cm'
 	};
 
-	let sortBy: SortOption = SORT_OPTIONS[0];
 	let sortDirection: SortDirection = SORT_DIRECTIONS[0];
 
 	let filteredAirlines = airlineData;
@@ -38,7 +35,7 @@
 			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
-				return (a[sortBy] as string).localeCompare(b[sortBy] as string) * direction;
+				return a.airline.localeCompare(b.airline) * direction;
 			});
 
 		if (userDimensions.length && userDimensions.width && userDimensions.height) {
@@ -211,46 +208,18 @@
 										<button
 											class="flex items-center gap-2 font-semibold hover:text-sky-700"
 											on:click={() => {
-												if (sortBy === 'airline') {
-													sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-												} else {
-													sortBy = 'airline';
-													sortDirection = 'asc';
-												}
+												sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
 											}}
 										>
 											Airline
-											{#if sortBy === 'airline'}
-												{#if sortDirection === 'asc'}
-													<SortTextAsc class="h-5 w-5" />
-												{:else}
-													<SortTextDesc class="h-5 w-5" />
-												{/if}
+											{#if sortDirection === 'asc'}
+												<SortTextAsc class="h-5 w-5" />
+											{:else}
+												<SortTextDesc class="h-5 w-5" />
 											{/if}
 										</button>
 									</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">
-										<button
-											class="flex items-center gap-2 font-semibold hover:text-sky-700"
-											on:click={() => {
-												if (sortBy === 'region') {
-													sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-												} else {
-													sortBy = 'region';
-													sortDirection = 'asc';
-												}
-											}}
-										>
-											Region
-											{#if sortBy === 'region'}
-												{#if sortDirection === 'asc'}
-													<SortTextAsc class="h-5 w-5" />
-												{:else}
-													<SortTextDesc class="h-5 w-5" />
-												{/if}
-											{/if}
-										</button>
-									</th>
+									<th class="p-3 text-left text-sky-900" role="columnheader">Region</th>
 									<th class="p-3 text-left text-sky-900" role="columnheader">
 										Dimensions ({userDimensions.unit})
 									</th>
