@@ -1,7 +1,3 @@
-<script lang="ts">
-	import CarryOnChecked from './icons/carry-on-checked.svelte';
-</script>
-
 <div
 	class="flex h-[630px] w-[1200px] flex-col items-center justify-center bg-gradient-to-br from-sky-50 to-white p-16"
 >
