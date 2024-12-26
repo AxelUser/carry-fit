@@ -169,19 +169,29 @@
 						{@render bagInput()}
 
 						{#if userDimensions.length && userDimensions.width && userDimensions.height}
-							<div class="mt-6 text-center">
-								<div class="mb-2 text-sm font-medium text-sky-700">Compliance Score</div>
-								<span
-									class={compliancePercentage <= 60
-										? 'text-red-600'
+							<div class="mt-6">
+								<div
+									class="rounded-xl border-2 p-6 text-center shadow-sm
+									{compliancePercentage <= 60
+										? 'border-red-200 bg-red-50'
 										: compliancePercentage <= 80
-											? 'text-amber-600'
-											: 'text-emerald-600'}
+											? 'border-amber-200 bg-amber-50'
+											: 'border-emerald-200 bg-emerald-50'}"
 								>
-									{compliancePercentage.toFixed(1)}%
-								</span>
-								<div class="mt-2 text-sm text-sky-600">
-									({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
+									<div class="mb-3 text-sm font-medium text-sky-700">Compliance Score</div>
+									<div
+										class="mb-2 text-4xl font-bold tracking-tight
+										{compliancePercentage <= 60
+											? 'text-red-600'
+											: compliancePercentage <= 80
+												? 'text-amber-600'
+												: 'text-emerald-600'}"
+									>
+										{compliancePercentage.toFixed(1)}%
+									</div>
+									<div class="text-sm text-sky-600">
+										({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
+									</div>
 								</div>
 							</div>
 						{/if}
