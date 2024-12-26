@@ -274,7 +274,7 @@
 {#snippet bagInput()}
 	<div class="mb-4">
 		<h2 class="mb-4 text-center text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
-		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+		<div class="grid grid-cols-2 gap-4 border-b border-sky-100 pb-4 sm:grid-cols-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
 				<input
@@ -317,7 +317,6 @@
 				</select>
 			</div>
 		</div>
-		<div class="mx-auto mt-4 h-px w-32 bg-sky-100" />
 		<div class="mt-4 text-center text-sm font-medium text-sky-700">
 			Don't worry about the order - we'll find the best fit
 		</div>
