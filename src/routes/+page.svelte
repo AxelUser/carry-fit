@@ -92,7 +92,7 @@
 				</h1>
 				<p class="text-xl font-medium text-sky-900">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
-						>{filteredAirlines.length}</span
+						>{airlineData.length}</span
 					> airlines worldwide
 				</p>
 			</div>
