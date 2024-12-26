@@ -29,6 +29,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+
+      - name: Generate OG Image
+        run: pnpm run generate-og
+
       - name: Build
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
