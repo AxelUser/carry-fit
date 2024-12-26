@@ -14,7 +14,8 @@
 		"test:e2e": "playwright test --grep-invert @manual",
 		"test:allowance": "playwright test --grep @manual",
 		"test": "pnpm run test:e2e && pnpm run test:unit",
-		"test:unit": "vitest run"
+		"test:unit": "vitest run",
+		"generate-og": "node scripts/generate-og-image.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
