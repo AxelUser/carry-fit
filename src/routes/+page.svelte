@@ -279,61 +279,71 @@
 {#snippet airlinesTable()}
 	{#if userDimensions.length && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
-			<div class="mb-6">
-				<h3 class="mb-3 text-lg font-semibold text-emerald-700">
-					✅ Compliant Airlines ({compliantAirlines.length})
-				</h3>
-				<div class="overflow-hidden rounded-lg border border-emerald-200">
-					<table class="w-full">
-						<thead>
-							<tr class="bg-emerald-50">
-								{@render tableHeader()}
-							</tr>
-						</thead>
-						<tbody>
-							{#each compliantAirlines as airline}
-								{@render airlineAllowanceRow(airline)}
-							{/each}
-						</tbody>
-					</table>
+			<details class="group mb-6" open>
+				<summary class="mb-3 cursor-pointer">
+					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
+						✅ Compliant Airlines ({compliantAirlines.length})
+					</h3>
+				</summary>
+				<div class="rounded-lg border border-emerald-200">
+					<div class="overflow-x-auto">
+						<table class="w-full">
+							<thead>
+								<tr class="bg-emerald-50">
+									{@render tableHeader()}
+								</tr>
+							</thead>
+							<tbody>
+								{#each compliantAirlines as airline}
+									{@render airlineAllowanceRow(airline)}
+								{/each}
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
+			</details>
 		{/if}
 
 		{#if nonCompliantAirlines.length > 0}
-			<div>
-				<h3 class="mb-3 text-lg font-semibold text-red-700">
-					❌ Non-Compliant Airlines ({nonCompliantAirlines.length})
-				</h3>
-				<div class="overflow-hidden rounded-lg border border-red-200">
-					<table class="w-full">
-						<thead>
-							<tr class="bg-red-50">
-								{@render tableHeader()}
-							</tr>
-						</thead>
-						<tbody>
-							{#each nonCompliantAirlines as airline}
-								{@render airlineAllowanceRow(airline)}
-							{/each}
-						</tbody>
-					</table>
+			<details class="group" open>
+				<summary class="mb-3 cursor-pointer">
+					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
+						❌ Non-Compliant Airlines ({nonCompliantAirlines.length})
+					</h3>
+				</summary>
+				<div class="rounded-lg border border-red-200">
+					<div class="overflow-x-auto">
+						<table class="w-full">
+							<thead>
+								<tr class="bg-red-50">
+									{@render tableHeader()}
+								</tr>
+							</thead>
+							<tbody>
+								{#each nonCompliantAirlines as airline}
+									{@render airlineAllowanceRow(airline)}
+								{/each}
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
+			</details>
 		{/if}
 	{:else}
-		<table class="w-full">
-			<thead>
-				<tr class="bg-sky-50">
-					{@render tableHeader()}
-				</tr>
-			</thead>
-			<tbody>
-				{#each filteredAirlines as airline}
-					{@render airlineAllowanceRow(airline)}
-				{/each}
-			</tbody>
-		</table>
+		<div class="overflow-x-auto">
+			<table class="w-full">
+				<thead>
+					<tr class="bg-sky-50">
+						{@render tableHeader()}
+					</tr>
+				</thead>
+				<tbody>
+					{#each filteredAirlines as airline}
+						{@render airlineAllowanceRow(airline)}
+					{/each}
+				</tbody>
+			</table>
+		</div>
 	{/if}
 {/snippet}
 
