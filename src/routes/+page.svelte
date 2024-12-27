@@ -6,9 +6,13 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
 	import type { Airline, UserDimensions } from '$lib/types';
-	import CarryOnChecked from '$lib/components/icons/carry-on-checked.svelte';
+	import LogoIcon from '$lib/components/icons/logo.svelte';
 	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
 	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
+	import CarryOnBagChecked from '$lib/components/icons/carry-on-bag-checked-outline.svelte';
+	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
+	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
+	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 
 	const airlineData = getAirlineAllowances();
 
@@ -17,7 +21,6 @@
 
 	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
 
-	// Convert state to runes
 	let selectedRegions = $state(new Set(regions));
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
 	const userDimensions = $state<UserDimensions>({
@@ -27,7 +30,17 @@
 		unit: 'cm'
 	});
 
-	// Derived state using $derived
+	let innerWidth = $state(0);
+	let isLargeScreen = $derived(innerWidth >= 640);
+
+	let isCompliantOpen = $state(false);
+	let isNonCompliantOpen = $state(false);
+
+	$effect(() => {
+		isCompliantOpen = isLargeScreen;
+		isNonCompliantOpen = isLargeScreen;
+	});
+
 	const filteredAirlines = $derived(
 		airlineData
 			.filter((airline) => selectedRegions.has(airline.region))
@@ -45,7 +58,20 @@
 						userDimensions.width,
 						userDimensions.height
 					]);
-					return compliance?.every(Boolean) ?? false;
+					return !!compliance?.every(Boolean);
+				})
+			: []
+	);
+
+	const nonCompliantAirlines = $derived(
+		userDimensions.length && userDimensions.width && userDimensions.height
+			? filteredAirlines.filter((airline) => {
+					const compliance = checkCompliance(getAirlineDimensions(airline), [
+						userDimensions.length,
+						userDimensions.width,
+						userDimensions.height
+					]);
+					return !compliance?.every(Boolean);
 				})
 			: []
 	);
@@ -89,6 +115,8 @@
 	}
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
 		<div class="mx-auto md:container">
@@ -100,7 +128,7 @@
 						CarryFit
 					</span>
 					<span class="ml-0 inline-flex translate-y-2">
-						<CarryOnChecked class="h-12 w-12 sm:h-16 sm:w-16" />
+						<LogoIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
 				<p class="text-lg font-medium text-sky-900 sm:text-xl">
@@ -163,7 +191,7 @@
 											? 'border-amber-200 bg-amber-50'
 											: 'border-emerald-200 bg-emerald-50'}"
 								>
-									<div class="mb-3 text-xs font-medium text-sky-700 sm:text-sm">
+									<div class="mb-3 text-sm font-medium text-sky-700 sm:text-base">
 										Compliance Score
 									</div>
 									<div
@@ -264,40 +292,120 @@
 {/snippet}
 
 {#snippet airlinesTable()}
-	<table class="w-full">
-		<thead>
-			<tr class="bg-sky-50">
-				<th role="columnheader"></th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-					<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
-						Airline
-						{#if sortDirection === 'asc'}
-							<SortTextAsc class="h-5 w-5" />
-						{:else}
-							<SortTextDesc class="h-5 w-5" />
-						{/if}
-					</button>
-				</th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Region</th
-				>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-					Dimensions ({userDimensions.unit})
-				</th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Weight Limit</th
-				>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Policy</th
-				>
-			</tr>
-		</thead>
-		<tbody>
-			{#each filteredAirlines as airline}
-				{@render airlineAllowanceRow(airline)}
-			{/each}
-		</tbody>
-	</table>
+	{#if userDimensions.length && userDimensions.width && userDimensions.height}
+		{#if compliantAirlines.length > 0}
+			<details class="group mb-6" bind:open={isCompliantOpen}>
+				<summary class="mb-3 cursor-pointer list-none">
+					<div class="flex items-center gap-2">
+						<div class="translate-y-[1px] text-emerald-700">
+							{#if isCompliantOpen}
+								<ChevronsDownUp class="h-5 w-5" />
+							{:else}
+								<ChevronsUpDown class="h-5 w-5" />
+							{/if}
+						</div>
+						<h3
+							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
+						>
+							<CarryOnBagChecked class="h-6 w-6" />
+							Compliant Airlines ({compliantAirlines.length})
+						</h3>
+					</div>
+				</summary>
+				<div class="rounded-lg border border-emerald-200">
+					<div class="overflow-x-auto">
+						<table class="w-full">
+							<thead>
+								<tr class="bg-emerald-50">
+									{@render tableHeader()}
+								</tr>
+							</thead>
+							<tbody>
+								{#each compliantAirlines as airline}
+									{@render airlineAllowanceRow(airline)}
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</details>
+		{/if}
+
+		{#if nonCompliantAirlines.length > 0}
+			<details class="group" bind:open={isNonCompliantOpen}>
+				<summary class="mb-3 cursor-pointer list-none">
+					<div class="flex items-center gap-2">
+						<div class="translate-y-[1px] text-red-700">
+							{#if isNonCompliantOpen}
+								<ChevronsDownUp class="h-5 w-5" />
+							{:else}
+								<ChevronsUpDown class="h-5 w-5" />
+							{/if}
+						</div>
+						<h3
+							class="text-md inline-flex items-center gap-2 font-semibold text-red-700 sm:text-lg"
+						>
+							<CarryOnBagInactive class="h-6 w-6" />
+							Non-Compliant Airlines ({nonCompliantAirlines.length})
+						</h3>
+					</div>
+				</summary>
+				<div class="rounded-lg border border-red-200">
+					<div class="overflow-x-auto">
+						<table class="w-full">
+							<thead>
+								<tr class="bg-red-50">
+									{@render tableHeader()}
+								</tr>
+							</thead>
+							<tbody>
+								{#each nonCompliantAirlines as airline}
+									{@render airlineAllowanceRow(airline)}
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</details>
+		{/if}
+	{:else}
+		<div class="overflow-x-auto">
+			<table class="w-full">
+				<thead>
+					<tr class="bg-sky-50">
+						{@render tableHeader()}
+					</tr>
+				</thead>
+				<tbody>
+					{#each filteredAirlines as airline}
+						{@render airlineAllowanceRow(airline)}
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet tableHeader()}
+	<th role="columnheader"></th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+		<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+			Airline
+			{#if sortDirection === 'asc'}
+				<SortTextAsc class="h-5 w-5" />
+			{:else}
+				<SortTextDesc class="h-5 w-5" />
+			{/if}
+		</button>
+	</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+		Dimensions ({userDimensions.unit})
+	</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+		>Weight Limit</th
+	>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
 {/snippet}
 
 {#snippet airlineAllowanceRow(airline: Airline)}
@@ -506,5 +614,9 @@
 
 	.ease-elastic {
 		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+
+	.group:has(> summary:hover)::before {
+		color: currentColor;
 	}
 </style>
