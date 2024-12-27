@@ -89,9 +89,9 @@
 	}
 </script>
 
-<div class="min-h-screen px-4 py-8">
-	<div class="min-h-screen bg-white/90 backdrop-blur-sm">
-		<div class="container mx-auto">
+<div class="min-h-screen px-2 py-8 sm:px-4">
+	<div class="min-h-screen bg-white/90">
+		<div class="mx-auto md:container">
 			<div class="mb-12 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
 					<span
@@ -124,7 +124,7 @@
 					</details>
 
 					<div
-						class="mb-4 hidden rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm lg:block"
+						class="mb-4 hidden rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 lg:block"
 					>
 						{@render aboutContent()}
 					</div>
@@ -143,14 +143,14 @@
 					</details>
 
 					<div
-						class="hidden rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md backdrop-blur-sm lg:block"
+						class="hidden rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md lg:block"
 					>
 						{@render warningContent()}
 					</div>
 				</div>
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
-					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm">
+					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
 
 						{#if userDimensions.length && userDimensions.width && userDimensions.height}
@@ -184,7 +184,7 @@
 				</div>
 			</div>
 
-			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm">
+			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 				{@render regionFilter(regions, selectedRegions)}
 
 				<div class="overflow-x-auto rounded-lg">
@@ -201,7 +201,7 @@
 								<tr class="bg-sky-50">
 									<th class="p-3 text-left text-sky-900" role="columnheader">
 										<button
-											class="flex items-center gap-2 font-semibold hover:text-sky-700"
+											class="flex items-center gap-2 hover:text-sky-700"
 											onclick={toggleSortDirection}
 										>
 											Airline
