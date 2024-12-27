@@ -309,7 +309,7 @@
 	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="pt-1.5 text-sm sm:text-base">
+		<td class="pl-2 pt-1.5 text-sm sm:text-base">
 			{#if airline.testResult}
 				<Tooltip.Root>
 					<Tooltip.Trigger>
@@ -464,20 +464,47 @@
 			{#each regions as region}
 				{@const isSelected = selectedRegions.has(region)}
 				<button
-					class="transform rounded-full px-3 py-1.5 text-xs font-medium transition-transform duration-200 ease-out hover:scale-105 sm:px-4 sm:py-2 sm:text-sm
+					class="ease-elastic flex transform items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 hover:scale-105 sm:px-4 sm:py-2 sm:text-sm
 						{isSelected
 						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md'
 						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
 					onclick={() => toggleRegion(region)}
 				>
-					<div class="flex transform-none items-center gap-2">
-						<span>{region}</span>
-						{#if isSelected}
+					<span>{region}</span>
+					{#if isSelected}
+						<div class="animate-slide-bounce ml-2">
 							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
-						{/if}
-					</div>
+						</div>
+					{/if}
 				</button>
 			{/each}
 		</div>
 	</div>
 {/snippet}
+
+<style>
+	@keyframes slideAndBounce {
+		0% {
+			transform: translateX(-100%) scale(1);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scale(1.2);
+			opacity: 1;
+		}
+		75% {
+			transform: translateX(0) scale(0.8);
+		}
+		100% {
+			transform: translateX(0) scale(1);
+		}
+	}
+
+	.animate-slide-bounce {
+		animation: slideAndBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+	}
+
+	.ease-elastic {
+		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+</style>
