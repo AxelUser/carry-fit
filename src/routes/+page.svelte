@@ -200,51 +200,7 @@
 							</p>
 						</div>
 					{:else}
-						<table class="w-full">
-							<thead>
-								<tr class="bg-sky-50">
-									<th
-										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
-										role="columnheader"
-									>
-										<button
-											class="flex items-center gap-2 hover:text-sky-700"
-											onclick={toggleSortDirection}
-										>
-											Airline
-											{#if sortDirection === 'asc'}
-												<SortTextAsc class="h-5 w-5" />
-											{:else}
-												<SortTextDesc class="h-5 w-5" />
-											{/if}
-										</button>
-									</th>
-									<th
-										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
-										role="columnheader">Region</th
-									>
-									<th
-										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
-										role="columnheader"
-									>
-										Dimensions ({userDimensions.unit})
-									</th>
-									<th
-										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
-										role="columnheader">Weight Limit</th
-									>
-									<th
-										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
-										role="columnheader">Policy</th
-									>
-								</tr>
-							</thead>
-							<tbody>
-								{#each filteredAirlines as airline}
-									{@render airlineAllowanceRow(airline)}
-								{/each}
-							</tbody>
-						</table>
+						{@render airlinesTable()}
 					{/if}
 				</div>
 			</div>
@@ -307,6 +263,43 @@
 	</div>
 {/snippet}
 
+{#snippet airlinesTable()}
+	<table class="w-full">
+		<thead>
+			<tr class="bg-sky-50">
+				<th role="columnheader"></th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+					<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+						Airline
+						{#if sortDirection === 'asc'}
+							<SortTextAsc class="h-5 w-5" />
+						{:else}
+							<SortTextDesc class="h-5 w-5" />
+						{/if}
+					</button>
+				</th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Region</th
+				>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+					Dimensions ({userDimensions.unit})
+				</th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Weight Limit</th
+				>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Policy</th
+				>
+			</tr>
+		</thead>
+		<tbody>
+			{#each filteredAirlines as airline}
+				{@render airlineAllowanceRow(airline)}
+			{/each}
+		</tbody>
+	</table>
+{/snippet}
+
 {#snippet airlineAllowanceRow(airline: Airline)}
 	{@const compliance = checkCompliance(
 		getAirlineDimensions(airline),
@@ -316,23 +309,25 @@
 	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
+		<td class="pt-1.5 text-sm sm:text-base">
+			{#if airline.testResult}
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<Tested
+							class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
+						/>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>
+							{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
+						</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			{/if}
+		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
 				{airline.airline}
-				{#if airline.testResult}
-					<Tooltip.Root>
-						<Tooltip.Trigger>
-							<Tested
-								class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
-							/>
-						</Tooltip.Trigger>
-						<Tooltip.Content>
-							<p>
-								{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
-							</p>
-						</Tooltip.Content>
-					</Tooltip.Root>
-				{/if}
 			</div>
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
