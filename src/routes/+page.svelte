@@ -6,9 +6,11 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
 	import type { Airline, UserDimensions } from '$lib/types';
-	import CarryOnChecked from '$lib/components/icons/carry-on-checked.svelte';
+	import LogoIcon from '$lib/components/icons/logo.svelte';
 	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
 	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
+	import CarryOnBagChecked from '$lib/components/icons/carry-on-bag-checked-outline.svelte';
+	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
 
 	const airlineData = getAirlineAllowances();
 
@@ -123,7 +125,7 @@
 						CarryFit
 					</span>
 					<span class="ml-0 inline-flex translate-y-2">
-						<CarryOnChecked class="h-12 w-12 sm:h-16 sm:w-16" />
+						<LogoIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
 				<p class="text-lg font-medium text-sky-900 sm:text-xl">
@@ -292,7 +294,8 @@
 			<details class="group mb-6" open={isLargeScreen}>
 				<summary class="mb-3 cursor-pointer">
 					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
-						✅ Compliant Airlines ({compliantAirlines.length})
+						<CarryOnBagChecked class="h-6 w-6" />
+						Compliant Airlines ({compliantAirlines.length})
 					</h3>
 				</summary>
 				<div class="rounded-lg border border-emerald-200">
@@ -318,7 +321,8 @@
 			<details class="group" open={isLargeScreen}>
 				<summary class="mb-3 cursor-pointer">
 					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
-						❌ Non-Compliant Airlines ({nonCompliantAirlines.length})
+						<CarryOnBagInactive class="h-6 w-6" />
+						Non-Compliant Airlines ({nonCompliantAirlines.length})
 					</h3>
 				</summary>
 				<div class="rounded-lg border border-red-200">
