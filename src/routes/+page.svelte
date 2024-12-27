@@ -100,6 +100,16 @@
 		}
 		selectedRegions = newSet;
 	}
+
+	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+	const isLargeScreen = $derived(windowWidth >= 640);
+
+	if (typeof window !== 'undefined') {
+		window.addEventListener('resize', () => {
+			windowWidth = window.innerWidth;
+		});
+	}
 </script>
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
@@ -279,7 +289,7 @@
 {#snippet airlinesTable()}
 	{#if userDimensions.length && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
-			<details class="group mb-6" open>
+			<details class="group mb-6" open={isLargeScreen}>
 				<summary class="mb-3 cursor-pointer">
 					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
 						✅ Compliant Airlines ({compliantAirlines.length})
@@ -305,7 +315,7 @@
 		{/if}
 
 		{#if nonCompliantAirlines.length > 0}
-			<details class="group" open>
+			<details class="group" open={isLargeScreen}>
 				<summary class="mb-3 cursor-pointer">
 					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
 						❌ Non-Compliant Airlines ({nonCompliantAirlines.length})
