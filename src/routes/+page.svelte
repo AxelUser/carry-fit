@@ -113,6 +113,12 @@
 		}
 		selectedRegions = newSet;
 	}
+
+	function resetDimensions() {
+		userDimensions.length = 0;
+		userDimensions.width = 0;
+		userDimensions.height = 0;
+	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -238,7 +244,16 @@
 
 {#snippet bagInput()}
 	<div class="mb-4">
-		<h2 class="mb-4 text-center text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
+		<div class="mb-6 flex items-baseline justify-between">
+			<h2 class="text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
+			<button
+				onclick={resetDimensions}
+				class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+			>
+				<Cross class="h-3 w-3 translate-y-[0.5px]" />
+				<span>Reset</span>
+			</button>
+		</div>
 		<div class="grid grid-cols-2 gap-4 border-b border-sky-100 pb-4 sm:grid-cols-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
