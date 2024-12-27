@@ -11,6 +11,8 @@
 	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
 	import CarryOnBagChecked from '$lib/components/icons/carry-on-bag-checked-outline.svelte';
 	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
+	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
+	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 
 	const airlineData = getAirlineAllowances();
 
@@ -19,7 +21,6 @@
 
 	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
 
-	// Convert state to runes
 	let selectedRegions = $state(new Set(regions));
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
 	const userDimensions = $state<UserDimensions>({
@@ -29,7 +30,17 @@
 		unit: 'cm'
 	});
 
-	// Derived state using $derived
+	let innerWidth = $state(0);
+	let isLargeScreen = $derived(innerWidth >= 640);
+
+	let isCompliantOpen = $state(false);
+	let isNonCompliantOpen = $state(false);
+
+	$effect(() => {
+		isCompliantOpen = isLargeScreen;
+		isNonCompliantOpen = isLargeScreen;
+	});
+
 	const filteredAirlines = $derived(
 		airlineData
 			.filter((airline) => selectedRegions.has(airline.region))
@@ -102,17 +113,9 @@
 		}
 		selectedRegions = newSet;
 	}
-
-	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 0);
-
-	const isLargeScreen = $derived(windowWidth >= 640);
-
-	if (typeof window !== 'undefined') {
-		window.addEventListener('resize', () => {
-			windowWidth = window.innerWidth;
-		});
-	}
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
@@ -291,12 +294,21 @@
 {#snippet airlinesTable()}
 	{#if userDimensions.length && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
-			<details class="group mb-6" open={isLargeScreen}>
-				<summary class="mb-3 cursor-pointer">
-					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
-						<CarryOnBagChecked class="h-6 w-6" />
-						Compliant Airlines ({compliantAirlines.length})
-					</h3>
+			<details class="group mb-6" bind:open={isCompliantOpen}>
+				<summary class="mb-3 cursor-pointer list-none">
+					<div class="flex items-center gap-2">
+						<div class="translate-y-[1px] text-emerald-700">
+							{#if isCompliantOpen}
+								<ChevronsDownUp class="h-5 w-5" />
+							{:else}
+								<ChevronsUpDown class="h-5 w-5" />
+							{/if}
+						</div>
+						<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
+							<CarryOnBagChecked class="h-6 w-6" />
+							Compliant Airlines ({compliantAirlines.length})
+						</h3>
+					</div>
 				</summary>
 				<div class="rounded-lg border border-emerald-200">
 					<div class="overflow-x-auto">
@@ -318,12 +330,21 @@
 		{/if}
 
 		{#if nonCompliantAirlines.length > 0}
-			<details class="group" open={isLargeScreen}>
-				<summary class="mb-3 cursor-pointer">
-					<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
-						<CarryOnBagInactive class="h-6 w-6" />
-						Non-Compliant Airlines ({nonCompliantAirlines.length})
-					</h3>
+			<details class="group" bind:open={isNonCompliantOpen}>
+				<summary class="mb-3 cursor-pointer list-none">
+					<div class="flex items-center gap-2">
+						<div class="translate-y-[1px] text-red-700">
+							{#if isNonCompliantOpen}
+								<ChevronsDownUp class="h-5 w-5" />
+							{:else}
+								<ChevronsUpDown class="h-5 w-5" />
+							{/if}
+						</div>
+						<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
+							<CarryOnBagInactive class="h-6 w-6" />
+							Non-Compliant Airlines ({nonCompliantAirlines.length})
+						</h3>
+					</div>
 				</summary>
 				<div class="rounded-lg border border-red-200">
 					<div class="overflow-x-auto">
@@ -589,5 +610,9 @@
 
 	.ease-elastic {
 		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+
+	.group:has(> summary:hover)::before {
+		color: currentColor;
 	}
 </style>
