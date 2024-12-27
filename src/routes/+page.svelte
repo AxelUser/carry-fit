@@ -95,15 +95,15 @@
 			<div class="mb-12 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
 					<span
-						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-6xl text-transparent"
+						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
 					>
 						CarryFit
 					</span>
-					<span class="ml-2 inline-flex translate-y-2">
-						<CarryOnChecked class="h-16 w-16" />
+					<span class="ml-0 inline-flex translate-y-2">
+						<CarryOnChecked class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
-				<p class="text-xl font-medium text-sky-900">
+				<p class="text-lg font-medium text-sky-900 sm:text-xl">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
 						>{airlineData.length}</span
 					> airlines worldwide
@@ -163,9 +163,11 @@
 											? 'border-amber-200 bg-amber-50'
 											: 'border-emerald-200 bg-emerald-50'}"
 								>
-									<div class="mb-3 text-sm font-medium text-sky-700">Compliance Score</div>
+									<div class="mb-3 text-xs font-medium text-sky-700 sm:text-sm">
+										Compliance Score
+									</div>
 									<div
-										class="mb-2 text-4xl font-bold tracking-tight
+										class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl
 										{compliancePercentage <= 60
 											? 'text-red-600'
 											: compliancePercentage <= 80
@@ -174,7 +176,7 @@
 									>
 										{compliancePercentage.toFixed(1)}%
 									</div>
-									<div class="text-sm text-sky-600">
+									<div class="text-xs text-sky-600 sm:text-sm">
 										({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
 									</div>
 								</div>
@@ -190,8 +192,10 @@
 				<div class="overflow-x-auto rounded-lg">
 					{#if selectedRegions.size === 0}
 						<div class="w-full py-8 text-center">
-							<p class="text-2xl font-medium text-sky-600">✈️ Ready to check your carry-on?</p>
-							<p class="mt-2 text-lg text-sky-500">
+							<p class="text-xl font-medium text-sky-600 sm:text-2xl">
+								✈️ Ready to check your carry-on?
+							</p>
+							<p class="mt-2 text-base text-sky-500 sm:text-lg">
 								Select regions to see which airlines will accept your bag
 							</p>
 						</div>
@@ -199,7 +203,10 @@
 						<table class="w-full">
 							<thead>
 								<tr class="bg-sky-50">
-									<th class="p-3 text-left text-sky-900" role="columnheader">
+									<th
+										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
+										role="columnheader"
+									>
 										<button
 											class="flex items-center gap-2 hover:text-sky-700"
 											onclick={toggleSortDirection}
@@ -212,12 +219,24 @@
 											{/if}
 										</button>
 									</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Region</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">
+									<th
+										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
+										role="columnheader">Region</th
+									>
+									<th
+										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
+										role="columnheader"
+									>
 										Dimensions ({userDimensions.unit})
 									</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Weight Limit</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Policy</th>
+									<th
+										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
+										role="columnheader">Weight Limit</th
+									>
+									<th
+										class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base"
+										role="columnheader">Policy</th
+									>
 								</tr>
 							</thead>
 							<tbody>
@@ -297,7 +316,7 @@
 	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="p-3" data-testid="airline">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
 				{airline.airline}
 				{#if airline.testResult}
@@ -316,8 +335,8 @@
 				{/if}
 			</div>
 		</td>
-		<td class="p-3" data-testid="region">{airline.region}</td>
-		<td class="p-3" data-testid="dimensions">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
 			{#if dimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
 					{`Total ${dimensions[0]}`}</span
@@ -330,14 +349,14 @@
 				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{dimensions[2]}</span>
 			{/if}
 		</td>
-		<td class="p-3" data-testid="weight-limit">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
 			{#if airline.kilograms}
 				{userDimensions.unit === 'in' ? `${airline.pounds} lb` : `${airline.kilograms} kg`}
 			{:else}
 				N/A
 			{/if}
 		</td>
-		<td class="p-3" data-testid="policy-link">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="policy-link">
 			{#if airline.link}
 				<a
 					href={airline.link}
@@ -419,8 +438,8 @@
 {#snippet regionFilter(regions: string[], selectedRegions: Set<string>)}
 	<div class="mb-6">
 		<div class="mb-4">
-			<h3 class="text-lg font-semibold text-sky-900">Filter by Region</h3>
-			<p class="text-sm text-sky-600">
+			<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
+			<p class="text-xs text-sky-600 sm:text-sm">
 				{#if selectedRegions.size === 0}
 					Choose regions to start comparing
 				{:else}
@@ -431,17 +450,17 @@
 
 		<div class="flex flex-wrap items-center gap-3">
 			<button
-				class="flex items-center gap-1.5 rounded-lg bg-sky-100 px-4 py-2 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-200"
+				class="flex items-center gap-1.5 rounded-lg bg-sky-100 px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:px-4 sm:py-2 sm:text-sm"
 				onclick={selectAllRegions}
 			>
-				<Check class="h-4 w-4" />
+				<Check class="h-3 w-3 sm:h-4 sm:w-4" />
 				<span>Select All</span>
 			</button>
 			<button
-				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
 				onclick={clearAllRegions}
 			>
-				<Cross class="h-4 w-4" />
+				<Cross class="h-3 w-3 sm:h-4 sm:w-4" />
 				<span>Clear All</span>
 			</button>
 		</div>
@@ -450,7 +469,7 @@
 			{#each regions as region}
 				{@const isSelected = selectedRegions.has(region)}
 				<button
-					class="transform rounded-full px-4 py-2 text-sm font-medium transition-transform duration-200 ease-out hover:scale-105
+					class="transform rounded-full px-3 py-1.5 text-xs font-medium transition-transform duration-200 ease-out hover:scale-105 sm:px-4 sm:py-2 sm:text-sm
 						{isSelected
 						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md'
 						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
@@ -459,7 +478,7 @@
 					<div class="flex transform-none items-center gap-2">
 						<span>{region}</span>
 						{#if isSelected}
-							<Check class="h-4 w-4" />
+							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
 						{/if}
 					</div>
 				</button>
