@@ -191,7 +191,7 @@
 											? 'border-amber-200 bg-amber-50'
 											: 'border-emerald-200 bg-emerald-50'}"
 								>
-									<div class="mb-3 text-xs font-medium text-sky-700 sm:text-sm">
+									<div class="mb-3 text-sm font-medium text-sky-700 sm:text-base">
 										Compliance Score
 									</div>
 									<div
@@ -304,7 +304,9 @@
 								<ChevronsUpDown class="h-5 w-5" />
 							{/if}
 						</div>
-						<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-emerald-700">
+						<h3
+							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
+						>
 							<CarryOnBagChecked class="h-6 w-6" />
 							Compliant Airlines ({compliantAirlines.length})
 						</h3>
@@ -340,7 +342,9 @@
 								<ChevronsUpDown class="h-5 w-5" />
 							{/if}
 						</div>
-						<h3 class="inline-flex items-center gap-2 text-lg font-semibold text-red-700">
+						<h3
+							class="text-md inline-flex items-center gap-2 font-semibold text-red-700 sm:text-lg"
+						>
 							<CarryOnBagInactive class="h-6 w-6" />
 							Non-Compliant Airlines ({nonCompliantAirlines.length})
 						</h3>
