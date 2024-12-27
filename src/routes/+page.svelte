@@ -45,7 +45,20 @@
 						userDimensions.width,
 						userDimensions.height
 					]);
-					return compliance?.every(Boolean) ?? false;
+					return !!compliance?.every(Boolean);
+				})
+			: []
+	);
+
+	const nonCompliantAirlines = $derived(
+		userDimensions.length && userDimensions.width && userDimensions.height
+			? filteredAirlines.filter((airline) => {
+					const compliance = checkCompliance(getAirlineDimensions(airline), [
+						userDimensions.length,
+						userDimensions.width,
+						userDimensions.height
+					]);
+					return !compliance?.every(Boolean);
 				})
 			: []
 	);
@@ -264,40 +277,86 @@
 {/snippet}
 
 {#snippet airlinesTable()}
-	<table class="w-full">
-		<thead>
-			<tr class="bg-sky-50">
-				<th role="columnheader"></th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-					<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
-						Airline
-						{#if sortDirection === 'asc'}
-							<SortTextAsc class="h-5 w-5" />
-						{:else}
-							<SortTextDesc class="h-5 w-5" />
-						{/if}
-					</button>
-				</th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Region</th
-				>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-					Dimensions ({userDimensions.unit})
-				</th>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Weight Limit</th
-				>
-				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-					>Policy</th
-				>
-			</tr>
-		</thead>
-		<tbody>
-			{#each filteredAirlines as airline}
-				{@render airlineAllowanceRow(airline)}
-			{/each}
-		</tbody>
-	</table>
+	{#if userDimensions.length && userDimensions.width && userDimensions.height}
+		{#if compliantAirlines.length > 0}
+			<div class="mb-6">
+				<h3 class="mb-3 text-lg font-semibold text-emerald-700">
+					✅ Compliant Airlines ({compliantAirlines.length})
+				</h3>
+				<div class="overflow-hidden rounded-lg border border-emerald-200">
+					<table class="w-full">
+						<thead>
+							<tr class="bg-emerald-50">
+								{@render tableHeader()}
+							</tr>
+						</thead>
+						<tbody>
+							{#each compliantAirlines as airline}
+								{@render airlineAllowanceRow(airline)}
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{/if}
+
+		{#if nonCompliantAirlines.length > 0}
+			<div>
+				<h3 class="mb-3 text-lg font-semibold text-red-700">
+					❌ Non-Compliant Airlines ({nonCompliantAirlines.length})
+				</h3>
+				<div class="overflow-hidden rounded-lg border border-red-200">
+					<table class="w-full">
+						<thead>
+							<tr class="bg-red-50">
+								{@render tableHeader()}
+							</tr>
+						</thead>
+						<tbody>
+							{#each nonCompliantAirlines as airline}
+								{@render airlineAllowanceRow(airline)}
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{/if}
+	{:else}
+		<table class="w-full">
+			<thead>
+				<tr class="bg-sky-50">
+					{@render tableHeader()}
+				</tr>
+			</thead>
+			<tbody>
+				{#each filteredAirlines as airline}
+					{@render airlineAllowanceRow(airline)}
+				{/each}
+			</tbody>
+		</table>
+	{/if}
+{/snippet}
+
+{#snippet tableHeader()}
+	<th role="columnheader"></th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+		<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+			Airline
+			{#if sortDirection === 'asc'}
+				<SortTextAsc class="h-5 w-5" />
+			{:else}
+				<SortTextDesc class="h-5 w-5" />
+			{/if}
+		</button>
+	</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+		Dimensions ({userDimensions.unit})
+	</th>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+		>Weight Limit</th
+	>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
 {/snippet}
 
 {#snippet airlineAllowanceRow(airline: Airline)}
