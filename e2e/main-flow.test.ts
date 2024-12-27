@@ -80,7 +80,7 @@ test.describe('CarryFit Main Flow', () => {
 		await airlineSortButton.click();
 
 		// Get airlines in ascending order
-		const ascAirlines = await page.$$eval('tbody tr td:first-child', (cells) =>
+		const ascAirlines = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
 			cells.map((cell) => cell.textContent?.trim())
 		);
 
@@ -88,7 +88,7 @@ test.describe('CarryFit Main Flow', () => {
 		await airlineSortButton.click();
 
 		// Get airlines in descending order
-		const descAirlines = await page.$$eval('tbody tr td:first-child', (cells) =>
+		const descAirlines = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
 			cells.map((cell) => cell.textContent?.trim())
 		);
 

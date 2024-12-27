@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Alert from '$lib/components/icons/alert.svelte';
 	import Tested from '$lib/components/icons/tested.svelte';
+	import Check from '$lib/components/icons/check.svelte';
+	import Cross from '$lib/components/icons/cross.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import RegionFilter from '$lib/components/main/region-filter.svelte';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
 	import type { Airline, UserDimensions } from '$lib/types';
 	import CarryOnChecked from '$lib/components/icons/carry-on-checked.svelte';
@@ -14,51 +15,44 @@
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
 	type SortDirection = (typeof SORT_DIRECTIONS)[number];
 
-	let userDimensions: UserDimensions = {
+	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
+
+	// Convert state to runes
+	let selectedRegions = $state(new Set(regions));
+	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
+	const userDimensions = $state<UserDimensions>({
 		length: 0,
 		width: 0,
 		height: 0,
 		unit: 'cm'
-	};
+	});
 
-	let sortDirection: SortDirection = SORT_DIRECTIONS[0];
-
-	let filteredAirlines = airlineData;
-	let compliancePercentage = 0;
-	let compliantAirlines: Airline[] = [];
-
-	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
-	let selectedRegions = new Set(regions);
-
-	$: {
-		filteredAirlines = airlineData
+	// Derived state using $derived
+	const filteredAirlines = $derived(
+		airlineData
 			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
 				return a.airline.localeCompare(b.airline) * direction;
-			});
+			})
+	);
 
-		if (userDimensions.length && userDimensions.width && userDimensions.height) {
-			compliantAirlines = filteredAirlines.filter((airline) => {
-				const compliance = checkCompliance(getAirlineDimensions(airline), [
-					userDimensions.length,
-					userDimensions.width,
-					userDimensions.height
-				]);
+	const compliantAirlines = $derived(
+		userDimensions.length && userDimensions.width && userDimensions.height
+			? filteredAirlines.filter((airline) => {
+					const compliance = checkCompliance(getAirlineDimensions(airline), [
+						userDimensions.length,
+						userDimensions.width,
+						userDimensions.height
+					]);
+					return compliance?.every(Boolean) ?? false;
+				})
+			: []
+	);
 
-				if (!compliance) {
-					return false;
-				}
-
-				return compliance.every(Boolean);
-			});
-
-			compliancePercentage =
-				filteredAirlines.length === 0
-					? 0
-					: (compliantAirlines.length / filteredAirlines.length) * 100;
-		}
-	}
+	const compliancePercentage = $derived(
+		filteredAirlines.length === 0 ? 0 : (compliantAirlines.length / filteredAirlines.length) * 100
+	);
 
 	function getAirlineDimensions(airline: Airline): number[] {
 		const dims = userDimensions.unit === 'cm' ? airline.centimeters : airline.inches;
@@ -71,23 +65,45 @@
 		}
 		return [];
 	}
+
+	function toggleSortDirection() {
+		sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+	}
+
+	function selectAllRegions() {
+		selectedRegions = new Set(regions);
+	}
+
+	function clearAllRegions() {
+		selectedRegions = new Set();
+	}
+
+	function toggleRegion(region: string) {
+		const newSet = new Set(selectedRegions);
+		if (newSet.has(region)) {
+			newSet.delete(region);
+		} else {
+			newSet.add(region);
+		}
+		selectedRegions = newSet;
+	}
 </script>
 
-<div class="min-h-screen px-4 py-8">
-	<div class="min-h-screen bg-white/90 backdrop-blur-sm">
-		<div class="container mx-auto">
+<div class="min-h-screen px-2 py-8 sm:px-4">
+	<div class="min-h-screen bg-white/90">
+		<div class="mx-auto md:container">
 			<div class="mb-12 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
 					<span
-						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-6xl text-transparent"
+						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
 					>
 						CarryFit
 					</span>
-					<span class="ml-2 inline-flex translate-y-2">
-						<CarryOnChecked class="h-16 w-16" />
+					<span class="ml-0 inline-flex translate-y-2">
+						<CarryOnChecked class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
-				<p class="text-xl font-medium text-sky-900">
+				<p class="text-lg font-medium text-sky-900 sm:text-xl">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
 						>{airlineData.length}</span
 					> airlines worldwide
@@ -96,76 +112,45 @@
 
 			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
 				<div class="mx-auto mb-8 max-w-2xl lg:mx-0 lg:mb-0 lg:flex-1">
-					<div
-						class="mb-4 rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm"
+					<details
+						class="group mb-4 overflow-hidden rounded-xl bg-white/95 shadow-xl ring-1 ring-sky-100 lg:hidden"
 					>
-						<p class="mb-4 leading-relaxed text-sky-900">
-							This tool helps you check if your carry-on luggage meets the size requirements for
-							different airlines worldwide. Enter your bag's dimensions, and we'll show you which
-							airlines will accept it as cabin baggage.
-						</p>
-						<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
-							<p class="mb-2">
-								Created by <a
-									href="https://www.maltsev.space/"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									target="_blank"
-									rel="noopener noreferrer">Aleksey Maltsev</a
-								>
-							</p>
-							<div class="mb-2">
-								Found an error or have a feature suggestion? You can:
-								<ul class="ml-2 list-inside list-disc">
-									<li>
-										Create an issue or submit a pull request on <a
-											href="https://github.com/AxelUser/carry-fit"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											target="_blank"
-											rel="noopener noreferrer">GitHub</a
-										>
-									</li>
-									<li>
-										Email me at <a
-											href="mailto:alexey.maltsev.work@gmail.com"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											>alexey.maltsev.work@gmail.com</a
-										>
-									</li>
-									<li>
-										Contact me on <a
-											href="https://x.com/axel_user"
-											class="text-blue-600 hover:text-blue-800 hover:underline"
-											target="_blank"
-											rel="noopener noreferrer">X (Twitter)</a
-										>
-									</li>
-								</ul>
-							</div>
+						<summary class="cursor-pointer p-4 font-medium text-sky-900 hover:bg-sky-50">
+							About CarryFit
+						</summary>
+						<div class="border-t border-sky-100 p-6 pt-4">
+							{@render aboutContent()}
 						</div>
+					</details>
+
+					<div
+						class="mb-4 hidden rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 lg:block"
+					>
+						{@render aboutContent()}
 					</div>
 
-					<div
-						class="rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md backdrop-blur-sm"
+					<details
+						class="group overflow-hidden rounded-xl bg-amber-50/90 shadow-md ring-1 ring-amber-200 lg:hidden"
 					>
-						<div class="flex items-start">
-							<div class="mt-0.5 flex-shrink-0">
-								<Alert class="h-5 w-5 text-amber-400" />
-							</div>
-
-							<div class="ml-3 text-sm leading-relaxed text-amber-700">
-								<p>
-									Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically
-									tested for policy updates, but not in real-time. Policies may change between checks,
-									and unmarked airlines are not monitored. Always verify requirements on the airline's
-									website before traveling.
-								</p>
-							</div>
+						<summary
+							class="cursor-pointer border-l-4 border-amber-400 p-4 font-medium text-amber-700 hover:bg-amber-100/90"
+						>
+							Can I trust this tool?
+						</summary>
+						<div class="border-l-4 border-t border-amber-200 border-l-amber-400 p-5 pt-3">
+							{@render warningContent()}
 						</div>
+					</details>
+
+					<div
+						class="hidden rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md lg:block"
+					>
+						{@render warningContent()}
 					</div>
 				</div>
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
-					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm">
+					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
 
 						{#if userDimensions.length && userDimensions.width && userDimensions.height}
@@ -178,9 +163,11 @@
 											? 'border-amber-200 bg-amber-50'
 											: 'border-emerald-200 bg-emerald-50'}"
 								>
-									<div class="mb-3 text-sm font-medium text-sky-700">Compliance Score</div>
+									<div class="mb-3 text-xs font-medium text-sky-700 sm:text-sm">
+										Compliance Score
+									</div>
 									<div
-										class="mb-2 text-4xl font-bold tracking-tight
+										class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl
 										{compliancePercentage <= 60
 											? 'text-red-600'
 											: compliancePercentage <= 80
@@ -189,7 +176,7 @@
 									>
 										{compliancePercentage.toFixed(1)}%
 									</div>
-									<div class="text-sm text-sky-600">
+									<div class="text-xs text-sky-600 sm:text-sm">
 										({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
 									</div>
 								</div>
@@ -199,50 +186,21 @@
 				</div>
 			</div>
 
-			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 backdrop-blur-sm">
-				<RegionFilter {regions} bind:selectedRegions />
+			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
+				{@render regionFilter(regions, selectedRegions)}
 
 				<div class="overflow-x-auto rounded-lg">
 					{#if selectedRegions.size === 0}
 						<div class="w-full py-8 text-center">
-							<p class="text-2xl font-medium text-sky-600">✈️ Ready to check your carry-on?</p>
-							<p class="mt-2 text-lg text-sky-500">
+							<p class="text-xl font-medium text-sky-600 sm:text-2xl">
+								✈️ Ready to check your carry-on?
+							</p>
+							<p class="mt-2 text-base text-sky-500 sm:text-lg">
 								Select regions to see which airlines will accept your bag
 							</p>
 						</div>
 					{:else}
-						<table class="w-full">
-							<thead>
-								<tr class="bg-sky-50">
-									<th class="p-3 text-left text-sky-900" role="columnheader">
-										<button
-											class="flex items-center gap-2 font-semibold hover:text-sky-700"
-											on:click={() => {
-												sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-											}}
-										>
-											Airline
-											{#if sortDirection === 'asc'}
-												<SortTextAsc class="h-5 w-5" />
-											{:else}
-												<SortTextDesc class="h-5 w-5" />
-											{/if}
-										</button>
-									</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Region</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">
-										Dimensions ({userDimensions.unit})
-									</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Weight Limit</th>
-									<th class="p-3 text-left text-sky-900" role="columnheader">Policy</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each filteredAirlines as airline}
-									{@render airlineAllowanceRow(airline)}
-								{/each}
-							</tbody>
-						</table>
+						{@render airlinesTable()}
 					{/if}
 				</div>
 			</div>
@@ -259,9 +217,10 @@
 				<input
 					type="number"
 					id="height"
-					bind:value={userDimensions.height}
+					value={userDimensions.height}
+					oninput={(e) => (userDimensions.height = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
@@ -269,9 +228,10 @@
 				<input
 					type="number"
 					id="width"
-					bind:value={userDimensions.width}
+					value={userDimensions.width}
+					oninput={(e) => (userDimensions.width = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
@@ -279,9 +239,10 @@
 				<input
 					type="number"
 					id="depth"
-					bind:value={userDimensions.length}
+					value={userDimensions.length}
+					oninput={(e) => (userDimensions.length = Number(e.currentTarget.value))}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min="0"
+					min={0}
 				/>
 			</div>
 			<div>
@@ -302,6 +263,43 @@
 	</div>
 {/snippet}
 
+{#snippet airlinesTable()}
+	<table class="w-full">
+		<thead>
+			<tr class="bg-sky-50">
+				<th role="columnheader"></th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+					<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+						Airline
+						{#if sortDirection === 'asc'}
+							<SortTextAsc class="h-5 w-5" />
+						{:else}
+							<SortTextDesc class="h-5 w-5" />
+						{/if}
+					</button>
+				</th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Region</th
+				>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+					Dimensions ({userDimensions.unit})
+				</th>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Weight Limit</th
+				>
+				<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
+					>Policy</th
+				>
+			</tr>
+		</thead>
+		<tbody>
+			{#each filteredAirlines as airline}
+				{@render airlineAllowanceRow(airline)}
+			{/each}
+		</tbody>
+	</table>
+{/snippet}
+
 {#snippet airlineAllowanceRow(airline: Airline)}
 	{@const compliance = checkCompliance(
 		getAirlineDimensions(airline),
@@ -311,27 +309,29 @@
 	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="p-3" data-testid="airline">
+		<td class="pl-2 pt-1.5 text-sm sm:text-base">
+			{#if airline.testResult}
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<Tested
+							class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
+						/>
+					</Tooltip.Trigger>
+					<Tooltip.Content>
+						<p>
+							{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
+						</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			{/if}
+		</td>
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
 				{airline.airline}
-				{#if airline.testResult}
-					<Tooltip.Root>
-						<Tooltip.Trigger>
-							<Tested
-								class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
-							/>
-						</Tooltip.Trigger>
-						<Tooltip.Content>
-							<p>
-								{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
-							</p>
-						</Tooltip.Content>
-					</Tooltip.Root>
-				{/if}
 			</div>
 		</td>
-		<td class="p-3" data-testid="region">{airline.region}</td>
-		<td class="p-3" data-testid="dimensions">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
 			{#if dimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
 					{`Total ${dimensions[0]}`}</span
@@ -344,14 +344,14 @@
 				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{dimensions[2]}</span>
 			{/if}
 		</td>
-		<td class="p-3" data-testid="weight-limit">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
 			{#if airline.kilograms}
 				{userDimensions.unit === 'in' ? `${airline.pounds} lb` : `${airline.kilograms} kg`}
 			{:else}
 				N/A
 			{/if}
 		</td>
-		<td class="p-3" data-testid="policy-link">
+		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="policy-link">
 			{#if airline.link}
 				<a
 					href={airline.link}
@@ -367,3 +367,144 @@
 		</td>
 	</tr>
 {/snippet}
+
+{#snippet aboutContent()}
+	<p class="mb-4 leading-relaxed text-sky-900">
+		This tool helps you check if your carry-on luggage meets the size requirements for different
+		airlines worldwide. Enter your bag's dimensions, and we'll show you which airlines will accept
+		it as cabin baggage.
+	</p>
+	<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
+		<p class="mb-2">
+			Created by <a
+				href="https://www.maltsev.space/"
+				class="text-blue-600 hover:text-blue-800 hover:underline"
+				target="_blank"
+				rel="noopener noreferrer">Aleksey Maltsev</a
+			>
+		</p>
+		<div class="mb-2">
+			Found an error or have a feature suggestion? You can:
+			<ul class="ml-2 list-inside list-disc">
+				<li>
+					Create an issue or submit a pull request on <a
+						href="https://github.com/AxelUser/carry-fit"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						target="_blank"
+						rel="noopener noreferrer">GitHub</a
+					>
+				</li>
+				<li>
+					Email me at <a
+						href="mailto:alexey.maltsev.work@gmail.com"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						>alexey.maltsev.work@gmail.com</a
+					>
+				</li>
+				<li>
+					Contact me on <a
+						href="https://x.com/axel_user"
+						class="text-blue-600 hover:text-blue-800 hover:underline"
+						target="_blank"
+						rel="noopener noreferrer">X (Twitter)</a
+					>
+				</li>
+			</ul>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet warningContent()}
+	<div class="flex items-start">
+		<div class="mt-0.5 flex-shrink-0">
+			<Alert class="h-5 w-5 text-amber-400" />
+		</div>
+
+		<div class="ml-3 text-sm leading-relaxed text-amber-700">
+			<p>
+				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically tested
+				for policy updates, but not in real-time. Policies may change between checks, and unmarked airlines
+				are not monitored. Always verify requirements on the airline's website before traveling.
+			</p>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet regionFilter(regions: string[], selectedRegions: Set<string>)}
+	<div class="mb-6">
+		<div class="mb-4">
+			<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
+			<p class="text-xs text-sky-600 sm:text-sm">
+				{#if selectedRegions.size === 0}
+					Choose regions to start comparing
+				{:else}
+					Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
+				{/if}
+			</p>
+		</div>
+
+		<div class="flex flex-wrap items-center gap-3">
+			<button
+				class="flex items-center gap-1.5 rounded-lg bg-sky-100 px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:px-4 sm:py-2 sm:text-sm"
+				onclick={selectAllRegions}
+			>
+				<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+				<span>Select All</span>
+			</button>
+			<button
+				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
+				onclick={clearAllRegions}
+			>
+				<Cross class="h-3 w-3 sm:h-4 sm:w-4" />
+				<span>Clear All</span>
+			</button>
+		</div>
+
+		<div class="mt-4 flex flex-wrap gap-2">
+			{#each regions as region}
+				{@const isSelected = selectedRegions.has(region)}
+				<button
+					class="ease-elastic flex transform items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 hover:scale-105 sm:px-4 sm:py-2 sm:text-sm
+						{isSelected
+						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md'
+						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+					onclick={() => toggleRegion(region)}
+				>
+					<span>{region}</span>
+					{#if isSelected}
+						<div class="animate-slide-bounce ml-2">
+							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+						</div>
+					{/if}
+				</button>
+			{/each}
+		</div>
+	</div>
+{/snippet}
+
+<style>
+	@keyframes slideAndBounce {
+		0% {
+			transform: translateX(-100%) scale(1);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scale(1.2);
+			opacity: 1;
+		}
+		75% {
+			transform: translateX(0) scale(0.8);
+		}
+		100% {
+			transform: translateX(0) scale(1);
+		}
+	}
+
+	.animate-slide-bounce {
+		animation: slideAndBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+	}
+
+	.ease-elastic {
+		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+</style>
