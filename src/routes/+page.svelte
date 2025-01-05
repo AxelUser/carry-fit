@@ -30,6 +30,17 @@
 		unit: 'cm'
 	});
 
+	let flexibility = $state(userDimensions.unit === 'cm' ? 3 : 1);
+	let showFlexibility = $state(false);
+
+	$effect(() => {
+		if (showFlexibility) {
+			flexibility = userDimensions.unit === 'cm' ? 3 : 1;
+		} else {
+			flexibility = 0;
+		}
+	});
+
 	let innerWidth = $state(0);
 	let isLargeScreen = $derived(innerWidth >= 640);
 
@@ -53,11 +64,11 @@
 	const compliantAirlines = $derived(
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(getAirlineDimensions(airline), [
-						userDimensions.length,
-						userDimensions.width,
-						userDimensions.height
-					]);
+					const compliance = checkCompliance(
+						getAirlineDimensions(airline),
+						[userDimensions.length, userDimensions.width, userDimensions.height],
+						flexibility
+					);
 					return !!compliance?.every(Boolean);
 				})
 			: []
@@ -66,11 +77,11 @@
 	const nonCompliantAirlines = $derived(
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(getAirlineDimensions(airline), [
-						userDimensions.length,
-						userDimensions.width,
-						userDimensions.height
-					]);
+					const compliance = checkCompliance(
+						getAirlineDimensions(airline),
+						[userDimensions.length, userDimensions.width, userDimensions.height],
+						flexibility
+					);
 					return !compliance?.every(Boolean);
 				})
 			: []
@@ -118,6 +129,8 @@
 		userDimensions.length = 0;
 		userDimensions.width = 0;
 		userDimensions.height = 0;
+		showFlexibility = false;
+		flexibility = 0;
 	}
 </script>
 
@@ -300,6 +313,41 @@
 				</select>
 			</div>
 		</div>
+
+		<div class="mt-4">
+			<label class="inline-flex items-center gap-2">
+				<input
+					type="checkbox"
+					bind:checked={showFlexibility}
+					class="rounded border-sky-300 text-sky-600 focus:ring-sky-500"
+				/>
+				<span class="text-sm font-medium text-sky-900">Account for bag flexibility</span>
+			</label>
+
+			{#if showFlexibility}
+				<div class="mt-3">
+					<label for="flexibility" class="mb-1 block text-sm font-medium text-sky-900">
+						Flexibility Amount ({userDimensions.unit})
+					</label>
+					<div class="flex items-center gap-4">
+						<input
+							id="flexibility"
+							type="range"
+							bind:value={flexibility}
+							min="0"
+							max={userDimensions.unit === 'cm' ? 5 : 2}
+							step={userDimensions.unit === 'cm' ? 0.5 : 0.25}
+							class="flex-1"
+						/>
+						<span class="w-12 text-center text-sm font-medium text-sky-900">
+							{flexibility}
+						</span>
+					</div>
+					<p class="mt-2 text-xs text-sky-600">Allows for slight compression of soft bags</p>
+				</div>
+			{/if}
+		</div>
+
 		<div class="mt-4 text-center text-sm font-medium text-sky-700">
 			Don't worry about the order - we'll find the best fit
 		</div>
@@ -426,7 +474,8 @@
 {#snippet airlineAllowanceRow(airline: Airline)}
 	{@const compliance = checkCompliance(
 		getAirlineDimensions(airline),
-		getUserDimensionsIfFilled(userDimensions)
+		getUserDimensionsIfFilled(userDimensions),
+		flexibility
 	)}
 	{@const isCompliant = compliance?.every(Boolean) ?? false}
 	{@const dimensions = getAirlineDimensions(airline)}
