@@ -13,15 +13,16 @@
 	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
 	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
 	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
+	import Suitcase from '$lib/components/suitcase.svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
-			default: 3,
+			default: 0,
 			max: 5,
 			step: 0.5
 		},
 		in: {
-			default: 1,
+			default: 0,
 			max: 2,
 			step: 0.25
 		}
@@ -348,22 +349,23 @@
 
 			{#if showFlexibility}
 				<div class="mt-3">
-					<label for="flexibility" class="mb-1 block text-sm font-medium text-sky-900">
-						Compression Tolerance ({userDimensions.unit})
-					</label>
-					<div class="flex items-center gap-4">
-						<input
-							id="flexibility"
-							type="range"
-							bind:value={flexibility}
-							min="0"
+					<div class="flex flex-col items-center gap-4">
+						<Suitcase
+							value={flexibility}
+							unit={userDimensions.unit}
 							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
-							step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
-							class="flex-1"
 						/>
-						<span class="w-12 text-center text-sm font-medium text-sky-900">
-							{flexibility}
-						</span>
+						<div class="flex w-full items-center gap-4">
+							<input
+								id="flexibility"
+								type="range"
+								bind:value={flexibility}
+								min="0"
+								max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+								step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
+								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
+							/>
+						</div>
 					</div>
 					<p class="mt-2 text-xs text-sky-600">
 						Adjust for how much your bag can be squeezed to fit
