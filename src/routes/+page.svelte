@@ -337,11 +337,11 @@
 		<div class="border-b border-sky-100"></div>
 
 		<div class="mt-4">
-			<label class="inline-flex items-center gap-2">
+			<label class="inline-flex cursor-pointer items-center gap-2">
 				<input
 					type="checkbox"
 					bind:checked={showFlexibility}
-					class="rounded border-sky-300 text-sky-600 focus:ring-sky-500"
+					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
 				/>
 				<span class="text-sm font-medium text-sky-900">Account for bag flexibility</span>
 			</label>
