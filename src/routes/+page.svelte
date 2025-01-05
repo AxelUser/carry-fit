@@ -343,13 +343,13 @@
 					bind:checked={showFlexibility}
 					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
 				/>
-				<span class="text-sm font-medium text-sky-900">Account for bag flexibility</span>
+				<span class="text-sm font-medium text-sky-900">My Bag is Flexible</span>
 			</label>
 
 			{#if showFlexibility}
 				<div class="mt-3">
 					<label for="flexibility" class="mb-1 block text-sm font-medium text-sky-900">
-						Flexibility Amount ({userDimensions.unit})
+						Compression Tolerance ({userDimensions.unit})
 					</label>
 					<div class="flex items-center gap-4">
 						<input
@@ -365,7 +365,9 @@
 							{flexibility}
 						</span>
 					</div>
-					<p class="mt-2 text-xs text-sky-600">Allows for slight compression of soft bags</p>
+					<p class="mt-2 text-xs text-sky-600">
+						Adjust for how much your bag can be squeezed to fit
+					</p>
 				</div>
 			{/if}
 		</div>
