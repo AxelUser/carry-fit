@@ -454,7 +454,7 @@
 			</div>
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
-		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
+		<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
 			{#if dimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
 					{`Total ${dimensions[0]}`}</span
