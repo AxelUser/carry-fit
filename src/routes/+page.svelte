@@ -267,7 +267,8 @@
 				<span>Reset</span>
 			</button>
 		</div>
-		<div class="grid grid-cols-2 gap-4 border-b border-sky-100 pb-4 sm:grid-cols-4">
+
+		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
 				<input
@@ -314,6 +315,12 @@
 			</div>
 		</div>
 
+		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
+			Don't worry about the order - we'll find the best fit
+		</p>
+
+		<div class="border-b border-sky-100"></div>
+
 		<div class="mt-4">
 			<label class="inline-flex items-center gap-2">
 				<input
@@ -346,10 +353,6 @@
 					<p class="mt-2 text-xs text-sky-600">Allows for slight compression of soft bags</p>
 				</div>
 			{/if}
-		</div>
-
-		<div class="mt-4 text-center text-sm font-medium text-sky-700">
-			Don't worry about the order - we'll find the best fit
 		</div>
 	</div>
 {/snippet}
