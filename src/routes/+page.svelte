@@ -13,21 +13,48 @@
 	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
 	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
 	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
+	import Suitcase from '$lib/components/suitcase.svelte';
 
-	const airlineData = getAirlineAllowances();
+	const FLEXIBILITY_CONFIG = {
+		cm: {
+			default: 0,
+			max: 5,
+			step: 0.5
+		},
+		in: {
+			default: 0,
+			max: 2,
+			step: 0.25
+		}
+	};
 
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
-	type SortDirection = (typeof SORT_DIRECTIONS)[number];
+
+	const airlineData = getAirlineAllowances();
 
 	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(regions));
+
+	type SortDirection = (typeof SORT_DIRECTIONS)[number];
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
+
 	const userDimensions = $state<UserDimensions>({
 		length: 0,
 		width: 0,
 		height: 0,
 		unit: 'cm'
+	});
+
+	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
+	let showFlexibility = $state(false);
+
+	$effect(() => {
+		if (showFlexibility) {
+			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
+		} else {
+			flexibility = 0;
+		}
 	});
 
 	let innerWidth = $state(0);
@@ -53,11 +80,11 @@
 	const compliantAirlines = $derived(
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(getAirlineDimensions(airline), [
-						userDimensions.length,
-						userDimensions.width,
-						userDimensions.height
-					]);
+					const compliance = checkCompliance(
+						getAirlineDimensions(airline),
+						[userDimensions.length, userDimensions.width, userDimensions.height],
+						flexibility
+					);
 					return !!compliance?.every(Boolean);
 				})
 			: []
@@ -66,11 +93,11 @@
 	const nonCompliantAirlines = $derived(
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(getAirlineDimensions(airline), [
-						userDimensions.length,
-						userDimensions.width,
-						userDimensions.height
-					]);
+					const compliance = checkCompliance(
+						getAirlineDimensions(airline),
+						[userDimensions.length, userDimensions.width, userDimensions.height],
+						flexibility
+					);
 					return !compliance?.every(Boolean);
 				})
 			: []
@@ -118,6 +145,8 @@
 		userDimensions.length = 0;
 		userDimensions.width = 0;
 		userDimensions.height = 0;
+		showFlexibility = false;
+		flexibility = 0;
 	}
 </script>
 
@@ -254,7 +283,8 @@
 				<span>Reset</span>
 			</button>
 		</div>
-		<div class="grid grid-cols-2 gap-4 border-b border-sky-100 pb-4 sm:grid-cols-4">
+
+		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
 				<input
@@ -300,8 +330,48 @@
 				</select>
 			</div>
 		</div>
-		<div class="mt-4 text-center text-sm font-medium text-sky-700">
+
+		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
 			Don't worry about the order - we'll find the best fit
+		</p>
+
+		<div class="border-b border-sky-100"></div>
+
+		<div class="mt-4">
+			<label class="inline-flex cursor-pointer items-center gap-2">
+				<input
+					type="checkbox"
+					bind:checked={showFlexibility}
+					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
+				/>
+				<span class="text-sm font-medium text-sky-900">My Bag is Flexible</span>
+			</label>
+
+			{#if showFlexibility}
+				<div class="mt-3">
+					<div class="flex flex-col items-center gap-4">
+						<Suitcase
+							value={flexibility}
+							unit={userDimensions.unit}
+							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+						/>
+						<div class="flex w-full items-center gap-4">
+							<input
+								id="flexibility"
+								type="range"
+								bind:value={flexibility}
+								min="0"
+								max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+								step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
+								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
+							/>
+						</div>
+					</div>
+					<p class="mt-2 text-xs text-sky-600">
+						Adjust for how much your bag can be squeezed to fit
+					</p>
+				</div>
+			{/if}
 		</div>
 	</div>
 {/snippet}
@@ -426,7 +496,8 @@
 {#snippet airlineAllowanceRow(airline: Airline)}
 	{@const compliance = checkCompliance(
 		getAirlineDimensions(airline),
-		getUserDimensionsIfFilled(userDimensions)
+		getUserDimensionsIfFilled(userDimensions),
+		flexibility
 	)}
 	{@const isCompliant = compliance?.every(Boolean) ?? false}
 	{@const dimensions = getAirlineDimensions(airline)}
