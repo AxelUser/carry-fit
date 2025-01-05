@@ -18,12 +18,12 @@
 	const FLEXIBILITY_CONFIG = {
 		cm: {
 			default: 0,
-			max: 5,
+			max: 8,
 			step: 0.5
 		},
 		in: {
 			default: 0,
-			max: 2,
+			max: 3,
 			step: 0.25
 		}
 	};
