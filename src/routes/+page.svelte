@@ -14,15 +14,30 @@
 	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
 	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 
-	const airlineData = getAirlineAllowances();
+	const FLEXIBILITY_CONFIG = {
+		cm: {
+			default: 3,
+			max: 5,
+			step: 0.5
+		},
+		in: {
+			default: 1,
+			max: 2,
+			step: 0.25
+		}
+	};
 
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
-	type SortDirection = (typeof SORT_DIRECTIONS)[number];
+
+	const airlineData = getAirlineAllowances();
 
 	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(regions));
+
+	type SortDirection = (typeof SORT_DIRECTIONS)[number];
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
+
 	const userDimensions = $state<UserDimensions>({
 		length: 0,
 		width: 0,
@@ -30,12 +45,12 @@
 		unit: 'cm'
 	});
 
-	let flexibility = $state(userDimensions.unit === 'cm' ? 3 : 1);
+	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
 	let showFlexibility = $state(false);
 
 	$effect(() => {
 		if (showFlexibility) {
-			flexibility = userDimensions.unit === 'cm' ? 3 : 1;
+			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
 		} else {
 			flexibility = 0;
 		}
@@ -342,8 +357,8 @@
 							type="range"
 							bind:value={flexibility}
 							min="0"
-							max={userDimensions.unit === 'cm' ? 5 : 2}
-							step={userDimensions.unit === 'cm' ? 0.5 : 0.25}
+							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+							step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
 							class="flex-1"
 						/>
 						<span class="w-12 text-center text-sm font-medium text-sky-900">
