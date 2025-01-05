@@ -310,7 +310,7 @@
 	{#if userDimensions.length && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
 			<details class="group mb-6" bind:open={isCompliantOpen}>
-				<summary class="mb-3 cursor-pointer list-none">
+				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 					<div class="flex items-center gap-2">
 						<div class="translate-y-[1px] text-emerald-700">
 							{#if isCompliantOpen}
@@ -348,7 +348,7 @@
 
 		{#if nonCompliantAirlines.length > 0}
 			<details class="group" bind:open={isNonCompliantOpen}>
-				<summary class="mb-3 cursor-pointer list-none">
+				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 					<div class="flex items-center gap-2">
 						<div class="translate-y-[1px] text-red-700">
 							{#if isNonCompliantOpen}
@@ -629,9 +629,5 @@
 
 	.ease-elastic {
 		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-	}
-
-	.group:has(> summary:hover)::before {
-		color: currentColor;
 	}
 </style>
