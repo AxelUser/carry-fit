@@ -1,24 +1,23 @@
-import type { Airline, BagAllowanceDimensions, Data, TestResult } from '$lib/types';
-import rawAirlinesJson from '$lib/allowances/carry-on-limits.json';
+import type { AirlineInfo, BagAllowanceDimensions, Data, TestResult } from '$lib/types';
+import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
-type AirlineData = (typeof rawAirlinesJson)[number];
 
-export function parseData(): Data {
-	const allowances = rawAirlinesJson.map(parseAirlineData);
+export function loadData(): Data {
+	const parsedAllowances = allowances.map(mapAirlineData);
 	return {
 		meta: {
 			lastTestRun: new Date(allowanceConsistencyResults.meta.lastTestRun),
-			coveredByTest: allowances.filter((airline) => airline.testResult).length
+			coveredByTest: parsedAllowances.filter((airline) => airline.testResult).length
 		},
-		allowances
+		allowances: parsedAllowances
 	};
 }
 
-function parseAirlineData(rawAirline: AirlineData): Airline {
-	const carryOnDimensions = getCarryOnDimensions(rawAirline.airline, rawAirline.carryon);
+function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
+	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn);
 
-	let pounds = rawAirline.pounds ?? undefined;
-	let kilograms = rawAirline.kilograms ?? undefined;
+	let pounds = allowance.pounds ?? undefined;
+	let kilograms = allowance.kilograms ?? undefined;
 
 	if (!kilograms && typeof pounds === 'number') {
 		kilograms = convertWeight(pounds, false);
@@ -30,14 +29,14 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 
 	const parsedTestResult = getLastTestOfAirline(
 		allowanceConsistencyResults.results[
-			rawAirline.id as keyof typeof allowanceConsistencyResults.results
+			allowance.id as keyof typeof allowanceConsistencyResults.results
 		]
 	);
 
 	return {
-		airline: rawAirline.airline,
-		region: rawAirline.region,
-		link: rawAirline.link,
+		airline: allowance.airline,
+		region: allowance.region,
+		link: allowance.link,
 		carryon: carryOnDimensions,
 		pounds,
 		kilograms,

@@ -1,7 +1,7 @@
 import { chromium, test, Browser, Page, BrowserContext } from '@playwright/test';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert { type: 'json' };
+import { AirlineAllowance, allowances } from '../src/lib/allowances/cabin-luggage-allowances';
 import type { TestResults } from '../src/lib/types';
 
 let testResults: TestResults;
@@ -85,12 +85,12 @@ test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
 		await saveTestReport();
 	});
 
-	for (const data of airlinesJsonData) {
-		if (!data.test?.text) {
+	for (const data of allowances) {
+		const textsToFind = data.test?.matchText;
+
+		if (!textsToFind) {
 			continue;
 		}
-
-		const expectedText = data.test.text;
 
 		test(`${data.airline} allowances should be up-to-date`, async () => {
 			currentAirlineId = data.id;
@@ -98,19 +98,21 @@ test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
 
 			try {
 				await page.waitForFunction(
-					(text: string | string[]) => {
+					(texts) => {
 						try {
-							if (typeof text === 'string') {
-								return document.body?.textContent?.includes(text);
-							} else {
-								return text.every((textPart) => document.body?.textContent?.includes(textPart));
-							}
+							return texts.every((text) => {
+								if (typeof text === 'string') {
+									return document.body?.textContent?.includes(text);
+								} else {
+									return text.test(document.body?.textContent || '');
+								}
+							});
 						} catch (error) {
 							console.error(error);
 							return false;
 						}
 					},
-					expectedText,
+					textsToFind,
 					{ timeout: 30000 }
 				);
 			} finally {

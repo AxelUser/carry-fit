@@ -3,10 +3,10 @@ export interface Data {
 		lastTestRun: Date;
 		coveredByTest: number;
 	};
-	allowances: Airline[];
+	allowances: AirlineInfo[];
 }
 
-export interface Airline {
+export interface AirlineInfo {
 	airline: string;
 	region: string;
 	link?: string;

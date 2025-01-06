@@ -4,8 +4,8 @@
 	import Check from '$lib/components/icons/check.svelte';
 	import Cross from '$lib/components/icons/cross.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { checkCompliance, parseData } from '$lib/allowances';
-	import type { Airline, BagAllowanceDimensions, UserDimensions } from '$lib/types';
+	import { checkCompliance, loadData } from '$lib/allowances';
+	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
 	import LogoIcon from '$lib/components/icons/logo.svelte';
 	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
 	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
@@ -35,7 +35,7 @@
 
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
 
-	const { meta, allowances } = parseData();
+	const { meta, allowances } = loadData();
 
 	const regions = [...new Set(allowances.map((airline) => airline.region))].sort();
 
@@ -525,7 +525,7 @@
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
 {/snippet}
 
-{#snippet airlineAllowanceRow(airline: Airline)}
+{#snippet airlineAllowanceRow(airline: AirlineInfo)}
 	{@const carryOnDimensions = getAirlineDimensions(airline.carryon)}
 	{@const compliance = checkCompliance(
 		carryOnDimensions,
