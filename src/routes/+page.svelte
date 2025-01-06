@@ -155,14 +155,15 @@
 
 	$effect(() => {
 		if (userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
-			analyticsService.trackEvent('bag_validated', {
-				user_bag_length: userDimensions.length,
-				user_bag_width: userDimensions.width,
-				user_bag_height: userDimensions.height,
-				user_bag_unit: userDimensions.unit,
-				user_bag_flexibility: showFlexibility,
-				user_bag_flexibility_value: flexibility
-			});
+			const eventProps: Record<string, string | number> = {
+				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${userDimensions.unit}`
+			};
+
+			if (showFlexibility) {
+				eventProps.user_bag_flexibility = flexibility;
+			}
+
+			analyticsService.trackEvent('bag_validated', eventProps);
 		}
 	});
 </script>
