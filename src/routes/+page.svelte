@@ -15,6 +15,9 @@
 	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 	import Suitcase from '$lib/components/suitcase.svelte';
 	import { analyticsService } from '$lib/analytics';
+	import GithubStar from '$lib/components/github-star.svelte';
+	import GithubFork from '$lib/components/github-fork.svelte';
+	import GithubIssue from '$lib/components/github-issue.svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -185,6 +188,11 @@
 						>{airlineData.length}</span
 					> airlines worldwide
 				</p>
+				<div class="mt-6 flex items-center justify-center gap-2">
+					<GithubStar />
+					<GithubFork />
+					<GithubIssue />
+				</div>
 			</div>
 
 			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
