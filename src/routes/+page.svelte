@@ -14,6 +14,7 @@
 	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
 	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 	import Suitcase from '$lib/components/suitcase.svelte';
+	import { analyticsService } from '$lib/analytics';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -148,6 +149,19 @@
 		showFlexibility = false;
 		flexibility = 0;
 	}
+
+	$effect(() => {
+		if (userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
+			analyticsService.trackEvent('bag_validated', {
+				user_bag_length: userDimensions.length,
+				user_bag_width: userDimensions.width,
+				user_bag_height: userDimensions.height,
+				user_bag_unit: userDimensions.unit,
+				user_bag_flexibility: showFlexibility,
+				user_bag_flexibility_value: flexibility
+			});
+		}
+	});
 </script>
 
 <svelte:window bind:innerWidth />
