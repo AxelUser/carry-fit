@@ -2,14 +2,18 @@ export interface Airline {
 	airline: string;
 	region: string;
 	link?: string;
-	inches: number | number[];
-	centimeters: number | number[];
+	carryon: BagAllowanceDimensions;
 	pounds?: number;
 	kilograms?: number;
 	testResult?: {
 		lastTest: Date;
 		success: boolean;
 	};
+}
+
+export interface BagAllowanceDimensions {
+	inches: number | number[];
+	centimeters: number | number[];
 }
 
 export interface UserDimensions {

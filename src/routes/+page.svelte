@@ -5,7 +5,7 @@
 	import Cross from '$lib/components/icons/cross.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
-	import type { Airline, UserDimensions } from '$lib/types';
+	import type { Airline, BagAllowanceDimensions, UserDimensions } from '$lib/types';
 	import LogoIcon from '$lib/components/icons/logo.svelte';
 	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
 	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
@@ -68,6 +68,10 @@
 	let isCompliantOpen = $state(false);
 	let isNonCompliantOpen = $state(false);
 
+	/**
+	 * Initially open the compliance and non-compliance sections on large screens (and hide on small screens).
+	 * Made this with $effect because user should be able to close or open sections, thus $derived would not work.
+	 */
 	$effect(() => {
 		isCompliantOpen = isLargeScreen;
 		isNonCompliantOpen = isLargeScreen;
@@ -86,7 +90,7 @@
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
-						getAirlineDimensions(airline),
+						getAirlineDimensions(airline.carryon),
 						[userDimensions.length, userDimensions.width, userDimensions.height],
 						flexibility
 					);
@@ -99,7 +103,7 @@
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
-						getAirlineDimensions(airline),
+						getAirlineDimensions(airline.carryon),
 						[userDimensions.length, userDimensions.width, userDimensions.height],
 						flexibility
 					);
@@ -112,8 +116,8 @@
 		filteredAirlines.length === 0 ? 0 : (compliantAirlines.length / filteredAirlines.length) * 100
 	);
 
-	function getAirlineDimensions(airline: Airline): number[] {
-		const dims = userDimensions.unit === 'cm' ? airline.centimeters : airline.inches;
+	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
+		const dims = userDimensions.unit === 'cm' ? allowanceDims.centimeters : allowanceDims.inches;
 		return Array.isArray(dims) ? dims : [dims];
 	}
 
@@ -513,7 +517,7 @@
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Dimensions ({userDimensions.unit})
+		Carry-On ({userDimensions.unit})
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
 		>Weight Limit</th
@@ -522,13 +526,13 @@
 {/snippet}
 
 {#snippet airlineAllowanceRow(airline: Airline)}
+	{@const carryOnDimensions = getAirlineDimensions(airline.carryon)}
 	{@const compliance = checkCompliance(
-		getAirlineDimensions(airline),
+		carryOnDimensions,
 		getUserDimensionsIfFilled(userDimensions),
 		flexibility
 	)}
 	{@const isCompliant = compliance?.every(Boolean) ?? false}
-	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
 		<td class="pl-2 pt-1.5 text-sm sm:text-base">
@@ -554,16 +558,16 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
 		<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
-			{#if dimensions.length === 1}
+			{#if carryOnDimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
-					{`Total ${dimensions[0]}`}</span
+					{`Total ${carryOnDimensions[0]}`}</span
 				>
 			{:else}
-				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>{dimensions[0]}</span>
+				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>{carryOnDimensions[0]}</span>
 				x
-				<span class={compliance?.[1] === false ? 'text-red-600' : ''}>{dimensions[1]}</span>
+				<span class={compliance?.[1] === false ? 'text-red-600' : ''}>{carryOnDimensions[1]}</span>
 				x
-				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{dimensions[2]}</span>
+				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{carryOnDimensions[2]}</span>
 			{/if}
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">

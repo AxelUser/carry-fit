@@ -1,4 +1,4 @@
-import type { Airline, TestResult } from '$lib/types';
+import type { Airline, BagAllowanceDimensions, TestResult } from '$lib/types';
 import rawAirlinesJson from '$lib/allowances/carry-on-limits.json';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 type AirlineData = (typeof rawAirlinesJson)[number];
@@ -8,21 +8,7 @@ export function getAirlineAllowances(): Airline[] {
 }
 
 function parseAirlineData(rawAirline: AirlineData): Airline {
-	let parsedCentimeters = rawAirline.centimeters
-		? getDimensions(rawAirline.centimeters)
-		: undefined;
-	let parsedInches = rawAirline.inches ? getDimensions(rawAirline.inches) : undefined;
-
-	if (!parsedCentimeters && !parsedInches) {
-		throw new Error(`No dimensions for ${rawAirline.airline}`);
-	}
-	if (!parsedInches) {
-		parsedInches = convertDimensions(parsedCentimeters!, (value) => value / 2.54);
-	}
-
-	if (!parsedCentimeters) {
-		parsedCentimeters = convertDimensions(parsedInches!, (value) => value * 2.54);
-	}
+	const carryOnDimensions = getCarryOnDimensions(rawAirline.airline, rawAirline.carryon);
 
 	let pounds = rawAirline.pounds ?? undefined;
 	let kilograms = rawAirline.kilograms ?? undefined;
@@ -43,8 +29,7 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		airline: rawAirline.airline,
 		region: rawAirline.region,
 		link: rawAirline.link,
-		inches: parsedInches,
-		centimeters: parsedCentimeters,
+		carryon: carryOnDimensions,
 		pounds,
 		kilograms,
 		testResult: parsedTestResult
@@ -70,6 +55,33 @@ function getDimensions(dimensions: number | number[]): number | number[] {
 		return dimensions;
 	}
 	return dimensions.sort((a, b) => b - a);
+}
+
+function getCarryOnDimensions(
+	airlineName: string,
+	dims: {
+		centimeters?: number | number[];
+		inches?: number | number[];
+	}
+): BagAllowanceDimensions {
+	let parsedCentimeters = dims.centimeters ? getDimensions(dims.centimeters) : undefined;
+	let parsedInches = dims.inches ? getDimensions(dims.inches) : undefined;
+
+	if (!parsedCentimeters && !parsedInches) {
+		throw new Error(`No dimensions for ${airlineName}`);
+	}
+	if (!parsedInches) {
+		parsedInches = convertDimensions(parsedCentimeters!, (value) => value / 2.54);
+	}
+
+	if (!parsedCentimeters) {
+		parsedCentimeters = convertDimensions(parsedInches!, (value) => value * 2.54);
+	}
+
+	return {
+		centimeters: parsedCentimeters,
+		inches: parsedInches
+	};
 }
 
 function convertDimensions(
