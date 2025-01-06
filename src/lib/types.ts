@@ -1,3 +1,11 @@
+export interface Data {
+	meta: {
+		lastTestRun: Date;
+		coveredByTest: number;
+	};
+	allowances: Airline[];
+}
+
 export interface Airline {
 	airline: string;
 	region: string;
@@ -30,7 +38,12 @@ export interface DimensionsCheck {
 }
 
 export type TestResults = {
-	[airline: string]: TestResult;
+	results: {
+		[airlineId: string]: TestResult;
+	};
+	meta: {
+		lastTestRun: string;
+	};
 };
 
 export type TestResult = {

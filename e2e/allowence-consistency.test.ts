@@ -2,17 +2,9 @@ import { chromium, test, Browser, Page, BrowserContext } from '@playwright/test'
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert { type: 'json' };
+import type { TestResults } from '../src/lib/types';
 
-type AirlineTestResult = {
-	lastTestPass?: string;
-	lastTestFail?: string;
-};
-
-type TestResults = {
-	[airline: string]: AirlineTestResult;
-};
-
-let testResults: TestResults = {};
+let testResults: TestResults;
 
 async function setupTestPage(
 	url: string
@@ -41,9 +33,17 @@ async function loadTestReport(): Promise<void> {
 	try {
 		const fileContent = await fs.readFile(resultsPath, 'utf-8');
 		testResults = JSON.parse(fileContent);
+
+		if (!testResults.results) {
+			testResults.results = {};
+		}
+
+		if (!testResults.meta) {
+			testResults.meta = { lastTestRun: new Date().toISOString() };
+		}
 	} catch {
 		// If file doesn't exist or is empty, start with empty results
-		testResults = {};
+		testResults = { results: {}, meta: { lastTestRun: new Date().toISOString() } };
 	}
 }
 
@@ -55,22 +55,30 @@ async function saveTestReport(): Promise<void> {
 	await fs.writeFile(resultsPath, JSON.stringify(testResults, null, 4), 'utf-8');
 }
 
-function updateAirlineTestResult(airline: string, success: boolean): void {
+function updateAirlineTestResult(airlineId: string, success: boolean): void {
 	const currentTime = new Date().toISOString();
-	if (!testResults[airline]) {
-		testResults[airline] = {};
+	if (!testResults.results[airlineId]) {
+		testResults.results[airlineId] = {};
 	}
 
 	if (success) {
-		testResults[airline].lastTestPass = currentTime;
+		testResults.results[airlineId].lastTestPass = currentTime;
 	} else {
-		testResults[airline].lastTestFail = currentTime;
+		testResults.results[airlineId].lastTestFail = currentTime;
 	}
+
+	testResults.meta.lastTestRun = currentTime;
 }
 
-test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
+test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
+	let currentAirlineId: string;
+
 	test.beforeAll(async () => {
 		await loadTestReport();
+	});
+
+	test.afterEach(async ({}, testInfo) => {
+		updateAirlineTestResult(currentAirlineId, testInfo.status === testInfo.expectedStatus);
 	});
 
 	test.afterAll(async () => {
@@ -84,7 +92,8 @@ test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
 
 		const expectedText = data.test.text;
 
-		test(`${data.airline} website contains expected text: "${expectedText}"`, async () => {
+		test(`${data.airline} allowances should be up-to-date`, async () => {
+			currentAirlineId = data.id;
 			const { browser, page } = await setupTestPage(data.link!);
 
 			try {
@@ -104,11 +113,6 @@ test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
 					expectedText,
 					{ timeout: 30000 }
 				);
-
-				updateAirlineTestResult(data.airline, true);
-			} catch (error) {
-				updateAirlineTestResult(data.airline, false);
-				throw error; // Re-throw to make the test fail
 			} finally {
 				await browser.close();
 			}

@@ -1,10 +1,17 @@
-import type { Airline, BagAllowanceDimensions, TestResult } from '$lib/types';
+import type { Airline, BagAllowanceDimensions, Data, TestResult } from '$lib/types';
 import rawAirlinesJson from '$lib/allowances/carry-on-limits.json';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 type AirlineData = (typeof rawAirlinesJson)[number];
 
-export function getAirlineAllowances(): Airline[] {
-	return rawAirlinesJson.map(parseAirlineData);
+export function parseData(): Data {
+	const allowances = rawAirlinesJson.map(parseAirlineData);
+	return {
+		meta: {
+			lastTestRun: new Date(allowanceConsistencyResults.meta.lastTestRun),
+			coveredByTest: allowances.filter((airline) => airline.testResult).length
+		},
+		allowances
+	};
 }
 
 function parseAirlineData(rawAirline: AirlineData): Airline {
@@ -21,8 +28,10 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 		pounds = convertWeight(kilograms, true);
 	}
 
-	const parsedTestResult = getLastTest(
-		allowanceConsistencyResults[rawAirline.airline as keyof typeof allowanceConsistencyResults]
+	const parsedTestResult = getLastTestOfAirline(
+		allowanceConsistencyResults.results[
+			rawAirline.id as keyof typeof allowanceConsistencyResults.results
+		]
 	);
 
 	return {
@@ -36,7 +45,9 @@ function parseAirlineData(rawAirline: AirlineData): Airline {
 	};
 }
 
-function getLastTest(result?: TestResult): { lastTest: Date; success: boolean } | undefined {
+function getLastTestOfAirline(
+	result?: TestResult
+): { lastTest: Date; success: boolean } | undefined {
 	if (!result?.lastTestPass && !result?.lastTestFail) {
 		return undefined;
 	}

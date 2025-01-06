@@ -1,2 +1,2 @@
-export { checkCompliance } from "./bag-validator";
-export { getAirlineAllowances } from "./parser";
+export { checkCompliance } from './bag-validator';
+export { parseData } from './parser';

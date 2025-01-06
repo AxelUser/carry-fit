@@ -1,420 +1,428 @@
 {
-    "Finnair": {
-        "lastTestPass": "2024-12-24T01:12:44.631Z"
-    },
-    "Thai Lion Air": {
-        "lastTestPass": "2024-12-24T01:12:47.405Z"
-    },
-    "Wizz Air": {
-        "lastTestPass": "2024-12-24T01:12:49.535Z"
-    },
-    "Loganair": {
-        "lastTestPass": "2024-12-24T01:12:51.078Z"
-    },
-    "Aer Lingus Regional ": {
-        "lastTestPass": "2024-12-24T01:12:53.327Z"
-    },
-    "Virgin Australia": {
-        "lastTestPass": "2024-12-24T01:12:54.740Z"
-    },
-    "Astra Airlines": {
-        "lastTestPass": "2024-12-24T01:12:56.288Z"
-    },
-    "Qatar Airways": {
-        "lastTestPass": "2024-12-24T01:12:59.929Z"
-    },
-    "Air Moldova": {
-        "lastTestPass": "2024-12-24T01:13:04.339Z"
-    },
-    "Atlantic Airways": {
-        "lastTestPass": "2024-12-24T01:13:06.788Z"
-    },
-    "Etihad Airways": {
-        "lastTestPass": "2024-12-24T01:13:09.410Z"
-    },
-    "Air Transat": {
-        "lastTestPass": "2024-12-24T01:13:11.769Z"
-    },
-    "WestJet": {
-        "lastTestPass": "2024-12-24T01:13:16.326Z"
-    },
-    "Air Corsica": {
-        "lastTestPass": "2024-12-24T01:13:18.767Z"
-    },
-    "Air Europa": {
-        "lastTestPass": "2024-12-24T01:13:21.782Z"
-    },
-    "Air France": {
-        "lastTestPass": "2024-12-24T01:13:24.815Z"
-    },
-    "Air India": {
-        "lastTestPass": "2024-12-24T01:13:27.725Z"
-    },
-    "Air Mauritius": {
-        "lastTestPass": "2024-12-24T01:13:32.800Z"
-    },
-    "Air Tahiti": {
-        "lastTestPass": "2024-12-24T01:13:36.891Z"
-    },
-    "Avianca Airlines": {
-        "lastTestPass": "2024-12-24T01:13:38.949Z"
-    },
-    "Georgian Airways": {
-        "lastTestPass": "2024-12-24T01:13:41.640Z"
-    },
-    "GOL Airlines": {
-        "lastTestPass": "2024-12-24T01:13:46.282Z"
-    },
-    "IndiGo Airlines": {
-        "lastTestPass": "2024-12-24T01:13:48.828Z"
-    },
-    "Kenya Airways": {
-        "lastTestPass": "2024-12-24T01:13:52.378Z"
-    },
-    "KLM Royal Dutch Airlines": {
-        "lastTestPass": "2024-12-24T01:13:55.440Z"
-    },
-    "LATAM Airlines": {
-        "lastTestPass": "2024-12-24T01:13:57.662Z"
-    },
-    "SpiceJet": {
-        "lastTestPass": "2024-12-24T01:14:00.286Z"
-    },
-    "Transavia": {
-        "lastTestPass": "2024-12-24T01:14:02.338Z"
-    },
-    "Aurigny": {
-        "lastTestPass": "2024-12-24T01:14:05.086Z"
-    },
-    "Emirates": {
-        "lastTestPass": "2024-12-24T01:14:08.164Z"
-    },
-    "Royal Brunei Airlines": {
-        "lastTestPass": "2024-12-24T01:14:15.924Z"
-    },
-    "Air Austral": {
-        "lastTestPass": "2024-12-24T01:14:18.120Z"
-    },
-    "Air China": {
-        "lastTestPass": "2024-12-24T01:14:22.448Z"
-    },
-    "Air Tahiti Nui": {
-        "lastTestPass": "2024-12-24T01:14:24.638Z"
-    },
-    "Armenia Aircompany": {
-        "lastTestPass": "2024-12-24T01:14:29.223Z"
-    },
-    "Asiana Airlines": {
-        "lastTestPass": "2024-12-24T01:14:35.156Z"
-    },
-    "Azores Airlines": {
-        "lastTestPass": "2024-12-24T01:14:52.872Z"
-    },
-    "Azul": {
-        "lastTestPass": "2024-12-24T01:14:57.906Z"
-    },
-    "Carpatair": {
-        "lastTestPass": "2024-12-24T01:15:02.493Z"
-    },
-    "China Southern": {
-        "lastTestPass": "2024-12-24T01:15:07.032Z"
-    },
-    "Condor": {
-        "lastTestPass": "2024-12-24T01:15:08.621Z"
-    },
-    "Corsair International": {
-        "lastTestPass": "2024-12-24T01:15:12.374Z"
-    },
-    "Croatia Airlines": {
-        "lastTestPass": "2024-12-24T01:15:14.086Z"
-    },
-    "Hainan Airlines": {
-        "lastTestPass": "2024-12-24T01:15:18.483Z"
-    },
-    "Helvetic Airways": {
-        "lastTestPass": "2024-12-24T01:15:20.241Z"
-    },
-    "Icelandair": {
-        "lastTestPass": "2024-12-24T01:15:22.865Z"
-    },
-    "Jet Time": {
-        "lastTestPass": "2024-12-24T01:15:23.757Z"
-    },
-    "Korean Air": {
-        "lastTestPass": "2024-12-24T01:15:26.103Z"
-    },
-    "MIAT Mongolian Airlines": {
-        "lastTestPass": "2024-12-24T01:15:30.019Z"
-    },
-    "Plus Ultra": {
-        "lastTestPass": "2024-12-24T01:15:32.870Z"
-    },
-    "Ryanair": {
-        "lastTestPass": "2024-12-24T01:15:35.419Z"
-    },
-    "Spring Airlines": {
-        "lastTestPass": "2024-12-24T01:15:58.103Z"
-    },
-    "TAROM": {
-        "lastTestPass": "2024-12-24T01:16:33.567Z"
-    },
-    "TUIfly": {
-        "lastTestPass": "2024-12-24T01:16:36.868Z"
-    },
-    "VivaAerobus": {
-        "lastTestPass": "2024-12-24T01:16:38.825Z"
-    },
-    "Vueling": {
-        "lastTestPass": "2024-12-24T01:16:56.725Z"
-    },
-    "Air Baltic": {
-        "lastTestPass": "2024-12-24T01:16:58.378Z"
-    },
-    "Air Canada": {
-        "lastTestPass": "2024-12-24T01:17:01.115Z"
-    },
-    "Air New Zealand": {
-        "lastTestPass": "2024-12-24T01:17:04.716Z"
-    },
-    "Air Serbia": {
-        "lastTestPass": "2024-12-24T01:17:07.324Z"
-    },
-    "Austrian Airlines": {
-        "lastTestPass": "2024-12-24T01:17:10.220Z"
-    },
-    "Azerbaijan Airlines": {
-        "lastTestPass": "2024-12-24T01:17:11.371Z"
-    },
-    "Brussels Airlines": {
-        "lastTestPass": "2024-12-24T01:17:13.371Z"
-    },
-    "Bulgaria Air": {
-        "lastTestPass": "2024-12-24T01:17:15.259Z"
-    },
-    "Edelweiss": {
-        "lastTestPass": "2024-12-24T01:17:18.724Z"
-    },
-    "Egypt Air": {
-        "lastTestPass": "2024-12-24T01:17:22.382Z"
-    },
-    "Ethiopian Airlines": {
-        "lastTestPass": "2024-12-24T01:17:25.828Z"
-    },
-    "Fiji Airways": {
-        "lastTestPass": "2024-12-24T01:17:31.016Z"
-    },
-    "Lufthansa": {
-        "lastTestPass": "2024-12-24T01:17:33.164Z"
-    },
-    "Luxair": {
-        "lastTestPass": "2024-12-24T01:17:35.557Z"
-    },
-    "Norwegian": {
-        "lastTestPass": "2024-12-24T01:17:37.574Z"
-    },
-    "Olympic Air": {
-        "lastTestPass": "2024-12-24T01:17:39.857Z"
-    },
-    "S7 Airlines": {
-        "lastTestPass": "2024-12-24T01:17:42.502Z"
-    },
-    "SAS Scandinavian Airlines": {
-        "lastTestPass": "2024-12-24T01:17:44.632Z"
-    },
-    "SunExpress": {
-        "lastTestPass": "2024-12-24T01:17:49.514Z"
-    },
-    "Swiss International Air Lines": {
-        "lastTestPass": "2024-12-24T01:17:52.358Z"
-    },
-    "Turkish Airlines": {
-        "lastTestPass": "2024-12-24T01:17:56.538Z"
-    },
-    "Aer Lingus": {
-        "lastTestPass": "2024-12-24T01:18:00.112Z"
-    },
-    "Aeroflot": {
-        "lastTestPass": "2024-12-24T01:18:05.663Z"
-    },
-    "Aeroméxico": {
-        "lastTestPass": "2024-12-24T01:18:10.138Z"
-    },
-    "ANA": {
-        "lastTestPass": "2024-12-24T01:18:12.301Z"
-    },
-    "Belavia": {
-        "lastTestPass": "2024-12-24T01:18:14.236Z"
-    },
-    "Volaris": {
-        "lastTestPass": "2024-12-24T01:18:17.862Z"
-    },
-    "Czech Airlines": {
-        "lastTestPass": "2024-12-24T01:18:20.287Z"
-    },
-    "Wingo": {
-        "lastTestPass": "2024-12-24T01:18:23.460Z"
-    },
-    "Alaska Airlines": {
-        "lastTestPass": "2024-12-24T01:18:27.628Z"
-    },
-    "American Airlines": {
-        "lastTestPass": "2024-12-24T01:18:31.084Z"
-    },
-    "Bahamasair": {
-        "lastTestPass": "2024-12-24T01:18:42.760Z"
-    },
-    "Bangkok Airways": {
-        "lastTestPass": "2024-12-24T01:18:45.935Z"
-    },
-    "Cambodia Angkor Air": {
-        "lastTestPass": "2024-12-24T01:18:49.544Z"
-    },
-    "Caribbean Airlines": {
-        "lastTestPass": "2024-12-24T01:18:53.793Z"
-    },
-    "China Airlines": {
-        "lastTestPass": "2024-12-24T01:19:31.784Z"
-    },
-    "Delta Air Lines": {
-        "lastTestPass": "2024-12-24T01:19:34.999Z"
-    },
-    "Hawaiian Airlines": {
-        "lastTestPass": "2024-12-24T01:20:10.974Z"
-    },
-    "HK Express": {
-        "lastTestPass": "2024-12-24T01:20:14.947Z"
-    },
-    "Hong Kong Airlines": {
-        "lastTestPass": "2024-12-24T01:20:19.454Z"
-    },
-    "Japan Airlines": {
-        "lastTestPass": "2024-12-24T01:20:25.465Z"
-    },
-    "JetBlue Airways": {
-        "lastTestPass": "2024-12-24T01:20:28.086Z"
-    },
-    "Jetstar": {
-        "lastTestPass": "2024-12-24T01:20:32.652Z"
-    },
-    "Lao Airlines": {
-        "lastTestPass": "2024-12-24T01:20:36.820Z"
-    },
-    "NokAir": {
-        "lastTestPass": "2024-12-24T01:20:54.726Z"
-    },
-    "Oman Air": {
-        "lastTestPass": "2024-12-24T01:20:58.163Z"
-    },
-    "Peach": {
-        "lastTestPass": "2024-12-24T01:21:23.452Z"
-    },
-    "Philippines Airlines": {
-        "lastTestPass": "2024-12-24T01:21:27.033Z"
-    },
-    "Porter Airlines": {
-        "lastTestPass": "2024-12-24T01:21:30.170Z"
-    },
-    "Qantas": {
-        "lastTestPass": "2024-12-24T01:21:34.153Z"
-    },
-    "Royal Air Maroc": {
-        "lastTestPass": "2024-12-24T01:21:36.933Z"
-    },
-    "Royal Jordanian Airlines": {
-        "lastTestPass": "2024-12-24T01:21:42.284Z"
-    },
-    "Saudia Airlines": {
-        "lastTestPass": "2024-12-24T01:21:44.518Z"
-    },
-    "Singapore Airlines": {
-        "lastTestPass": "2024-12-24T01:22:18.696Z"
-    },
-    "South African Airways": {
-        "lastTestPass": "2024-12-24T01:22:30.845Z"
-    },
-    "Sri Lankan Airlines": {
-        "lastTestPass": "2024-12-24T01:22:36.200Z"
-    },
-    "United Airlines": {
-        "lastTestPass": "2024-12-24T01:22:40.506Z"
-    },
-    "Vietnam Airlines": {
-        "lastTestPass": "2024-12-24T01:22:44.269Z"
-    },
-    "Virgin Atlantic Airways": {
-        "lastTestPass": "2024-12-24T01:22:46.076Z"
-    },
-    "Xiamen Airlines": {
-        "lastTestPass": "2024-12-24T01:22:51.489Z"
-    },
-    "Copa Airlines": {
-        "lastTestPass": "2024-12-24T01:22:56.286Z"
-    },
-    "Aegean Airlines": {
-        "lastTestPass": "2024-12-24T01:22:59.490Z"
-    },
-    "British Airways": {
-        "lastTestPass": "2024-12-24T01:23:32.601Z"
-    },
-    "easyJet": {
-        "lastTestPass": "2024-12-24T01:23:34.398Z"
-    },
-    "El Al": {
-        "lastTestPass": "2024-12-24T01:23:38.414Z"
-    },
-    "Iberia": {
-        "lastTestPass": "2024-12-24T01:23:41.638Z"
-    },
-    "Jet2.com": {
-        "lastTestPass": "2024-12-24T01:23:45.000Z"
-    },
-    "Kuwait Airways": {
-        "lastTestPass": "2024-12-24T01:25:01.830Z"
-    },
-    "Malaysia Airlines": {
-        "lastTestPass": "2024-12-24T01:25:05.751Z"
-    },
-    "Norse Atlantic Airways": {
-        "lastTestPass": "2024-12-24T01:25:08.840Z"
-    },
-    "Spirit Airlines": {
-        "lastTestPass": "2024-12-24T01:25:11.209Z"
-    },
-    "Frontier Airlines": {
-        "lastTestPass": "2024-12-24T01:25:17.375Z"
-    },
-    "Cayman Airways": {
-        "lastTestPass": "2024-12-24T01:25:20.879Z"
-    },
-    "Southwest Airlines": {
-        "lastTestPass": "2024-12-24T01:25:26.012Z"
-    },
-    "Sun Country Airlines": {
-        "lastTestPass": "2024-12-24T01:25:30.547Z"
-    },
-    "Pobeda": {
-        "lastTestPass": "2024-12-24T01:25:33.875Z"
-    },
-    "Thai Airways": {
-        "lastTestPass": "2024-12-24T01:34:30.922Z"
-    },
-    "SmartWings": {
-        "lastTestPass": "2024-12-24T01:34:57.152Z"
-    },
-    "Air Astana": {
-        "lastTestFail": "2024-12-24T01:35:49.096Z",
-        "lastTestPass": "2024-12-24T01:36:11.340Z"
-    },
-    "Scoot Airlines": {
-        "lastTestPass": "2024-12-24T01:37:56.241Z"
-    },
-    "TAP Portugal": {
-        "lastTestPass": "2024-12-24T01:47:52.853Z"
-    },
-    "Air Asia": {
-        "lastTestPass": "2024-12-24T02:01:12.486Z"
-    },
-    "ZIPAIR": {
-        "lastTestPass": "2024-12-24T13:43:36.179Z"
+    "results": {
+        "finnair": {
+            "lastTestPass": "2025-01-06T20:23:22.273Z"
+        },
+        "thai-lion-air": {
+            "lastTestPass": "2025-01-06T20:23:25.172Z"
+        },
+        "wizz-air": {
+            "lastTestPass": "2025-01-06T20:23:27.731Z"
+        },
+        "loganair": {
+            "lastTestPass": "2025-01-06T20:23:29.504Z"
+        },
+        "aer-lingus-regional": {
+            "lastTestPass": "2025-01-06T20:23:31.717Z"
+        },
+        "virgin-australia": {
+            "lastTestPass": "2025-01-06T20:23:33.337Z"
+        },
+        "qatar-airways": {
+            "lastTestPass": "2025-01-06T20:24:00.746Z"
+        },
+        "air-moldova": {
+            "lastTestPass": "2025-01-06T20:24:04.835Z"
+        },
+        "atlantic-airways": {
+            "lastTestPass": "2025-01-06T20:24:07.775Z"
+        },
+        "etihad-airways": {
+            "lastTestPass": "2025-01-06T20:24:11.098Z"
+        },
+        "air-transat": {
+            "lastTestPass": "2025-01-06T20:24:13.514Z"
+        },
+        "westjet": {
+            "lastTestPass": "2025-01-06T20:24:22.160Z"
+        },
+        "air-corsica": {
+            "lastTestPass": "2025-01-06T20:24:24.468Z"
+        },
+        "air-europa": {
+            "lastTestPass": "2025-01-06T20:24:27.535Z"
+        },
+        "air-france": {
+            "lastTestPass": "2025-01-06T20:24:31.760Z"
+        },
+        "air-india": {
+            "lastTestPass": "2025-01-06T20:24:34.594Z"
+        },
+        "air-mauritius": {
+            "lastTestPass": "2025-01-06T20:24:38.269Z"
+        },
+        "air-tahiti": {
+            "lastTestPass": "2025-01-06T20:24:40.330Z"
+        },
+        "avianca-airlines": {
+            "lastTestPass": "2025-01-06T20:24:42.431Z"
+        },
+        "georgian-airways": {
+            "lastTestPass": "2025-01-06T20:24:45.260Z"
+        },
+        "gol-airlines": {
+            "lastTestPass": "2025-01-06T20:24:49.494Z"
+        },
+        "indigo-airlines": {
+            "lastTestPass": "2025-01-06T20:24:52.251Z"
+        },
+        "kenya-airways": {
+            "lastTestPass": "2025-01-06T20:24:56.155Z"
+        },
+        "klm-royal-dutch-airlines": {
+            "lastTestPass": "2025-01-06T20:24:59.574Z"
+        },
+        "latam-airlines": {
+            "lastTestPass": "2025-01-06T20:25:01.559Z"
+        },
+        "spicejet": {
+            "lastTestPass": "2025-01-06T20:25:03.590Z"
+        },
+        "transavia": {
+            "lastTestPass": "2025-01-06T20:25:06.013Z"
+        },
+        "aurigny": {
+            "lastTestPass": "2025-01-06T20:25:09.131Z"
+        },
+        "emirates": {
+            "lastTestPass": "2025-01-06T20:25:11.878Z"
+        },
+        "royal-brunei-airlines": {
+            "lastTestPass": "2025-01-06T20:25:21.587Z"
+        },
+        "air-austral": {
+            "lastTestPass": "2025-01-06T20:25:24.041Z"
+        },
+        "air-china": {
+            "lastTestPass": "2025-01-06T20:25:27.270Z"
+        },
+        "air-tahiti-nui": {
+            "lastTestPass": "2025-01-06T20:25:28.999Z"
+        },
+        "armenia-aircompany": {
+            "lastTestPass": "2025-01-06T20:25:32.177Z"
+        },
+        "asiana-airlines": {
+            "lastTestPass": "2025-01-06T20:25:37.193Z"
+        },
+        "azores-airlines": {
+            "lastTestPass": "2025-01-06T20:25:54.393Z"
+        },
+        "azul": {
+            "lastTestPass": "2025-01-06T20:25:58.975Z"
+        },
+        "carpatair": {
+            "lastTestPass": "2025-01-06T20:26:02.488Z"
+        },
+        "china-southern": {
+            "lastTestPass": "2025-01-06T20:26:07.417Z"
+        },
+        "condor": {
+            "lastTestPass": "2025-01-06T20:26:10.015Z"
+        },
+        "corsair-international": {
+            "lastTestPass": "2025-01-06T20:26:11.571Z"
+        },
+        "croatia-airlines": {
+            "lastTestFail": "2025-01-06T18:57:43.210Z",
+            "lastTestPass": "2025-01-06T20:26:13.260Z"
+        },
+        "hainan-airlines": {
+            "lastTestPass": "2025-01-06T20:26:16.048Z"
+        },
+        "helvetic-airways": {
+            "lastTestPass": "2025-01-06T20:26:18.050Z"
+        },
+        "icelandair": {
+            "lastTestPass": "2025-01-06T20:26:20.808Z"
+        },
+        "korean-air": {
+            "lastTestPass": "2025-01-06T20:26:54.736Z"
+        },
+        "miat-mongolian-airlines": {
+            "lastTestPass": "2025-01-06T20:26:58.497Z"
+        },
+        "plus-ultra": {
+            "lastTestPass": "2025-01-06T20:27:01.116Z"
+        },
+        "ryanair": {
+            "lastTestPass": "2025-01-06T20:27:03.508Z"
+        },
+        "spring-airlines": {
+            "lastTestPass": "2025-01-06T20:27:07.443Z"
+        },
+        "tap-portugal": {
+            "lastTestPass": "2025-01-06T20:27:10.211Z"
+        },
+        "tarom": {
+            "lastTestPass": "2025-01-06T20:27:14.747Z"
+        },
+        "tuifly": {
+            "lastTestPass": "2025-01-06T20:27:17.644Z"
+        },
+        "vivaaerobus": {
+            "lastTestPass": "2025-01-06T20:27:19.253Z"
+        },
+        "vueling": {
+            "lastTestPass": "2025-01-06T20:27:24.207Z"
+        },
+        "air-baltic": {
+            "lastTestPass": "2025-01-06T20:27:25.952Z"
+        },
+        "air-canada": {
+            "lastTestPass": "2025-01-06T20:27:30.456Z"
+        },
+        "air-new-zealand": {
+            "lastTestPass": "2025-01-06T20:27:34.296Z"
+        },
+        "air-serbia": {
+            "lastTestPass": "2025-01-06T20:27:37.436Z"
+        },
+        "austrian-airlines": {
+            "lastTestPass": "2025-01-06T20:27:40.469Z"
+        },
+        "azerbaijan-airlines": {
+            "lastTestPass": "2025-01-06T20:27:41.636Z"
+        },
+        "brussels-airlines": {
+            "lastTestPass": "2025-01-06T20:27:43.773Z"
+        },
+        "bulgaria-air": {
+            "lastTestPass": "2025-01-06T20:27:45.626Z"
+        },
+        "edelweiss": {
+            "lastTestPass": "2025-01-06T20:27:47.987Z"
+        },
+        "egypt-air": {
+            "lastTestPass": "2025-01-06T20:27:52.148Z"
+        },
+        "ethiopian-airlines": {
+            "lastTestPass": "2025-01-06T20:27:55.815Z"
+        },
+        "fiji-airways": {
+            "lastTestPass": "2025-01-06T20:27:58.868Z"
+        },
+        "lufthansa": {
+            "lastTestPass": "2025-01-06T20:28:01.934Z"
+        },
+        "luxair": {
+            "lastTestPass": "2025-01-06T20:28:04.667Z"
+        },
+        "norwegian": {
+            "lastTestPass": "2025-01-06T20:28:06.736Z"
+        },
+        "olympic-air": {
+            "lastTestPass": "2025-01-06T20:28:12.175Z"
+        },
+        "s7-airlines": {
+            "lastTestPass": "2025-01-06T20:28:15.165Z"
+        },
+        "sas-scandinavian-airlines": {
+            "lastTestPass": "2025-01-06T20:28:17.515Z"
+        },
+        "sunexpress": {
+            "lastTestPass": "2025-01-06T20:28:20.048Z"
+        },
+        "swiss-international-air-lines": {
+            "lastTestPass": "2025-01-06T20:28:22.768Z"
+        },
+        "turkish-airlines": {
+            "lastTestPass": "2025-01-06T20:28:27.334Z"
+        },
+        "aer-lingus": {
+            "lastTestPass": "2025-01-06T20:28:29.973Z"
+        },
+        "aeroflot": {
+            "lastTestPass": "2025-01-06T20:28:38.073Z"
+        },
+        "aeromexico": {
+            "lastTestPass": "2025-01-06T20:28:42.903Z"
+        },
+        "belavia": {
+            "lastTestPass": "2025-01-06T20:29:17.034Z"
+        },
+        "volaris": {
+            "lastTestPass": "2025-01-06T20:29:20.036Z"
+        },
+        "czech-airlines": {
+            "lastTestPass": "2025-01-06T19:00:54.038Z",
+            "lastTestFail": "2025-01-06T20:29:50.177Z"
+        },
+        "wingo": {
+            "lastTestPass": "2025-01-06T20:29:56.332Z"
+        },
+        "air-asia": {
+            "lastTestPass": "2025-01-06T20:30:01.745Z"
+        },
+        "alaska-airlines": {
+            "lastTestPass": "2025-01-06T20:30:06.281Z"
+        },
+        "american-airlines": {
+            "lastTestPass": "2025-01-06T20:30:09.778Z"
+        },
+        "bahamasair": {
+            "lastTestPass": "2025-01-06T20:30:11.649Z"
+        },
+        "bangkok-airways": {
+            "lastTestPass": "2025-01-06T20:30:15.198Z"
+        },
+        "caribbean-airlines": {
+            "lastTestPass": "2025-01-06T20:30:50.084Z"
+        },
+        "china-airlines": {
+            "lastTestPass": "2025-01-06T20:30:55.622Z"
+        },
+        "hawaiian-airlines": {
+            "lastTestPass": "2025-01-06T20:31:32.949Z"
+        },
+        "hk-express": {
+            "lastTestPass": "2025-01-06T20:31:35.782Z"
+        },
+        "hong-kong-airlines": {
+            "lastTestPass": "2025-01-06T20:31:40.660Z"
+        },
+        "japan-airlines": {
+            "lastTestPass": "2025-01-06T20:31:48.669Z"
+        },
+        "jetblue-airways": {
+            "lastTestPass": "2025-01-06T20:31:52.301Z"
+        },
+        "jetstar": {
+            "lastTestPass": "2025-01-06T20:31:57.351Z"
+        },
+        "lao-airlines": {
+            "lastTestPass": "2025-01-06T20:32:01.061Z"
+        },
+        "nokair": {
+            "lastTestPass": "2025-01-06T20:32:03.801Z"
+        },
+        "oman-air": {
+            "lastTestPass": "2025-01-06T20:32:06.745Z"
+        },
+        "peach": {
+            "lastTestPass": "2025-01-06T20:32:29.606Z"
+        },
+        "philippines-airlines": {
+            "lastTestPass": "2025-01-06T20:32:33.427Z"
+        },
+        "porter-airlines": {
+            "lastTestPass": "2025-01-06T20:32:37.256Z"
+        },
+        "qantas": {
+            "lastTestPass": "2025-01-06T20:32:42.163Z"
+        },
+        "royal-air-maroc": {
+            "lastTestPass": "2025-01-06T20:32:45.501Z"
+        },
+        "royal-jordanian-airlines": {
+            "lastTestPass": "2025-01-06T20:32:49.392Z"
+        },
+        "saudia-airlines": {
+            "lastTestPass": "2025-01-06T20:32:52.228Z"
+        },
+        "scoot-airlines": {
+            "lastTestPass": "2025-01-06T19:04:06.936Z",
+            "lastTestFail": "2025-01-06T20:33:22.372Z"
+        },
+        "singapore-airlines": {
+            "lastTestPass": "2025-01-06T20:33:27.618Z"
+        },
+        "south-african-airways": {
+            "lastTestPass": "2025-01-06T20:33:41.088Z"
+        },
+        "sri-lankan-airlines": {
+            "lastTestPass": "2025-01-06T20:33:46.592Z"
+        },
+        "vietnam-airlines": {
+            "lastTestPass": "2025-01-06T20:34:20.330Z"
+        },
+        "virgin-atlantic-airways": {
+            "lastTestPass": "2025-01-06T20:34:21.967Z"
+        },
+        "xiamen-airlines": {
+            "lastTestPass": "2025-01-06T20:34:25.581Z"
+        },
+        "aegean-airlines": {
+            "lastTestPass": "2025-01-06T20:34:32.895Z"
+        },
+        "british-airways": {
+            "lastTestPass": "2025-01-06T20:35:07.609Z"
+        },
+        "easyjet": {
+            "lastTestPass": "2025-01-06T20:35:09.918Z"
+        },
+        "el-al": {
+            "lastTestPass": "2025-01-06T20:35:13.251Z"
+        },
+        "iberia": {
+            "lastTestPass": "2025-01-06T20:35:16.959Z"
+        },
+        "jet2com": {
+            "lastTestPass": "2025-01-06T20:35:19.674Z"
+        },
+        "thai-airways": {
+            "lastTestPass": "2025-01-06T19:07:26.306Z",
+            "lastTestFail": "2025-01-06T20:36:30.963Z"
+        },
+        "kuwait-airways": {
+            "lastTestPass": "2025-01-06T20:36:37.832Z"
+        },
+        "malaysia-airlines": {
+            "lastTestPass": "2025-01-06T20:36:41.192Z"
+        },
+        "norse-atlantic-airways": {
+            "lastTestPass": "2025-01-06T20:36:44.394Z"
+        },
+        "spirit-airlines": {
+            "lastTestPass": "2025-01-06T20:36:47.482Z"
+        },
+        "cayman-airways": {
+            "lastTestPass": "2025-01-06T20:36:58.926Z"
+        },
+        "southwest-airlines": {
+            "lastTestPass": "2025-01-06T20:37:02.396Z"
+        },
+        "sun-country-airlines": {
+            "lastTestPass": "2025-01-06T20:37:07.288Z"
+        },
+        "pobeda": {
+            "lastTestPass": "2025-01-06T20:37:10.737Z"
+        },
+        "zipair": {
+            "lastTestPass": "2025-01-06T20:37:16.047Z"
+        },
+        "astra-airlines": {
+            "lastTestFail": "2025-01-06T20:23:54.982Z"
+        },
+        "jet-time": {
+            "lastTestFail": "2025-01-06T20:26:51.041Z"
+        },
+        "ana": {
+            "lastTestFail": "2025-01-06T20:29:13.058Z"
+        },
+        "cambodia-angkor-air": {
+            "lastTestFail": "2025-01-06T20:30:45.320Z"
+        },
+        "delta-air-lines": {
+            "lastTestFail": "2025-01-06T20:31:25.857Z"
+        },
+        "united-airlines": {
+            "lastTestFail": "2025-01-06T20:34:16.719Z"
+        },
+        "copa-airlines": {
+            "lastTestPass": "2025-01-06T20:34:29.493Z"
+        },
+        "air-astana": {
+            "lastTestFail": "2025-01-06T20:35:03.040Z"
+        },
+        "smartwings": {
+            "lastTestFail": "2025-01-06T20:35:54.720Z"
+        },
+        "frontier-airlines": {
+            "lastTestPass": "2025-01-06T20:36:55.444Z"
+        }
+    },
+    "meta": {
+        "lastTestRun": "2025-01-06T20:37:16.047Z"
     }
 }

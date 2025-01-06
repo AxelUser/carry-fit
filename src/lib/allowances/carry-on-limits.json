@@ -1,5 +1,6 @@
 [
     {
+        "id": "finnair",
         "airline": "Finnair",
         "region": "Europe",
         "link": "https://www.finnair.com/en/baggage-on-finnair-flights/carry-on-baggage",
@@ -22,6 +23,7 @@
         }
     },
     {
+        "id": "thai-lion-air",
         "airline": "Thai Lion Air",
         "region": "Asia",
         "link": "https://www.lionairthai.com/en/ThaiLionAir-Experience/Baggage-Allowance",
@@ -44,6 +46,7 @@
         }
     },
     {
+        "id": "wizz-air",
         "airline": "Wizz Air",
         "region": "Europe",
         "link": "https://wizzair.com/en-gb/help-centre/booking-information-and-services/baggage/baggage-allowance/cabin-baggage",
@@ -66,6 +69,7 @@
         }
     },
     {
+        "id": "loganair",
         "airline": "Loganair",
         "region": "Europe",
         "link": "https://www.loganair.co.uk/travel-help/luggage/",
@@ -88,6 +92,7 @@
         }
     },
     {
+        "id": "aer-lingus-regional",
         "airline": "Aer Lingus Regional ",
         "region": "Europe",
         "link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
@@ -110,6 +115,7 @@
         }
     },
     {
+        "id": "air-vanuatu",
         "airline": "Air Vanuatu",
         "region": "Oceania",
         "link": "https://www.airvanuatu.com/travel-info/baggage",
@@ -129,6 +135,7 @@
         }
     },
     {
+        "id": "rex-regional-express-airlines",
         "airline": "REX Regional Express Airlines",
         "region": "Oceania",
         "link": "https://www.rex.com.au/FlightInfo/BaggageAllowance.aspx",
@@ -148,6 +155,7 @@
         }
     },
     {
+        "id": "virgin-australia",
         "airline": "Virgin Australia",
         "region": "Oceania",
         "link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
@@ -170,6 +178,7 @@
         }
     },
     {
+        "id": "astra-airlines",
         "airline": "Astra Airlines",
         "region": "Europe",
         "link": "https://www.astra-airlines.gr/pages.php?cat=6&s=1",
@@ -186,6 +195,7 @@
         }
     },
     {
+        "id": "qatar-airways",
         "airline": "Qatar Airways",
         "region": "Asia",
         "link": "https://www.qatarairways.com/en/baggage/allowance.html",
@@ -208,6 +218,7 @@
         }
     },
     {
+        "id": "air-moldova",
         "airline": "Air Moldova",
         "region": "Europe",
         "link": "https://www.airmoldova.md/hand-baggage-en/",
@@ -224,6 +235,7 @@
         }
     },
     {
+        "id": "atlantic-airways",
         "airline": "Atlantic Airways",
         "region": "Europe",
         "link": "https://www.atlanticairways.com/en/travel-info/luggage",
@@ -240,6 +252,7 @@
         }
     },
     {
+        "id": "etihad-airways",
         "airline": "Etihad Airways",
         "region": "Africa",
         "link": "https://www.etihad.com/en-us/fly-etihad/baggage/cabin-bags",
@@ -256,6 +269,7 @@
         }
     },
     {
+        "id": "air-transat",
         "airline": "Air Transat",
         "region": "North America",
         "link": "https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions",
@@ -271,6 +285,7 @@
         }
     },
     {
+        "id": "sunwing-airlines",
         "airline": "Sunwing Airlines",
         "region": "North America",
         "link": "https://www.sunwing.ca/en/sunwing-airlines/baggage-info",
@@ -290,6 +305,7 @@
         }
     },
     {
+        "id": "westjet",
         "airline": "WestJet",
         "region": "North America",
         "link": "https://www.westjet.com/en-ca/baggage#baggage-carry-on",
@@ -305,6 +321,7 @@
         }
     },
     {
+        "id": "aerolineas-argentinas",
         "airline": "Aerolineas Argentinas",
         "region": "Latin America",
         "link": "https://www.aerolineas.com.ar/en-us/baggage-allowance",
@@ -318,6 +335,7 @@
         }
     },
     {
+        "id": "air-corsica",
         "airline": "Air Corsica",
         "region": "Europe",
         "link": "https://www.aircorsica.com/flights/cabin-hold-baggage.html",
@@ -335,6 +353,7 @@
         }
     },
     {
+        "id": "air-europa",
         "airline": "Air Europa",
         "region": "Europe",
         "link": "https://www.aireuropa.com/ot/en/aea/travel-information/baggage/carry-on-luggage.html",
@@ -352,6 +371,7 @@
         }
     },
     {
+        "id": "air-france",
         "airline": "Air France",
         "region": "Europe",
         "link": "https://wwws.airfrance.us/information/bagages/bagage-cabine-soute",
@@ -374,6 +394,7 @@
         }
     },
     {
+        "id": "air-india",
         "airline": "Air India",
         "region": "Asia",
         "link": "https://www.airindia.in/hand-luggage.htm",
@@ -403,6 +424,7 @@
         }
     },
     {
+        "id": "air-mauritius",
         "airline": "Air Mauritius",
         "region": "Africa",
         "link": "https://www.airmauritius.com/baggage/carry-on",
@@ -420,6 +442,7 @@
         }
     },
     {
+        "id": "air-tahiti",
         "airline": "Air Tahiti",
         "region": "Oceania",
         "link": "https://www.airtahiti.com/en/carry-on-baggage",
@@ -442,6 +465,7 @@
         }
     },
     {
+        "id": "avianca-airlines",
         "airline": "Avianca Airlines",
         "region": "Latin America",
         "link": "https://ayuda.avianca.com/hc/en-us/articles/13080259544219-What-is-carry-on-baggage-and-how-can-I-purchase-it",
@@ -459,6 +483,7 @@
         }
     },
     {
+        "id": "georgian-airways",
         "airline": "Georgian Airways",
         "region": "Europe",
         "link": "https://georgian-airways.com/en/service/baggage-information",
@@ -472,6 +497,7 @@
         }
     },
     {
+        "id": "gol-airlines",
         "airline": "GOL Airlines",
         "region": "Latin America",
         "link": "https://www.voegol.com.br/en/information/baggage",
@@ -488,6 +514,7 @@
         }
     },
     {
+        "id": "indigo-airlines",
         "airline": "IndiGo Airlines",
         "region": "Asia",
         "link": "https://www.goindigo.in/baggage/baggage-allowance.html",
@@ -500,6 +527,7 @@
         }
     },
     {
+        "id": "kenya-airways",
         "airline": "Kenya Airways",
         "region": "Africa",
         "link": "https://www.kenya-airways.com/en/plan/baggage-information/hand-baggage/",
@@ -516,6 +544,7 @@
         }
     },
     {
+        "id": "klm-royal-dutch-airlines",
         "airline": "KLM Royal Dutch Airlines",
         "region": "Europe",
         "link": "https://www.klm.hr/information/baggage/hand-baggage-allowance",
@@ -532,6 +561,7 @@
         }
     },
     {
+        "id": "latam-airlines",
         "airline": "LATAM Airlines",
         "region": "Latin America",
         "link": "https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on",
@@ -548,6 +578,7 @@
         }
     },
     {
+        "id": "spicejet",
         "airline": "SpiceJet",
         "region": "Asia",
         "link": "https://corporate.spicejet.com/AirTravelBaggageFaq.aspx",
@@ -564,6 +595,7 @@
         }
     },
     {
+        "id": "transavia",
         "airline": "Transavia",
         "region": "Europe",
         "link": "https://www.transavia.com/help/en-eu/luggage/cabin-luggage/cabin-bag",
@@ -580,6 +612,7 @@
         }
     },
     {
+        "id": "aurigny",
         "airline": "Aurigny",
         "region": "Europe",
         "link": "https://www.aurigny.com/faqs",
@@ -596,6 +629,7 @@
         }
     },
     {
+        "id": "emirates",
         "airline": "Emirates",
         "region": "Asia",
         "link": "https://www.emirates.com/us/english/before-you-fly/baggage/cabin-baggage-rules/",
@@ -612,6 +646,7 @@
         }
     },
     {
+        "id": "royal-brunei-airlines",
         "airline": "Royal Brunei Airlines",
         "region": "Asia",
         "link": "https://www.flyroyalbrunei.com/brunei/en/information/cabin-baggage/",
@@ -633,6 +668,7 @@
         }
     },
     {
+        "id": "air-austral",
         "airline": "Air Austral",
         "region": "Europe",
         "link": "https://www.air-austral.com/en/prepare-your-flight/your-baggage/carry-on-baggage.html",
@@ -649,6 +685,7 @@
         }
     },
     {
+        "id": "air-china",
         "airline": "Air China",
         "region": "Asia",
         "link": "https://www.airchina.us/US/GB/info/carry-on-baggage/",
@@ -671,6 +708,7 @@
         }
     },
     {
+        "id": "air-tahiti-nui",
         "airline": "Air Tahiti Nui",
         "region": "Oceania",
         "link": "https://us.airtahitinui.com/baggage-allowances",
@@ -684,6 +722,7 @@
         }
     },
     {
+        "id": "armenia-aircompany",
         "airline": "Armenia Aircompany",
         "region": "Asia",
         "link": "https://armenianairlines.am/en/baggage/hand-luggage",
@@ -700,6 +739,7 @@
         }
     },
     {
+        "id": "asiana-airlines",
         "airline": "Asiana Airlines",
         "region": "Asia",
         "link": "https://flyasiana.com/C/US/EN/contents/carry-on-baggage",
@@ -716,6 +756,7 @@
         }
     },
     {
+        "id": "azores-airlines",
         "airline": "Azores Airlines",
         "region": "Europe",
         "link": "https://www.azoresairlines.pt/en/information/baggage/carry-on-baggage",
@@ -733,6 +774,7 @@
         }
     },
     {
+        "id": "azul",
         "airline": "Azul",
         "region": "Latin America",
         "link": "https://www.voeazul.com.br/fr/en/your-trip/plan/luggage/carry-on-and-personal-luggage",
@@ -745,6 +787,7 @@
         }
     },
     {
+        "id": "carpatair",
         "airline": "Carpatair",
         "region": "Europe",
         "link": "https://www.carpatair.com/baggage-rules/",
@@ -762,6 +805,7 @@
         }
     },
     {
+        "id": "china-southern",
         "airline": "China Southern",
         "region": "Asia",
         "link": "https://www.csair.com/us/en/tourguide/luggage_service/carryon_luggage/",
@@ -783,6 +827,7 @@
         }
     },
     {
+        "id": "condor",
         "airline": "Condor",
         "region": "Europe",
         "link": "https://www.condor.com/eu/flight-preparation/baggage-and-animals/carry-on.jsp",
@@ -799,6 +844,7 @@
         }
     },
     {
+        "id": "corsair-international",
         "airline": "Corsair International",
         "region": "Europe",
         "link": "https://www.flycorsair.com/en-ca/cabin-luggage/cabin-luggage-allowance",
@@ -815,6 +861,7 @@
         }
     },
     {
+        "id": "croatia-airlines",
         "airline": "Croatia Airlines",
         "region": "Europe",
         "link": "https://www.croatiaairlines.com/Baggage/Hand-baggage",
@@ -831,6 +878,7 @@
         }
     },
     {
+        "id": "hainan-airlines",
         "airline": "Hainan Airlines",
         "region": "Asia",
         "link": "https://www.hainanairlines.com/HUPortal/dyn/portal/DisplayPage?COUNTRY_SITE=US&SITE=CBHZCBHZ&LANGUAGE=US&PAGE=CABA",
@@ -853,6 +901,7 @@
         }
     },
     {
+        "id": "helvetic-airways",
         "airline": "Helvetic Airways",
         "region": "Europe",
         "link": "https://www.helvetic.com/en/travelinfo#!info=baggage",
@@ -869,6 +918,7 @@
         }
     },
     {
+        "id": "icelandair",
         "airline": "Icelandair",
         "region": "Europe",
         "link": "https://www.icelandair.com/support/baggage/allowance/#carry-on-baggage-allowance",
@@ -891,6 +941,7 @@
         }
     },
     {
+        "id": "jet-time",
         "airline": "Jet Time",
         "region": "Europe",
         "link": "https://jettime.com/bagage/hand-baggage",
@@ -907,6 +958,7 @@
         }
     },
     {
+        "id": "korean-air",
         "airline": "Korean Air",
         "region": "Asia",
         "link": "https://www.koreanair.com/contents/plan-your-travel/baggage/carry-on-baggage",
@@ -919,6 +971,7 @@
         }
     },
     {
+        "id": "miat-mongolian-airlines",
         "airline": "MIAT Mongolian Airlines",
         "region": "Asia",
         "link": "https://www.miat.com/pagecontent.php?pageId=151&lang=en",
@@ -935,6 +988,7 @@
         }
     },
     {
+        "id": "pegasus-airlines",
         "airline": "Pegasus Airlines",
         "region": "Asia",
         "link": "https://www.flypgs.com/en/pegasus-baggage-allowance",
@@ -953,6 +1007,7 @@
         }
     },
     {
+        "id": "plus-ultra",
         "airline": "Plus Ultra",
         "region": "Europe",
         "link": "https://www.plusultra.com/es-es/informacion/equipaje/equipaje-en-cabina/",
@@ -969,6 +1024,7 @@
         }
     },
     {
+        "id": "ryanair",
         "airline": "Ryanair",
         "region": "Europe",
         "link": "https://www.ryanair.com/gb/en/useful-info/help-centre/terms-and-conditions/termsandconditionsar_696869348",
@@ -985,6 +1041,7 @@
         }
     },
     {
+        "id": "spring-airlines",
         "airline": "Spring Airlines",
         "region": "Asia",
         "link": "https://en.ch.com/flights/excess-baggage",
@@ -1001,6 +1058,7 @@
         }
     },
     {
+        "id": "tap-portugal",
         "airline": "TAP Portugal",
         "region": "Europe",
         "link": "https://www.flytap.com/en-de/baggage/hand-baggage",
@@ -1018,6 +1076,7 @@
         }
     },
     {
+        "id": "tarom",
         "airline": "TAROM",
         "region": "Europe",
         "link": "https://www.tarom.ro/en/passenger-information/baggage/hand-baggage/",
@@ -1034,6 +1093,7 @@
         }
     },
     {
+        "id": "tuifly",
         "airline": "TUIfly",
         "region": "Europe",
         "link": "https://www.tui.com/service-kontakt/flug/handgepaeck",
@@ -1050,6 +1110,7 @@
         }
     },
     {
+        "id": "vivaaerobus",
         "airline": "VivaAerobus",
         "region": "South America",
         "link": "https://blog.vivaaerobus.com/en/baggage-policies/",
@@ -1072,6 +1133,7 @@
         }
     },
     {
+        "id": "vueling",
         "airline": "Vueling",
         "region": "Europe",
         "link": "https://www.vueling.com/en/vueling-services/prepare-your-trip/luggage",
@@ -1088,6 +1150,7 @@
         }
     },
     {
+        "id": "air-baltic",
         "airline": "Air Baltic",
         "region": "Europe",
         "link": "https://www.airbaltic.com/en/baggage/cabin-baggage",
@@ -1104,6 +1167,7 @@
         }
     },
     {
+        "id": "air-canada",
         "airline": "Air Canada",
         "region": "North America",
         "link": "https://www.aircanada.com/us/en/aco/home/plan/baggage/carry-on.html#/",
@@ -1124,6 +1188,7 @@
         }
     },
     {
+        "id": "air-new-zealand",
         "airline": "Air New Zealand",
         "region": "Oceania",
         "link": "https://www.airnewzealand.com/carry-on-baggage",
@@ -1137,6 +1202,7 @@
         }
     },
     {
+        "id": "air-serbia",
         "airline": "Air Serbia",
         "region": "Europe",
         "link": "https://www.airserbia.com/en/information/baggage/hand-luggage/hand-luggage-weight",
@@ -1153,6 +1219,7 @@
         }
     },
     {
+        "id": "austrian-airlines",
         "airline": "Austrian Airlines",
         "region": "Europe",
         "link": "https://www.austrian.com/gb/en/carry-on-baggage",
@@ -1169,6 +1236,7 @@
         }
     },
     {
+        "id": "azerbaijan-airlines",
         "airline": "Azerbaijan Airlines",
         "region": "Asia",
         "link": "https://www.azal.az/en/information/baggage/hand/",
@@ -1185,6 +1253,7 @@
         }
     },
     {
+        "id": "brussels-airlines",
         "airline": "Brussels Airlines",
         "region": "Europe",
         "link": "https://www.brusselsairlines.com/be/en/extra-services/baggage/carry-on-baggage",
@@ -1201,6 +1270,7 @@
         }
     },
     {
+        "id": "bulgaria-air",
         "airline": "Bulgaria Air",
         "region": "Europe",
         "link": "https://www.air.bg/en/customer-support/your-baggage",
@@ -1217,6 +1287,7 @@
         }
     },
     {
+        "id": "edelweiss",
         "airline": "Edelweiss",
         "region": "Europe",
         "link": "https://www.flyedelweiss.com/EN/prepare/baggage/free-baggage/Pages/hand-baggage.aspx",
@@ -1233,6 +1304,7 @@
         }
     },
     {
+        "id": "egypt-air",
         "airline": "Egypt Air",
         "region": "Africa",
         "link": "https://www.egyptair.com/en/fly/baggage/Pages/baggage-allowance.aspx",
@@ -1249,6 +1321,7 @@
         }
     },
     {
+        "id": "ethiopian-airlines",
         "airline": "Ethiopian Airlines",
         "region": "Africa",
         "link": "https://www.ethiopianairlines.com/aa/information/baggage-information/carry-on-baggage",
@@ -1265,6 +1338,7 @@
         }
     },
     {
+        "id": "fiji-airways",
         "airline": "Fiji Airways",
         "region": "Oceania",
         "link": "https://www.fijiairways.com/manage/baggage-allowances",
@@ -1279,6 +1353,7 @@
         }
     },
     {
+        "id": "lufthansa",
         "airline": "Lufthansa",
         "region": "Europe",
         "link": "https://www.lufthansa.com/us/en/carry-on-baggage",
@@ -1295,6 +1370,7 @@
         }
     },
     {
+        "id": "luxair",
         "airline": "Luxair",
         "region": "Europe",
         "link": "https://www.luxair.lu/en/information/hand-luggage",
@@ -1311,6 +1387,7 @@
         }
     },
     {
+        "id": "norwegian",
         "airline": "Norwegian",
         "region": "Europe",
         "link": "https://www.norwegian.com/en/travel-info/baggage/hand-baggage/",
@@ -1327,6 +1404,7 @@
         }
     },
     {
+        "id": "olympic-air",
         "airline": "Olympic Air",
         "region": "Europe",
         "link": "https://www.olympicair.com/travel-information/travelling-with-olympic-air/baggage/hand-luggage-and-essentials/",
@@ -1343,6 +1421,7 @@
         }
     },
     {
+        "id": "s7-airlines",
         "airline": "S7 Airlines",
         "region": "Russia",
         "link": "https://www.s7.ru/ru/info/norma-provoza-bagazha/#luggage",
@@ -1359,6 +1438,7 @@
         }
     },
     {
+        "id": "sas-scandinavian-airlines",
         "airline": "SAS Scandinavian Airlines",
         "region": "Europe",
         "link": "https://www.flysas.com/us-en/travel-info/baggage/carry-on/",
@@ -1375,6 +1455,7 @@
         }
     },
     {
+        "id": "sunexpress",
         "airline": "SunExpress",
         "region": "Asia",
         "link": "https://www.sunexpress.com/en-gb/information/luggage-info/cabin-baggage/",
@@ -1391,6 +1472,7 @@
         }
     },
     {
+        "id": "swiss-international-air-lines",
         "airline": "Swiss International Air Lines",
         "region": "Europe",
         "link": "https://www.swiss.com/de/en/prepare/baggage/hand-baggage",
@@ -1407,6 +1489,7 @@
         }
     },
     {
+        "id": "turkish-airlines",
         "airline": "Turkish Airlines",
         "region": "Asia",
         "link": "https://www.turkishairlines.com/en-us/any-questions/carry-on-baggage/index.html",
@@ -1423,6 +1506,7 @@
         }
     },
     {
+        "id": "aer-lingus",
         "airline": "Aer Lingus",
         "region": "Europe",
         "link": "https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/",
@@ -1452,6 +1536,7 @@
         }
     },
     {
+        "id": "aeroflot",
         "airline": "Aeroflot",
         "region": "Russia",
         "link": "https://www.aeroflot.ru/ru-en/information/preparation/luggage#baggage_tab2",
@@ -1468,6 +1553,7 @@
         }
     },
     {
+        "id": "aeromexico",
         "airline": "Aeroméxico",
         "region": "Latin America",
         "link": "https://aeromexico.com/en-us/travel-information/baggage/carry-on-baggage",
@@ -1490,6 +1576,7 @@
         }
     },
     {
+        "id": "ana",
         "airline": "ANA",
         "region": "Asia",
         "link": "https://www.ana.co.jp/en/us/travel-information/baggage-information/carry-on/",
@@ -1512,6 +1599,7 @@
         }
     },
     {
+        "id": "belavia",
         "airline": "Belavia",
         "region": "Europe",
         "link": "https://en.belavia.by/baggage/unchecked_baggage/",
@@ -1528,6 +1616,7 @@
         }
     },
     {
+        "id": "bh-air",
         "airline": "BH Air",
         "region": "Europe",
         "link": "http://www.bhairlines.com/page.php?id=38",
@@ -1541,6 +1630,7 @@
         }
     },
     {
+        "id": "volaris",
         "airline": "Volaris",
         "region": "South America",
         "link": "https://cms.volaris.com/en/travel-info/baggage-policy/",
@@ -1557,6 +1647,7 @@
         }
     },
     {
+        "id": "czech-airlines",
         "airline": "Czech Airlines",
         "region": "Europe",
         "link": "https://www.smartwings.com/en/what-is-the-baggage-allowance",
@@ -1573,6 +1664,7 @@
         }
     },
     {
+        "id": "wingo",
         "airline": "Wingo",
         "region": "South America",
         "link": "https://www.wingo.com/centro-de-ayuda/equipaje/equipaje-de-mano-adicional",
@@ -1589,6 +1681,7 @@
         }
     },
     {
+        "id": "air-asia",
         "airline": "Air Asia",
         "region": "Asia-Pacific",
         "link": "https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB",
@@ -1605,6 +1698,7 @@
         }
     },
     {
+        "id": "alaska-airlines",
         "airline": "Alaska Airlines",
         "region": "North America",
         "link": "https://www.alaskaair.com/content/travel-info/baggage/carry-on-luggage",
@@ -1620,6 +1714,7 @@
         }
     },
     {
+        "id": "allegiant-air",
         "airline": "Allegiant Air",
         "region": "North America",
         "link": "https://www.allegiantair.com/baggage-1",
@@ -1640,6 +1735,7 @@
         }
     },
     {
+        "id": "american-airlines",
         "airline": "American Airlines",
         "region": "North America",
         "link": "https://www.aa.com/i18n/travel-info/baggage/carry-on-baggage.jsp",
@@ -1662,6 +1758,7 @@
         }
     },
     {
+        "id": "bahamasair",
         "airline": "Bahamasair",
         "region": "North America",
         "link": "https://bahamasair.com/baggage-information/baggage-rates-baggage-claim-form-pdf",
@@ -1684,6 +1781,7 @@
         }
     },
     {
+        "id": "bangkok-airways",
         "airline": "Bangkok Airways",
         "region": "Asia",
         "link": "https://www.bangkokair.com/baggage-allowance",
@@ -1700,6 +1798,7 @@
         }
     },
     {
+        "id": "cambodia-angkor-air",
         "airline": "Cambodia Angkor Air",
         "region": "Asia",
         "link": "https://cambodiaangkorair.com/index.php/post/55/baggage-policy#baggage-policy",
@@ -1722,6 +1821,7 @@
         }
     },
     {
+        "id": "caribbean-airlines",
         "airline": "Caribbean Airlines",
         "region": "Latin America",
         "link": "https://www.caribbean-airlines.com/#/baggage/carry-on",
@@ -1744,6 +1844,7 @@
         }
     },
     {
+        "id": "cathay-pacific",
         "airline": "Cathay Pacific",
         "region": "Asia",
         "link": "https://www.cathaypacific.com/cx/en_US/baggage.html",
@@ -1766,6 +1867,7 @@
         }
     },
     {
+        "id": "cebu-pacific",
         "airline": "Cebu Pacific",
         "region": "Asia",
         "link": "https://www.cebupacificair.com/en-PH/pages/travel-info/baggage-information/carry-on-baggage",
@@ -1782,6 +1884,7 @@
         }
     },
     {
+        "id": "china-airlines",
         "airline": "China Airlines",
         "region": "Asia",
         "link": "https://www.china-airlines.com/us/en/fly/prepare-for-the-fly/baggage/carry-on-baggage",
@@ -1804,6 +1907,7 @@
         }
     },
     {
+        "id": "delta-air-lines",
         "airline": "Delta Air Lines",
         "region": "North America",
         "link": "https://www.delta.com/us/en/baggage/carry-on-baggage#baggageFees.html",
@@ -1824,6 +1928,7 @@
         }
     },
     {
+        "id": "garuda-indonesia",
         "airline": "Garuda Indonesia",
         "region": "Asia",
         "link": "https://www.garuda-indonesia.com/id/en/garuda-indonesia-experience/baggage-info",
@@ -1840,6 +1945,7 @@
         }
     },
     {
+        "id": "hawaiian-airlines",
         "airline": "Hawaiian Airlines",
         "region": "North America",
         "link": "https://hawaiianair.custhelp.com/app/answers/detail/a_id/2815/~/carry-on-bag-allowance",
@@ -1857,6 +1963,7 @@
         }
     },
     {
+        "id": "hk-express",
         "airline": "HK Express",
         "region": "Asia",
         "link": "https://www.hkexpress.com/en/Plan/Extras/Baggage/Carry-On-Baggage",
@@ -1878,6 +1985,7 @@
         }
     },
     {
+        "id": "hong-kong-airlines",
         "airline": "Hong Kong Airlines",
         "region": "Asia",
         "link": "http://www.hkairlines.com/en_HK/fly-with-us/baggage/handcarry",
@@ -1900,6 +2008,7 @@
         }
     },
     {
+        "id": "japan-airlines",
         "airline": "Japan Airlines",
         "region": "Asia",
         "link": "https://www.jal.co.jp/jp/en/inter/baggage/inflight/#anchorlink001",
@@ -1922,6 +2031,7 @@
         }
     },
     {
+        "id": "jetblue-airways",
         "airline": "JetBlue Airways",
         "region": "North America",
         "link": "https://www.jetblue.com/help/carry-on-bags",
@@ -1942,6 +2052,7 @@
         }
     },
     {
+        "id": "jetstar",
         "airline": "Jetstar",
         "region": "North America",
         "link": "https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board",
@@ -1958,6 +2069,7 @@
         }
     },
     {
+        "id": "lao-airlines",
         "airline": "Lao Airlines",
         "region": "Asia",
         "link": "https://laoairlines.com/en/baggage-optional-service-charges/",
@@ -1979,6 +2091,7 @@
         }
     },
     {
+        "id": "mango-airlines",
         "airline": "Mango Airlines",
         "region": "South Africa",
         "kilograms": 7,
@@ -1994,6 +2107,7 @@
         }
     },
     {
+        "id": "nokair",
         "airline": "NokAir",
         "region": "Asia",
         "link": "https://content.nokair.com/en/Journey-Planning/Baggage/Hand-Baggage-allowance.aspx",
@@ -2010,6 +2124,7 @@
         }
     },
     {
+        "id": "oman-air",
         "airline": "Oman Air",
         "region": "Africa",
         "link": "https://www.omanair.com/en/baggage-policy/baggage-allowance",
@@ -2023,6 +2138,7 @@
         }
     },
     {
+        "id": "peach",
         "airline": "Peach",
         "region": "Asia",
         "link": "http://www.flypeach.com/en/lm/ai/airports/baggage/carry_on_bag",
@@ -2035,6 +2151,7 @@
         }
     },
     {
+        "id": "philippines-airlines",
         "airline": "Philippines Airlines",
         "region": "Asia",
         "link": "https://www.philippineairlines.com/ph/en/before-you-fly/baggage-information/baggage-allowance/baggage-allowance-fees/carry-on-baggage.html",
@@ -2057,6 +2174,7 @@
         }
     },
     {
+        "id": "porter-airlines",
         "airline": "Porter Airlines",
         "region": "North America",
         "link": "https://www.flyporter.com/en/travel-information/baggage/carry-on-allowance",
@@ -2077,6 +2195,7 @@
         }
     },
     {
+        "id": "qantas",
         "airline": "Qantas",
         "region": "Oceania",
         "link": "https://www.qantas.com/au/en/travel-info/baggage/carry-on-baggage.html#carry-on-baggage-allowances",
@@ -2093,6 +2212,7 @@
         }
     },
     {
+        "id": "royal-air-maroc",
         "airline": "Royal Air Maroc",
         "region": "Africa",
         "link": "https://www.royalairmaroc.com/int-en/carry-on-baggage",
@@ -2109,6 +2229,7 @@
         }
     },
     {
+        "id": "royal-jordanian-airlines",
         "airline": "Royal Jordanian Airlines",
         "region": "Asia",
         "link": "https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces",
@@ -2130,6 +2251,7 @@
         }
     },
     {
+        "id": "saudia-airlines",
         "airline": "Saudia Airlines",
         "region": "Asia",
         "link": "https://www.saudia.com/before-flying/baggage/hand-baggage",
@@ -2151,6 +2273,7 @@
         }
     },
     {
+        "id": "scoot-airlines",
         "airline": "Scoot Airlines",
         "region": "Asia",
         "link": "https://www.flyscoot.com/en/plan/booking-your-flight/baggage",
@@ -2168,6 +2291,7 @@
         }
     },
     {
+        "id": "singapore-airlines",
         "airline": "Singapore Airlines",
         "region": "Asia",
         "link": "https://www.singaporeair.com/en_UK/us/travel-info/baggage/cabin-baggage/",
@@ -2180,6 +2304,7 @@
         }
     },
     {
+        "id": "south-african-airways",
         "airline": "South African Airways",
         "region": "Africa",
         "link": "https://www.flysaa.com/manage-fly/baggage/hand-baggage",
@@ -2196,6 +2321,7 @@
         }
     },
     {
+        "id": "sri-lankan-airlines",
         "airline": "Sri Lankan Airlines",
         "region": "Asia",
         "link": "https://www.srilankan.com/en_uk/plan-and-book/luggage",
@@ -2208,6 +2334,7 @@
         }
     },
     {
+        "id": "united-airlines",
         "airline": "United Airlines",
         "region": "North America",
         "link": "https://www.united.com/ual/en/us/fly/travel/baggage/carry-on.html",
@@ -2228,6 +2355,7 @@
         }
     },
     {
+        "id": "vietnam-airlines",
         "airline": "Vietnam Airlines",
         "region": "Asia",
         "link": "https://www.vietnamairlines.com/vn/en/travel-information/baggage/baggage-allowance-hand-baggage",
@@ -2244,6 +2372,7 @@
         }
     },
     {
+        "id": "virgin-atlantic-airways",
         "airline": "Virgin Atlantic Airways",
         "region": "Europe",
         "link": "https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html",
@@ -2266,6 +2395,7 @@
         }
     },
     {
+        "id": "xiamen-airlines",
         "airline": "Xiamen Airlines",
         "region": "Asia",
         "link": "https://www.xiamenair.com/en-ww/article-detail?articleLink=%2Fcms-i18n-ow%2Fcms-en-ww%2Fchannels%2F11310.json",
@@ -2280,6 +2410,7 @@
         }
     },
     {
+        "id": "copa-airlines",
         "airline": "Copa Airlines",
         "region": "Latin America",
         "link": "https://www.copaair.com/en/web/gs/carry-on-luggage",
@@ -2302,6 +2433,7 @@
         }
     },
     {
+        "id": "aegean-airlines",
         "airline": "Aegean Airlines",
         "region": "Europe",
         "link": "https://en.aegeanair.com/travel-information/baggage/cabin-baggage/",
@@ -2318,6 +2450,7 @@
         }
     },
     {
+        "id": "air-astana",
         "airline": "Air Astana",
         "region": "Central Asia",
         "link": "https://airastana.com/global-en/information/carry-on-baggage",
@@ -2335,6 +2468,7 @@
         }
     },
     {
+        "id": "british-airways",
         "airline": "British Airways",
         "region": "Europe",
         "link": "https://www.britishairways.com/en-gb/information/baggage-essentials",
@@ -2357,6 +2491,7 @@
         }
     },
     {
+        "id": "easyjet",
         "airline": "easyJet",
         "region": "Europe",
         "link": "https://www.easyjet.com/en/help/baggage/cabin-bag-and-hold-luggage",
@@ -2373,6 +2508,7 @@
         }
     },
     {
+        "id": "el-al",
         "airline": "El Al",
         "region": "Asia",
         "link": "https://www.elal.com/en/PassengersInfo/Baggage/Hand-Baggage/Pages/Policy.aspx",
@@ -2389,6 +2525,7 @@
         }
     },
     {
+        "id": "iberia",
         "airline": "Iberia",
         "region": "Europe",
         "link": "https://www.iberia.com/us/luggage/hand-luggage/",
@@ -2405,6 +2542,7 @@
         }
     },
     {
+        "id": "jet2com",
         "airline": "Jet2.com",
         "region": "Europe",
         "link": "https://www.jet2.com/faqs?topic=baggage-and-sports-equipment&category=hand-luggage-allowances",
@@ -2421,6 +2559,7 @@
         }
     },
     {
+        "id": "smartwings",
         "airline": "SmartWings",
         "region": "Europe",
         "link": "https://www.smartwings.com/en/what-is-the-baggage-allowance",
@@ -2437,6 +2576,7 @@
         }
     },
     {
+        "id": "thai-airways",
         "airline": "Thai Airways",
         "region": "Asia",
         "link": "https://www.thaiairways.com/en/travel_information/baggage.page",
@@ -2460,6 +2600,7 @@
         }
     },
     {
+        "id": "kuwait-airways",
         "airline": "Kuwait Airways",
         "region": "Asia",
         "link": "https://www.kuwaitairways.com/en/is/free-carry-on-baggage",
@@ -2481,6 +2622,7 @@
         }
     },
     {
+        "id": "malaysia-airlines",
         "airline": "Malaysia Airlines",
         "region": "Asia",
         "link": "https://www.malaysiaairlines.com/ph/en/travel-info/baggage/cabin-baggage.html",
@@ -2503,6 +2645,7 @@
         }
     },
     {
+        "id": "norse-atlantic-airways",
         "airline": "Norse Atlantic Airways",
         "region": "Europe",
         "link": "https://flynorse.com/support/optional-fees",
@@ -2525,6 +2668,7 @@
         }
     },
     {
+        "id": "spirit-airlines",
         "airline": "Spirit Airlines",
         "region": "North America",
         "link": "https://customersupport.spirit.com/en-us/category/article/KA-01535",
@@ -2545,6 +2689,7 @@
         }
     },
     {
+        "id": "frontier-airlines",
         "airline": "Frontier Airlines",
         "region": "North America",
         "link": "https://www.flyfrontier.com/travel/travel-info/bag-options/#Carry-on",
@@ -2561,6 +2706,7 @@
         }
     },
     {
+        "id": "cayman-airways",
         "airline": "Cayman Airways",
         "region": "North America",
         "link": "https://www.caymanairways.com/baggage-policy",
@@ -2576,6 +2722,7 @@
         }
     },
     {
+        "id": "southwest-airlines",
         "airline": "Southwest Airlines",
         "region": "North America",
         "link": "https://www.southwest.com/help/baggage/carryon-baggage",
@@ -2591,6 +2738,7 @@
         }
     },
     {
+        "id": "sun-country-airlines",
         "airline": "Sun Country Airlines",
         "region": "North America",
         "link": "https://suncountry.com/bags-optional-services",
@@ -2607,6 +2755,7 @@
         }
     },
     {
+        "id": "pobeda",
         "airline": "Pobeda",
         "region": "Russia",
         "link": "https://www.flypobeda.ru/information/luggage_baggage",
@@ -2623,6 +2772,7 @@
         }
     },
     {
+        "id": "zipair",
         "airline": "ZIPAIR",
         "region": "Asia",
         "link": "https://www.zipair.net/en/service/baggage",

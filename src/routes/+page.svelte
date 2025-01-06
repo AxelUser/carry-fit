@@ -4,7 +4,7 @@
 	import Check from '$lib/components/icons/check.svelte';
 	import Cross from '$lib/components/icons/cross.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
+	import { checkCompliance, parseData } from '$lib/allowances';
 	import type { Airline, BagAllowanceDimensions, UserDimensions } from '$lib/types';
 	import LogoIcon from '$lib/components/icons/logo.svelte';
 	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
@@ -35,9 +35,9 @@
 
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
 
-	const airlineData = getAirlineAllowances();
+	const { meta, allowances } = parseData();
 
-	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
+	const regions = [...new Set(allowances.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(regions));
 
@@ -78,7 +78,7 @@
 	});
 
 	const filteredAirlines = $derived(
-		airlineData
+		allowances
 			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
@@ -195,7 +195,7 @@
 				</h1>
 				<p class="text-lg font-medium text-sky-900 sm:text-xl">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
-						>{airlineData.length}</span
+						>{allowances.length}</span
 					> airlines worldwide
 				</p>
 				<div class="mt-6 flex items-center justify-center gap-2">
@@ -647,10 +647,14 @@
 		</div>
 
 		<div class="ml-3 text-sm leading-relaxed text-amber-700">
+			<p class="mb-2">
+				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> ({meta.coveredByTest} total)
+				are semi-automatically monitored for policy changes. Last verification was on {meta.lastTestRun.toLocaleDateString()}.
+			</p>
 			<p>
-				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically tested
-				for policy updates, but not in real-time. Policies may change between checks, and unmarked airlines
-				are not monitored. Always verify requirements on the airline's website before traveling.
+				However, airline policies can change at any time. Always verify the current requirements on
+				your airline's website before traveling, especially for unmarked airlines that aren't
+				monitored.
 			</p>
 		</div>
 	</div>
