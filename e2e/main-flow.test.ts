@@ -7,7 +7,7 @@ test.describe('CarryFit Main Flow', () => {
 
 	test('should display airline allowances table by default', async ({ page }) => {
 		// Check table headers
-		const headers = ['Airline', 'Region', 'Dimensions (cm)', 'Weight Limit', 'Policy'];
+		const headers = ['Airline', 'Region', 'Carry-On (cm)', 'Weight Limit', 'Policy'];
 		for (const header of headers) {
 			await expect(page.getByRole('columnheader', { name: header })).toBeVisible();
 		}
@@ -33,13 +33,13 @@ test.describe('CarryFit Main Flow', () => {
 
 	test('should update units in table when input unit changes', async ({ page }) => {
 		// Check initial CM units
-		await expect(page.getByRole('columnheader', { name: 'Dimensions (cm)' })).toBeVisible();
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
 
 		// Switch to inches
 		await page.getByLabel('Unit').selectOption('in');
 
 		// Verify units changed in table
-		await expect(page.getByRole('columnheader', { name: 'Dimensions (in)' })).toBeVisible();
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
 
 		// Check weight units changed (find a cell with both kg and lb values)
 		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {

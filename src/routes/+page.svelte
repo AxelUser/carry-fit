@@ -1,18 +1,21 @@
 <script lang="ts">
-	import Alert from '$lib/components/icons/alert.svelte';
-	import Tested from '$lib/components/icons/tested.svelte';
-	import Check from '$lib/components/icons/check.svelte';
-	import Cross from '$lib/components/icons/cross.svelte';
+	import {
+		AlertTriangle,
+		Check,
+		X,
+		ChevronsUpDown,
+		ChevronsDownUp,
+		MonitorCheck,
+		MonitorX,
+		MonitorOff,
+		ArrowDownAZ,
+		ArrowUpAZ
+	} from 'lucide-svelte';
+	import { CarryOnBagChecked, CarryOnBagInactive } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, loadData } from '$lib/allowances';
 	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
 	import LogoIcon from '$lib/components/icons/logo.svelte';
-	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
-	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
-	import CarryOnBagChecked from '$lib/components/icons/carry-on-bag-checked-outline.svelte';
-	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
-	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
-	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 	import Suitcase from '$lib/components/suitcase.svelte';
 	import { analyticsService } from '$lib/analytics';
 	import GithubStar from '$lib/components/github-star.svelte';
@@ -311,7 +314,7 @@
 				onclick={resetDimensions}
 				class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
 			>
-				<Cross class="h-3 w-3 translate-y-[0.5px]" />
+				<X class="h-3 w-3 translate-y-[0.5px]" />
 				<span>Reset</span>
 			</button>
 		</div>
@@ -509,9 +512,9 @@
 		<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
 			Airline
 			{#if sortDirection === 'asc'}
-				<SortTextAsc class="h-5 w-5" />
+				<ArrowDownAZ class="h-5 w-5" />
 			{:else}
-				<SortTextDesc class="h-5 w-5" />
+				<ArrowUpAZ class="h-5 w-5" />
 			{/if}
 		</button>
 	</th>
@@ -535,21 +538,29 @@
 	{@const isCompliant = compliance?.every(Boolean) ?? false}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="pl-2 pt-1.5 text-sm sm:text-base">
-			{#if airline.testResult}
-				<Tooltip.Root>
-					<Tooltip.Trigger>
-						<Tested
-							class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
-						/>
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>
-							{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
-						</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			{/if}
+		<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
+			<Tooltip.Root>
+				<Tooltip.Trigger>
+					{#if airline?.testResult?.success}
+						<MonitorCheck size={16} class="text-green-600" />
+					{:else if airline?.testResult?.success === false}
+						<MonitorX size={16} class="text-red-600" />
+					{:else}
+						<MonitorOff size={16} class="text-gray-600" />
+					{/if}
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					<p>
+						{#if airline?.testResult?.success}
+							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else if airline?.testResult?.success === false}
+							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else}
+							No tests yet
+						{/if}
+					</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
@@ -643,13 +654,13 @@
 {#snippet warningContent()}
 	<div class="flex items-start">
 		<div class="mt-0.5 flex-shrink-0">
-			<Alert class="h-5 w-5 text-amber-400" />
+			<AlertTriangle class="h-5 w-5 text-amber-400" />
 		</div>
 
 		<div class="ml-3 text-sm leading-relaxed text-amber-700">
 			<p class="mb-2">
-				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> ({meta.coveredByTest} total)
-				are semi-automatically monitored for policy changes. Last verification was on {meta.lastTestRun.toLocaleDateString()}.
+				Airlines marked with <MonitorCheck size={16} class="mb-1 inline text-green-600" /> ({meta.coveredByTest}
+				total) are semi-automatically monitored for policy changes. Last verification was on {meta.lastTestRun.toLocaleDateString()}.
 			</p>
 			<p>
 				However, airline policies can change at any time. Always verify the current requirements on
@@ -685,7 +696,7 @@
 				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
 				onclick={clearAllRegions}
 			>
-				<Cross class="h-3 w-3 sm:h-4 sm:w-4" />
+				<X class="h-3 w-3 sm:h-4 sm:w-4" />
 				<span>Clear All</span>
 			</button>
 		</div>
