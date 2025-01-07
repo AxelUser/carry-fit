@@ -4,7 +4,6 @@ import { AnalyticsService } from './analytics-service';
 export class PlausibleAnalytics extends AnalyticsService {
 	trackEvent(eventName: string, properties?: EventProperties): void {
 		if (typeof plausible !== 'undefined') {
-			console.log('Tracking event:', eventName, properties);
 			plausible(eventName, { props: properties });
 		}
 	}
