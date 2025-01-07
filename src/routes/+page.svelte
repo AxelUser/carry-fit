@@ -18,6 +18,7 @@
 	import GithubStar from '$lib/components/github-star.svelte';
 	import GithubFork from '$lib/components/github-fork.svelte';
 	import GithubIssue from '$lib/components/github-issue.svelte';
+	import { onDestroy } from 'svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -163,8 +164,12 @@
 				eventProps.user_bag_flexibility = flexibility;
 			}
 
-			analyticsService.trackEvent('bag_validated', eventProps);
+			analyticsService.trackEventDebounced('user_bag_validated', eventProps, 3000);
 		}
+	});
+
+	onDestroy(() => {
+		analyticsService.cancelDebouncedEvents();
 	});
 </script>
 
