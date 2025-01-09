@@ -141,10 +141,10 @@ export const allowances: AirlineAllowance[] = [
 		id: 'astra-airlines',
 		airline: 'Astra Airlines',
 		region: 'Europe',
-		link: 'https://www.astra-airlines.gr/pages.php?cat=6&s=1',
+		//link: 'https://www.astra-airlines.gr/pages.php?cat=6&s=1',
 		kilograms: 7,
 		test: {
-			matchText: ['50εκ. μήκος Χ 30εκ. ύψος Χ 20εκ. πλάτος']
+			comment: 'Website is not working'
 		},
 		carryOn: {
 			centimeters: [50, 30, 20]
@@ -1219,7 +1219,9 @@ export const allowances: AirlineAllowance[] = [
 		pounds: 22,
 		kilograms: 10,
 		test: {
-			matchText: ['cannot exceed 22 x 16 x 10 in. (55 cm x 40 cm x 25 cm)']
+			matchText: [
+				'Total linear dimensions (length, width, height) of no more than 115 cm\nwith a length of each side not exceeding\n55 cm x 40 cm x 25 cm'
+			]
 		},
 		carryOn: {
 			centimeters: [55, 40, 25],
@@ -1375,15 +1377,22 @@ export const allowances: AirlineAllowance[] = [
 		id: 'cambodia-angkor-air',
 		airline: 'Cambodia Angkor Air',
 		region: 'Asia',
-		link: 'https://cambodiaangkorair.com/index.php/post/55/baggage-policy#baggage-policy',
+		link: 'https://www.aircambodia.com/en/baggage',
 		pounds: 15,
 		kilograms: 7,
 		test: {
-			matchText: ['115 cm (56cm x 36cm x 23cm)']
+			matchText: [
+				/Hand baggage.*115 cm \(56cm x 36cm x 23cm\) or- 45 inch \(22’’x 11’’x 9’’\)/gm,
+				"Lady hand bag or book, magazine, camera, children\'s food kit, duty-free bag, etc... with dimensions not to exceed (H x W x D) 30cm × 20cm × 10 cm / 12’’ x 7,9” x 3,9”"
+			]
 		},
 		carryOn: {
 			centimeters: [56, 36, 23],
 			inches: [22, 11, 9]
+		},
+		smallBag: {
+			centimeters: [30, 20, 10],
+			inches: [12, 7.9, 3.9]
 		}
 	},
 	{
@@ -1728,9 +1737,9 @@ export const allowances: AirlineAllowance[] = [
 		kilograms: 10,
 		test: {
 			matchText: [
-				'must fit within the dimensions of 54cm x 38cm x 23cm (total linear dimensions cannot exceed 115cm) to fit in the overhead compartment in the aircraft',
-				'Can block requests during testing'
-			]
+				'must fit within the dimensions of 54cm x 38cm x 23cm (total linear dimensions cannot exceed 115cm) to fit in the overhead compartment in the aircraft'
+			],
+			comment: 'Can block requests during testing'
 		},
 		carryOn: {
 			centimeters: [54, 38, 23]
