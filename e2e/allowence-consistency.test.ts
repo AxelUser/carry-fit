@@ -70,6 +70,37 @@ function updateAirlineTestResult(airlineId: string, success: boolean): void {
 	testResults.meta.lastTestRun = currentTime;
 }
 
+async function waitForTexts(
+	page: Page,
+	textsToFind: (string | RegExp)[],
+	timeout: number = 30000
+): Promise<{ success: boolean; missingTexts: (string | RegExp)[] }> {
+	const startTime = Date.now();
+	const missingTexts: (string | RegExp)[] = [];
+
+	while (Date.now() - startTime < timeout) {
+		const pageText = (await page.textContent('body')) || '';
+		missingTexts.length = 0;
+
+		for (const text of textsToFind) {
+			const isMatch = typeof text === 'string' ? pageText.includes(text) : text.test(pageText);
+
+			if (!isMatch) {
+				missingTexts.push(text);
+			}
+		}
+
+		if (missingTexts.length === 0) {
+			return { success: true, missingTexts: [] };
+		}
+
+		// Wait a bit before retrying
+		await page.waitForTimeout(500);
+	}
+
+	return { success: false, missingTexts };
+}
+
 test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
 	let currentAirlineId: string;
 
@@ -93,28 +124,21 @@ test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
 		}
 
 		test(`${data.airline} allowances should be up-to-date`, async () => {
+			test.setTimeout(40000);
 			currentAirlineId = data.id;
 			const { browser, page } = await setupTestPage(data.link!);
 
 			try {
-				await page.waitForFunction(
-					(texts) => {
-						try {
-							return texts.every((text) => {
-								if (typeof text === 'string') {
-									return document.body?.textContent?.includes(text);
-								} else {
-									return text.test(document.body?.textContent || '');
-								}
-							});
-						} catch (error) {
-							console.error(error);
-							return false;
-						}
-					},
-					textsToFind,
-					{ timeout: 30000 }
-				);
+				const { success, missingTexts } = await waitForTexts(page, textsToFind, 30000);
+
+				if (!success) {
+					const pageText = await page.evaluate(() => document.body?.innerText || '');
+					throw new Error(
+						`Could not find all required texts on ${data.airline} page.\n` +
+							`Missing texts: ${missingTexts.map((t) => `\n- ${t.toString()}`).join('')}\n` +
+							`Current page text: ${pageText.substring(0, 500)}...`
+					);
+				}
 			} finally {
 				await browser.close();
 			}
