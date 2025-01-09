@@ -1,18 +1,21 @@
 <script lang="ts">
-	import Alert from '$lib/components/icons/alert.svelte';
-	import Tested from '$lib/components/icons/tested.svelte';
-	import Check from '$lib/components/icons/check.svelte';
-	import Cross from '$lib/components/icons/cross.svelte';
+	import {
+		AlertTriangle,
+		Check,
+		X,
+		ChevronsUpDown,
+		ChevronsDownUp,
+		MonitorCheck,
+		MonitorX,
+		MonitorOff,
+		ArrowDownAZ,
+		ArrowUpAZ
+	} from 'lucide-svelte';
+	import { CarryOnBagChecked, CarryOnBagInactive } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { checkCompliance, getAirlineAllowances } from '$lib/allowances';
-	import type { Airline, UserDimensions } from '$lib/types';
+	import { checkCompliance, loadData } from '$lib/allowances';
+	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
 	import LogoIcon from '$lib/components/icons/logo.svelte';
-	import SortTextAsc from '$lib/components/icons/sort-text-asc.svelte';
-	import SortTextDesc from '$lib/components/icons/sort-text-desc.svelte';
-	import CarryOnBagChecked from '$lib/components/icons/carry-on-bag-checked-outline.svelte';
-	import CarryOnBagInactive from '$lib/components/icons/carry-on-bag-inactive-outline.svelte';
-	import ChevronsDownUp from '$lib/components/icons/chevrons-down-up.svelte';
-	import ChevronsUpDown from '$lib/components/icons/chevrons-up-down.svelte';
 	import Suitcase from '$lib/components/suitcase.svelte';
 	import { analyticsService } from '$lib/analytics';
 	import GithubStar from '$lib/components/github-star.svelte';
@@ -35,9 +38,9 @@
 
 	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
 
-	const airlineData = getAirlineAllowances();
+	const { meta, allowances } = loadData();
 
-	const regions = [...new Set(airlineData.map((airline) => airline.region))].sort();
+	const regions = [...new Set(allowances.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(regions));
 
@@ -68,13 +71,17 @@
 	let isCompliantOpen = $state(false);
 	let isNonCompliantOpen = $state(false);
 
+	/**
+	 * Initially open the compliance and non-compliance sections on large screens (and hide on small screens).
+	 * Made this with $effect because user should be able to close or open sections, thus $derived would not work.
+	 */
 	$effect(() => {
 		isCompliantOpen = isLargeScreen;
 		isNonCompliantOpen = isLargeScreen;
 	});
 
 	const filteredAirlines = $derived(
-		airlineData
+		allowances
 			.filter((airline) => selectedRegions.has(airline.region))
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
@@ -86,7 +93,7 @@
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
-						getAirlineDimensions(airline),
+						getAirlineDimensions(airline.carryon),
 						[userDimensions.length, userDimensions.width, userDimensions.height],
 						flexibility
 					);
@@ -99,7 +106,7 @@
 		userDimensions.length && userDimensions.width && userDimensions.height
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
-						getAirlineDimensions(airline),
+						getAirlineDimensions(airline.carryon),
 						[userDimensions.length, userDimensions.width, userDimensions.height],
 						flexibility
 					);
@@ -112,8 +119,8 @@
 		filteredAirlines.length === 0 ? 0 : (compliantAirlines.length / filteredAirlines.length) * 100
 	);
 
-	function getAirlineDimensions(airline: Airline): number[] {
-		const dims = userDimensions.unit === 'cm' ? airline.centimeters : airline.inches;
+	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
+		const dims = userDimensions.unit === 'cm' ? allowanceDims.centimeters : allowanceDims.inches;
 		return Array.isArray(dims) ? dims : [dims];
 	}
 
@@ -191,7 +198,7 @@
 				</h1>
 				<p class="text-lg font-medium text-sky-900 sm:text-xl">
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
-						>{airlineData.length}</span
+						>{allowances.length}</span
 					> airlines worldwide
 				</p>
 				<div class="mt-6 flex items-center justify-center gap-2">
@@ -307,7 +314,7 @@
 				onclick={resetDimensions}
 				class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
 			>
-				<Cross class="h-3 w-3 translate-y-[0.5px]" />
+				<X class="h-3 w-3 translate-y-[0.5px]" />
 				<span>Reset</span>
 			</button>
 		</div>
@@ -505,15 +512,15 @@
 		<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
 			Airline
 			{#if sortDirection === 'asc'}
-				<SortTextAsc class="h-5 w-5" />
+				<ArrowDownAZ class="h-5 w-5" />
 			{:else}
-				<SortTextDesc class="h-5 w-5" />
+				<ArrowUpAZ class="h-5 w-5" />
 			{/if}
 		</button>
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Dimensions ({userDimensions.unit})
+		Carry-On ({userDimensions.unit})
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
 		>Weight Limit</th
@@ -521,31 +528,39 @@
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
 {/snippet}
 
-{#snippet airlineAllowanceRow(airline: Airline)}
+{#snippet airlineAllowanceRow(airline: AirlineInfo)}
+	{@const carryOnDimensions = getAirlineDimensions(airline.carryon)}
 	{@const compliance = checkCompliance(
-		getAirlineDimensions(airline),
+		carryOnDimensions,
 		getUserDimensionsIfFilled(userDimensions),
 		flexibility
 	)}
 	{@const isCompliant = compliance?.every(Boolean) ?? false}
-	{@const dimensions = getAirlineDimensions(airline)}
 
 	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="pl-2 pt-1.5 text-sm sm:text-base">
-			{#if airline.testResult}
-				<Tooltip.Root>
-					<Tooltip.Trigger>
-						<Tested
-							class="h-4 w-4 {airline.testResult.success ? 'text-green-600' : 'text-red-600'}"
-						/>
-					</Tooltip.Trigger>
-					<Tooltip.Content>
-						<p>
-							{`${airline.testResult.success ? 'Passing' : 'Failing'} since ${airline.testResult.lastTest.toLocaleDateString()}`}
-						</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
-			{/if}
+		<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
+			<Tooltip.Root>
+				<Tooltip.Trigger>
+					{#if airline?.testResult?.success}
+						<MonitorCheck size={16} class="text-green-600" />
+					{:else if airline?.testResult?.success === false}
+						<MonitorX size={16} class="text-red-600" />
+					{:else}
+						<MonitorOff size={16} class="text-gray-600" />
+					{/if}
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					<p>
+						{#if airline?.testResult?.success}
+							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else if airline?.testResult?.success === false}
+							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else}
+							No tests yet
+						{/if}
+					</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
@@ -554,16 +569,16 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
 		<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
-			{#if dimensions.length === 1}
+			{#if carryOnDimensions.length === 1}
 				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>
-					{`Total ${dimensions[0]}`}</span
+					{`Total ${carryOnDimensions[0]}`}</span
 				>
 			{:else}
-				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>{dimensions[0]}</span>
+				<span class={compliance?.[0] === false ? 'text-red-600' : ''}>{carryOnDimensions[0]}</span>
 				x
-				<span class={compliance?.[1] === false ? 'text-red-600' : ''}>{dimensions[1]}</span>
+				<span class={compliance?.[1] === false ? 'text-red-600' : ''}>{carryOnDimensions[1]}</span>
 				x
-				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{dimensions[2]}</span>
+				<span class={compliance?.[2] === false ? 'text-red-600' : ''}>{carryOnDimensions[2]}</span>
 			{/if}
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
@@ -639,14 +654,18 @@
 {#snippet warningContent()}
 	<div class="flex items-start">
 		<div class="mt-0.5 flex-shrink-0">
-			<Alert class="h-5 w-5 text-amber-400" />
+			<AlertTriangle class="h-5 w-5 text-amber-400" />
 		</div>
 
 		<div class="ml-3 text-sm leading-relaxed text-amber-700">
+			<p class="mb-2">
+				Airlines marked with <MonitorCheck size={16} class="mb-1 inline text-green-600" /> ({meta.coveredByTest}
+				total) are semi-automatically monitored for policy changes. Last verification was on {meta.lastTestRun.toLocaleDateString()}.
+			</p>
 			<p>
-				Airlines marked with <Tested class="inline h-4 w-4 text-green-600" /> are automatically tested
-				for policy updates, but not in real-time. Policies may change between checks, and unmarked airlines
-				are not monitored. Always verify requirements on the airline's website before traveling.
+				However, airline policies can change at any time. Always verify the current requirements on
+				your airline's website before traveling, especially for unmarked airlines that aren't
+				monitored.
 			</p>
 		</div>
 	</div>
@@ -677,7 +696,7 @@
 				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
 				onclick={clearAllRegions}
 			>
-				<Cross class="h-3 w-3 sm:h-4 sm:w-4" />
+				<X class="h-3 w-3 sm:h-4 sm:w-4" />
 				<span>Clear All</span>
 			</button>
 		</div>

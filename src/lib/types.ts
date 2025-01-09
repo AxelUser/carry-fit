@@ -1,15 +1,27 @@
-export interface Airline {
+export interface Data {
+	meta: {
+		lastTestRun: Date;
+		coveredByTest: number;
+	};
+	allowances: AirlineInfo[];
+}
+
+export interface AirlineInfo {
 	airline: string;
 	region: string;
 	link?: string;
-	inches: number | number[];
-	centimeters: number | number[];
+	carryon: BagAllowanceDimensions;
 	pounds?: number;
 	kilograms?: number;
 	testResult?: {
 		lastTest: Date;
 		success: boolean;
 	};
+}
+
+export interface BagAllowanceDimensions {
+	inches: number | number[];
+	centimeters: number | number[];
 }
 
 export interface UserDimensions {
@@ -26,7 +38,12 @@ export interface DimensionsCheck {
 }
 
 export type TestResults = {
-	[airline: string]: TestResult;
+	results: {
+		[airlineId: string]: TestResult;
+	};
+	meta: {
+		lastTestRun: string;
+	};
 };
 
 export type TestResult = {

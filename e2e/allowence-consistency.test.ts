@@ -1,18 +1,10 @@
 import { chromium, test, Browser, Page, BrowserContext } from '@playwright/test';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import airlinesJsonData from '../src/lib/allowances/carry-on-limits.json' assert { type: 'json' };
+import { AirlineAllowance, allowances } from '../src/lib/allowances/cabin-luggage-allowances';
+import type { TestResults } from '../src/lib/types';
 
-type AirlineTestResult = {
-	lastTestPass?: string;
-	lastTestFail?: string;
-};
-
-type TestResults = {
-	[airline: string]: AirlineTestResult;
-};
-
-let testResults: TestResults = {};
+let testResults: TestResults;
 
 async function setupTestPage(
 	url: string
@@ -41,9 +33,17 @@ async function loadTestReport(): Promise<void> {
 	try {
 		const fileContent = await fs.readFile(resultsPath, 'utf-8');
 		testResults = JSON.parse(fileContent);
+
+		if (!testResults.results) {
+			testResults.results = {};
+		}
+
+		if (!testResults.meta) {
+			testResults.meta = { lastTestRun: new Date().toISOString() };
+		}
 	} catch {
 		// If file doesn't exist or is empty, start with empty results
-		testResults = {};
+		testResults = { results: {}, meta: { lastTestRun: new Date().toISOString() } };
 	}
 }
 
@@ -55,60 +55,90 @@ async function saveTestReport(): Promise<void> {
 	await fs.writeFile(resultsPath, JSON.stringify(testResults, null, 4), 'utf-8');
 }
 
-function updateAirlineTestResult(airline: string, success: boolean): void {
+function updateAirlineTestResult(airlineId: string, success: boolean): void {
 	const currentTime = new Date().toISOString();
-	if (!testResults[airline]) {
-		testResults[airline] = {};
+	if (!testResults.results[airlineId]) {
+		testResults.results[airlineId] = {};
 	}
 
 	if (success) {
-		testResults[airline].lastTestPass = currentTime;
+		testResults.results[airlineId].lastTestPass = currentTime;
 	} else {
-		testResults[airline].lastTestFail = currentTime;
+		testResults.results[airlineId].lastTestFail = currentTime;
 	}
+
+	testResults.meta.lastTestRun = currentTime;
 }
 
-test.describe('Airline Allowance Consistency', { tag: '@manual' }, () => {
+async function waitForTexts(
+	page: Page,
+	textsToFind: (string | RegExp)[],
+	timeout: number = 30000
+): Promise<{ success: boolean; missingTexts: (string | RegExp)[] }> {
+	const startTime = Date.now();
+	const missingTexts: (string | RegExp)[] = [];
+
+	while (Date.now() - startTime < timeout) {
+		const pageText = (await page.textContent('body')) || '';
+		missingTexts.length = 0;
+
+		for (const text of textsToFind) {
+			const isMatch = typeof text === 'string' ? pageText.includes(text) : text.test(pageText);
+
+			if (!isMatch) {
+				missingTexts.push(text);
+			}
+		}
+
+		if (missingTexts.length === 0) {
+			return { success: true, missingTexts: [] };
+		}
+
+		// Wait a bit before retrying
+		await page.waitForTimeout(500);
+	}
+
+	return { success: false, missingTexts };
+}
+
+test.describe('Airline Allowance Consistency Tests', { tag: '@manual' }, () => {
+	let currentAirlineId: string;
+
 	test.beforeAll(async () => {
 		await loadTestReport();
+	});
+
+	test.afterEach(async ({}, testInfo) => {
+		updateAirlineTestResult(currentAirlineId, testInfo.status === testInfo.expectedStatus);
 	});
 
 	test.afterAll(async () => {
 		await saveTestReport();
 	});
 
-	for (const data of airlinesJsonData) {
-		if (!data.test?.text) {
+	for (const data of allowances) {
+		const textsToFind = data.test?.matchText;
+
+		if (!textsToFind) {
 			continue;
 		}
 
-		const expectedText = data.test.text;
-
-		test(`${data.airline} website contains expected text: "${expectedText}"`, async () => {
+		test(`${data.airline} allowances should be up-to-date`, async () => {
+			test.setTimeout(40000);
+			currentAirlineId = data.id;
 			const { browser, page } = await setupTestPage(data.link!);
 
 			try {
-				await page.waitForFunction(
-					(text: string | string[]) => {
-						try {
-							if (typeof text === 'string') {
-								return document.body?.textContent?.includes(text);
-							} else {
-								return text.every((textPart) => document.body?.textContent?.includes(textPart));
-							}
-						} catch (error) {
-							console.error(error);
-							return false;
-						}
-					},
-					expectedText,
-					{ timeout: 30000 }
-				);
+				const { success, missingTexts } = await waitForTexts(page, textsToFind, 30000);
 
-				updateAirlineTestResult(data.airline, true);
-			} catch (error) {
-				updateAirlineTestResult(data.airline, false);
-				throw error; // Re-throw to make the test fail
+				if (!success) {
+					const pageText = await page.evaluate(() => document.body?.innerText || '');
+					throw new Error(
+						`Could not find all required texts on ${data.airline} page.\n` +
+							`Missing texts: ${missingTexts.map((t) => `\n- ${t.toString()}`).join('')}\n` +
+							`Current page text: ${pageText.substring(0, 500)}...`
+					);
+				}
 			} finally {
 				await browser.close();
 			}

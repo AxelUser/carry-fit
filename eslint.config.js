@@ -19,6 +19,14 @@ export default ts.config(
 			globals: {
 				...globals.browser,
 				...globals.node
+			},
+			rules: {
+				'@typescript-eslint/no-parameter-properties': [
+					'error',
+					{
+						allowObjectPatternsAsParameters: true
+					}
+				]
 			}
 		}
 	},
