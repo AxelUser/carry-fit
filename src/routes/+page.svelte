@@ -11,16 +11,14 @@
 		ArrowDownAZ,
 		ArrowUpAZ
 	} from 'lucide-svelte';
-	import { CarryOnBagChecked, CarryOnBagInactive } from '$lib/components/icons';
+	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, loadData } from '$lib/allowances';
 	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
-	import LogoIcon from '$lib/components/icons/logo.svelte';
-	import Suitcase from '$lib/components/suitcase.svelte';
+	import { CarryFitIcon } from '$lib/components/icons';
+	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
-	import GithubStar from '$lib/components/github-star.svelte';
-	import GithubFork from '$lib/components/github-fork.svelte';
-	import GithubIssue from '$lib/components/github-issue.svelte';
+	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 
 	const FLEXIBILITY_CONFIG = {
@@ -193,7 +191,7 @@
 						CarryFit
 					</span>
 					<span class="ml-0 inline-flex translate-y-2">
-						<LogoIcon class="h-12 w-12 sm:h-16 sm:w-16" />
+						<CarryFitIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
 				<p class="text-lg font-medium text-sky-900 sm:text-xl">
@@ -201,11 +199,6 @@
 						>{allowances.length}</span
 					> airlines worldwide
 				</p>
-				<div class="mt-6 flex items-center justify-center gap-2">
-					<GithubStar />
-					<GithubFork />
-					<GithubIssue />
-				</div>
 			</div>
 
 			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
@@ -253,33 +246,20 @@
 
 						{#if userDimensions.length && userDimensions.width && userDimensions.height}
 							<div class="mt-6">
-								<div
-									class="rounded-xl border-2 p-6 text-center shadow-sm
-									{compliancePercentage <= 60
-										? 'border-red-200 bg-red-50'
-										: compliancePercentage <= 80
-											? 'border-amber-200 bg-amber-50'
-											: 'border-emerald-200 bg-emerald-50'}"
-								>
-									<div class="mb-3 text-sm font-medium text-sky-700 sm:text-base">
-										Compliance Score
-									</div>
-									<div
-										class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl
-										{compliancePercentage <= 60
-											? 'text-red-600'
-											: compliancePercentage <= 80
-												? 'text-amber-600'
-												: 'text-emerald-600'}"
-									>
-										{compliancePercentage.toFixed(1)}%
-									</div>
-									<div class="text-xs text-sky-600 sm:text-sm">
-										({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
-									</div>
-								</div>
+								{@render complianceScore(compliancePercentage)}
 							</div>
 						{/if}
+
+						<div class="mt-8 rounded-lg bg-sky-50/80 p-4 text-center">
+							<p class="mb-3 text-sm text-sky-700">
+								If you find this tool helpful and want to support it:
+							</p>
+							<div class="flex items-center justify-center gap-2">
+								<GithubStarButton />
+								<span class="text-sm text-sky-500">or</span>
+								<BuyMeCoffeeButton />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -385,7 +365,7 @@
 			{#if showFlexibility}
 				<div class="mt-3">
 					<div class="flex flex-col items-center gap-4">
-						<Suitcase
+						<FlexibleSuitcase
 							value={flexibility}
 							unit={userDimensions.unit}
 							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
@@ -411,6 +391,28 @@
 	</div>
 {/snippet}
 
+{#snippet complianceScore(percentage: number)}
+	<div
+		class="rounded-xl border-2 p-6 text-center shadow-sm
+		{percentage <= 60
+			? 'border-red-200 bg-red-50'
+			: percentage <= 80
+				? 'border-amber-200 bg-amber-50'
+				: 'border-emerald-200 bg-emerald-50'}"
+	>
+		<div class="mb-3 text-sm font-medium text-sky-700 sm:text-base">Compliance Score</div>
+		<div
+			class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl
+			{percentage <= 60 ? 'text-red-600' : percentage <= 80 ? 'text-amber-600' : 'text-emerald-600'}"
+		>
+			{percentage.toFixed(0)}%
+		</div>
+		<div class="text-xs text-sky-600 sm:text-sm">
+			({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
+		</div>
+	</div>
+{/snippet}
+
 {#snippet airlinesTable()}
 	{#if userDimensions.length && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
@@ -427,7 +429,7 @@
 						<h3
 							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
 						>
-							<CarryOnBagChecked class="h-6 w-6" />
+							<CarryOnBagCheckedIcon class="h-6 w-6" />
 							Compliant Airlines ({compliantAirlines.length})
 						</h3>
 					</div>
@@ -465,7 +467,7 @@
 						<h3
 							class="text-md inline-flex items-center gap-2 font-semibold text-red-700 sm:text-lg"
 						>
-							<CarryOnBagInactive class="h-6 w-6" />
+							<CarryOnBagInactiveIcon class="h-6 w-6" />
 							Non-Compliant Airlines ({nonCompliantAirlines.length})
 						</h3>
 					</div>
@@ -705,15 +707,15 @@
 			{#each regions as region}
 				{@const isSelected = selectedRegions.has(region)}
 				<button
-					class="ease-elastic flex transform items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 hover:scale-105 sm:px-4 sm:py-2 sm:text-sm
+					class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
 						{isSelected
-						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md'
+						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
 						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
 					onclick={() => toggleRegion(region)}
 				>
 					<span>{region}</span>
 					{#if isSelected}
-						<div class="animate-slide-bounce ml-2">
+						<div class="ml-2 animate-bounce">
 							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
 						</div>
 					{/if}
@@ -724,28 +726,24 @@
 {/snippet}
 
 <style>
-	@keyframes slideAndBounce {
+	@keyframes bounce {
 		0% {
-			transform: translateX(-100%) scale(1);
+			transform: scale(0);
 			opacity: 0;
 		}
 		50% {
-			transform: translateX(0) scale(1.2);
+			transform: scale(1.2);
 			opacity: 1;
 		}
 		75% {
-			transform: translateX(0) scale(0.8);
+			transform: scale(0.8);
 		}
 		100% {
-			transform: translateX(0) scale(1);
+			transform: scale(1);
 		}
 	}
 
-	.animate-slide-bounce {
-		animation: slideAndBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-	}
-
-	.ease-elastic {
-		transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	.animate-bounce {
+		animation: bounce 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 	}
 </style>
