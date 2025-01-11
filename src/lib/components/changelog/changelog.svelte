@@ -2,42 +2,56 @@
 	import { localStore } from '$lib/storage/local-store.svelte';
 	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
+	import { analyticsService } from '$lib/analytics';
 
 	const currentVersion = changes.length > 0 ? changes[0] : null;
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
-	const lastSeenVersion = localStore<string | null>('lastSeenVersion', null);
+	const lastSeenVersion = localStore<Date | null>('lastSeenVersion', null);
 
 	function close() {
 		open = false;
-		lastSeenVersion.value = currentVersion?.version;
+		lastSeenVersion.value = currentVersion?.date;
 		hasNewVersion = false;
+	}
+
+	function openChangelog() {
+		open = true;
+		if (currentVersion) {
+			analyticsService.trackEventDebounced(
+				'changelog_opened',
+				{
+					version_date: currentVersion.date.toISOString(),
+					is_new_version: hasNewVersion
+				},
+				3000
+			);
+		}
 	}
 
 	function checkVersion() {
 		try {
 			if (!currentVersion) return;
 
-			if (!lastSeenVersion.value || isNewerVersion(currentVersion.version, lastSeenVersion.value)) {
+			if (!lastSeenVersion.value || isNewerVersion(currentVersion.date, lastSeenVersion.value)) {
 				hasNewVersion = true;
+				analyticsService.trackEventDebounced(
+					'new_version_available',
+					{
+						version_date: currentVersion.date.toISOString()
+					},
+					3000
+				);
 			}
 		} catch (e) {
 			console.error(e);
 		}
 	}
 
-	function isNewerVersion(current: string, last: string): boolean {
+	function isNewerVersion(current: Date, last: Date): boolean {
 		if (!current) return true;
-
-		const currentParts = current.split('.').map(Number);
-		const lastParts = last.split('.').map(Number);
-
-		for (let i = 0; i < 3; i++) {
-			if (currentParts[i] > lastParts[i]) return true;
-			if (currentParts[i] < lastParts[i]) return false;
-		}
-		return false;
+		return current.getTime() > last.getTime();
 	}
 
 	checkVersion();
@@ -46,10 +60,10 @@
 {#if currentVersion}
 	<div class="fixed bottom-4 right-4 z-50">
 		<button
-			onclick={() => (open = true)}
+			onclick={openChangelog}
 			class="flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:from-sky-700 hover:to-blue-800"
 		>
-			<span>What's New in {currentVersion.version}</span>
+			<span>Latest Updates</span>
 			{#if hasNewVersion}
 				<div class="relative">
 					<div class="absolute -right-1.5 -top-1 h-2 w-2">
@@ -76,7 +90,7 @@
 			<div class="mb-6">
 				<div class="mb-4 flex items-start justify-between">
 					<h2 id="dialog-title" class="text-xl font-semibold text-sky-900">
-						What's new in CarryFit {currentVersion.version}?
+						Latest Updates ({currentVersion.date.toLocaleDateString()})
 					</h2>
 					<button
 						onclick={() => (open = false)}
