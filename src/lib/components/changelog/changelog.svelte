@@ -8,11 +8,11 @@
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
-	const lastSeenVersion = localStore<Date | null>('lastSeenVersion', null);
+	const lastSeenVersion = localStore<string | null>('lastSeenVersion', null);
 
 	function close() {
 		open = false;
-		lastSeenVersion.value = currentVersion?.date;
+		lastSeenVersion.value = currentVersion?.date.toISOString();
 		hasNewVersion = false;
 	}
 
@@ -34,7 +34,9 @@
 		try {
 			if (!currentVersion) return;
 
-			if (!lastSeenVersion.value || isNewerVersion(currentVersion.date, lastSeenVersion.value)) {
+			const lastSeenVersionDate = lastSeenVersion.value ? new Date(lastSeenVersion.value) : null;
+
+			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
 				hasNewVersion = true;
 				analyticsService.trackEventDebounced(
 					'new_version_available',
