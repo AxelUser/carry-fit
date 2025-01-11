@@ -12,7 +12,9 @@ export class LocalStore<T> {
 			const item = localStorage.getItem(key);
 			if (item) {
 				const deserialized = this.deserializeSafe(item);
-				if (deserialized !== null) this.value = deserialized;
+				if (deserialized !== null) {
+					this.value = deserialized;
+				}
 			}
 		}
 

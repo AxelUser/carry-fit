@@ -46,6 +46,8 @@
 			}
 		} catch (e) {
 			console.error(e);
+			lastSeenVersion.value = null;
+			hasNewVersion = true;
 		}
 	}
 
