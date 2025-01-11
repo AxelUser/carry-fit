@@ -57,6 +57,16 @@
 	}
 
 	checkVersion();
+
+	$effect(() => {
+		if (open) {
+			document.body.style.overflow = 'hidden';
+			document.getElementById('app')?.setAttribute('inert', '');
+		} else {
+			document.body.style.overflow = '';
+			document.getElementById('app')?.removeAttribute('inert');
+		}
+	});
 </script>
 
 {#if currentVersion}
@@ -81,10 +91,14 @@
 {/if}
 
 {#if open && currentVersion}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+		onclick={({ target, currentTarget }) => target === currentTarget && close()}
+		role="presentation"
+	>
 		<div
 			class="mx-4 w-full max-w-md rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100"
-			role="alertdialog"
+			role="dialog"
 			aria-modal="true"
 			aria-labelledby="dialog-title"
 			aria-describedby="dialog-description"
