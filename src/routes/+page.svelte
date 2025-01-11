@@ -20,6 +20,7 @@
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
+	import { Changelog } from '$lib/components/changelog';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -179,6 +180,8 @@
 </script>
 
 <svelte:window bind:innerWidth />
+
+<Changelog />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
