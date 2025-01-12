@@ -30,6 +30,7 @@
 	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesService } from '$lib/services/preferences';
+	import NewBadge from '$lib/components/new-badge.svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -815,7 +816,10 @@
 
 			<div class="border-t border-sky-100 pt-4">
 				<div class="flex items-center justify-between">
-					<h4 class="font-medium text-sky-900">Favorites</h4>
+					<div class="flex items-center gap-2">
+						<h4 class="font-medium text-sky-900">Favorites</h4>
+						<NewBadge show={!preferences.favoriteAirlines.length} />
+					</div>
 					{#if preferences.favoriteAirlines.length > 0}
 						<span class="text-sm text-sky-600">
 							{preferences.favoriteAirlines.length}
