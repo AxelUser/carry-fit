@@ -5,7 +5,7 @@
 	import { analyticsService } from '$lib/analytics';
 
 	const currentVersion =
-		changes.length > 0 ? changes.sort((a, b) => a.date.getTime() - b.date.getTime())[0] : null;
+		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null;
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
