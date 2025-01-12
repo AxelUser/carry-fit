@@ -50,3 +50,7 @@ export type TestResult = {
 	lastTestPass?: string;
 	lastTestFail?: string;
 };
+
+export interface UserPreferences {
+	favoriteAirlines: string[];
+}

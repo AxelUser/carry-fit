@@ -9,18 +9,29 @@
 		MonitorX,
 		MonitorOff,
 		ArrowDownAZ,
-		ArrowUpAZ
+		ArrowUpAZ,
+		Star,
+		StarOff,
+		SearchX
 	} from 'lucide-svelte';
 	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, loadData } from '$lib/allowances';
-	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
+	import type {
+		AirlineInfo,
+		BagAllowanceDimensions,
+		UserDimensions,
+		UserPreferences
+	} from '$lib/types';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
+	import { preferencesStore } from '$lib/services/preferences';
+	import NewBadge from '$lib/components/new-badge.svelte';
+	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -56,6 +67,8 @@
 	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
 	let showFlexibility = $state(false);
 
+	const favoritesUsage = favoritesUsageStore();
+
 	$effect(() => {
 		if (showFlexibility) {
 			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
@@ -79,9 +92,30 @@
 		isNonCompliantOpen = isLargeScreen;
 	});
 
+	let showFavoritesOnly = $state(false);
+
+	function toggleFavorite(airlineName: string) {
+		const isFavorite = preferencesStore.value.favoriteAirlines.includes(airlineName);
+		const newFavorites = isFavorite
+			? preferencesStore.value.favoriteAirlines.filter((name) => name !== airlineName)
+			: [...preferencesStore.value.favoriteAirlines, airlineName];
+
+		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
+		favoritesUsage.markAsUsed();
+
+		preferencesStore.value = {
+			...preferencesStore.value,
+			favoriteAirlines: newFavorites
+		};
+	}
+
 	const filteredAirlines = $derived(
 		allowances
 			.filter((airline) => selectedRegions.has(airline.region))
+			.filter(
+				(airline) =>
+					!showFavoritesOnly || preferencesStore.value.favoriteAirlines.includes(airline.airline)
+			)
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
 				return a.airline.localeCompare(b.airline) * direction;
@@ -174,9 +208,36 @@
 		}
 	});
 
+	$effect(() => {
+		if (showFavoritesOnly) {
+			analyticsService.trackEventDebounced(
+				'favorites_filter_enabled',
+				{
+					favorites_count: preferencesStore.value.favoriteAirlines.length
+				},
+				3000
+			);
+		}
+	});
+
 	onDestroy(() => {
 		analyticsService.cancelDebouncedEvents();
 	});
+
+	const availableSelectedRegions = $derived(
+		regions.filter((region) => selectedRegions.has(region) && isRegionAvailable(region))
+	);
+
+	function isRegionAvailable(region: string): boolean {
+		return (
+			!showFavoritesOnly ||
+			allowances.some(
+				(airline) =>
+					airline.region === region &&
+					preferencesStore.value.favoriteAirlines.includes(airline.airline)
+			)
+		);
+	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -257,9 +318,11 @@
 							<p class="mb-3 text-sm text-sky-700">
 								If you find this tool helpful and want to support it:
 							</p>
-							<div class="flex items-center justify-center gap-2">
+							<div
+								class="flex flex-col items-center gap-1 2xs:flex-row 2xs:items-center 2xs:justify-center 2xs:gap-2"
+							>
 								<GithubStarButton />
-								<span class="text-sm text-sky-500">or</span>
+								<span class="text-sm text-sky-500 2xs:inline">or</span>
 								<BuyMeCoffeeButton />
 							</div>
 						</div>
@@ -268,16 +331,21 @@
 			</div>
 
 			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
-				{@render regionFilter(regions, selectedRegions)}
+				{@render allowancesFilters(regions, selectedRegions)}
 
 				<div class="overflow-x-auto rounded-lg">
-					{#if selectedRegions.size === 0}
-						<div class="w-full py-8 text-center">
+					{#if filteredAirlines.length === 0}
+						<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
+							<div class="rounded-full bg-sky-50 p-4">
+								<div class="rounded-full bg-sky-100 p-3">
+									<SearchX class="h-8 w-8 text-sky-600" />
+								</div>
+							</div>
 							<p class="text-xl font-medium text-sky-600 sm:text-2xl">
-								✈️ Ready to check your carry-on?
+								No carry-on allowances to display
 							</p>
-							<p class="mt-2 text-base text-sky-500 sm:text-lg">
-								Select regions to see which airlines will accept your bag
+							<p class="text-base text-sky-500 sm:text-lg">
+								Try adjusting your filters to see available allowances
 							</p>
 						</div>
 					{:else}
@@ -569,6 +637,19 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
+				<button
+					class="group flex items-center"
+					onclick={() => toggleFavorite(airline.airline)}
+					title={preferencesStore.value.favoriteAirlines.includes(airline.airline)
+						? 'Remove from favorites'
+						: 'Add to favorites'}
+				>
+					{#if preferencesStore.value.favoriteAirlines.includes(airline.airline)}
+						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
+					{:else}
+						<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
+					{/if}
+				</button>
 				{airline.airline}
 			</div>
 		</td>
@@ -676,54 +757,90 @@
 	</div>
 {/snippet}
 
-{#snippet regionFilter(regions: string[], selectedRegions: Set<string>)}
+{#snippet allowancesFilters(regions: string[], selectedRegions: Set<string>)}
 	<div class="mb-6">
-		<div class="mb-4">
-			<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
-			<p class="text-xs text-sky-600 sm:text-sm">
-				{#if selectedRegions.size === 0}
-					Choose regions to start comparing
-				{:else}
-					Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
-				{/if}
-			</p>
-		</div>
+		<h3 class="mb-4 text-base font-semibold text-sky-900 sm:text-lg">Filters</h3>
 
-		<div class="flex flex-wrap items-center gap-3">
-			<button
-				class="flex items-center gap-1.5 rounded-lg bg-sky-100 px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:px-4 sm:py-2 sm:text-sm"
-				onclick={selectAllRegions}
-			>
-				<Check class="h-3 w-3 sm:h-4 sm:w-4" />
-				<span>Select All</span>
-			</button>
-			<button
-				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
-				onclick={clearAllRegions}
-			>
-				<X class="h-3 w-3 sm:h-4 sm:w-4" />
-				<span>Clear All</span>
-			</button>
-		</div>
+		<div class="space-y-6">
+			<div>
+				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div>
+						<h4 class="font-medium text-sky-900">Regions</h4>
+						<p class="text-xs text-sky-600 sm:text-sm">
+							{#if selectedRegions.size === 0}
+								Choose regions to start comparing
+							{:else}
+								Showing {availableSelectedRegions.length}
+								{availableSelectedRegions.length === 1 ? 'region' : 'regions'}
+							{/if}
+						</p>
+					</div>
 
-		<div class="mt-4 flex flex-wrap gap-2">
-			{#each regions as region}
-				{@const isSelected = selectedRegions.has(region)}
-				<button
-					class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
-						{isSelected
-						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
-						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-					onclick={() => toggleRegion(region)}
-				>
-					<span>{region}</span>
-					{#if isSelected}
-						<div class="ml-2 animate-bounce">
-							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
-						</div>
+					<div class="grid grid-cols-2 gap-2">
+						<button
+							class="flex items-center justify-center gap-1.5 rounded-lg bg-sky-100 px-2 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
+							onclick={selectAllRegions}
+						>
+							<Check class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+							<span>Select All</span>
+						</button>
+						<button
+							class="flex items-center justify-center gap-1.5 rounded-lg bg-gray-100 px-2 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
+							onclick={clearAllRegions}
+						>
+							<X class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+							<span>Clear All</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-3 flex flex-wrap gap-2">
+					{#each regions as region}
+						{@const isSelected = selectedRegions.has(region)}
+						{@const isAvailable = isRegionAvailable(region)}
+						<button
+							class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
+								{isAvailable
+								? isSelected
+									? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
+									: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'
+								: 'cursor-not-allowed bg-gray-100 text-gray-400 ring-1 ring-gray-200'}"
+							onclick={() => isAvailable && toggleRegion(region)}
+							disabled={!isAvailable}
+						>
+							<span>{region}</span>
+							{#if isSelected && isAvailable}
+								<div class="ml-2 animate-bounce">
+									<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+								</div>
+							{/if}
+						</button>
+					{/each}
+				</div>
+			</div>
+
+			<div class="border-t border-sky-100 pt-4">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-2">
+						<h4 class="font-medium text-sky-900">Favorites</h4>
+						<NewBadge show={!favoritesUsage.used} />
+					</div>
+					{#if preferencesStore.value.favoriteAirlines.length > 0}
+						<span class="text-sm text-sky-600">
+							{preferencesStore.value.favoriteAirlines.length}
+							{preferencesStore.value.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
+						</span>
 					{/if}
-				</button>
-			{/each}
+				</div>
+				<label class="mt-2 flex items-center gap-2">
+					<input
+						type="checkbox"
+						bind:checked={showFavoritesOnly}
+						class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
+					/>
+					<span class="text-sm text-sky-600">Favorites only</span>
+				</label>
+			</div>
 		</div>
 	</div>
 {/snippet}

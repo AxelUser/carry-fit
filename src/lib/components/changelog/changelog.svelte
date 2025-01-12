@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { localStore } from '$lib/storage/local-store.svelte';
+	import { createLocalStore } from '$lib/storage/local-store.svelte';
 	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
 	import { analyticsService } from '$lib/analytics';
 
-	const currentVersion = changes.length > 0 ? changes[0] : null;
+	const currentVersion =
+		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null;
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
-	const lastSeenVersion = localStore<string | null>('lastSeenVersion', null);
+	const versionStore = createLocalStore<string | null>('lastSeenVersion', null);
 
 	function close() {
 		open = false;
-		lastSeenVersion.value = currentVersion?.date.toISOString();
+		if (currentVersion) {
+			versionStore.value = currentVersion.date.toISOString();
+		}
 		hasNewVersion = false;
 	}
 
@@ -34,7 +37,7 @@
 		try {
 			if (!currentVersion) return;
 
-			const lastSeenVersionDate = lastSeenVersion.value ? new Date(lastSeenVersion.value) : null;
+			const lastSeenVersionDate = versionStore.value ? new Date(versionStore.value) : null;
 
 			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
 				hasNewVersion = true;
@@ -48,7 +51,7 @@
 			}
 		} catch (e) {
 			console.error(e);
-			lastSeenVersion.value = null;
+			versionStore.reset();
 			hasNewVersion = true;
 		}
 	}
@@ -58,7 +61,11 @@
 		return current.getTime() > last.getTime();
 	}
 
-	checkVersion();
+	$effect(() => {
+		if (versionStore.isLoaded) {
+			checkVersion();
+		}
+	});
 
 	$effect(() => {
 		if (open) {
@@ -118,11 +125,17 @@
 						<X class="h-5 w-5" />
 					</button>
 				</div>
-				<ul id="dialog-description" class="list-inside list-disc space-y-2 text-sky-900">
-					{#each currentVersion.changes as change}
-						<li>{change}</li>
-					{/each}
-				</ul>
+				{#if currentVersion.changes.length === 1}
+					<p id="dialog-description" class="text-sky-900">
+						{currentVersion.changes[0]}
+					</p>
+				{:else}
+					<ul id="dialog-description" class="list-inside list-disc space-y-2 text-sky-900">
+						{#each currentVersion.changes as change}
+							<li>{change}</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 
 			<div class="flex justify-end">
