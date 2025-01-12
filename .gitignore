@@ -2,6 +2,7 @@ test-results
 playwright-report
 node_modules
 .vscode
+.cursorrules
 
 # Output
 .output

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { localStore } from '$lib/storage/local-store.svelte';
+	import { createLocalStore } from '$lib/storage/local-store.svelte';
 	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
 	import { analyticsService } from '$lib/analytics';
@@ -8,11 +8,13 @@
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
-	const lastSeenVersion = localStore<string | null>('lastSeenVersion', null);
+	const versionStore = createLocalStore<string | null>('lastSeenVersion', null);
 
 	function close() {
 		open = false;
-		lastSeenVersion.value = currentVersion?.date.toISOString();
+		if (currentVersion) {
+			versionStore.value = currentVersion.date.toISOString();
+		}
 		hasNewVersion = false;
 	}
 
@@ -34,7 +36,7 @@
 		try {
 			if (!currentVersion) return;
 
-			const lastSeenVersionDate = lastSeenVersion.value ? new Date(lastSeenVersion.value) : null;
+			const lastSeenVersionDate = versionStore.value ? new Date(versionStore.value) : null;
 
 			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
 				hasNewVersion = true;
@@ -48,7 +50,7 @@
 			}
 		} catch (e) {
 			console.error(e);
-			lastSeenVersion.value = null;
+			versionStore.reset();
 			hasNewVersion = true;
 		}
 	}
@@ -58,7 +60,11 @@
 		return current.getTime() > last.getTime();
 	}
 
-	checkVersion();
+	$effect(() => {
+		if (versionStore.isLoaded) {
+			checkVersion();
+		}
+	});
 
 	$effect(() => {
 		if (open) {
