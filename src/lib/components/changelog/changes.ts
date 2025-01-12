@@ -10,5 +10,9 @@ export const changes: Change[] = [
 		changes: [
 			"Our suitcase visualizer for flexible dimensions now comes with tiny hands that give it a squeeze! 👐 It's like a stress ball, but actually your luggage!"
 		]
+	},
+	{
+		date: new Date('2024-03-21T00:00:00Z'),
+		changes: ['Added ability to save favorite airlines for quick filtering']
 	}
 ];

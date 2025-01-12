@@ -9,18 +9,26 @@
 		MonitorX,
 		MonitorOff,
 		ArrowDownAZ,
-		ArrowUpAZ
+		ArrowUpAZ,
+		Star,
+		StarOff
 	} from 'lucide-svelte';
 	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { checkCompliance, loadData } from '$lib/allowances';
-	import type { AirlineInfo, BagAllowanceDimensions, UserDimensions } from '$lib/types';
+	import type {
+		AirlineInfo,
+		BagAllowanceDimensions,
+		UserDimensions,
+		UserPreferences
+	} from '$lib/types';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
+	import { preferencesService } from '$lib/services/preferences';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -79,9 +87,28 @@
 		isNonCompliantOpen = isLargeScreen;
 	});
 
+	let preferences = $state<UserPreferences>(preferencesService.loadPreferences());
+	let showFavoritesOnly = $state(false);
+
+	function toggleFavorite(airlineName: string) {
+		const newFavorites = preferences.favoriteAirlines.includes(airlineName)
+			? preferences.favoriteAirlines.filter((name) => name !== airlineName)
+			: [...preferences.favoriteAirlines, airlineName];
+
+		preferences = {
+			...preferences,
+			favoriteAirlines: newFavorites
+		};
+
+		preferencesService.savePreferences(preferences);
+	}
+
 	const filteredAirlines = $derived(
 		allowances
 			.filter((airline) => selectedRegions.has(airline.region))
+			.filter(
+				(airline) => !showFavoritesOnly || preferences.favoriteAirlines.includes(airline.airline)
+			)
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
 				return a.airline.localeCompare(b.airline) * direction;
@@ -569,6 +596,19 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 			<div class="flex items-center gap-2">
+				<button
+					class="group flex items-center"
+					onclick={() => toggleFavorite(airline.airline)}
+					title={preferences.favoriteAirlines.includes(airline.airline)
+						? 'Remove from favorites'
+						: 'Add to favorites'}
+				>
+					{#if preferences.favoriteAirlines.includes(airline.airline)}
+						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
+					{:else}
+						<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
+					{/if}
+				</button>
 				{airline.airline}
 			</div>
 		</td>
@@ -678,15 +718,31 @@
 
 {#snippet regionFilter(regions: string[], selectedRegions: Set<string>)}
 	<div class="mb-6">
-		<div class="mb-4">
-			<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
-			<p class="text-xs text-sky-600 sm:text-sm">
-				{#if selectedRegions.size === 0}
-					Choose regions to start comparing
-				{:else}
-					Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
+		<div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
+				<p class="text-xs text-sky-600 sm:text-sm">
+					{#if selectedRegions.size === 0}
+						Choose regions to start comparing
+					{:else}
+						Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
+					{/if}
+				</p>
+			</div>
+
+			<label class="flex items-center gap-2 self-start sm:self-auto">
+				<input
+					type="checkbox"
+					bind:checked={showFavoritesOnly}
+					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
+				/>
+				<span class="text-sm font-medium text-sky-900">Show favorites only</span>
+				{#if preferences.favoriteAirlines.length > 0}
+					<span class="text-sm text-sky-600">
+						({preferences.favoriteAirlines.length})
+					</span>
 				{/if}
-			</p>
+			</label>
 		</div>
 
 		<div class="flex flex-wrap items-center gap-3">
