@@ -295,16 +295,16 @@
 			</div>
 
 			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
-				{@render regionFilter(regions, selectedRegions)}
+				{@render allowancesFilters(regions, selectedRegions)}
 
 				<div class="overflow-x-auto rounded-lg">
-					{#if selectedRegions.size === 0}
+					{#if filteredAirlines.length === 0}
 						<div class="w-full py-8 text-center">
 							<p class="text-xl font-medium text-sky-600 sm:text-2xl">
-								✈️ Ready to check your carry-on?
+								🔍 No carry-on allowances to display
 							</p>
 							<p class="mt-2 text-base text-sky-500 sm:text-lg">
-								Select regions to see which airlines will accept your bag
+								Try adjusting your filters to see available allowances
 							</p>
 						</div>
 					{:else}
@@ -716,70 +716,103 @@
 	</div>
 {/snippet}
 
-{#snippet regionFilter(regions: string[], selectedRegions: Set<string>)}
+{#snippet allowancesFilters(regions: string[], selectedRegions: Set<string>)}
 	<div class="mb-6">
-		<div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+		<h3 class="mb-4 text-base font-semibold text-sky-900 sm:text-lg">Filters</h3>
+
+		<div class="space-y-6">
 			<div>
-				<h3 class="text-base font-semibold text-sky-900 sm:text-lg">Filter by Region</h3>
-				<p class="text-xs text-sky-600 sm:text-sm">
-					{#if selectedRegions.size === 0}
-						Choose regions to start comparing
-					{:else}
-						Showing {selectedRegions.size} {selectedRegions.size === 1 ? 'region' : 'regions'}
-					{/if}
-				</p>
+				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div>
+						<h4 class="font-medium text-sky-900">Regions</h4>
+						<p class="text-xs text-sky-600 sm:text-sm">
+							{#if selectedRegions.size === 0}
+								Choose regions to start comparing
+							{:else}
+								{@const availableSelectedRegions = regions.filter(
+									(region) =>
+										selectedRegions.has(region) &&
+										(!showFavoritesOnly ||
+											allowances.some(
+												(airline) =>
+													airline.region === region &&
+													preferences.favoriteAirlines.includes(airline.airline)
+											))
+								)}
+								Showing {availableSelectedRegions.length}
+								{availableSelectedRegions.length === 1 ? 'region' : 'regions'}
+							{/if}
+						</p>
+					</div>
+
+					<div class="grid grid-cols-2 gap-2">
+						<button
+							class="flex items-center justify-center gap-1.5 rounded-lg bg-sky-100 px-2 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
+							onclick={selectAllRegions}
+						>
+							<Check class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+							<span>Select All</span>
+						</button>
+						<button
+							class="flex items-center justify-center gap-1.5 rounded-lg bg-gray-100 px-2 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
+							onclick={clearAllRegions}
+						>
+							<X class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+							<span>Clear All</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-3 flex flex-wrap gap-2">
+					{#each regions as region}
+						{@const isSelected = selectedRegions.has(region)}
+						{@const isAvailable =
+							!showFavoritesOnly ||
+							allowances.some(
+								(airline) =>
+									airline.region === region &&
+									preferences.favoriteAirlines.includes(airline.airline)
+							)}
+						<button
+							class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
+								{isAvailable
+								? isSelected
+									? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
+									: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'
+								: 'cursor-not-allowed bg-gray-100 text-gray-400 ring-1 ring-gray-200'}"
+							onclick={() => isAvailable && toggleRegion(region)}
+							disabled={!isAvailable}
+						>
+							<span>{region}</span>
+							{#if isSelected && isAvailable}
+								<div class="ml-2 animate-bounce">
+									<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+								</div>
+							{/if}
+						</button>
+					{/each}
+				</div>
 			</div>
 
-			<label class="flex items-center gap-2 self-start sm:self-auto">
-				<input
-					type="checkbox"
-					bind:checked={showFavoritesOnly}
-					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
-				/>
-				<span class="text-sm font-medium text-sky-900">Show favorites only</span>
-				{#if preferences.favoriteAirlines.length > 0}
-					<span class="text-sm text-sky-600">
-						({preferences.favoriteAirlines.length})
-					</span>
-				{/if}
-			</label>
-		</div>
-
-		<div class="flex flex-wrap items-center gap-3">
-			<button
-				class="flex items-center gap-1.5 rounded-lg bg-sky-100 px-3 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:px-4 sm:py-2 sm:text-sm"
-				onclick={selectAllRegions}
-			>
-				<Check class="h-3 w-3 sm:h-4 sm:w-4" />
-				<span>Select All</span>
-			</button>
-			<button
-				class="flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:px-4 sm:py-2 sm:text-sm"
-				onclick={clearAllRegions}
-			>
-				<X class="h-3 w-3 sm:h-4 sm:w-4" />
-				<span>Clear All</span>
-			</button>
-		</div>
-
-		<div class="mt-4 flex flex-wrap gap-2">
-			{#each regions as region}
-				{@const isSelected = selectedRegions.has(region)}
-				<button
-					class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
-						{isSelected
-						? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
-						: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-					onclick={() => toggleRegion(region)}
-				>
-					<span>{region}</span>
-					{#if isSelected}
-						<div class="ml-2 animate-bounce">
-							<Check class="h-3 w-3 sm:h-4 sm:w-4" />
-						</div>
+			<div class="border-t border-sky-100 pt-4">
+				<div class="flex items-center justify-between">
+					<h4 class="font-medium text-sky-900">Favorites</h4>
+					{#if preferences.favoriteAirlines.length > 0}
+						<span class="text-sm text-sky-600">
+							{preferences.favoriteAirlines.length}
+							{preferences.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
+						</span>
 					{/if}
-				</button>
-			{/each}
+				</div>
+				<label class="mt-2 flex items-center gap-2">
+					<input
+						type="checkbox"
+						bind:checked={showFavoritesOnly}
+						class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
+					/>
+					<span class="text-sm text-sky-600">Favorites only</span>
+				</label>
+			</div>
 		</div>
 	</div>
 {/snippet}
