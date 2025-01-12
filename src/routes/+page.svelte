@@ -31,7 +31,7 @@
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesService } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
-	import { FEATURES, featureUsageService } from '$lib/services/feature-usage';
+	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -67,6 +67,8 @@
 	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
 	let showFlexibility = $state(false);
 
+	const favoritesUsage = favoritesUsageStore();
+
 	$effect(() => {
 		if (showFlexibility) {
 			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
@@ -100,7 +102,7 @@
 			: [...preferences.favoriteAirlines, airlineName];
 
 		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
-		featureUsageService.markFeatureAsUsed(FEATURES.favorites);
+		favoritesUsage.markAsUsed();
 
 		preferences = {
 			...preferences,
@@ -820,7 +822,7 @@
 				<div class="flex items-center justify-between">
 					<div class="flex items-center gap-2">
 						<h4 class="font-medium text-sky-900">Favorites</h4>
-						<NewBadge show={!featureUsageService.isFeatureUsed('favorites')} />
+						<NewBadge show={!favoritesUsage.used} />
 					</div>
 					{#if preferences.favoriteAirlines.length > 0}
 						<span class="text-sm text-sky-600">

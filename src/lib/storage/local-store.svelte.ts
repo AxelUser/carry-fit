@@ -16,7 +16,6 @@ export function createLocalStore<T>(key: string, initialValue: T): LocalStore<T>
 	let value = $state<T>(initialValue);
 	let isLoaded = $state(false);
 
-	// Load initial value from localStorage if available
 	if (browser) {
 		const stored = localStorage.getItem(key);
 		if (stored) {
