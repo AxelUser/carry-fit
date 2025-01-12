@@ -41,13 +41,6 @@
 
 			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
 				hasNewVersion = true;
-				analyticsService.trackEventDebounced(
-					'new_version_available',
-					{
-						version_date: currentVersion.date.toISOString()
-					},
-					3000
-				);
 			}
 		} catch (e) {
 			console.error(e);
