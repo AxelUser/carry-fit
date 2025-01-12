@@ -29,7 +29,7 @@
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
-	import { preferencesService } from '$lib/services/preferences';
+	import { preferencesStore } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
 	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 
@@ -92,31 +92,29 @@
 		isNonCompliantOpen = isLargeScreen;
 	});
 
-	let preferences = $state<UserPreferences>(preferencesService.loadPreferences());
 	let showFavoritesOnly = $state(false);
 
 	function toggleFavorite(airlineName: string) {
-		const isFavorite = preferences.favoriteAirlines.includes(airlineName);
+		const isFavorite = preferencesStore.value.favoriteAirlines.includes(airlineName);
 		const newFavorites = isFavorite
-			? preferences.favoriteAirlines.filter((name) => name !== airlineName)
-			: [...preferences.favoriteAirlines, airlineName];
+			? preferencesStore.value.favoriteAirlines.filter((name) => name !== airlineName)
+			: [...preferencesStore.value.favoriteAirlines, airlineName];
 
 		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
 		favoritesUsage.markAsUsed();
 
-		preferences = {
-			...preferences,
+		preferencesStore.value = {
+			...preferencesStore.value,
 			favoriteAirlines: newFavorites
 		};
-
-		preferencesService.savePreferences(preferences);
 	}
 
 	const filteredAirlines = $derived(
 		allowances
 			.filter((airline) => selectedRegions.has(airline.region))
 			.filter(
-				(airline) => !showFavoritesOnly || preferences.favoriteAirlines.includes(airline.airline)
+				(airline) =>
+					!showFavoritesOnly || preferencesStore.value.favoriteAirlines.includes(airline.airline)
 			)
 			.sort((a, b) => {
 				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
@@ -215,7 +213,7 @@
 			analyticsService.trackEventDebounced(
 				'favorites_filter_enabled',
 				{
-					favorites_count: preferences.favoriteAirlines.length
+					favorites_count: preferencesStore.value.favoriteAirlines.length
 				},
 				3000
 			);
@@ -235,7 +233,8 @@
 			!showFavoritesOnly ||
 			allowances.some(
 				(airline) =>
-					airline.region === region && preferences.favoriteAirlines.includes(airline.airline)
+					airline.region === region &&
+					preferencesStore.value.favoriteAirlines.includes(airline.airline)
 			)
 		);
 	}
@@ -639,11 +638,11 @@
 				<button
 					class="group flex items-center"
 					onclick={() => toggleFavorite(airline.airline)}
-					title={preferences.favoriteAirlines.includes(airline.airline)
+					title={preferencesStore.value.favoriteAirlines.includes(airline.airline)
 						? 'Remove from favorites'
 						: 'Add to favorites'}
 				>
-					{#if preferences.favoriteAirlines.includes(airline.airline)}
+					{#if preferencesStore.value.favoriteAirlines.includes(airline.airline)}
 						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
 					{:else}
 						<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
@@ -824,10 +823,10 @@
 						<h4 class="font-medium text-sky-900">Favorites</h4>
 						<NewBadge show={!favoritesUsage.used} />
 					</div>
-					{#if preferences.favoriteAirlines.length > 0}
+					{#if preferencesStore.value.favoriteAirlines.length > 0}
 						<span class="text-sm text-sky-600">
-							{preferences.favoriteAirlines.length}
-							{preferences.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
+							{preferencesStore.value.favoriteAirlines.length}
+							{preferencesStore.value.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
 						</span>
 					{/if}
 				</div>

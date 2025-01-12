@@ -7,22 +7,4 @@ const defaultPreferences: UserPreferences = {
 	favoriteAirlines: []
 };
 
-const store = createLocalStore(STORAGE_KEY, defaultPreferences);
-
-function loadPreferences(): UserPreferences {
-	return store.value;
-}
-
-function savePreferences(preferences: UserPreferences) {
-	store.value = preferences;
-}
-
-function resetPreferences() {
-	store.reset();
-}
-
-export const preferencesService = {
-	loadPreferences,
-	savePreferences,
-	resetPreferences
-};
+export const preferencesStore = createLocalStore<UserPreferences>(STORAGE_KEY, defaultPreferences);

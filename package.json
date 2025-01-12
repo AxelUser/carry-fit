@@ -31,6 +31,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"jsdom": "^26.0.0",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
@@ -47,5 +48,10 @@
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.9",
 		"lucide-svelte": "^0.469.0"
+	},
+	"pnpm": {
+		"overrides": {
+			"vitest>vite": "^6.0.0"
+		}
 	}
 }
