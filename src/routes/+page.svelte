@@ -204,6 +204,20 @@
 	onDestroy(() => {
 		analyticsService.cancelDebouncedEvents();
 	});
+
+	const availableSelectedRegions = $derived(
+		regions.filter((region) => selectedRegions.has(region) && isRegionAvailable(region))
+	);
+
+	function isRegionAvailable(region: string): boolean {
+		return (
+			!showFavoritesOnly ||
+			allowances.some(
+				(airline) =>
+					airline.region === region && preferences.favoriteAirlines.includes(airline.airline)
+			)
+		);
+	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -729,16 +743,6 @@
 							{#if selectedRegions.size === 0}
 								Choose regions to start comparing
 							{:else}
-								{@const availableSelectedRegions = regions.filter(
-									(region) =>
-										selectedRegions.has(region) &&
-										(!showFavoritesOnly ||
-											allowances.some(
-												(airline) =>
-													airline.region === region &&
-													preferences.favoriteAirlines.includes(airline.airline)
-											))
-								)}
 								Showing {availableSelectedRegions.length}
 								{availableSelectedRegions.length === 1 ? 'region' : 'regions'}
 							{/if}
@@ -766,13 +770,7 @@
 				<div class="mt-3 flex flex-wrap gap-2">
 					{#each regions as region}
 						{@const isSelected = selectedRegions.has(region)}
-						{@const isAvailable =
-							!showFavoritesOnly ||
-							allowances.some(
-								(airline) =>
-									airline.region === region &&
-									preferences.favoriteAirlines.includes(airline.airline)
-							)}
+						{@const isAvailable = isRegionAvailable(region)}
 						<button
 							class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
 								{isAvailable
