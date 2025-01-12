@@ -11,7 +11,8 @@
 		ArrowDownAZ,
 		ArrowUpAZ,
 		Star,
-		StarOff
+		StarOff,
+		SearchX
 	} from 'lucide-svelte';
 	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
@@ -313,11 +314,16 @@
 
 				<div class="overflow-x-auto rounded-lg">
 					{#if filteredAirlines.length === 0}
-						<div class="w-full py-8 text-center">
+						<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
+							<div class="rounded-full bg-sky-50 p-4">
+								<div class="rounded-full bg-sky-100 p-3">
+									<SearchX class="h-8 w-8 text-sky-600" />
+								</div>
+							</div>
 							<p class="text-xl font-medium text-sky-600 sm:text-2xl">
-								🔍 No carry-on allowances to display
+								No carry-on allowances to display
 							</p>
-							<p class="mt-2 text-base text-sky-500 sm:text-lg">
+							<p class="text-base text-sky-500 sm:text-lg">
 								Try adjusting your filters to see available allowances
 							</p>
 						</div>
