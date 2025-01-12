@@ -4,7 +4,8 @@
 	import { X } from 'lucide-svelte';
 	import { analyticsService } from '$lib/analytics';
 
-	const currentVersion = changes.length > 0 ? changes[0] : null;
+	const currentVersion =
+		changes.length > 0 ? changes.sort((a, b) => a.date.getTime() - b.date.getTime())[0] : null;
 	let open = $state(false);
 	let hasNewVersion = $state(false);
 
@@ -124,11 +125,17 @@
 						<X class="h-5 w-5" />
 					</button>
 				</div>
-				<ul id="dialog-description" class="list-inside list-disc space-y-2 text-sky-900">
-					{#each currentVersion.changes as change}
-						<li>{change}</li>
-					{/each}
-				</ul>
+				{#if currentVersion.changes.length === 1}
+					<p id="dialog-description" class="text-sky-900">
+						{currentVersion.changes[0]}
+					</p>
+				{:else}
+					<ul id="dialog-description" class="list-inside list-disc space-y-2 text-sky-900">
+						{#each currentVersion.changes as change}
+							<li>{change}</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 
 			<div class="flex justify-end">

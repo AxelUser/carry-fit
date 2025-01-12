@@ -92,9 +92,12 @@
 	let showFavoritesOnly = $state(false);
 
 	function toggleFavorite(airlineName: string) {
-		const newFavorites = preferences.favoriteAirlines.includes(airlineName)
+		const isFavorite = preferences.favoriteAirlines.includes(airlineName);
+		const newFavorites = isFavorite
 			? preferences.favoriteAirlines.filter((name) => name !== airlineName)
 			: [...preferences.favoriteAirlines, airlineName];
+
+		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
 
 		preferences = {
 			...preferences,
@@ -199,6 +202,18 @@
 			}
 
 			analyticsService.trackEventDebounced('user_bag_validated', eventProps, 3000);
+		}
+	});
+
+	$effect(() => {
+		if (showFavoritesOnly) {
+			analyticsService.trackEventDebounced(
+				'favorites_filter_enabled',
+				{
+					favorites_count: preferences.favoriteAirlines.length
+				},
+				3000
+			);
 		}
 	});
 
