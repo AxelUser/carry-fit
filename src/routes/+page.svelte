@@ -318,9 +318,11 @@
 							<p class="mb-3 text-sm text-sky-700">
 								If you find this tool helpful and want to support it:
 							</p>
-							<div class="flex items-center justify-center gap-2">
+							<div
+								class="flex flex-col items-center gap-1 2xs:flex-row 2xs:items-center 2xs:justify-center 2xs:gap-2"
+							>
 								<GithubStarButton />
-								<span class="text-sm text-sky-500">or</span>
+								<span class="text-sm text-sky-500 2xs:inline">or</span>
 								<BuyMeCoffeeButton />
 							</div>
 						</div>
