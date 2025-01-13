@@ -11,7 +11,7 @@ const isManualTest = grepManual && !grepInvert;
 
 export default defineConfig({
 	testDir: 'e2e',
-	reporter: [['html'], ['list']],
+	reporter: [['html'], [isCI ? 'github' : 'list']],
 	use: {
 		baseURL: `http://localhost:${PORT}`,
 		screenshot: 'only-on-failure'
@@ -25,6 +25,9 @@ export default defineConfig({
 				reuseExistingServer: !isCI,
 				timeout: 120000, // 2 minutes
 				stdout: 'pipe',
-				stderr: 'pipe'
+				stderr: 'pipe',
+				env: {
+					PUBLIC_POSTHOG_API_KEY: '123'
+				}
 			}
 });
