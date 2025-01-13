@@ -1,4 +1,5 @@
-import { debounce } from '$lib/utils';
+import { browser } from '$app/environment';
+import { debounce, isLocalhost } from '$lib/utils';
 
 export interface EventProperties {
 	[key: string]: string | number | boolean;
@@ -8,7 +9,13 @@ export abstract class AnalyticsService {
 	private debouncedEvents: Map<string, ReturnType<typeof debounce<[EventProperties?], void>>> =
 		new Map();
 
-	abstract trackEvent(eventName: string, properties?: EventProperties): void;
+	protected abstract trackEventInternal(eventName: string, properties?: EventProperties): void;
+
+	trackEvent(eventName: string, properties?: EventProperties) {
+		if (browser && !isLocalhost()) {
+			this.trackEventInternal(eventName, properties);
+		}
+	}
 
 	trackEventDebounced(
 		eventName: string,

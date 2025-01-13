@@ -47,7 +47,8 @@
 	},
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.9",
-		"lucide-svelte": "^0.469.0"
+		"lucide-svelte": "^0.469.0",
+		"posthog-js": "^1.205.0"
 	},
 	"pnpm": {
 		"overrides": {
