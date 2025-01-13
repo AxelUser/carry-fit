@@ -697,6 +697,17 @@
 		airlines worldwide. Enter your bag's dimensions, and we'll show you which airlines will accept
 		it as cabin baggage.
 	</p>
+	<p class="mb-4 text-sm text-sky-700">
+		<strong>Note:</strong> The dimensions shown are for standard carry-on luggage (cabin bags), not
+		personal items. Some airlines may not allow these sizes with basic/economy tickets or may
+		require an additional fee. Personal item allowances will be
+		<a
+			href="https://github.com/AxelUser/carry-fit/issues/11"
+			class="text-blue-600 hover:text-blue-800 hover:underline"
+			target="_blank"
+			rel="noopener noreferrer">added in a future update</a
+		>. If you'd like to see this feature, please vote for it on GitHub.
+	</p>
 	<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
 		<p class="mb-2">
 			Created by <a
