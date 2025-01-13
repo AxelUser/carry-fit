@@ -32,6 +32,7 @@
 	import { preferencesStore } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
 	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
+	import { base } from '$app/paths';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -264,9 +265,9 @@
 					> airlines worldwide
 				</p>
 				<p class="mt-2 text-xs text-sky-600">
-					<a href="/privacy" class="hover:text-sky-800 hover:underline">Privacy Policy</a>
+					<a href="{base}/privacy" class="hover:text-sky-800 hover:underline">Privacy Policy</a>
 					<span class="mx-1">·</span>
-					<a href="/terms" class="hover:text-sky-800 hover:underline">Terms of Use</a>
+					<a href="{base}/terms" class="hover:text-sky-800 hover:underline">Terms of Use</a>
 				</p>
 			</div>
 

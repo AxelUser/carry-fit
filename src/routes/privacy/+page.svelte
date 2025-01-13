@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ArrowLeft } from 'lucide-svelte';
+	import { base } from '$app/paths';
 
 	const lastUpdated = new Date('2025-01-13');
 </script>
@@ -8,7 +9,7 @@
 	<div class="mx-auto max-w-3xl">
 		<div class="mb-8">
 			<a
-				href="/"
+				href="{base}/"
 				class="inline-flex items-center gap-2 rounded-lg bg-white/95 px-4 py-2 text-sky-700 shadow-md ring-1 ring-sky-100 transition-colors hover:bg-sky-50"
 			>
 				<ArrowLeft class="h-4 w-4" />
