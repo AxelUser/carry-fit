@@ -13,6 +13,7 @@ export class PosthogAnalytics extends AnalyticsService {
 			posthog.init(PUBLIC_POSTHOG_API_KEY, {
 				api_host: 'https://us.i.posthog.com',
 				person_profiles: 'always',
+				persistence: 'memory',
 				autocapture: false
 			});
 		}
