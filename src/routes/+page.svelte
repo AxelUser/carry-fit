@@ -247,7 +247,7 @@
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
 		<div class="mx-auto md:container">
-			<div class="mb-12 py-2 text-center">
+			<div class="mb-8 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
 					<span
 						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
@@ -262,6 +262,9 @@
 					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
 						>{allowances.length}</span
 					> airlines worldwide
+				</p>
+				<p class="mt-2 text-xs text-sky-600">
+					<a href="/privacy" class="hover:text-sky-800 hover:underline">Privacy Policy</a>
 				</p>
 			</div>
 
