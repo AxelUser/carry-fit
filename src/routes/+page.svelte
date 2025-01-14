@@ -311,6 +311,8 @@
 				</div>
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
+					{@render unitSelector()}
+
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
 
@@ -363,6 +365,41 @@
 	</div>
 </div>
 
+{#snippet unitSelector()}
+	<div class="mx-auto mb-4 max-w-2xl">
+		<div class="rounded-xl bg-white/95 p-4 shadow-xl ring-1 ring-sky-100">
+			<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+				<div>
+					<h3 class="text-base font-medium text-sky-900">Measurement System</h3>
+					<p class="text-sm text-sky-600">Choose your preferred unit of measurement</p>
+				</div>
+				<div class="grid grid-cols-2 gap-2">
+					<button
+						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+							{userDimensions.unit === 'cm'
+							? 'bg-sky-100 text-sky-900'
+							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+						onclick={() => (userDimensions.unit = 'cm')}
+					>
+						<span>Metric</span>
+						<span class="block text-xs text-sky-600">cm / kg</span>
+					</button>
+					<button
+						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+							{userDimensions.unit === 'in'
+							? 'bg-sky-100 text-sky-900'
+							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+						onclick={() => (userDimensions.unit = 'in')}
+					>
+						<span>Imperial</span>
+						<span class="block text-xs text-sky-600">in / lb</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/snippet}
+
 {#snippet bagInput()}
 	<div class="mb-4">
 		<div class="mb-6 flex items-baseline justify-between">
@@ -376,7 +413,7 @@
 			</button>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+		<div class="grid grid-cols-3 gap-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
 				<input
@@ -409,17 +446,6 @@
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 					min={0}
 				/>
-			</div>
-			<div>
-				<label for="unit" class="mb-1 block text-sm font-medium text-sky-900">Unit</label>
-				<select
-					id="unit"
-					bind:value={userDimensions.unit}
-					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-				>
-					<option value="cm">Centimeters</option>
-					<option value="in">Inches</option>
-				</select>
 			</div>
 		</div>
 
