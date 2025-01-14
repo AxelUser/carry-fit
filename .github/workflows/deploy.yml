@@ -44,6 +44,7 @@ jobs:
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
           PUBLIC_POSTHOG_API_KEY: ${{ secrets.PUBLIC_POSTHOG_API_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
         run: |
           pnpm run build
 
