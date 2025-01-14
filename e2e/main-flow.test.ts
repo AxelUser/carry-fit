@@ -32,11 +32,11 @@ test.describe('CarryFit Main Flow', () => {
 	});
 
 	test('should update units in table when input unit changes', async ({ page }) => {
-		// Check initial CM units
+		// Check initial CM units (metric system)
 		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
 
-		// Switch to inches
-		await page.getByLabel('Unit').selectOption('in');
+		// Switch to imperial system
+		await page.getByRole('button', { name: /Imperial/i }).click();
 
 		// Verify units changed in table
 		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
@@ -46,8 +46,8 @@ test.describe('CarryFit Main Flow', () => {
 			await expect(weightCell.getByText(/lb|N\/A/)).toBeVisible();
 		}
 
-		// Switch back to CM and verify kg is shown
-		await page.getByLabel('Unit').selectOption('cm');
+		// Switch back to metric and verify kg is shown
+		await page.getByRole('button', { name: /Metric/i }).click();
 
 		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
 			await expect(weightCell.getByText(/kg|N\/A/)).toBeVisible();
