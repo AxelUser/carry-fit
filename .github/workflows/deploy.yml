@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: 'main'
+    paths-ignore:
+      - '**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'docs/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 jobs:
