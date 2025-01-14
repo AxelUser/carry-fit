@@ -27,7 +27,7 @@
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesStore } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
@@ -64,8 +64,47 @@
 
 	let measurementSystem = $state<MeasurementSystem>('metric');
 
+	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
+	let initialMeasurementSystem = $state.snapshot(measurementSystem);
+	let showConversionPrompt = $state(false);
+
+	let dimensionsSet = $derived(
+		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+	);
+
+	$effect(() => {
+		if (dimensionsSet && initialMeasurementSystem !== measurementSystem) {
+			showConversionPrompt = true;
+		} else {
+			showConversionPrompt = false;
+		}
+	});
+
+	function convertDimensions() {
+		const factor = measurementSystem === 'metric' ? 2.54 : 1 / 2.54;
+		userDimensions.length = Math.round(userDimensions.length * factor * 10) / 10;
+		userDimensions.width = Math.round(userDimensions.width * factor * 10) / 10;
+		userDimensions.height = Math.round(userDimensions.height * factor * 10) / 10;
+		showConversionPrompt = false;
+		initialMeasurementSystem = measurementSystem;
+	}
+
+	function dismissConversion() {
+		showConversionPrompt = false;
+		initialMeasurementSystem = measurementSystem;
+	}
+
 	let flexibility = $state(0);
 	let showFlexibility = $state(false);
+
+	function resetDimensions() {
+		userDimensions.length = 0;
+		userDimensions.width = 0;
+		userDimensions.height = 0;
+		showFlexibility = false;
+		flexibility = 0;
+		initialMeasurementSystem = measurementSystem;
+	}
 
 	const favoritesUsage = favoritesUsageStore();
 
@@ -121,7 +160,7 @@
 	);
 
 	const compliantAirlines = $derived(
-		userDimensions.length && userDimensions.width && userDimensions.height
+		dimensionsSet
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
@@ -134,7 +173,7 @@
 	);
 
 	const nonCompliantAirlines = $derived(
-		userDimensions.length && userDimensions.width && userDimensions.height
+		dimensionsSet
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
@@ -182,14 +221,6 @@
 			newSet.add(region);
 		}
 		selectedRegions = newSet;
-	}
-
-	function resetDimensions() {
-		userDimensions.length = 0;
-		userDimensions.width = 0;
-		userDimensions.height = 0;
-		showFlexibility = false;
-		flexibility = 0;
 	}
 
 	$effect(() => {
@@ -409,6 +440,30 @@
 				<span>Reset</span>
 			</button>
 		</div>
+
+		{#if showConversionPrompt}
+			<div class="mb-4 rounded-lg bg-sky-50 p-3 text-sm">
+				<p class="text-sky-700">
+					Would you like to convert your dimensions to {measurementSystem === 'metric'
+						? 'centimeters'
+						: 'inches'}?
+				</p>
+				<div class="mt-2 flex gap-3">
+					<button
+						class="text-sky-600 hover:text-sky-800 hover:underline"
+						onclick={convertDimensions}
+					>
+						Apply conversion
+					</button>
+					<button
+						class="text-sky-500 hover:text-sky-700 hover:underline"
+						onclick={dismissConversion}
+					>
+						Keep as is
+					</button>
+				</div>
+			</div>
+		{/if}
 
 		<div class="grid grid-cols-3 gap-4">
 			<div>
