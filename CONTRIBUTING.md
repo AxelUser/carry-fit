@@ -17,9 +17,9 @@ Thank you for your interest in contributing to CarryFit! This document provides 
    - Explain why this enhancement would be useful
 
 3. **Update Airline Data**
-   - Airline data is stored in `src/lib/allowances/cabin-luggage-allowances.ts`
+   - Airline data is stored in [`src/lib/allowances/cabin-luggage-allowances.ts`](src/lib/allowances/cabin-luggage-allowances.ts)
    - Please include links to the policy pages or screenshots
-   - Add test cases using the `test` property to verify data accuracy
+   - Optionally, add test cases using the `test` property to verify data accuracy. We're using simple text matching on the innerText of the policy page. You may see the logic in [`e2e/allowance-consistency.test.ts`](e2e/allowance-consistency.test.ts)
 
 4. **Submit Code Changes**
    - Fork the repository
@@ -46,7 +46,7 @@ Thank you for your interest in contributing to CarryFit! This document provides 
 2. **End-to-End Tests**
    - E2E tests use Playwright
    - Run E2E tests: `pnpm test:e2e`
-   - Add new test cases in `e2e/` directory or update existing ones (e.g. `e2e/main-flow.test.ts`)
+   - Add new test cases in `e2e/` directory or update existing ones (e.g. [`e2e/main-flow.test.ts`](e2e/main-flow.test.ts))
 
 ## Code Style
 
