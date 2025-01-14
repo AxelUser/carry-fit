@@ -2,7 +2,7 @@
 name: Airline data update
 about: Submit updates to airline baggage allowances
 title: '[AIRLINE] '
-labels: data
+labels: airline
 assignees: ''
 ---
 
