@@ -21,7 +21,7 @@
 		AirlineInfo,
 		BagAllowanceDimensions,
 		UserDimensions,
-		UserPreferences
+		MeasurementSystem
 	} from '$lib/types';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
@@ -35,13 +35,11 @@
 	import { base } from '$app/paths';
 
 	const FLEXIBILITY_CONFIG = {
-		cm: {
-			default: 0,
+		metric: {
 			max: 8,
 			step: 0.5
 		},
-		in: {
-			default: 0,
+		imperial: {
 			max: 3,
 			step: 0.25
 		}
@@ -61,19 +59,18 @@
 	const userDimensions = $state<UserDimensions>({
 		length: 0,
 		width: 0,
-		height: 0,
-		unit: 'cm'
+		height: 0
 	});
 
-	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
+	let measurementSystem = $state<MeasurementSystem>('metric');
+
+	let flexibility = $state(0);
 	let showFlexibility = $state(false);
 
 	const favoritesUsage = favoritesUsageStore();
 
 	$effect(() => {
-		if (showFlexibility) {
-			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
-		} else {
+		if (!showFlexibility) {
 			flexibility = 0;
 		}
 	});
@@ -154,7 +151,7 @@
 	);
 
 	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
-		const dims = userDimensions.unit === 'cm' ? allowanceDims.centimeters : allowanceDims.inches;
+		const dims = measurementSystem === 'metric' ? allowanceDims.centimeters : allowanceDims.inches;
 		return Array.isArray(dims) ? dims : [dims];
 	}
 
@@ -198,7 +195,7 @@
 	$effect(() => {
 		if (userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
 			const eventProps: Record<string, string | number> = {
-				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${userDimensions.unit}`
+				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${measurementSystem === 'metric' ? 'cm' : 'in'}`
 			};
 
 			if (showFlexibility) {
@@ -376,20 +373,20 @@
 				<div class="grid grid-cols-2 gap-2">
 					<button
 						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{userDimensions.unit === 'cm'
+							{measurementSystem === 'metric'
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => (userDimensions.unit = 'cm')}
+						onclick={() => (measurementSystem = 'metric')}
 					>
 						<span>Metric</span>
 						<span class="block text-xs text-sky-600">cm / kg</span>
 					</button>
 					<button
 						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{userDimensions.unit === 'in'
+							{measurementSystem === 'imperial'
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => (userDimensions.unit = 'in')}
+						onclick={() => (measurementSystem = 'imperial')}
 					>
 						<span>Imperial</span>
 						<span class="block text-xs text-sky-600">in / lb</span>
@@ -470,8 +467,8 @@
 					<div class="flex flex-col items-center gap-4">
 						<FlexibleSuitcase
 							value={flexibility}
-							unit={userDimensions.unit}
-							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+							unit={measurementSystem === 'metric' ? 'cm' : 'in'}
+							max={FLEXIBILITY_CONFIG[measurementSystem].max}
 						/>
 						<div class="flex w-full items-center gap-4">
 							<input
@@ -479,8 +476,8 @@
 								type="range"
 								bind:value={flexibility}
 								min="0"
-								max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
-								step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
+								max={FLEXIBILITY_CONFIG[measurementSystem].max}
+								step={FLEXIBILITY_CONFIG[measurementSystem].step}
 								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
 							/>
 						</div>
@@ -625,7 +622,7 @@
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Carry-On ({userDimensions.unit})
+		Carry-On ({measurementSystem === 'metric' ? 'cm' : 'in'})
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
 		>Weight Limit</th
@@ -701,7 +698,7 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
 			{#if airline.kilograms}
-				{userDimensions.unit === 'in' ? `${airline.pounds} lb` : `${airline.kilograms} kg`}
+				{measurementSystem === 'metric' ? `${airline.kilograms} kg` : `${airline.pounds} lb`}
 			{:else}
 				N/A
 			{/if}
