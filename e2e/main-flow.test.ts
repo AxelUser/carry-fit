@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('CarryFit Main Flow', () => {
+test.describe('Allowance table interaction', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
 	});
 
 	test('should display airline allowances table by default', async ({ page }) => {
@@ -16,22 +17,7 @@ test.describe('CarryFit Main Flow', () => {
 		await expect(page.getByRole('cell', { name: /Finnair/i })).toBeVisible();
 	});
 
-	test('should only show compliance score when dimensions are entered', async ({ page }) => {
-		// Initially compliance score should not be visible
-		await expect(page.getByText(/Compliance:/)).not.toBeVisible();
-
-		// Enter bag dimensions
-		await page.getByLabel('Height').fill('50');
-		await page.getByLabel('Width').fill('40');
-		await page.getByLabel('Depth').fill('25');
-
-		// Compliance score should now be visible
-		await expect(page.getByText(/Compliance Score/)).toBeVisible();
-		await expect(page.getByText(/%/)).toBeVisible();
-		await expect(page.getByText(/\d+ out of \d+ selected airlines/)).toBeVisible();
-	});
-
-	test('should update units in table when input unit changes', async ({ page }) => {
+	test('should update units in table when measurement system changes', async ({ page }) => {
 		// Check initial CM units (metric system)
 		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
 
@@ -95,6 +81,66 @@ test.describe('CarryFit Main Flow', () => {
 		// Verify orders are opposite
 		expect(ascAirlines).not.toEqual(descAirlines);
 		expect(ascAirlines).toEqual([...descAirlines].reverse());
+	});
+});
+
+test.describe('Bag compliance scoring calculation', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	});
+
+	test('should only show compliance score when dimensions are entered', async ({ page }) => {
+		// Initially compliance score should not be visible
+		await expect(page.getByText(/Compliance:/)).not.toBeVisible();
+
+		// Enter bag dimensions
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Compliance score should now be visible
+		await expect(page.getByText(/Compliance Score/)).toBeVisible();
+		await expect(page.getByText(/%/)).toBeVisible();
+		await expect(page.getByText(/\d+ out of \d+ selected airlines/)).toBeVisible();
+	});
+
+	test('should recalculate compliance score when bag dimensions change', async ({ page }) => {
+		// Enter initial dimensions that would result in high compliance
+		await page.getByLabel('Height').fill('40');
+		await page.getByLabel('Width').fill('30');
+		await page.getByLabel('Depth').fill('20');
+
+		// Get initial compliance score
+		const initialScoreText = await page.getByText(/\d+%/).textContent();
+		const initialScore = parseInt(initialScoreText?.replace('%', '') ?? '0');
+
+		// Enter larger dimensions that would result in lower compliance
+		await page.getByLabel('Height').fill('80');
+		await page.getByLabel('Width').fill('60');
+		await page.getByLabel('Depth').fill('40');
+
+		// Get updated compliance score
+		const updatedScoreText = await page.getByText(/\d+%/).textContent();
+		const updatedScore = parseInt(updatedScoreText?.replace('%', '') ?? '0');
+
+		// Verify that the score changed and is lower
+		expect(updatedScore).toBeLessThan(initialScore);
+		expect(updatedScore).toBeGreaterThanOrEqual(0);
+
+		// Verify the airlines count text is also updated
+		const countText = await page.getByText(/\d+ out of \d+ selected airlines/).textContent();
+		const [compliant, total] = countText?.match(/\d+/g) ?? [];
+
+		expect(parseInt(compliant!)).toBeLessThan(parseInt(total));
+		expect(parseInt(compliant!)).toBeGreaterThanOrEqual(0);
+	});
+});
+
+test.describe('Bag dimensions conversion', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
 	});
 
 	test('should handle dimension unit conversion correctly', async ({ page }) => {
@@ -213,36 +259,5 @@ test.describe('CarryFit Main Flow', () => {
 		// Edit another dimension - prompt should stay hidden
 		await page.getByLabel('Width').fill('16');
 		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-
-	test('should recalculate compliance score when bag dimensions change', async ({ page }) => {
-		// Enter initial dimensions that would result in high compliance
-		await page.getByLabel('Height').fill('40');
-		await page.getByLabel('Width').fill('30');
-		await page.getByLabel('Depth').fill('20');
-
-		// Get initial compliance score
-		const initialScoreText = await page.getByText(/\d+%/).textContent();
-		const initialScore = parseInt(initialScoreText?.replace('%', '') ?? '0');
-
-		// Enter larger dimensions that would result in lower compliance
-		await page.getByLabel('Height').fill('80');
-		await page.getByLabel('Width').fill('60');
-		await page.getByLabel('Depth').fill('40');
-
-		// Get updated compliance score
-		const updatedScoreText = await page.getByText(/\d+%/).textContent();
-		const updatedScore = parseInt(updatedScoreText?.replace('%', '') ?? '0');
-
-		// Verify that the score changed and is lower
-		expect(updatedScore).toBeLessThan(initialScore);
-		expect(updatedScore).toBeGreaterThanOrEqual(0);
-
-		// Verify the airlines count text is also updated
-		const countText = await page.getByText(/\d+ out of \d+ selected airlines/).textContent();
-		const [compliant, total] = countText?.match(/\d+/g) ?? [];
-
-		expect(parseInt(compliant!)).toBeLessThan(parseInt(total));
-		expect(parseInt(compliant!)).toBeGreaterThanOrEqual(0);
 	});
 });
