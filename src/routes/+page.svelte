@@ -69,23 +69,36 @@
 	let measurementSystem = $state<MeasurementSystem>('metric');
 
 	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
-	let initialMeasurementSystem = $state.snapshot(measurementSystem);
+	let initialMeasurementSystem: MeasurementSystem = $state(measurementSystem);
 	let showConversionPrompt = $state(false);
 
+	// If any of the dimensions change, update the initial measurement system to the current measurement system
 	$effect(() => {
+		// This is to trigger the effect when the dimensions change
+		userDimensions.length;
+		userDimensions.width;
+		userDimensions.height;
+
+		untrack(() => {
+			if (initialMeasurementSystem !== measurementSystem) {
+				initialMeasurementSystem = measurementSystem;
+				showConversionPrompt = false;
+			}
+		});
+	});
+
+	$effect(() => {
+		const allDimensionsSet = untrack(
+			() => userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+		);
 		// Show conversion prompt if dimensions are set and the measurement system was changed
-		if (dimensionsSet && initialMeasurementSystem !== measurementSystem) {
+		if (allDimensionsSet && initialMeasurementSystem !== measurementSystem) {
 			showConversionPrompt = true;
-			return;
-		}
-
-		// If dimensions are not set yet, update the initial measurement system to the current measurement system
-		if (!dimensionsSet) {
+		} else if (initialMeasurementSystem !== measurementSystem) {
+			// If measurement system changed before all dimensions were set, show conversion prompt
 			initialMeasurementSystem = measurementSystem;
+			showConversionPrompt = false;
 		}
-
-		// Hide conversion prompt if dimensions are not set
-		showConversionPrompt = false;
 	});
 
 	function convertDimensions() {
@@ -98,8 +111,8 @@
 	}
 
 	function dismissConversion() {
-		showConversionPrompt = false;
 		initialMeasurementSystem = measurementSystem;
+		showConversionPrompt = false;
 	}
 
 	let flexibility = $state(0);
