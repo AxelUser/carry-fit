@@ -1,5 +1,7 @@
 # CarryFit - Carry-on Luggage Compliance Checker
 
+![CarryFit](COVER.png)
+
 CarryFit helps travelers check if their carry-on luggage meets the size requirements for different airlines worldwide. Simply enter your bag's dimensions, and instantly see which airlines will accept it as cabin baggage.
 
 ## Key Features
