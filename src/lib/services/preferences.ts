@@ -8,4 +8,13 @@ const defaultPreferences: UserPreferences = {
 	measurementSystem: 'metric' as MeasurementSystem
 };
 
-export const preferencesStore = createLocalStore<UserPreferences>(STORAGE_KEY, defaultPreferences);
+export const preferencesStore = createLocalStore<UserPreferences>(
+	STORAGE_KEY,
+	defaultPreferences,
+	(loaded, initial) => {
+		return {
+			...initial,
+			...loaded
+		};
+	}
+);
