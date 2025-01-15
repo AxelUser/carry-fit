@@ -19,7 +19,6 @@
 			url.searchParams.set('length', userDimensions.length.toString());
 			url.searchParams.set('width', userDimensions.width.toString());
 			url.searchParams.set('height', userDimensions.height.toString());
-			url.searchParams.set('unit', userDimensions.unit);
 
 			await navigator.clipboard.writeText(url.toString());
 		} catch (err) {
