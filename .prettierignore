@@ -2,3 +2,30 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Generated files
+src/lib/allowances/allowance-consistency-results.json
+
+# Shadcn components
+src/lib/components/ui/**
+
+# GitHub workflows and configuration
+.github/**
+
+# Markdown files
+*.md
+
+# Build output
+.svelte-kit/**
+build/**
+
+# Test reports
+playwright-report/**
+test-results/**
+
+# Environment files
+.env*
+!.env.example
+
+# Static assets
+static/**
