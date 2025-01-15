@@ -24,11 +24,12 @@ export interface BagAllowanceDimensions {
 	centimeters: number | number[];
 }
 
+export type MeasurementSystem = 'metric' | 'imperial';
+
 export interface UserDimensions {
 	length: number;
 	width: number;
 	height: number;
-	unit: 'cm' | 'in';
 }
 
 export interface DimensionsCheck {
@@ -53,4 +54,5 @@ export type TestResult = {
 
 export interface UserPreferences {
 	favoriteAirlines: string[];
+	measurementSystem: MeasurementSystem;
 }

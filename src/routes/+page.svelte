@@ -21,13 +21,13 @@
 		AirlineInfo,
 		BagAllowanceDimensions,
 		UserDimensions,
-		UserPreferences
+		MeasurementSystem
 	} from '$lib/types';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesStore } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
@@ -35,13 +35,11 @@
 	import { base } from '$app/paths';
 
 	const FLEXIBILITY_CONFIG = {
-		cm: {
-			default: 0,
+		metric: {
 			max: 8,
 			step: 0.5
 		},
-		in: {
-			default: 0,
+		imperial: {
 			max: 3,
 			step: 0.25
 		}
@@ -61,19 +59,77 @@
 	const userDimensions = $state<UserDimensions>({
 		length: 0,
 		width: 0,
-		height: 0,
-		unit: 'cm'
+		height: 0
 	});
 
-	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
+	let dimensionsSet = $derived(
+		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+	);
+
+	let measurementSystem = $derived(preferencesStore.value.measurementSystem);
+
+	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
+	let initialMeasurementSystem: MeasurementSystem = $state(measurementSystem);
+	let showConversionPrompt = $state(false);
+
+	// If any of the dimensions change, update the initial measurement system to the current measurement system
+	$effect(() => {
+		// This is to trigger the effect when the dimensions change
+		userDimensions.length;
+		userDimensions.width;
+		userDimensions.height;
+
+		untrack(() => {
+			if (initialMeasurementSystem !== measurementSystem) {
+				initialMeasurementSystem = measurementSystem;
+				showConversionPrompt = false;
+			}
+		});
+	});
+
+	$effect(() => {
+		const allDimensionsSet = untrack(
+			() => userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+		);
+		// Show conversion prompt if dimensions are set and the measurement system was changed
+		if (allDimensionsSet && initialMeasurementSystem !== measurementSystem) {
+			showConversionPrompt = true;
+		} else if (initialMeasurementSystem !== measurementSystem) {
+			// If measurement system changed before all dimensions were set, show conversion prompt
+			initialMeasurementSystem = measurementSystem;
+			showConversionPrompt = false;
+		}
+	});
+
+	function convertDimensions() {
+		const factor = measurementSystem === 'metric' ? 2.54 : 1 / 2.54;
+		userDimensions.length = Math.round(userDimensions.length * factor * 10) / 10;
+		userDimensions.width = Math.round(userDimensions.width * factor * 10) / 10;
+		userDimensions.height = Math.round(userDimensions.height * factor * 10) / 10;
+		initialMeasurementSystem = measurementSystem;
+		showConversionPrompt = false;
+	}
+
+	function dismissConversion() {
+		initialMeasurementSystem = measurementSystem;
+		showConversionPrompt = false;
+	}
+
+	let flexibility = $state(0);
 	let showFlexibility = $state(false);
+
+	function resetDimensions() {
+		userDimensions.length = 0;
+		userDimensions.width = 0;
+		userDimensions.height = 0;
+		showFlexibility = false;
+		flexibility = 0;
+	}
 
 	const favoritesUsage = favoritesUsageStore();
 
 	$effect(() => {
-		if (showFlexibility) {
-			flexibility = FLEXIBILITY_CONFIG[userDimensions.unit].default;
-		} else {
+		if (!showFlexibility) {
 			flexibility = 0;
 		}
 	});
@@ -124,7 +180,7 @@
 	);
 
 	const compliantAirlines = $derived(
-		userDimensions.length && userDimensions.width && userDimensions.height
+		dimensionsSet
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
@@ -137,7 +193,7 @@
 	);
 
 	const nonCompliantAirlines = $derived(
-		userDimensions.length && userDimensions.width && userDimensions.height
+		dimensionsSet
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
@@ -154,7 +210,7 @@
 	);
 
 	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
-		const dims = userDimensions.unit === 'cm' ? allowanceDims.centimeters : allowanceDims.inches;
+		const dims = measurementSystem === 'metric' ? allowanceDims.centimeters : allowanceDims.inches;
 		return Array.isArray(dims) ? dims : [dims];
 	}
 
@@ -187,18 +243,10 @@
 		selectedRegions = newSet;
 	}
 
-	function resetDimensions() {
-		userDimensions.length = 0;
-		userDimensions.width = 0;
-		userDimensions.height = 0;
-		showFlexibility = false;
-		flexibility = 0;
-	}
-
 	$effect(() => {
 		if (userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
 			const eventProps: Record<string, string | number> = {
-				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${userDimensions.unit}`
+				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${measurementSystem === 'metric' ? 'cm' : 'in'}`
 			};
 
 			if (showFlexibility) {
@@ -238,6 +286,13 @@
 					preferencesStore.value.favoriteAirlines.includes(airline.airline)
 			)
 		);
+	}
+
+	function setMeasurementSystem(system: MeasurementSystem) {
+		preferencesStore.value = {
+			...preferencesStore.value,
+			measurementSystem: system
+		};
 	}
 </script>
 
@@ -311,6 +366,8 @@
 				</div>
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
+					{@render unitSelector()}
+
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
 
@@ -363,6 +420,45 @@
 	</div>
 </div>
 
+{#snippet unitSelector()}
+	<div class="mx-auto mb-4 max-w-2xl">
+		<div class="rounded-xl bg-white/95 p-4 shadow-xl ring-1 ring-sky-100">
+			<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+				<div>
+					<h3 class="text-base font-medium text-sky-900">Measurement System</h3>
+					<p class="text-sm text-sky-600">Choose your preferred unit of measurement</p>
+				</div>
+				<div class="grid grid-cols-2 gap-2">
+					<button
+						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+							{measurementSystem === 'metric'
+							? 'bg-sky-100 text-sky-900'
+							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+						onclick={() => setMeasurementSystem('metric')}
+						data-testid="metric-button"
+						data-active={measurementSystem === 'metric'}
+					>
+						<span>Metric</span>
+						<span class="block text-xs text-sky-600">cm / kg</span>
+					</button>
+					<button
+						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
+							{measurementSystem === 'imperial'
+							? 'bg-sky-100 text-sky-900'
+							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+						onclick={() => setMeasurementSystem('imperial')}
+						data-testid="imperial-button"
+						data-active={measurementSystem === 'imperial'}
+					>
+						<span>Imperial</span>
+						<span class="block text-xs text-sky-600">in / lb</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/snippet}
+
 {#snippet bagInput()}
 	<div class="mb-4">
 		<div class="mb-6 flex items-baseline justify-between">
@@ -376,7 +472,31 @@
 			</button>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+		{#if showConversionPrompt}
+			<div class="mb-4 rounded-lg bg-sky-50 p-3 text-sm">
+				<p class="text-sky-700">
+					Would you like to convert your dimensions to {measurementSystem === 'metric'
+						? 'centimeters'
+						: 'inches'}?
+				</p>
+				<div class="mt-2 flex gap-3">
+					<button
+						class="text-sky-600 hover:text-sky-800 hover:underline"
+						onclick={convertDimensions}
+					>
+						Apply conversion
+					</button>
+					<button
+						class="text-sky-500 hover:text-sky-700 hover:underline"
+						onclick={dismissConversion}
+					>
+						Keep as is
+					</button>
+				</div>
+			</div>
+		{/if}
+
+		<div class="grid grid-cols-3 gap-4">
 			<div>
 				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
 				<input
@@ -410,17 +530,6 @@
 					min={0}
 				/>
 			</div>
-			<div>
-				<label for="unit" class="mb-1 block text-sm font-medium text-sky-900">Unit</label>
-				<select
-					id="unit"
-					bind:value={userDimensions.unit}
-					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-				>
-					<option value="cm">Centimeters</option>
-					<option value="in">Inches</option>
-				</select>
-			</div>
 		</div>
 
 		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
@@ -444,8 +553,8 @@
 					<div class="flex flex-col items-center gap-4">
 						<FlexibleSuitcase
 							value={flexibility}
-							unit={userDimensions.unit}
-							max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
+							unit={measurementSystem === 'metric' ? 'cm' : 'in'}
+							max={FLEXIBILITY_CONFIG[measurementSystem].max}
 						/>
 						<div class="flex w-full items-center gap-4">
 							<input
@@ -453,8 +562,8 @@
 								type="range"
 								bind:value={flexibility}
 								min="0"
-								max={FLEXIBILITY_CONFIG[userDimensions.unit].max}
-								step={FLEXIBILITY_CONFIG[userDimensions.unit].step}
+								max={FLEXIBILITY_CONFIG[measurementSystem].max}
+								step={FLEXIBILITY_CONFIG[measurementSystem].step}
 								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
 							/>
 						</div>
@@ -599,7 +708,7 @@
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Carry-On ({userDimensions.unit})
+		Carry-On ({measurementSystem === 'metric' ? 'cm' : 'in'})
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
 		>Weight Limit</th
@@ -649,6 +758,8 @@
 					title={preferencesStore.value.favoriteAirlines.includes(airline.airline)
 						? 'Remove from favorites'
 						: 'Add to favorites'}
+					data-testid="favorite-button"
+					data-favorite={preferencesStore.value.favoriteAirlines.includes(airline.airline)}
 				>
 					{#if preferencesStore.value.favoriteAirlines.includes(airline.airline)}
 						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
@@ -675,7 +786,7 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
 			{#if airline.kilograms}
-				{userDimensions.unit === 'in' ? `${airline.pounds} lb` : `${airline.kilograms} kg`}
+				{measurementSystem === 'metric' ? `${airline.kilograms} kg` : `${airline.pounds} lb`}
 			{:else}
 				N/A
 			{/if}
@@ -811,7 +922,7 @@
 					</div>
 				</div>
 
-				<div class="mt-3 flex flex-wrap gap-2">
+				<div class="mt-3 flex flex-wrap gap-2" data-testid="regions-filter-list">
 					{#each regions as region}
 						{@const isSelected = selectedRegions.has(region)}
 						{@const isAvailable = isRegionAvailable(region)}
@@ -843,7 +954,7 @@
 						<NewBadge show={!favoritesUsage.used} />
 					</div>
 					{#if preferencesStore.value.favoriteAirlines.length > 0}
-						<span class="text-sm text-sky-600">
+						<span data-testid="favorites-count" class="text-sm text-sky-600">
 							{preferencesStore.value.favoriteAirlines.length}
 							{preferencesStore.value.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
 						</span>
