@@ -369,13 +369,16 @@
 	<div class="mb-4">
 		<div class="mb-6 flex items-baseline justify-between">
 			<h2 class="text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
-			<button
-				onclick={resetDimensions}
-				class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
-			>
-				<X class="h-3 w-3 translate-y-[0.5px]" />
-				<span>Reset</span>
-			</button>
+			<div class="flex items-center gap-2">
+				<ShareBagLink {userDimensions} />
+				<button
+					onclick={resetDimensions}
+					class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
+				>
+					<X class="h-3 w-3 translate-y-[0.5px]" />
+					<span>Reset</span>
+				</button>
+			</div>
 		</div>
 
 		<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -428,10 +431,6 @@
 		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
 			Don't worry about the order - we'll find the best fit
 		</p>
-
-		<div class="mb-4 mt-4 flex justify-center">
-			<ShareBagLink userDimensions={userDimensions} />
-		</div>
 
 		<div class="border-b border-sky-100"></div>
 

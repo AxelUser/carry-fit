@@ -4,7 +4,7 @@
 	import type { UserDimensions } from '$lib/types';
 	import { Link } from 'lucide-svelte';
 
-	const POPOVER_OPEN_TIME = 3000
+	const POPOVER_OPEN_TIME = 1_500;
 
 	const { userDimensions } = $props<{ userDimensions: UserDimensions }>();
 
@@ -12,7 +12,7 @@
 
 	async function copyShareLink() {
 		try {
-			popoverOpen = true
+			popoverOpen = true;
 
 			const url = new URL(window.location.origin);
 
@@ -31,7 +31,7 @@
 
 	function closeAfterDelay() {
 		const timer = setInterval(() => {
-			popoverOpen = false
+			popoverOpen = false;
 
 			clearInterval(timer);
 		}, POPOVER_OPEN_TIME);
@@ -40,13 +40,13 @@
 
 <Popover.Root open={popoverOpen} closeOnOutsideClick={false}>
 	<Popover.Trigger
-		class="flex items-center justify-center gap-1.5 rounded-lg bg-sky-100 px-2 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
+		class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
 		onclick={copyShareLink}
 	>
 		<Link class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-		<span>Share My Bag Dimensions</span>
+		<span>Copy</span>
 	</Popover.Trigger>
-	<Popover.Content side='top'>
-		<span>Link copied to clipboard!</span>
+	<Popover.Content side="top">
+		<span>Link copied!</span>
 	</Popover.Content>
 </Popover.Root>
