@@ -214,4 +214,35 @@ test.describe('CarryFit Main Flow', () => {
 		await page.getByLabel('Width').fill('16');
 		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
 	});
+
+	test('should recalculate compliance score when bag dimensions change', async ({ page }) => {
+		// Enter initial dimensions that would result in high compliance
+		await page.getByLabel('Height').fill('40');
+		await page.getByLabel('Width').fill('30');
+		await page.getByLabel('Depth').fill('20');
+
+		// Get initial compliance score
+		const initialScoreText = await page.getByText(/\d+%/).textContent();
+		const initialScore = parseInt(initialScoreText?.replace('%', '') ?? '0');
+
+		// Enter larger dimensions that would result in lower compliance
+		await page.getByLabel('Height').fill('80');
+		await page.getByLabel('Width').fill('60');
+		await page.getByLabel('Depth').fill('40');
+
+		// Get updated compliance score
+		const updatedScoreText = await page.getByText(/\d+%/).textContent();
+		const updatedScore = parseInt(updatedScoreText?.replace('%', '') ?? '0');
+
+		// Verify that the score changed and is lower
+		expect(updatedScore).toBeLessThan(initialScore);
+		expect(updatedScore).toBeGreaterThanOrEqual(0);
+
+		// Verify the airlines count text is also updated
+		const countText = await page.getByText(/\d+ out of \d+ selected airlines/).textContent();
+		const [compliant, total] = countText?.match(/\d+/g) ?? [];
+
+		expect(parseInt(compliant!)).toBeLessThan(parseInt(total));
+		expect(parseInt(compliant!)).toBeGreaterThanOrEqual(0);
+	});
 });
