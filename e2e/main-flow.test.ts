@@ -17,29 +17,6 @@ test.describe('Allowance table interaction', () => {
 		await expect(page.getByRole('cell', { name: /Finnair/i })).toBeVisible();
 	});
 
-	test('should update units in table when measurement system changes', async ({ page }) => {
-		// Check initial CM units (metric system)
-		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
-
-		// Switch to imperial system
-		await page.getByRole('button', { name: /Imperial/i }).click();
-
-		// Verify units changed in table
-		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
-
-		// Check weight units changed (find a cell with both kg and lb values)
-		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
-			await expect(weightCell.getByText(/lb|N\/A/)).toBeVisible();
-		}
-
-		// Switch back to metric and verify kg is shown
-		await page.getByRole('button', { name: /Metric/i }).click();
-
-		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
-			await expect(weightCell.getByText(/kg|N\/A/)).toBeVisible();
-		}
-	});
-
 	test('should filter airlines by region', async ({ page }) => {
 		// Get initial number of rows
 		const initialRows = await page.getByRole('row').count();
@@ -420,5 +397,67 @@ test.describe('Favorites functionality', () => {
 		for (const button of visibleButtons) {
 			await expect(button).toHaveAttribute('data-favorite', 'true');
 		}
+	});
+});
+
+test.describe('Measurement system updates', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	});
+
+	test('should update units in table when measurement system changes', async ({ page }) => {
+		// Check initial CM units (metric system)
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
+
+		// Switch to imperial system
+		await page.getByRole('button', { name: /Imperial/i }).click();
+
+		// Verify units changed in table
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
+
+		// Check weight units changed (find a cell with both kg and lb values)
+		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
+			await expect(weightCell.getByText(/lb|N\/A/)).toBeVisible();
+		}
+
+		// Switch back to metric and verify kg is shown
+		await page.getByRole('button', { name: /Metric/i }).click();
+
+		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
+			await expect(weightCell.getByText(/kg|N\/A/)).toBeVisible();
+		}
+	});
+
+	test('should persist measurement system preference across page reloads', async ({ page }) => {
+		// Verify initial state is metric
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
+
+		// Switch to imperial
+		await page.getByRole('button', { name: /Imperial/i }).click();
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
+
+		// Reload page
+		await page.reload();
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+
+		// Verify imperial system is still selected
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
+
+		// Switch back to metric
+		await page.getByRole('button', { name: /Metric/i }).click();
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
+
+		// Reload page again
+		await page.reload();
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+
+		// Verify metric system persisted
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
 	});
 });
