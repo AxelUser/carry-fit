@@ -62,22 +62,30 @@
 		height: 0
 	});
 
+	let dimensionsSet = $derived(
+		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+	);
+
 	let measurementSystem = $state<MeasurementSystem>('metric');
 
 	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
 	let initialMeasurementSystem = $state.snapshot(measurementSystem);
 	let showConversionPrompt = $state(false);
 
-	let dimensionsSet = $derived(
-		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
-	);
-
 	$effect(() => {
+		// Show conversion prompt if dimensions are set and the measurement system was changed
 		if (dimensionsSet && initialMeasurementSystem !== measurementSystem) {
 			showConversionPrompt = true;
-		} else {
-			showConversionPrompt = false;
+			return;
 		}
+
+		// If dimensions are not set yet, update the initial measurement system to the current measurement system
+		if (!dimensionsSet) {
+			initialMeasurementSystem = measurementSystem;
+		}
+
+		// Hide conversion prompt if dimensions are not set
+		showConversionPrompt = false;
 	});
 
 	function convertDimensions() {
@@ -85,8 +93,8 @@
 		userDimensions.length = Math.round(userDimensions.length * factor * 10) / 10;
 		userDimensions.width = Math.round(userDimensions.width * factor * 10) / 10;
 		userDimensions.height = Math.round(userDimensions.height * factor * 10) / 10;
-		showConversionPrompt = false;
 		initialMeasurementSystem = measurementSystem;
+		showConversionPrompt = false;
 	}
 
 	function dismissConversion() {
@@ -103,7 +111,6 @@
 		userDimensions.height = 0;
 		showFlexibility = false;
 		flexibility = 0;
-		initialMeasurementSystem = measurementSystem;
 	}
 
 	const favoritesUsage = favoritesUsageStore();
