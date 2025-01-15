@@ -1,12 +1,16 @@
-
 <script lang="ts">
 	import * as Popover from '$lib/components/ui/popover';
-	import type { UserDimensions } from '$lib/types';
+	import type { MeasurementSystem, UserDimensions } from '$lib/types';
 	import { Link } from 'lucide-svelte';
+
+	interface Props {
+		userDimensions: UserDimensions;
+		measurementSystem: MeasurementSystem;
+	}
 
 	const POPOVER_OPEN_TIME = 1_500;
 
-	const { userDimensions } = $props<{ userDimensions: UserDimensions }>();
+	const { userDimensions, measurementSystem }: Props = $props();
 
 	let popoverOpen = $state(false);
 
@@ -16,9 +20,10 @@
 
 			const url = new URL(window.location.origin);
 
-			url.searchParams.set('length', userDimensions.length.toString());
-			url.searchParams.set('width', userDimensions.width.toString());
 			url.searchParams.set('height', userDimensions.height.toString());
+			url.searchParams.set('width', userDimensions.width.toString());
+			url.searchParams.set('depth', userDimensions.depth.toString());
+			url.searchParams.set('units', measurementSystem.toString());
 
 			await navigator.clipboard.writeText(url.toString());
 		} catch (err) {
@@ -42,7 +47,7 @@
 		class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
 		onclick={copyShareLink}
 	>
-		<Link class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+		<Link class="h-3 w-3" />
 		<span>Copy</span>
 	</Popover.Trigger>
 	<Popover.Content side="top">
