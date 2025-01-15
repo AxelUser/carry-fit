@@ -15,5 +15,11 @@ export const changes: Change[] = [
 		changes: [
 			'Added favorites feature: now you can star your go-to airlines. Your favorites will be saved in your browser for quick filtering in future visits.'
 		]
+	},
+	{
+		date: new Date('2025-01-15T00:00:00Z'),
+		changes: [
+			'Measurement system now has its own cozy little home up top! Your choice will be automatically remembered in your browser, no more switching! 🔄'
+		]
 	}
 ];
