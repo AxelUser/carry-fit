@@ -218,7 +218,7 @@ test.describe('Bag dimensions conversion', () => {
 		page
 	}) => {
 		// Start with metric system
-		await expect(page.getByRole('button', { name: /Metric/i })).toHaveClass(/bg-sky-100/);
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
 
 		// Switch to imperial before entering any dimensions
 		await page.getByRole('button', { name: /Imperial/i }).click();
@@ -259,5 +259,166 @@ test.describe('Bag dimensions conversion', () => {
 		// Edit another dimension - prompt should stay hidden
 		await page.getByLabel('Width').fill('16');
 		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
+	});
+});
+
+test.describe('Favorites functionality', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	});
+
+	test('should add and remove airlines from favorites', async ({ page }) => {
+		// Get the first airline row
+		const firstAirlineRow = page.getByRole('row').nth(1);
+
+		// Initial state should show not favorited
+		await expect(firstAirlineRow.getByTestId('favorite-button')).toHaveAttribute(
+			'data-favorite',
+			'false'
+		);
+
+		// Add to favorites
+		await firstAirlineRow.getByTestId('favorite-button').click();
+
+		// Should be marked as favorite
+		await expect(firstAirlineRow.getByTestId('favorite-button')).toHaveAttribute(
+			'data-favorite',
+			'true'
+		);
+
+		// Remove from favorites
+		await firstAirlineRow.getByTestId('favorite-button').click();
+
+		// Should not be favorite again
+		await expect(firstAirlineRow.getByTestId('favorite-button')).toHaveAttribute(
+			'data-favorite',
+			'false'
+		);
+	});
+
+	test('should filter airlines by favorites', async ({ page }) => {
+		// Get initial number of airlines
+		const initialAirlineCount = (await page.getByRole('row').count()) - 1; // Subtract header row
+
+		// Add first two airlines to favorites
+		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
+		await page.getByRole('row').nth(2).getByTestId('favorite-button').click();
+
+		// Enable favorites filter
+		await page.getByLabel('Favorites only').check();
+
+		// Should show only favorited airlines
+		const filteredAirlineCount = (await page.getByRole('row').count()) - 1;
+		expect(filteredAirlineCount).toBe(2);
+		expect(filteredAirlineCount).toBeLessThan(initialAirlineCount);
+
+		// All visible airlines should be favorites
+		const visibleButtons = await page.getByTestId('favorite-button').all();
+		for (const button of visibleButtons) {
+			await expect(button).toHaveAttribute('data-favorite', 'true');
+		}
+	});
+
+	test('should persist favorites across page reloads', async ({ page }) => {
+		// Add first airline to favorites
+		const firstAirlineRow = page.getByRole('row').nth(1);
+		await firstAirlineRow.getByTestId('favorite-button').click();
+
+		// Reload page
+		await page.reload();
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+
+		// First airline should still be favorited
+		await expect(page.getByRole('row').nth(1).getByTestId('favorite-button')).toHaveAttribute(
+			'data-favorite',
+			'true'
+		);
+	});
+
+	test('should update favorites count in filter section', async ({ page }) => {
+		// Initially should show no favorites
+		await expect(page.getByTestId('favorites-count')).not.toBeVisible();
+
+		// Add two airlines to favorites
+		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
+		await page.getByRole('row').nth(2).getByTestId('favorite-button').click();
+
+		// Should show correct count
+		await expect(page.getByTestId('favorites-count')).toHaveText('2 airlines');
+
+		// Remove one favorite
+		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
+
+		// Should update count
+		await expect(page.getByTestId('favorites-count')).toHaveText('1 airline');
+	});
+
+	test('should disable region filters that have no favorites when favorites filter is active', async ({
+		page
+	}) => {
+		// Add one airline to favorites
+		const firstAirlineRow = page.getByRole('row').nth(1);
+		const region = await firstAirlineRow.getByTestId('region').textContent();
+		await firstAirlineRow.getByTestId('favorite-button').click();
+
+		// Enable favorites filter
+		await page.getByLabel('Favorites only').check();
+
+		// Region buttons for regions without favorites should be disabled
+		const regionButtons = page
+			.getByTestId('regions-filter-list')
+			.getByRole('button')
+			.filter({ hasText: new RegExp(`^${region}$`) });
+		for (const button of await regionButtons.all()) {
+			await expect(button).toBeDisabled();
+		}
+
+		// Region with favorite should still be enabled
+		const favoriteRegionButton = page
+			.getByTestId('regions-filter-list')
+			.getByRole('button', { name: region! });
+		await expect(favoriteRegionButton).not.toBeDisabled();
+	});
+
+	test('should persist entire favorites list across page reloads', async ({ page }) => {
+		// Add multiple airlines to favorites
+		const airlineRows = [1, 2, 3]; // Get first three airlines
+		const favoriteAirlineNames: string[] = [];
+
+		// Add airlines to favorites and collect their names
+		for (const rowIndex of airlineRows) {
+			const row = page.getByRole('row').nth(rowIndex);
+			const airlineName = await row.getByTestId('airline').textContent();
+			favoriteAirlineNames.push(airlineName!);
+			await row.getByTestId('favorite-button').click();
+		}
+
+		// Verify initial state
+		await expect(page.getByTestId('favorites-count')).toHaveText('3 airlines');
+
+		// Reload page
+		await page.reload();
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+
+		// Verify favorites count persisted
+		await expect(page.getByTestId('favorites-count')).toHaveText('3 airlines');
+
+		// Enable favorites filter to see only favorited airlines
+		await page.getByLabel('Favorites only').check();
+
+		// Verify all previously favorited airlines are still present
+		for (const airlineName of favoriteAirlineNames) {
+			await expect(
+				page.getByTestId('airline').filter({ hasText: new RegExp(`^${airlineName}$`) })
+			).toBeVisible();
+		}
+
+		// Verify all visible airlines are marked as favorites
+		const visibleButtons = await page.getByTestId('favorite-button').all();
+		expect(visibleButtons).toHaveLength(favoriteAirlineNames.length);
+		for (const button of visibleButtons) {
+			await expect(button).toHaveAttribute('data-favorite', 'true');
+		}
 	});
 });

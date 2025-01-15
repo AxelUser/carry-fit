@@ -428,6 +428,8 @@
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
 						onclick={() => (measurementSystem = 'metric')}
+						data-testid="metric-button"
+						data-active={measurementSystem === 'metric'}
 					>
 						<span>Metric</span>
 						<span class="block text-xs text-sky-600">cm / kg</span>
@@ -438,6 +440,8 @@
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
 						onclick={() => (measurementSystem = 'imperial')}
+						data-testid="imperial-button"
+						data-active={measurementSystem === 'imperial'}
 					>
 						<span>Imperial</span>
 						<span class="block text-xs text-sky-600">in / lb</span>
@@ -747,6 +751,8 @@
 					title={preferencesStore.value.favoriteAirlines.includes(airline.airline)
 						? 'Remove from favorites'
 						: 'Add to favorites'}
+					data-testid="favorite-button"
+					data-favorite={preferencesStore.value.favoriteAirlines.includes(airline.airline)}
 				>
 					{#if preferencesStore.value.favoriteAirlines.includes(airline.airline)}
 						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
@@ -909,7 +915,7 @@
 					</div>
 				</div>
 
-				<div class="mt-3 flex flex-wrap gap-2">
+				<div class="mt-3 flex flex-wrap gap-2" data-testid="regions-filter-list">
 					{#each regions as region}
 						{@const isSelected = selectedRegions.has(region)}
 						{@const isAvailable = isRegionAvailable(region)}
@@ -941,7 +947,7 @@
 						<NewBadge show={!favoritesUsage.used} />
 					</div>
 					{#if preferencesStore.value.favoriteAirlines.length > 0}
-						<span class="text-sm text-sky-600">
+						<span data-testid="favorites-count" class="text-sm text-sky-600">
 							{preferencesStore.value.favoriteAirlines.length}
 							{preferencesStore.value.favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
 						</span>
