@@ -1908,10 +1908,16 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.easyjet.com/en/help/baggage/cabin-bag-and-hold-luggage',
 		kilograms: 15,
 		test: {
-			matchText: ['maximum size of 45 x 36 x 20 cm (including any handles and wheels)']
+			matchText: [
+				'Maximum size 56 x 45 x 25 cm (including any handles or wheels)',
+				'Maximum size 45 x 36 x 20cm (including any handles or wheels)'
+			]
+		},
+		smallBag: {
+			centimeters: [45, 36, 20]
 		},
 		carryOn: {
-			centimeters: [45, 36, 20]
+			centimeters: [56, 45, 25]
 		}
 	},
 	{
