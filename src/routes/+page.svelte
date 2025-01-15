@@ -66,7 +66,7 @@
 		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
 
-	let measurementSystem = $state<MeasurementSystem>('metric');
+	let measurementSystem = $derived(preferencesStore.value.measurementSystem);
 
 	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
 	let initialMeasurementSystem: MeasurementSystem = $state(measurementSystem);
@@ -287,6 +287,13 @@
 			)
 		);
 	}
+
+	function setMeasurementSystem(system: MeasurementSystem) {
+		preferencesStore.value = {
+			...preferencesStore.value,
+			measurementSystem: system
+		};
+	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -427,7 +434,7 @@
 							{measurementSystem === 'metric'
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => (measurementSystem = 'metric')}
+						onclick={() => setMeasurementSystem('metric')}
 						data-testid="metric-button"
 						data-active={measurementSystem === 'metric'}
 					>
@@ -439,7 +446,7 @@
 							{measurementSystem === 'imperial'
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => (measurementSystem = 'imperial')}
+						onclick={() => setMeasurementSystem('imperial')}
 						data-testid="imperial-button"
 						data-active={measurementSystem === 'imperial'}
 					>

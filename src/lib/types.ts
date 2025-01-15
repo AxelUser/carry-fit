@@ -54,4 +54,5 @@ export type TestResult = {
 
 export interface UserPreferences {
 	favoriteAirlines: string[];
+	measurementSystem: MeasurementSystem;
 }
