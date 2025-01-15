@@ -31,8 +31,10 @@
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesStore } from '$lib/services/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
+	import ShareBagLink from '$lib/components/share-bag-link.svelte';
 	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
 
 	const FLEXIBILITY_CONFIG = {
 		cm: {
@@ -59,10 +61,10 @@
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
 
 	const userDimensions = $state<UserDimensions>({
-		length: 0,
-		width: 0,
-		height: 0,
-		unit: 'cm'
+		length: Number($page.url.searchParams.get('length')) ?? 0,
+		width: Number($page.url.searchParams.get('width')) ?? 0,
+		height: Number($page.url.searchParams.get('height')) ?? 0,
+		unit: ($page.url.searchParams.get('unit') ?? 'cm') as UserDimensions['unit']
 	});
 
 	let flexibility = $state(FLEXIBILITY_CONFIG[userDimensions.unit].default);
@@ -426,6 +428,10 @@
 		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
 			Don't worry about the order - we'll find the best fit
 		</p>
+
+		<div class="mb-4 mt-4 flex justify-center">
+			<ShareBagLink userDimensions={userDimensions} />
+		</div>
 
 		<div class="border-b border-sky-100"></div>
 
