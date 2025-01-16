@@ -36,6 +36,7 @@
 	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	const FLEXIBILITY_CONFIG = {
 		metric: {
@@ -84,11 +85,10 @@
 	);
 
 	function clearSharedBagInfo() {
-		sharedBagInfo = undefined;
-		page.url.searchParams.delete('length');
-		page.url.searchParams.delete('width');
-		page.url.searchParams.delete('height');
-		page.url.searchParams.delete('units');
+		if (sharedBagInfo || page.url.searchParams.size > 0) {
+			sharedBagInfo = undefined;
+			goto(page.url.pathname);
+		}
 	}
 
 	const userDimensions = $state<UserDimensions>(
