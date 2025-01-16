@@ -23,6 +23,7 @@
 		UserDimensions,
 		MeasurementSystem
 	} from '$lib/types';
+	import { MeasurementSystems } from '$lib/types';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
@@ -34,7 +35,8 @@
 	import ShareBagLink from '$lib/components/share-bag-link.svelte';
 	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	const FLEXIBILITY_CONFIG = {
 		metric: {
@@ -58,32 +60,66 @@
 	type SortDirection = (typeof SORT_DIRECTIONS)[number];
 	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
 
-	const userDimensions = $state<UserDimensions>({
-		length: Number($page.url.searchParams.get('length')) ?? 0,
-		width: Number($page.url.searchParams.get('width')) ?? 0,
-		height: Number($page.url.searchParams.get('height')) ?? 0,
-	});
+	let sharedBagInfo = $state.raw(
+		(() => {
+			const urlHeight = Number(page.url.searchParams.get('height'));
+			const urlWidth = Number(page.url.searchParams.get('width'));
+			const urlDepth = Number(page.url.searchParams.get('depth'));
+			const urlMeasurementSystem = page.url.searchParams.get('units');
+
+			if (
+				urlDepth &&
+				urlWidth &&
+				urlHeight &&
+				urlMeasurementSystem &&
+				Object.values(MeasurementSystems).includes(urlMeasurementSystem as MeasurementSystem)
+			) {
+				return {
+					depth: urlDepth,
+					width: urlWidth,
+					height: urlHeight,
+					measurementSystem: urlMeasurementSystem as MeasurementSystem
+				};
+			}
+		})()
+	);
+
+	function clearSharedBagInfo() {
+		if (sharedBagInfo || page.url.searchParams.size > 0) {
+			sharedBagInfo = undefined;
+			goto(page.url.pathname);
+		}
+	}
+
+	const userDimensions = $state<UserDimensions>(
+		sharedBagInfo || {
+			depth: 0,
+			width: 0,
+			height: 0
+		}
+	);
 
 	let dimensionsSet = $derived(
-		userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+		userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
 
 	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
-	let initialMeasurementSystem: MeasurementSystem = $state(
-		preferencesStore.value.measurementSystem
+	let measurementSystem = $derived(
+		sharedBagInfo?.measurementSystem || preferencesStore.value.measurementSystem
 	);
+	let initialMeasurementSystem: MeasurementSystem = $state(measurementSystem);
 	let showConversionPrompt = $state(false);
 
 	// If any of the dimensions change, update the initial measurement system to the current measurement system
 	$effect(() => {
 		// This is to trigger the effect when the dimensions change
-		userDimensions.length;
+		userDimensions.depth;
 		userDimensions.width;
 		userDimensions.height;
 
 		untrack(() => {
-			if (initialMeasurementSystem !== preferencesStore.value.measurementSystem) {
-				initialMeasurementSystem = preferencesStore.value.measurementSystem;
+			if (initialMeasurementSystem !== measurementSystem) {
+				initialMeasurementSystem = measurementSystem;
 				showConversionPrompt = false;
 			}
 		});
@@ -91,29 +127,29 @@
 
 	$effect(() => {
 		const allDimensionsSet = untrack(
-			() => userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0
+			() => userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 		);
 		// Show conversion prompt if dimensions are set and the measurement system was changed
-		if (allDimensionsSet && initialMeasurementSystem !== preferencesStore.value.measurementSystem) {
+		if (allDimensionsSet && initialMeasurementSystem !== measurementSystem) {
 			showConversionPrompt = true;
-		} else if (initialMeasurementSystem !== preferencesStore.value.measurementSystem) {
+		} else if (initialMeasurementSystem !== measurementSystem) {
 			// If measurement system changed before all dimensions were set, show conversion prompt
-			initialMeasurementSystem = preferencesStore.value.measurementSystem;
+			initialMeasurementSystem = measurementSystem;
 			showConversionPrompt = false;
 		}
 	});
 
 	function convertDimensions() {
-		const factor = preferencesStore.value.measurementSystem === 'metric' ? 2.54 : 1 / 2.54;
-		userDimensions.length = Math.round(userDimensions.length * factor * 10) / 10;
+		const factor = measurementSystem === MeasurementSystems.Metric ? 2.54 : 1 / 2.54;
+		userDimensions.depth = Math.round(userDimensions.depth * factor * 10) / 10;
 		userDimensions.width = Math.round(userDimensions.width * factor * 10) / 10;
 		userDimensions.height = Math.round(userDimensions.height * factor * 10) / 10;
-		initialMeasurementSystem = preferencesStore.value.measurementSystem;
+		initialMeasurementSystem = measurementSystem;
 		showConversionPrompt = false;
 	}
 
 	function dismissConversion() {
-		initialMeasurementSystem = preferencesStore.value.measurementSystem;
+		initialMeasurementSystem = measurementSystem;
 		showConversionPrompt = false;
 	}
 
@@ -121,7 +157,7 @@
 	let showFlexibility = $state(false);
 
 	function resetDimensions() {
-		userDimensions.length = 0;
+		userDimensions.depth = 0;
 		userDimensions.width = 0;
 		userDimensions.height = 0;
 		showFlexibility = false;
@@ -186,7 +222,7 @@
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
-						[userDimensions.length, userDimensions.width, userDimensions.height],
+						[userDimensions.depth, userDimensions.width, userDimensions.height],
 						flexibility
 					);
 					return !!compliance?.every(Boolean);
@@ -199,7 +235,7 @@
 			? filteredAirlines.filter((airline) => {
 					const compliance = checkCompliance(
 						getAirlineDimensions(airline.carryon),
-						[userDimensions.length, userDimensions.width, userDimensions.height],
+						[userDimensions.depth, userDimensions.width, userDimensions.height],
 						flexibility
 					);
 					return !compliance?.every(Boolean);
@@ -213,15 +249,15 @@
 
 	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
 		const dims =
-			preferencesStore.value.measurementSystem === 'metric'
+			measurementSystem === MeasurementSystems.Metric
 				? allowanceDims.centimeters
 				: allowanceDims.inches;
 		return Array.isArray(dims) ? dims : [dims];
 	}
 
 	function getUserDimensionsIfFilled(bagDimensions: UserDimensions): number[] {
-		if (bagDimensions.length && bagDimensions.width && bagDimensions.height) {
-			return [bagDimensions.length, bagDimensions.width, bagDimensions.height];
+		if (bagDimensions.depth && bagDimensions.width && bagDimensions.height) {
+			return [bagDimensions.depth, bagDimensions.width, bagDimensions.height];
 		}
 		return [];
 	}
@@ -249,9 +285,9 @@
 	}
 
 	$effect(() => {
-		if (userDimensions.length > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
+		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
 			const eventProps: Record<string, string | number> = {
-				user_bag_dimensions: `${userDimensions.length}x${userDimensions.width}x${userDimensions.height} ${preferencesStore.value.measurementSystem === 'metric' ? 'cm' : 'in'}`
+				user_bag_dimensions: `${userDimensions.depth}x${userDimensions.width}x${userDimensions.height} ${measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}`
 			};
 
 			if (showFlexibility) {
@@ -294,6 +330,7 @@
 	}
 
 	function setMeasurementSystem(system: MeasurementSystem) {
+		clearSharedBagInfo();
 		preferencesStore.value = {
 			...preferencesStore.value,
 			measurementSystem: system
@@ -376,7 +413,7 @@
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
 
-						{#if userDimensions.length && userDimensions.width && userDimensions.height}
+						{#if userDimensions.depth && userDimensions.width && userDimensions.height}
 							<div class="mt-6">
 								{@render complianceScore(compliancePercentage)}
 							</div>
@@ -436,24 +473,24 @@
 				<div class="grid grid-cols-2 gap-2">
 					<button
 						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{preferencesStore.value.measurementSystem === 'metric'
+							{measurementSystem === MeasurementSystems.Metric
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => setMeasurementSystem('metric')}
+						onclick={() => setMeasurementSystem(MeasurementSystems.Metric)}
 						data-testid="metric-button"
-						data-active={preferencesStore.value.measurementSystem === 'metric'}
+						data-active={measurementSystem === MeasurementSystems.Metric}
 					>
 						<span>Metric</span>
 						<span class="block text-xs text-sky-600">cm / kg</span>
 					</button>
 					<button
 						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{preferencesStore.value.measurementSystem === 'imperial'
+							{measurementSystem === MeasurementSystems.Imperial
 							? 'bg-sky-100 text-sky-900'
 							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => setMeasurementSystem('imperial')}
+						onclick={() => setMeasurementSystem(MeasurementSystems.Imperial)}
 						data-testid="imperial-button"
-						data-active={preferencesStore.value.measurementSystem === 'imperial'}
+						data-active={measurementSystem === MeasurementSystems.Imperial}
 					>
 						<span>Imperial</span>
 						<span class="block text-xs text-sky-600">in / lb</span>
@@ -467,14 +504,16 @@
 {#snippet bagInput()}
 	<div class="mb-4">
 		<div class="mb-6 flex items-baseline justify-between">
-			<h2 class="text-xl font-semibold text-sky-900">Enter Your Bag Dimensions</h2>
+			<h2 class="text-xl font-semibold text-sky-900">Bag Dimensions</h2>
 			<div class="flex items-center gap-2">
-				<ShareBagLink {userDimensions} />
+				{#if dimensionsSet}
+					<ShareBagLink {userDimensions} {measurementSystem} />
+				{/if}
 				<button
 					onclick={resetDimensions}
 					class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
 				>
-					<X class="h-3 w-3 translate-y-[0.5px]" />
+					<X size={12} class="mt-0.5" />
 					<span>Reset</span>
 				</button>
 			</div>
@@ -483,8 +522,8 @@
 		{#if showConversionPrompt}
 			<div class="mb-4 rounded-lg bg-sky-50 p-3 text-sm">
 				<p class="text-sky-700">
-					Would you like to convert your dimensions to {preferencesStore.value.measurementSystem ===
-					'metric'
+					Would you like to convert your dimensions to {measurementSystem ===
+					MeasurementSystems.Metric
 						? 'centimeters'
 						: 'inches'}?
 				</p>
@@ -512,7 +551,10 @@
 					type="number"
 					id="height"
 					value={userDimensions.height}
-					oninput={(e) => (userDimensions.height = Number(e.currentTarget.value))}
+					oninput={(e) => {
+						userDimensions.height = Number(e.currentTarget.value);
+						clearSharedBagInfo();
+					}}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 					min={0}
 				/>
@@ -523,7 +565,10 @@
 					type="number"
 					id="width"
 					value={userDimensions.width}
-					oninput={(e) => (userDimensions.width = Number(e.currentTarget.value))}
+					oninput={(e) => {
+						userDimensions.width = Number(e.currentTarget.value);
+						clearSharedBagInfo();
+					}}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 					min={0}
 				/>
@@ -533,8 +578,11 @@
 				<input
 					type="number"
 					id="depth"
-					value={userDimensions.length}
-					oninput={(e) => (userDimensions.length = Number(e.currentTarget.value))}
+					value={userDimensions.depth}
+					oninput={(e) => {
+						userDimensions.depth = Number(e.currentTarget.value);
+						clearSharedBagInfo();
+					}}
 					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 					min={0}
 				/>
@@ -562,8 +610,8 @@
 					<div class="flex flex-col items-center gap-4">
 						<FlexibleSuitcase
 							value={flexibility}
-							unit={preferencesStore.value.measurementSystem === 'metric' ? 'cm' : 'in'}
-							max={FLEXIBILITY_CONFIG[preferencesStore.value.measurementSystem].max}
+							unit={measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}
+							max={FLEXIBILITY_CONFIG[measurementSystem].max}
 						/>
 						<div class="flex w-full items-center gap-4">
 							<input
@@ -571,8 +619,8 @@
 								type="range"
 								bind:value={flexibility}
 								min="0"
-								max={FLEXIBILITY_CONFIG[preferencesStore.value.measurementSystem].max}
-								step={FLEXIBILITY_CONFIG[preferencesStore.value.measurementSystem].step}
+								max={FLEXIBILITY_CONFIG[measurementSystem].max}
+								step={FLEXIBILITY_CONFIG[measurementSystem].step}
 								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
 							/>
 						</div>
@@ -609,7 +657,7 @@
 {/snippet}
 
 {#snippet airlinesTable()}
-	{#if userDimensions.length && userDimensions.width && userDimensions.height}
+	{#if userDimensions.depth && userDimensions.width && userDimensions.height}
 		{#if compliantAirlines.length > 0}
 			<details class="group mb-6" bind:open={isCompliantOpen}>
 				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
@@ -717,7 +765,7 @@
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Carry-On ({preferencesStore.value.measurementSystem === 'metric' ? 'cm' : 'in'})
+		Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
 	</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
 		>Weight Limit</th
@@ -795,7 +843,7 @@
 		</td>
 		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
 			{#if airline.kilograms}
-				{preferencesStore.value.measurementSystem === 'metric'
+				{measurementSystem === MeasurementSystems.Metric
 					? `${airline.kilograms} kg`
 					: `${airline.pounds} lb`}
 			{:else}

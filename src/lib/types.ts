@@ -24,10 +24,15 @@ export interface BagAllowanceDimensions {
 	centimeters: number | number[];
 }
 
-export type MeasurementSystem = 'metric' | 'imperial';
+export const MeasurementSystems = {
+	Metric: 'metric',
+	Imperial: 'imperial'
+} as const;
+
+export type MeasurementSystem = (typeof MeasurementSystems)[keyof typeof MeasurementSystems];
 
 export interface UserDimensions {
-	length: number;
+	depth: number;
 	width: number;
 	height: number;
 }
