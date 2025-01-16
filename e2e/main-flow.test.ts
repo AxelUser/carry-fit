@@ -461,3 +461,120 @@ test.describe('Measurement system updates', () => {
 		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' })).toBeVisible();
 	});
 });
+
+test.describe('Bag sharing functionality', () => {
+	test('should copy bag dimensions link to clipboard', async ({ page, context }) => {
+		// Grant clipboard permissions
+		await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+		await page.goto('/', { waitUntil: 'networkidle' });
+
+		// Enter bag dimensions
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Click share button and verify clipboard content
+		const shareButton = page.getByRole('button', { name: /Copy/i });
+		await shareButton.click();
+
+		const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
+		expect(clipboardText).toMatch(/\?height=50&width=40&depth=25&units=metric$/);
+	});
+
+	test('should load bag dimensions from URL parameters', async ({ page }) => {
+		// Navigate to page with dimensions in URL
+		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
+
+		// Verify input values are set correctly
+		await expect(page.getByLabel('Height')).toHaveValue('45');
+		await expect(page.getByLabel('Width')).toHaveValue('35');
+		await expect(page.getByLabel('Depth')).toHaveValue('20');
+
+		// Verify measurement system is set to imperial
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
+	});
+
+	test('should start with empty values if URL parameters are incomplete', async ({ page }) => {
+		// Test with missing parameters
+		await page.goto('/?height=45&width=35', { waitUntil: 'networkidle' });
+
+		// Verify all inputs are empty/zero
+		await expect(page.getByLabel('Height')).toHaveValue('0');
+		await expect(page.getByLabel('Width')).toHaveValue('0');
+		await expect(page.getByLabel('Depth')).toHaveValue('0');
+	});
+
+	test('should clear URL parameters when dimensions are changed', async ({ page }) => {
+		// Start with shared dimensions
+		await page.goto('/?height=45&width=35&depth=20&units=metric', { waitUntil: 'networkidle' });
+
+		// Verify initial URL has parameters
+		expect(page.url()).toMatch(/\?height=45&width=35&depth=20&units=metric$/);
+
+		// Change a dimension
+		await page.getByLabel('Height').fill('50');
+
+		// Verify URL parameters are cleared
+		expect(page.url()).not.toContain('height=');
+		expect(page.url()).not.toContain('width=');
+		expect(page.url()).not.toContain('depth=');
+		expect(page.url()).not.toContain('units=');
+	});
+
+	test('should clear URL parameters when measurement system is changed', async ({ page }) => {
+		// Start with shared dimensions
+		await page.goto('/?height=45&width=35&depth=20&units=metric', { waitUntil: 'networkidle' });
+
+		// Change measurement system
+		await page.getByRole('button', { name: /Imperial/i }).click();
+
+		// Verify URL parameters are cleared
+		expect(page.url()).not.toContain('height=');
+		expect(page.url()).not.toContain('width=');
+		expect(page.url()).not.toContain('depth=');
+		expect(page.url()).not.toContain('units=');
+	});
+
+	test('should respect persisted measurement system preference over shared link', async ({
+		page
+	}) => {
+		// First visit to set metric preference
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await page.getByRole('button', { name: /Metric/i }).click();
+
+		// Visit page with imperial units in URL
+		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
+
+		// Change any dimension
+		await page.getByLabel('Height').fill('50');
+
+		// Verify system reverts to metric (persisted preference)
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
+		// FIXME: Selected first element in locator, because of false positive strictness error: first vs nth(1)
+		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' }).first()).toBeVisible();
+	});
+
+	test('should handle invalid measurement system in URL', async ({ page }) => {
+		// Navigate with invalid measurement system
+		await page.goto('/?height=45&width=35&depth=20&units=invalid', { waitUntil: 'networkidle' });
+
+		// Verify dimensions are not set
+		await expect(page.getByLabel('Height')).toHaveValue('0');
+		await expect(page.getByLabel('Width')).toHaveValue('0');
+		await expect(page.getByLabel('Depth')).toHaveValue('0');
+
+		// Should use default measurement system
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
+	});
+
+	test('should handle non-numeric dimensions in URL', async ({ page }) => {
+		// Navigate with invalid dimension values
+		await page.goto('/?height=abc&width=35&depth=20&units=metric', { waitUntil: 'networkidle' });
+
+		// Verify dimensions are not set
+		await expect(page.getByLabel('Height')).toHaveValue('0');
+		await expect(page.getByLabel('Width')).toHaveValue('0');
+		await expect(page.getByLabel('Depth')).toHaveValue('0');
+	});
+});
