@@ -37,6 +37,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
 	const FLEXIBILITY_CONFIG = {
 		metric: {
@@ -62,6 +63,10 @@
 
 	let sharedBagInfo = $state.raw(
 		(() => {
+			if (!browser) {
+				return undefined;
+			}
+
 			const urlHeight = Number(page.url.searchParams.get('height'));
 			const urlWidth = Number(page.url.searchParams.get('width'));
 			const urlDepth = Number(page.url.searchParams.get('depth'));
