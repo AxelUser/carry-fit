@@ -72,23 +72,27 @@
 </script>
 
 {#if currentVersion}
-	<div class="fixed bottom-4 right-4 z-50">
-		<button
-			onclick={openChangelog}
-			class="flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:from-sky-700 hover:to-blue-800"
-		>
-			<span>Latest Updates</span>
-			{#if hasNewVersion}
-				<div class="relative">
-					<div class="absolute -right-1.5 -top-1 h-2 w-2">
-						<div
-							class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
-						></div>
-						<div class="h-full w-full rounded-full bg-amber-400"></div>
-					</div>
-				</div>
-			{/if}
-		</button>
+	<div class="fixed bottom-4 z-50 w-full">
+		<div class="mx-auto max-w-[1700px] px-4">
+			<div class="flex justify-end">
+				<button
+					onclick={openChangelog}
+					class="flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:from-sky-700 hover:to-blue-800"
+				>
+					<span>Latest Updates</span>
+					{#if hasNewVersion}
+						<div class="relative">
+							<div class="absolute -right-1.5 -top-1 h-2 w-2">
+								<div
+									class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
+								></div>
+								<div class="h-full w-full rounded-full bg-amber-400"></div>
+							</div>
+						</div>
+					{/if}
+				</button>
+			</div>
+		</div>
 	</div>
 {/if}
 
