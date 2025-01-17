@@ -662,21 +662,22 @@
 {/snippet}
 
 {#snippet airlinesTable()}
-	{#if userDimensions.depth && userDimensions.width && userDimensions.height}
+	{#if dimensionsSet}
+		{@const singleSection = nonCompliantAirlines.length === 0 || compliantAirlines.length === 0}
 		{#if nonCompliantAirlines.length > 0}
 			<details class="group" bind:open={isNonCompliantOpen}>
 				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-					<div class="flex items-center gap-2">
-						<div class="translate-y-[1px] text-red-700">
-							{#if isNonCompliantOpen}
-								<ChevronsDownUp class="h-5 w-5" />
-							{:else}
-								<ChevronsUpDown class="h-5 w-5" />
-							{/if}
-						</div>
-						<h3
-							class="text-md inline-flex items-center gap-2 font-semibold text-red-700 sm:text-lg"
-						>
+					<div class="flex items-center gap-2 font-semibold text-red-700">
+						{#if !singleSection}
+							<div class="translate-y-[1px]">
+								{#if isNonCompliantOpen}
+									<ChevronsDownUp class="h-5 w-5" />
+								{:else}
+									<ChevronsUpDown class="h-5 w-5" />
+								{/if}
+							</div>
+						{/if}
+						<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
 							<CarryOnBagInactiveIcon class="h-6 w-6" />
 							Non-Compliant Airlines ({nonCompliantAirlines.length})
 						</h3>
@@ -704,17 +705,17 @@
 		{#if compliantAirlines.length > 0}
 			<details class="group mb-6" bind:open={isCompliantOpen}>
 				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-					<div class="flex items-center gap-2">
-						<div class="translate-y-[1px] text-emerald-700">
-							{#if isCompliantOpen}
-								<ChevronsDownUp class="h-5 w-5" />
-							{:else}
-								<ChevronsUpDown class="h-5 w-5" />
-							{/if}
-						</div>
-						<h3
-							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
-						>
+					<div class="flex items-center gap-2 font-semibold text-emerald-700">
+						{#if !singleSection}
+							<div class="translate-y-[1px]">
+								{#if isCompliantOpen}
+									<ChevronsDownUp class="h-5 w-5" />
+								{:else}
+									<ChevronsUpDown class="h-5 w-5" />
+								{/if}
+							</div>
+						{/if}
+						<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
 							<CarryOnBagCheckedIcon class="h-6 w-6" />
 							Compliant Airlines ({compliantAirlines.length})
 						</h3>
