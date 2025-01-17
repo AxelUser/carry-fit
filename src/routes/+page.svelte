@@ -246,18 +246,41 @@
 		}
 
 		// If only one section is available, open it
-		if (onlyCompliantSection || onlyNonCompliantSection) {
-			isNonCompliantOpen = onlyNonCompliantSection;
-			isCompliantOpen = onlyCompliantSection;
+		if (onlyCompliantSection) {
+			isNonCompliantOpen = false;
+			isCompliantOpen = true;
 			return;
 		}
 
-		// If there are non-compliant airlines, open the non-compliant section
-		if (hasNonCompliantAirlines) {
+		if (onlyNonCompliantSection) {
 			isNonCompliantOpen = true;
 			isCompliantOpen = false;
+			return;
 		}
+
+		// If both sections available and this is small screen device, open non-compliant
+		isNonCompliantOpen = true;
+		isCompliantOpen = false;
 	});
+
+	let lastToggledSection = $state<'compliant' | 'non-compliant'>('non-compliant');
+
+	function toggleSection(section: 'compliant' | 'non-compliant') {
+		if (complianceDetailsFoldable) {
+			lastToggledSection = section;
+			if (section === 'compliant') {
+				isCompliantOpen = !isCompliantOpen;
+				if (isCompliantOpen) {
+					isNonCompliantOpen = false;
+				}
+			} else {
+				isNonCompliantOpen = !isNonCompliantOpen;
+				if (isNonCompliantOpen) {
+					isCompliantOpen = false;
+				}
+			}
+		}
+	}
 
 	function toggleSortDirection() {
 		sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
@@ -669,11 +692,7 @@
 						<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 							<button
 								class="flex items-center gap-2 font-semibold text-red-700"
-								onclick={() => {
-									if (complianceDetailsFoldable) {
-										isNonCompliantOpen = !isNonCompliantOpen;
-									}
-								}}
+								onclick={() => toggleSection('non-compliant')}
 							>
 								{#if complianceDetailsFoldable}
 									<div class="translate-y-[1px] xl:hidden">
@@ -730,11 +749,7 @@
 						>
 							<button
 								class="flex items-center gap-2 font-semibold text-emerald-700"
-								onclick={() => {
-									if (complianceDetailsFoldable) {
-										isCompliantOpen = !isCompliantOpen;
-									}
-								}}
+								onclick={() => toggleSection('compliant')}
 							>
 								{#if complianceDetailsFoldable}
 									<div class="translate-y-[1px] xl:hidden">
