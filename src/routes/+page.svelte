@@ -177,21 +177,6 @@
 		}
 	});
 
-	let innerWidth = $state(0);
-	let isLargeScreen = $derived(innerWidth >= 640);
-
-	let isCompliantOpen = $state(false);
-	let isNonCompliantOpen = $state(false);
-
-	/**
-	 * Initially open the compliance and non-compliance sections on large screens (and hide on small screens).
-	 * Made this with $effect because user should be able to close or open sections, thus $derived would not work.
-	 */
-	$effect(() => {
-		isNonCompliantOpen = isLargeScreen;
-		isCompliantOpen = false;
-	});
-
 	let showFavoritesOnly = $state(false);
 
 	function toggleFavorite(airlineName: string) {
@@ -341,9 +326,29 @@
 			measurementSystem: system
 		};
 	}
-</script>
 
-<svelte:window bind:innerWidth />
+	let isNonCompliantOpen = $state(false);
+	let isCompliantOpen = $state(false);
+
+	let onlyCompliantSection = $derived(
+		compliantAirlines.length > 0 && nonCompliantAirlines.length === 0
+	);
+	let onlyNonCompliantSection = $derived(
+		compliantAirlines.length === 0 && nonCompliantAirlines.length > 0
+	);
+
+	let bothComplianceSections = $derived(
+		compliantAirlines.length > 0 && nonCompliantAirlines.length > 0
+	);
+
+	// Mutual exclusivity of compliance and non-compliance sections
+	$effect(() => {
+		isNonCompliantOpen = onlyNonCompliantSection;
+		isCompliantOpen = onlyCompliantSection;
+
+		console.log('isNonCompliantOpen', isNonCompliantOpen, 'isCompliantOpen', isCompliantOpen);
+	});
+</script>
 
 <Changelog />
 
@@ -663,13 +668,23 @@
 
 {#snippet airlinesTable()}
 	{#if dimensionsSet}
-		{@const singleSection = nonCompliantAirlines.length === 0 || compliantAirlines.length === 0}
+		{@const canFold = bothComplianceSections}
 		<div class="flex flex-col gap-6">
 			{#if nonCompliantAirlines.length > 0}
-				<details class="group" bind:open={isNonCompliantOpen}>
+				<details
+					class="group"
+					open={isNonCompliantOpen}
+					role="none"
+					onclick={(e) => {
+						e.preventDefault();
+						if (canFold) {
+							isNonCompliantOpen = !isNonCompliantOpen;
+						}
+					}}
+				>
 					<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 						<div class="flex items-center gap-2 font-semibold text-red-700">
-							{#if !singleSection}
+							{#if bothComplianceSections}
 								<div class="translate-y-[1px]">
 									{#if isNonCompliantOpen}
 										<ChevronsDownUp class="h-5 w-5" />
@@ -704,10 +719,20 @@
 			{/if}
 
 			{#if compliantAirlines.length > 0}
-				<details class="group" bind:open={isCompliantOpen}>
+				<details
+					class="group"
+					open={isCompliantOpen}
+					role="none"
+					onclick={(e) => {
+						e.preventDefault();
+						if (canFold) {
+							isCompliantOpen = !isCompliantOpen;
+						}
+					}}
+				>
 					<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 						<div class="flex items-center gap-2 font-semibold text-emerald-700">
-							{#if !singleSection}
+							{#if bothComplianceSections}
 								<div class="translate-y-[1px]">
 									{#if isCompliantOpen}
 										<ChevronsDownUp class="h-5 w-5" />
