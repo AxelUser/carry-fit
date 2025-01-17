@@ -685,4 +685,52 @@ test.describe('Mobile screen table layout', () => {
 		await expect(page.getByTestId('non-compliant-table')).toBeVisible();
 		await expect(page.getByTestId('compliant-table')).not.toBeVisible();
 	});
+
+	test('should scroll to opened section', async ({ page }) => {
+		// Enter bag dimensions
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Initially, non-compliant section should be open
+		await expect(page.getByTestId('non-compliant-table')).toBeVisible();
+		await expect(page.getByTestId('compliant-table')).not.toBeVisible();
+
+		// Get initial scroll position
+		const initialScrollY = await page.evaluate(() => window.scrollY);
+
+		// Toggle to compliant section
+		const compliantButton = page.getByRole('button', { name: /^Compliant Airlines/ });
+		await compliantButton.click();
+
+		// Wait for scroll to complete
+		await page.waitForTimeout(100);
+
+		// Get new scroll position
+		const newScrollY = await page.evaluate(() => window.scrollY);
+
+		// Verify scroll position changed
+		expect(newScrollY).toBeGreaterThan(initialScrollY);
+
+		// Verify correct section is visible
+		await expect(page.getByTestId('compliant-table')).toBeVisible();
+		await expect(page.getByTestId('non-compliant-table')).not.toBeVisible();
+
+		// Toggle back to non-compliant section
+		const nonCompliantButton = page.getByRole('button', { name: /^Non-Compliant Airlines/ });
+		await nonCompliantButton.click();
+
+		// Wait for scroll to complete
+		await page.waitForTimeout(100);
+
+		// Get final scroll position
+		const finalScrollY = await page.evaluate(() => window.scrollY);
+
+		// Verify scroll position changed back
+		expect(finalScrollY).toBeLessThan(newScrollY);
+
+		// Verify correct section is visible
+		await expect(page.getByTestId('non-compliant-table')).toBeVisible();
+		await expect(page.getByTestId('compliant-table')).not.toBeVisible();
+	});
 });
