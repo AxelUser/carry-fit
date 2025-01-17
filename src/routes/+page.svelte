@@ -663,44 +663,6 @@
 
 {#snippet airlinesTable()}
 	{#if userDimensions.depth && userDimensions.width && userDimensions.height}
-		{#if compliantAirlines.length > 0}
-			<details class="group mb-6" bind:open={isCompliantOpen}>
-				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-					<div class="flex items-center gap-2">
-						<div class="translate-y-[1px] text-emerald-700">
-							{#if isCompliantOpen}
-								<ChevronsDownUp class="h-5 w-5" />
-							{:else}
-								<ChevronsUpDown class="h-5 w-5" />
-							{/if}
-						</div>
-						<h3
-							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
-						>
-							<CarryOnBagCheckedIcon class="h-6 w-6" />
-							Compliant Airlines ({compliantAirlines.length})
-						</h3>
-					</div>
-				</summary>
-				<div class="rounded-lg border border-emerald-200">
-					<div class="overflow-x-auto">
-						<table class="w-full">
-							<thead>
-								<tr class="bg-emerald-50">
-									{@render tableHeader()}
-								</tr>
-							</thead>
-							<tbody>
-								{#each compliantAirlines as airline}
-									{@render airlineAllowanceRow(airline)}
-								{/each}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</details>
-		{/if}
-
 		{#if nonCompliantAirlines.length > 0}
 			<details class="group" bind:open={isNonCompliantOpen}>
 				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
@@ -730,6 +692,44 @@
 							</thead>
 							<tbody>
 								{#each nonCompliantAirlines as airline}
+									{@render airlineAllowanceRow(airline)}
+								{/each}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</details>
+		{/if}
+
+		{#if compliantAirlines.length > 0}
+			<details class="group mb-6" bind:open={isCompliantOpen}>
+				<summary class="mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+					<div class="flex items-center gap-2">
+						<div class="translate-y-[1px] text-emerald-700">
+							{#if isCompliantOpen}
+								<ChevronsDownUp class="h-5 w-5" />
+							{:else}
+								<ChevronsUpDown class="h-5 w-5" />
+							{/if}
+						</div>
+						<h3
+							class="text-md inline-flex items-center gap-2 font-semibold text-emerald-700 sm:text-lg"
+						>
+							<CarryOnBagCheckedIcon class="h-6 w-6" />
+							Compliant Airlines ({compliantAirlines.length})
+						</h3>
+					</div>
+				</summary>
+				<div class="rounded-lg border border-emerald-200">
+					<div class="overflow-x-auto">
+						<table class="w-full">
+							<thead>
+								<tr class="bg-emerald-50">
+									{@render tableHeader()}
+								</tr>
+							</thead>
+							<tbody>
+								{#each compliantAirlines as airline}
 									{@render airlineAllowanceRow(airline)}
 								{/each}
 							</tbody>
