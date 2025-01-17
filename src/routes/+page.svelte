@@ -238,10 +238,22 @@
 
 	// Mutual exclusivity of compliance and non-compliance sections
 	$effect(() => {
+		// Always open compliance and non-compliance sections on large screens
+		if (isLargeScreen) {
+			isNonCompliantOpen = true;
+			isCompliantOpen = true;
+			return;
+		}
+
+		// If only one section is available, open it
 		if (onlyCompliantSection || onlyNonCompliantSection) {
 			isNonCompliantOpen = onlyNonCompliantSection;
 			isCompliantOpen = onlyCompliantSection;
-		} else if (hasNonCompliantAirlines) {
+			return;
+		}
+
+		// If there are non-compliant airlines, open the non-compliant section
+		if (hasNonCompliantAirlines) {
 			isNonCompliantOpen = true;
 			isCompliantOpen = false;
 		}
