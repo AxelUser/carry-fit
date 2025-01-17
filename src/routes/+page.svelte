@@ -652,11 +652,11 @@
 
 {#snippet airlinesTable()}
 	{#if dimensionsSet}
-		<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
+		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
 			{#if hasNonCompliantAirlines}
 				<div
 					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
-					data-testid="non-compliant-table"
+					data-testid="non-compliant-section"
 				>
 					<details
 						class="group h-full"
@@ -692,7 +692,7 @@
 						</summary>
 						<div class="mt-3 rounded-lg border border-red-200">
 							<div class="overflow-x-auto">
-								<table class="w-full">
+								<table class="w-full" data-testid="non-compliant-table">
 									<thead>
 										<tr class="bg-red-50">
 											{@render tableHeader()}
@@ -713,7 +713,7 @@
 			{#if hasCompliantAirlines}
 				<div
 					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
-					data-testid="compliant-table"
+					data-testid="compliant-section"
 				>
 					<details
 						class="group h-full"
@@ -753,7 +753,7 @@
 						</summary>
 						<div class="mt-3 rounded-lg border border-emerald-200">
 							<div class="overflow-x-auto">
-								<table class="w-full">
+								<table class="w-full" data-testid="compliant-table">
 									<thead>
 										<tr class="bg-emerald-50">
 											{@render tableHeader()}

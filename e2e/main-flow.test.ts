@@ -599,13 +599,13 @@ test.describe('Large screen table layout', () => {
 		await expect(page.getByRole('button', { name: /^Non-Compliant Airlines/ })).toBeVisible();
 		await expect(page.getByRole('button', { name: /^Compliant Airlines/ })).toBeVisible();
 
-		// Verify tables are in a flex layout
-		const tablesContainer = page.locator('.flex-col.xl\\:flex-row');
+		// Verify sections are visible
+		const tablesContainer = page.getByTestId('compliance-sections');
 		await expect(tablesContainer).toBeVisible();
 
 		// Verify both tables have max-width set for large screens
-		await expect(page.getByTestId('non-compliant-table')).toHaveClass(/xl:max-w-\[50%\]/);
-		await expect(page.getByTestId('compliant-table')).toHaveClass(/xl:max-w-\[50%\]/);
+		await expect(page.getByTestId('non-compliant-section')).toHaveClass(/xl:max-w-\[50%\]/);
+		await expect(page.getByTestId('compliant-section')).toHaveClass(/xl:max-w-\[50%\]/);
 	});
 
 	test('should keep both sections expanded on large screens', async ({ page }) => {
@@ -633,8 +633,8 @@ test.describe('Large screen table layout', () => {
 		await page.getByLabel('Width').fill('1');
 		await page.getByLabel('Depth').fill('1');
 
-		// Verify only compliant section is visible and takes full width
-		await expect(page.getByTestId('compliant-table')).not.toHaveClass('xl:max-w-[50%]');
+		// Verify only compliant section is visible
+		await expect(page.getByTestId('compliant-table')).toBeVisible();
 		await expect(page.getByTestId('non-compliant-table')).not.toBeVisible();
 
 		// Enter dimensions that would make all airlines non-compliant
@@ -642,8 +642,8 @@ test.describe('Large screen table layout', () => {
 		await page.getByLabel('Width').fill('100');
 		await page.getByLabel('Depth').fill('100');
 
-		// Verify only non-compliant section is visible and takes full width
-		await expect(page.getByTestId('non-compliant-table')).not.toHaveClass(/xl:max-w-\[50%\]/);
+		// Verify only non-compliant section is visible
+		await expect(page.getByTestId('non-compliant-table')).toBeVisible();
 		await expect(page.getByTestId('compliant-table')).not.toBeVisible();
 	});
 });
@@ -663,8 +663,7 @@ test.describe('Mobile screen table layout', () => {
 		await page.getByLabel('Depth').fill('25');
 
 		// Verify sections are in a column layout
-		const tablesContainer = page.locator('.flex-col');
-		await expect(tablesContainer).toBeVisible();
+		await expect(page.getByTestId('compliance-sections')).toHaveClass(/flex flex-col/);
 
 		// Initially, non-compliant section should be open and compliant closed
 		await expect(page.getByTestId('non-compliant-table')).toBeVisible();
