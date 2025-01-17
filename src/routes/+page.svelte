@@ -272,11 +272,23 @@
 				isCompliantOpen = !isCompliantOpen;
 				if (isCompliantOpen) {
 					isNonCompliantOpen = false;
+					setTimeout(() => {
+						document.getElementById('compliant-airlines')?.scrollIntoView({
+							behavior: 'instant',
+							block: 'start'
+						});
+					}, 0);
 				}
 			} else {
 				isNonCompliantOpen = !isNonCompliantOpen;
 				if (isNonCompliantOpen) {
 					isCompliantOpen = false;
+					setTimeout(() => {
+						document.getElementById('non-compliant-airlines')?.scrollIntoView({
+							behavior: 'instant',
+							block: 'start'
+						});
+					}, 0);
 				}
 			}
 		}
@@ -680,6 +692,7 @@
 				<div
 					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
 					data-testid="non-compliant-section"
+					id="non-compliant-airlines"
 				>
 					<details
 						class="group h-full"
@@ -733,6 +746,7 @@
 				<div
 					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
 					data-testid="compliant-section"
+					id="compliant-airlines"
 				>
 					<details
 						class="group h-full"
