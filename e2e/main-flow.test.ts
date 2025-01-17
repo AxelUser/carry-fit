@@ -8,7 +8,7 @@ test.describe('Allowance table interaction', () => {
 
 	test('should display airline allowances table by default', async ({ page }) => {
 		// Check table headers
-		const headers = ['Airline', 'Region', 'Carry-On (cm)', 'Weight Limit', 'Policy'];
+		const headers = ['Airline', 'Region', 'Carry-On (cm)', 'Weight', 'Policy'];
 		for (const header of headers) {
 			await expect(page.getByRole('columnheader', { name: header })).toBeVisible();
 		}
