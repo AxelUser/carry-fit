@@ -799,9 +799,7 @@
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
 		Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
 	</th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-		>Weight Limit</th
-	>
+	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Weight</th>
 	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
 {/snippet}
 
@@ -890,7 +888,7 @@
 					rel="noopener noreferrer"
 					class="text-blue-600 hover:text-blue-800 hover:underline"
 				>
-					View Policy
+					View
 				</a>
 			{:else}
 				N/A
