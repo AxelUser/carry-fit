@@ -188,8 +188,8 @@
 	 * Made this with $effect because user should be able to close or open sections, thus $derived would not work.
 	 */
 	$effect(() => {
-		isCompliantOpen = isLargeScreen;
 		isNonCompliantOpen = isLargeScreen;
+		isCompliantOpen = false;
 	});
 
 	let showFavoritesOnly = $state(false);
