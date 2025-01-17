@@ -654,7 +654,10 @@
 	{#if dimensionsSet}
 		<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
 			{#if hasNonCompliantAirlines}
-				<div class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}">
+				<div
+					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
+					data-testid="non-compliant-table"
+				>
 					<details
 						class="group h-full"
 						open={isNonCompliantOpen}
@@ -708,7 +711,10 @@
 			{/if}
 
 			{#if hasCompliantAirlines}
-				<div class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}">
+				<div
+					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
+					data-testid="compliant-table"
+				>
 					<details
 						class="group h-full"
 						open={isCompliantOpen}
