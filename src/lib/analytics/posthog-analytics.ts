@@ -2,7 +2,7 @@ import { AnalyticsService } from './analytics-service';
 import type { EventProperties } from './analytics-service';
 import { posthog } from 'posthog-js';
 import * as env from '$env/static/public';
-import { isLocalhost } from '$lib/utils';
+import { isLocalhost } from '$lib/utils/environment';
 import { browser } from '$app/environment';
 
 export class PosthogAnalytics extends AnalyticsService {

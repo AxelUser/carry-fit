@@ -61,3 +61,15 @@ export interface UserPreferences {
 	favoriteAirlines: string[];
 	measurementSystem: MeasurementSystem;
 }
+
+export interface AirlinesByCompliance {
+	compliant: AirlineInfo[];
+	nonCompliant: AirlineInfo[];
+}
+
+export const SortDirections = {
+	Ascending: 'asc',
+	Descending: 'desc'
+} as const;
+
+export type SortDirection = (typeof SortDirections)[keyof typeof SortDirections];

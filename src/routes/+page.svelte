@@ -14,30 +14,40 @@
 		StarOff,
 		SearchX
 	} from 'lucide-svelte';
-	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
+	import {
+		CarryOnBagCheckedIcon,
+		CarryOnBagInactiveIcon,
+		CarryFitIcon
+	} from '$lib/components/icons';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { checkCompliance, loadData } from '$lib/allowances';
-	import type {
-		AirlineInfo,
-		BagAllowanceDimensions,
-		UserDimensions,
-		MeasurementSystem
+	import { checkCompliance, loadData, groupAirlinesByCompliance } from '$lib/allowances';
+	import {
+		type AirlineInfo,
+		type UserDimensions,
+		type MeasurementSystem,
+		type SortDirection,
+		MeasurementSystems,
+		SortDirections
 	} from '$lib/types';
-	import { MeasurementSystems } from '$lib/types';
-	import { CarryFitIcon } from '$lib/components/icons';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { analyticsService } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy, untrack } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
-	import { preferencesStore } from '$lib/services/preferences';
+	import { preferencesStore } from '$lib/stores/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
 	import ShareBagLink from '$lib/components/share-bag-link.svelte';
-	import { favoritesUsageStore } from '$lib/services/feature-usage.svelte';
+	import { favoritesUsageStore } from '$lib/stores/feature-usage.svelte';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import { getAirlineDimensions, getUserDimensionsIfFilled } from '$lib/utils/mapping';
+	import { convertDimensions } from '$lib/utils/math';
+
+	let innerWidth = $state(0);
+	// Taken from tailwind.config.ts
+	let isLargeScreen = $derived(innerWidth > 1280);
 
 	const FLEXIBILITY_CONFIG = {
 		metric: {
@@ -50,16 +60,13 @@
 		}
 	};
 
-	const SORT_DIRECTIONS = ['asc', 'desc'] as const;
-
 	const { meta, allowances } = loadData();
 
 	const regions = [...new Set(allowances.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(regions));
 
-	type SortDirection = (typeof SORT_DIRECTIONS)[number];
-	let sortDirection = $state<SortDirection>(SORT_DIRECTIONS[0]);
+	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
 
 	let sharedBagInfo = $state.raw(
 		(() => {
@@ -96,7 +103,7 @@
 		}
 	}
 
-	const userDimensions = $state<UserDimensions>(
+	let userDimensions = $state<UserDimensions>(
 		sharedBagInfo || {
 			depth: 0,
 			width: 0,
@@ -144,11 +151,8 @@
 		}
 	});
 
-	function convertDimensions() {
-		const factor = measurementSystem === MeasurementSystems.Metric ? 2.54 : 1 / 2.54;
-		userDimensions.depth = Math.round(userDimensions.depth * factor * 10) / 10;
-		userDimensions.width = Math.round(userDimensions.width * factor * 10) / 10;
-		userDimensions.height = Math.round(userDimensions.height * factor * 10) / 10;
+	function applyConversion() {
+		userDimensions = convertDimensions(userDimensions, measurementSystem);
 		initialMeasurementSystem = measurementSystem;
 		showConversionPrompt = false;
 	}
@@ -202,43 +206,14 @@
 					!showFavoritesOnly || preferencesStore.value.favoriteAirlines.includes(airline.airline)
 			)
 			.sort((a, b) => {
-				const direction = sortDirection === SORT_DIRECTIONS[0] ? 1 : -1;
+				const direction = sortDirection === SortDirections.Ascending ? 1 : -1;
 				return a.airline.localeCompare(b.airline) * direction;
 			})
 	);
 
-	const airlinesByCompliance = $derived.by(() => {
-		if (!dimensionsSet) {
-			return {
-				compliant: [],
-				nonCompliant: []
-			};
-		}
-
-		const result = filteredAirlines.reduce<{
-			compliant: AirlineInfo[];
-			nonCompliant: AirlineInfo[];
-		}>(
-			(acc, airline) => {
-				const compliance = checkCompliance(
-					getAirlineDimensions(airline.carryon),
-					[userDimensions.depth, userDimensions.width, userDimensions.height],
-					flexibility
-				);
-
-				if (compliance?.every(Boolean)) {
-					acc.compliant.push(airline);
-				} else {
-					acc.nonCompliant.push(airline);
-				}
-
-				return acc;
-			},
-			{ compliant: [], nonCompliant: [] }
-		);
-
-		return result;
-	});
+	const airlinesByCompliance = $derived(
+		groupAirlinesByCompliance(filteredAirlines, userDimensions, measurementSystem, flexibility)
+	);
 
 	const compliancePercentage = $derived(
 		filteredAirlines.length === 0
@@ -255,7 +230,11 @@
 	let onlyCompliantSection = $derived(hasCompliantAirlines && !hasNonCompliantAirlines);
 	let onlyNonCompliantSection = $derived(!hasCompliantAirlines && hasNonCompliantAirlines);
 
-	let bothComplianceSections = $derived(hasCompliantAirlines && hasNonCompliantAirlines);
+	let complianceDetailsFoldable = $derived(
+		!isLargeScreen && hasCompliantAirlines && hasNonCompliantAirlines
+	);
+
+	let singleScoringDetailsTableLayout = $derived(onlyCompliantSection || onlyNonCompliantSection);
 
 	// Mutual exclusivity of compliance and non-compliance sections
 	$effect(() => {
@@ -267,21 +246,6 @@
 			isCompliantOpen = false;
 		}
 	});
-
-	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
-		const dims =
-			measurementSystem === MeasurementSystems.Metric
-				? allowanceDims.centimeters
-				: allowanceDims.inches;
-		return Array.isArray(dims) ? dims : [dims];
-	}
-
-	function getUserDimensionsIfFilled(bagDimensions: UserDimensions): number[] {
-		if (bagDimensions.depth && bagDimensions.width && bagDimensions.height) {
-			return [bagDimensions.depth, bagDimensions.width, bagDimensions.height];
-		}
-		return [];
-	}
 
 	function toggleSortDirection() {
 		sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
@@ -358,6 +322,8 @@
 		};
 	}
 </script>
+
+<svelte:window bind:innerWidth />
 
 <Changelog />
 
@@ -547,10 +513,7 @@
 						: 'inches'}?
 				</p>
 				<div class="mt-2 flex gap-3">
-					<button
-						class="text-sky-600 hover:text-sky-800 hover:underline"
-						onclick={convertDimensions}
-					>
+					<button class="text-sky-600 hover:text-sky-800 hover:underline" onclick={applyConversion}>
 						Apply conversion
 					</button>
 					<button
@@ -677,102 +640,117 @@
 
 {#snippet airlinesTable()}
 	{#if dimensionsSet}
-		{@const canFold = bothComplianceSections}
-		<div class="flex flex-col gap-6">
+		<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
 			{#if hasNonCompliantAirlines}
-				<details
-					class="group"
-					open={isNonCompliantOpen}
-					role="none"
-					onclick={(e) => {
-						e.preventDefault();
-						if (canFold) {
-							isNonCompliantOpen = !isNonCompliantOpen;
-						}
-					}}
-				>
-					<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-						<div class="flex items-center gap-2 font-semibold text-red-700">
-							{#if bothComplianceSections}
-								<div class="translate-y-[1px]">
-									{#if isNonCompliantOpen}
-										<ChevronsDownUp class="h-5 w-5" />
-									{:else}
-										<ChevronsUpDown class="h-5 w-5" />
-									{/if}
-								</div>
-							{/if}
-							<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
-								<CarryOnBagInactiveIcon class="h-6 w-6" />
-								Non-Compliant Airlines ({airlinesByCompliance.nonCompliant.length})
-							</h3>
+				<div class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}">
+					<details
+						class="group h-full"
+						open={isNonCompliantOpen}
+						role="none"
+						onclick={(e) => {
+							e.preventDefault();
+						}}
+					>
+						<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+							<button
+								class="flex items-center gap-2 font-semibold text-red-700"
+								onclick={() => {
+									if (complianceDetailsFoldable) {
+										isNonCompliantOpen = !isNonCompliantOpen;
+									}
+								}}
+							>
+								{#if complianceDetailsFoldable}
+									<div class="translate-y-[1px] xl:hidden">
+										{#if isNonCompliantOpen}
+											<ChevronsDownUp class="h-5 w-5" />
+										{:else}
+											<ChevronsUpDown class="h-5 w-5" />
+										{/if}
+									</div>
+								{/if}
+								<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
+									<CarryOnBagInactiveIcon class="h-6 w-6" />
+									Non-Compliant Airlines ({airlinesByCompliance.nonCompliant.length})
+								</h3>
+							</button>
+						</summary>
+						<div class="mt-3 rounded-lg border border-red-200">
+							<div class="overflow-x-auto">
+								<table class="w-full">
+									<thead>
+										<tr class="bg-red-50">
+											{@render tableHeader()}
+										</tr>
+									</thead>
+									<tbody>
+										{#each airlinesByCompliance.nonCompliant as airline}
+											{@render airlineAllowanceRow(airline)}
+										{/each}
+									</tbody>
+								</table>
+							</div>
 						</div>
-					</summary>
-					<div class="mt-3 rounded-lg border border-red-200">
-						<div class="overflow-x-auto">
-							<table class="w-full">
-								<thead>
-									<tr class="bg-red-50">
-										{@render tableHeader()}
-									</tr>
-								</thead>
-								<tbody>
-									{#each airlinesByCompliance.nonCompliant as airline}
-										{@render airlineAllowanceRow(airline)}
-									{/each}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</details>
+					</details>
+				</div>
 			{/if}
 
 			{#if hasCompliantAirlines}
-				<details
-					class="group"
-					open={isCompliantOpen}
-					role="none"
-					onclick={(e) => {
-						e.preventDefault();
-						if (canFold) {
-							isCompliantOpen = !isCompliantOpen;
-						}
-					}}
-				>
-					<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-						<div class="flex items-center gap-2 font-semibold text-emerald-700">
-							{#if bothComplianceSections}
-								<div class="translate-y-[1px]">
-									{#if isCompliantOpen}
-										<ChevronsDownUp class="h-5 w-5" />
-									{:else}
-										<ChevronsUpDown class="h-5 w-5" />
-									{/if}
-								</div>
-							{/if}
-							<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
-								<CarryOnBagCheckedIcon class="h-6 w-6" />
-								Compliant Airlines ({airlinesByCompliance.compliant.length})
-							</h3>
+				<div class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}">
+					<details
+						class="group h-full"
+						open={isCompliantOpen}
+						role="none"
+						onclick={(e) => {
+							e.preventDefault();
+						}}
+					>
+						<summary
+							class="cursor-pointer list-none [&::-webkit-details-marker]:hidden
+							{complianceDetailsFoldable ? 'xl:hidden' : ''}
+							"
+						>
+							<button
+								class="flex items-center gap-2 font-semibold text-emerald-700"
+								onclick={() => {
+									if (complianceDetailsFoldable) {
+										isCompliantOpen = !isCompliantOpen;
+									}
+								}}
+							>
+								{#if complianceDetailsFoldable}
+									<div class="translate-y-[1px] xl:hidden">
+										{#if isCompliantOpen}
+											<ChevronsDownUp class="h-5 w-5" />
+										{:else}
+											<ChevronsUpDown class="h-5 w-5" />
+										{/if}
+									</div>
+								{/if}
+								<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
+									<CarryOnBagCheckedIcon class="h-6 w-6" />
+									Compliant Airlines ({airlinesByCompliance.compliant.length})
+								</h3>
+							</button>
+						</summary>
+						<div class="mt-3 rounded-lg border border-emerald-200">
+							<div class="overflow-x-auto">
+								<table class="w-full">
+									<thead>
+										<tr class="bg-emerald-50">
+											{@render tableHeader()}
+										</tr>
+									</thead>
+									<tbody>
+										{#each airlinesByCompliance.compliant as airline}
+											{@render airlineAllowanceRow(airline)}
+										{/each}
+									</tbody>
+								</table>
+							</div>
 						</div>
-					</summary>
-					<div class="mt-3 rounded-lg border border-emerald-200">
-						<div class="overflow-x-auto">
-							<table class="w-full">
-								<thead>
-									<tr class="bg-emerald-50">
-										{@render tableHeader()}
-									</tr>
-								</thead>
-								<tbody>
-									{#each airlinesByCompliance.compliant as airline}
-										{@render airlineAllowanceRow(airline)}
-									{/each}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</details>
+					</details>
+				</div>
 			{/if}
 		</div>
 	{:else}
@@ -816,7 +794,7 @@
 {/snippet}
 
 {#snippet airlineAllowanceRow(airline: AirlineInfo)}
-	{@const carryOnDimensions = getAirlineDimensions(airline.carryon)}
+	{@const carryOnDimensions = getAirlineDimensions(airline.carryon, measurementSystem)}
 	{@const compliance = checkCompliance(
 		carryOnDimensions,
 		getUserDimensionsIfFilled(userDimensions),
