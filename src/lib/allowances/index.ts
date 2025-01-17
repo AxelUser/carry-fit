@@ -1,2 +1,2 @@
-export { checkCompliance } from './bag-validator';
+export { checkCompliance, groupAirlinesByCompliance } from './bag-validation';
 export { loadData } from './loader';

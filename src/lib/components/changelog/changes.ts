@@ -21,5 +21,11 @@ export const changes: Change[] = [
 		changes: [
 			'Measurement system now has its own cozy little home up top! Your choice will be automatically remembered in your browser, no more switching! 🔄'
 		]
+	},
+	{
+		date: new Date('2025-01-18T00:00:00Z'),
+		changes: [
+			'New responsive layout: compliant and non-compliant airlines side by side on desktop, toggleable sections on mobile! 📱💻'
+		]
 	}
 ];

@@ -1,6 +1,13 @@
-import type { AirlineInfo, BagAllowanceDimensions, Data, TestResult } from '$lib/types';
+import {
+	MeasurementSystems,
+	type AirlineInfo,
+	type BagAllowanceDimensions,
+	type Data,
+	type TestResult
+} from '$lib/types';
 import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
+import { convertDimensions, convertWeight } from '$lib/utils/math';
 
 export function loadData(): Data {
 	const parsedAllowances = allowances.map(mapAirlineData);
@@ -20,11 +27,11 @@ function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 	let kilograms = allowance.kilograms ?? undefined;
 
 	if (!kilograms && typeof pounds === 'number') {
-		kilograms = convertWeight(pounds, false);
+		kilograms = convertWeight(pounds, MeasurementSystems.Metric);
 	}
 
 	if (!pounds && typeof kilograms === 'number') {
-		pounds = convertWeight(kilograms, true);
+		pounds = convertWeight(kilograms, MeasurementSystems.Imperial);
 	}
 
 	const parsedTestResult = getLastTestOfAirline(
@@ -60,13 +67,6 @@ function getLastTestOfAirline(
 	return { lastTest: lastTest!, success: lastTest === lastTestPass };
 }
 
-function getDimensions(dimensions: number | number[]): number | number[] {
-	if (typeof dimensions === 'number') {
-		return dimensions;
-	}
-	return dimensions.sort((a, b) => b - a);
-}
-
 function getCarryOnDimensions(
 	airlineName: string,
 	dims: {
@@ -81,11 +81,11 @@ function getCarryOnDimensions(
 		throw new Error(`No dimensions for ${airlineName}`);
 	}
 	if (!parsedInches) {
-		parsedInches = convertDimensions(parsedCentimeters!, (value) => value / 2.54);
+		parsedInches = convertDimensions(parsedCentimeters!, MeasurementSystems.Imperial);
 	}
 
 	if (!parsedCentimeters) {
-		parsedCentimeters = convertDimensions(parsedInches!, (value) => value * 2.54);
+		parsedCentimeters = convertDimensions(parsedInches!, MeasurementSystems.Metric);
 	}
 
 	return {
@@ -94,18 +94,9 @@ function getCarryOnDimensions(
 	};
 }
 
-function convertDimensions(
-	dimensions: number | number[],
-	func: (value: number) => number
-): number | number[] {
+function getDimensions(dimensions: number | number[]): number | number[] {
 	if (typeof dimensions === 'number') {
-		return Math.round(func(dimensions));
+		return dimensions;
 	}
-	return dimensions.map((value) => Math.round(func(value)));
-}
-
-function convertWeight(value: number, fromKg: boolean): number {
-	return fromKg
-		? Math.round(value * 2.205) // kg to lbs
-		: Math.round(value / 2.205); // lbs to kg
+	return dimensions.sort((a, b) => b - a);
 }

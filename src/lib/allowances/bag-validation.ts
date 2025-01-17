@@ -1,3 +1,11 @@
+import type {
+	UserDimensions,
+	MeasurementSystem,
+	AirlinesByCompliance,
+	AirlineInfo
+} from '$lib/types';
+import { getAirlineDimensions } from '$lib/utils/mapping';
+
 /**
  * Check if the user's bag dimensions comply with the airline's carry-on limits.
  * Takes into account potential flexibility of soft bags.
@@ -39,4 +47,40 @@ export function checkCompliance(
 
 		return false;
 	});
+}
+
+export function groupAirlinesByCompliance(
+	airlines: AirlineInfo[],
+	userDimensions: UserDimensions,
+	measurementSystem: MeasurementSystem,
+	flexibility: number
+): AirlinesByCompliance {
+	if (userDimensions.depth === 0 || userDimensions.width === 0 || userDimensions.height === 0) {
+		return {
+			compliant: [],
+			nonCompliant: []
+		};
+	}
+
+	return airlines.reduce<{
+		compliant: AirlineInfo[];
+		nonCompliant: AirlineInfo[];
+	}>(
+		(acc, airline) => {
+			const compliance = checkCompliance(
+				getAirlineDimensions(airline.carryon, measurementSystem),
+				[userDimensions.depth, userDimensions.width, userDimensions.height],
+				flexibility
+			);
+
+			if (compliance?.every(Boolean)) {
+				acc.compliant.push(airline);
+			} else {
+				acc.nonCompliant.push(airline);
+			}
+
+			return acc;
+		},
+		{ compliant: [], nonCompliant: [] }
+	);
 }

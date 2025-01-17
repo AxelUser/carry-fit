@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
-import { debounce, isLocalhost } from '$lib/utils';
+import { debounce } from '$lib/utils/actions';
+import { isLocalhost } from '$lib/utils/environment';
 
 export interface EventProperties {
 	[key: string]: string | number | boolean;
