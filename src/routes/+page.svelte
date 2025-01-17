@@ -207,35 +207,66 @@
 			})
 	);
 
-	const compliantAirlines = $derived(
-		dimensionsSet
-			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(
-						getAirlineDimensions(airline.carryon),
-						[userDimensions.depth, userDimensions.width, userDimensions.height],
-						flexibility
-					);
-					return !!compliance?.every(Boolean);
-				})
-			: []
-	);
+	const airlinesByCompliance = $derived.by(() => {
+		if (!dimensionsSet) {
+			return {
+				compliant: [],
+				nonCompliant: []
+			};
+		}
 
-	const nonCompliantAirlines = $derived(
-		dimensionsSet
-			? filteredAirlines.filter((airline) => {
-					const compliance = checkCompliance(
-						getAirlineDimensions(airline.carryon),
-						[userDimensions.depth, userDimensions.width, userDimensions.height],
-						flexibility
-					);
-					return !compliance?.every(Boolean);
-				})
-			: []
-	);
+		const result = filteredAirlines.reduce<{
+			compliant: AirlineInfo[];
+			nonCompliant: AirlineInfo[];
+		}>(
+			(acc, airline) => {
+				const compliance = checkCompliance(
+					getAirlineDimensions(airline.carryon),
+					[userDimensions.depth, userDimensions.width, userDimensions.height],
+					flexibility
+				);
+
+				if (compliance?.every(Boolean)) {
+					acc.compliant.push(airline);
+				} else {
+					acc.nonCompliant.push(airline);
+				}
+
+				return acc;
+			},
+			{ compliant: [], nonCompliant: [] }
+		);
+
+		return result;
+	});
 
 	const compliancePercentage = $derived(
-		filteredAirlines.length === 0 ? 0 : (compliantAirlines.length / filteredAirlines.length) * 100
+		filteredAirlines.length === 0
+			? 0
+			: (airlinesByCompliance.compliant.length / filteredAirlines.length) * 100
 	);
+
+	let isNonCompliantOpen = $state(false);
+	let isCompliantOpen = $state(false);
+
+	let hasCompliantAirlines = $derived(airlinesByCompliance.compliant.length > 0);
+	let hasNonCompliantAirlines = $derived(airlinesByCompliance.nonCompliant.length > 0);
+
+	let onlyCompliantSection = $derived(hasCompliantAirlines && !hasNonCompliantAirlines);
+	let onlyNonCompliantSection = $derived(!hasCompliantAirlines && hasNonCompliantAirlines);
+
+	let bothComplianceSections = $derived(hasCompliantAirlines && hasNonCompliantAirlines);
+
+	// Mutual exclusivity of compliance and non-compliance sections
+	$effect(() => {
+		if (onlyCompliantSection || onlyNonCompliantSection) {
+			isNonCompliantOpen = onlyNonCompliantSection;
+			isCompliantOpen = onlyCompliantSection;
+		} else if (hasNonCompliantAirlines) {
+			isNonCompliantOpen = true;
+			isCompliantOpen = false;
+		}
+	});
 
 	function getAirlineDimensions(allowanceDims: BagAllowanceDimensions): number[] {
 		const dims =
@@ -326,28 +357,6 @@
 			measurementSystem: system
 		};
 	}
-
-	let isNonCompliantOpen = $state(false);
-	let isCompliantOpen = $state(false);
-
-	let onlyCompliantSection = $derived(
-		compliantAirlines.length > 0 && nonCompliantAirlines.length === 0
-	);
-	let onlyNonCompliantSection = $derived(
-		compliantAirlines.length === 0 && nonCompliantAirlines.length > 0
-	);
-
-	let bothComplianceSections = $derived(
-		compliantAirlines.length > 0 && nonCompliantAirlines.length > 0
-	);
-
-	// Mutual exclusivity of compliance and non-compliance sections
-	$effect(() => {
-		isNonCompliantOpen = onlyNonCompliantSection;
-		isCompliantOpen = onlyCompliantSection;
-
-		console.log('isNonCompliantOpen', isNonCompliantOpen, 'isCompliantOpen', isCompliantOpen);
-	});
 </script>
 
 <Changelog />
@@ -661,7 +670,7 @@
 			{percentage.toFixed(0)}%
 		</div>
 		<div class="text-xs text-sky-600 sm:text-sm">
-			({compliantAirlines.length} out of {filteredAirlines.length} selected airlines)
+			({airlinesByCompliance.compliant.length} out of {filteredAirlines.length} selected airlines)
 		</div>
 	</div>
 {/snippet}
@@ -670,7 +679,7 @@
 	{#if dimensionsSet}
 		{@const canFold = bothComplianceSections}
 		<div class="flex flex-col gap-6">
-			{#if nonCompliantAirlines.length > 0}
+			{#if hasNonCompliantAirlines}
 				<details
 					class="group"
 					open={isNonCompliantOpen}
@@ -695,7 +704,7 @@
 							{/if}
 							<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
 								<CarryOnBagInactiveIcon class="h-6 w-6" />
-								Non-Compliant Airlines ({nonCompliantAirlines.length})
+								Non-Compliant Airlines ({airlinesByCompliance.nonCompliant.length})
 							</h3>
 						</div>
 					</summary>
@@ -708,7 +717,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{#each nonCompliantAirlines as airline}
+									{#each airlinesByCompliance.nonCompliant as airline}
 										{@render airlineAllowanceRow(airline)}
 									{/each}
 								</tbody>
@@ -718,7 +727,7 @@
 				</details>
 			{/if}
 
-			{#if compliantAirlines.length > 0}
+			{#if hasCompliantAirlines}
 				<details
 					class="group"
 					open={isCompliantOpen}
@@ -743,7 +752,7 @@
 							{/if}
 							<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
 								<CarryOnBagCheckedIcon class="h-6 w-6" />
-								Compliant Airlines ({compliantAirlines.length})
+								Compliant Airlines ({airlinesByCompliance.compliant.length})
 							</h3>
 						</div>
 					</summary>
@@ -756,7 +765,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{#each compliantAirlines as airline}
+									{#each airlinesByCompliance.compliant as airline}
 										{@render airlineAllowanceRow(airline)}
 									{/each}
 								</tbody>
