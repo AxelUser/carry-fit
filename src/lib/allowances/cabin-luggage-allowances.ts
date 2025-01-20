@@ -1558,7 +1558,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'jetstar',
 		airline: 'Jetstar',
-		region: 'North America',
+		region: 'Oceania',
 		link: 'https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board',
 		kilograms: 7,
 		test: {
