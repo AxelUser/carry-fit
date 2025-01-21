@@ -8,6 +8,10 @@ class PlausibleAnalytics extends AnalyticsProvider {
 		}
 	}
 
+	init(consent: boolean): void {
+		// No-op
+	}
+
 	updateConsent(consent: boolean): void {
 		// No-op
 	}

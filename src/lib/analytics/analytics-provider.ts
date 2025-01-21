@@ -12,6 +12,8 @@ export abstract class AnalyticsProvider {
 
 	protected abstract trackEventInternal(eventName: string, properties?: EventProperties): void;
 
+	abstract init(consent: boolean): void;
+
 	abstract updateConsent(consent: boolean): void;
 
 	trackEvent(eventName: string, properties?: EventProperties) {

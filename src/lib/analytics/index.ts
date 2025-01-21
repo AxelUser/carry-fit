@@ -9,6 +9,10 @@ function disposeAnalytics() {
 	analyticsProvider.cancelDebouncedEvents();
 }
 
+function initAnalytics(consent: boolean) {
+	analyticsProvider.init(consent);
+}
+
 const metrics = new Metrics(analyticsProvider);
 
-export { metrics, updateConsent, disposeAnalytics };
+export { metrics, initAnalytics, updateConsent, disposeAnalytics };

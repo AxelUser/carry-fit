@@ -4,14 +4,11 @@ import { posthog } from 'posthog-js';
 import * as env from '$env/static/public';
 import { isLocalhost } from '$lib/utils/environment';
 import { browser } from '$app/environment';
-import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 
 export class PosthogAnalytics extends AnalyticsProvider {
 	private initialized = false;
 
-	constructor() {
-		super();
-
+	init(consent: boolean): void {
 		if (
 			!('PUBLIC_POSTHOG_API_KEY' in env) ||
 			!('PUBLIC_POSTHOG_HOST' in env) ||
@@ -30,7 +27,7 @@ export class PosthogAnalytics extends AnalyticsProvider {
 		posthog.init(env.PUBLIC_POSTHOG_API_KEY, {
 			api_host: env.PUBLIC_POSTHOG_HOST,
 			person_profiles: 'always',
-			persistence: cookieConsent.value.analytics ? 'localStorage+cookie' : 'memory',
+			persistence: consent ? 'localStorage+cookie' : 'memory',
 			autocapture: false
 		});
 		this.initialized = true;
@@ -43,7 +40,7 @@ export class PosthogAnalytics extends AnalyticsProvider {
 	}
 
 	protected trackEventInternal(eventName: string, properties?: EventProperties): void {
-		if (typeof posthog !== 'undefined' && this.initialized) {
+		if (typeof posthog !== 'undefined') {
 			posthog.capture(eventName, { ...properties });
 		}
 	}

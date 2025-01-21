@@ -6,6 +6,10 @@ import { posthogAnalytics } from './posthog-analytics';
 const analytics = [plausibleAnalytics, posthogAnalytics];
 
 class MergedAnalytics extends AnalyticsProvider {
+	init(consent: boolean): void {
+		analytics.forEach((analytics) => analytics.init(consent));
+	}
+
 	protected trackEventInternal(eventName: string, properties?: EventProperties): void {
 		analytics.forEach((analytics) => analytics.trackEvent(eventName, properties));
 	}
