@@ -2,7 +2,7 @@
 	import { ArrowLeft } from 'lucide-svelte';
 	import { base } from '$app/paths';
 
-	const lastUpdated = new Date('2025-01-13');
+	const lastUpdated = new Date('2025-01-21');
 </script>
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
@@ -37,61 +37,83 @@
 				</div>
 
 				<div class="space-y-4">
+					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Cookie Usage</h2>
+					<p class="text-sky-800">We use two types of cookies on our website:</p>
+					<ul class="list-disc space-y-2 pl-5 text-sky-800">
+						<li>
+							<strong>Necessary Cookies:</strong> These are essential for the website to function
+							properly and remember your preferences. They include:
+							<ul class="mt-2 list-disc space-y-1 pl-5">
+								<li>User preferences (measurement system, favorite airlines)</li>
+								<li>Feature discovery data (which new features you've seen)</li>
+								<li>Changelog information (last viewed updates)</li>
+							</ul>
+							<p class="mt-2">
+								These cookies are stored in your browser's local storage to maintain your
+								preferences between visits. They don't collect any personal information and only
+								store the settings you choose while using our website.
+							</p>
+						</li>
+						<li>
+							<strong>Analytics Cookies:</strong> These help us understand how visitors interact with
+							our website through PostHog analytics. You can choose to enable or disable these cookies
+							through our cookie consent banner.
+						</li>
+					</ul>
+					<p class="text-sky-800">
+						When you choose "Necessary Only", we use memory-only storage which means all tracking
+						data is cleared when you close the website. If you accept analytics cookies, the data
+						will be stored in your browser's local storage and cookies to provide more accurate
+						analytics.
+					</p>
+				</div>
+
+				<div class="space-y-4">
 					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Information We Collect</h2>
 					<p class="text-sky-800">
-						We use analytics services (PostHog and Plausible) to collect anonymous usage data that
-						helps us understand how visitors interact with our website. This information includes:
+						Through PostHog analytics, we may collect the following anonymous usage data:
 					</p>
 					<ul class="list-disc space-y-1 pl-5 text-sky-800">
-						<li>Pages visited</li>
-						<li>Time spent on the website</li>
+						<li>Pages visited and time spent on the website</li>
 						<li>Browser type and version</li>
 						<li>Operating system</li>
-						<li>Anonymous interaction data (e.g., button clicks, form submissions)</li>
+						<li>Interaction data (e.g., button clicks, form submissions)</li>
+						<li>General location data</li>
 					</ul>
+					<p class="text-sky-800">
+						This data collection is optional and depends on your cookie preferences.
+					</p>
 				</div>
 
 				<div class="space-y-4">
 					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">
 						How We Use Your Information
 					</h2>
-					<p class="text-sky-800">The collected data is used solely for:</p>
+					<p class="text-sky-800">The collected analytics data is used solely for:</p>
 					<ul class="list-disc space-y-1 pl-5 text-sky-800">
-						<li>Analyzing website usage patterns</li>
+						<li>Understanding how users interact with our website</li>
 						<li>Improving user experience</li>
 						<li>Identifying and fixing technical issues</li>
-						<li>Understanding which features are most valuable to users</li>
+						<li>Making data-driven decisions about feature development</li>
 					</ul>
 				</div>
 
 				<div class="space-y-4">
-					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Data Storage and Privacy</h2>
-					<p class="text-sky-800">
-						All analytics data is processed by our analytics providers (PostHog and Plausible). We
-						use memory-only storage for analytics tracking, which means:
-					</p>
+					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Your Privacy Choices</h2>
+					<p class="text-sky-800">You have full control over your privacy preferences:</p>
 					<ul class="list-disc space-y-1 pl-5 text-sky-800">
-						<li>No cookies are used for tracking</li>
-						<li>No tracking data is stored in your browser's local storage</li>
-						<li>All tracking data is cleared when you close the website</li>
-						<li>We do not collect or store any personally identifiable information</li>
+						<li>Choose between necessary-only or analytics cookies through our consent banner</li>
+						<li>Change your preferences at any time by clearing your browser data</li>
+						<li>Use browser privacy features or extensions to block analytics scripts</li>
+						<li>No personal identifiable information is ever collected or stored</li>
 					</ul>
-				</div>
-
-				<div class="space-y-4">
-					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Your Rights</h2>
-					<p class="text-sky-800">
-						You have the right to opt out of analytics tracking. Since we don't use cookies, you can
-						use your browser's built-in privacy features or extensions to block analytics scripts if
-						you wish to opt out.
-					</p>
 				</div>
 
 				<div class="space-y-4">
 					<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Changes to This Policy</h2>
 					<p class="text-sky-800">
 						We may update this Privacy Policy from time to time. We will notify you of any changes
-						by posting the new Privacy Policy on this page.
+						by posting the new Privacy Policy on this page and updating the "Last updated" date.
 					</p>
 				</div>
 

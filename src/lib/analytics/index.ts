@@ -1,8 +1,8 @@
 import { AnalyticsService, type EventProperties } from './analytics-service';
 import { PlausibleAnalytics } from './plausible-analytics';
-import { PosthogAnalytics } from './posthog-analytics';
+import { posthogAnalytics } from './posthog-analytics';
 
-const analytics = [new PlausibleAnalytics(), new PosthogAnalytics()];
+const analytics = [new PlausibleAnalytics(), posthogAnalytics];
 
 class MergedAnalytics extends AnalyticsService {
 	protected trackEventInternal(eventName: string, properties?: EventProperties): void {

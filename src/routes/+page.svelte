@@ -44,6 +44,7 @@
 	import { browser } from '$app/environment';
 	import { getAirlineDimensions, getUserDimensionsIfFilled } from '$lib/utils/mapping';
 	import { convertDimensions } from '$lib/utils/math';
+	import CookieBanner from '$lib/components/cookie-banner.svelte';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -373,6 +374,7 @@
 <svelte:window bind:innerWidth />
 
 <Changelog />
+<CookieBanner />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
