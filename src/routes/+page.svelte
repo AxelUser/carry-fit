@@ -38,13 +38,13 @@
 	import NewBadge from '$lib/components/new-badge.svelte';
 	import ShareBagLink from '$lib/components/share-bag-link.svelte';
 	import { favoritesUsageStore } from '$lib/stores/feature-usage.svelte';
-	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { getAirlineDimensions, getUserDimensionsIfFilled } from '$lib/utils/mapping';
 	import { convertDimensions } from '$lib/utils/math';
 	import CookieBanner from '$lib/components/cookie-banner.svelte';
+	import { links } from '$lib/utils/navigation';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -396,9 +396,10 @@
 					> airlines worldwide
 				</p>
 				<p class="mt-2 text-xs text-sky-600">
-					<a href="{base}/privacy" class="hover:text-sky-800 hover:underline">Privacy Policy</a>
+					<a href={links.legal.privacy} class="hover:text-sky-800 hover:underline">Privacy Policy</a
+					>
 					<span class="mx-1">·</span>
-					<a href="{base}/terms" class="hover:text-sky-800 hover:underline">Terms of Use</a>
+					<a href={links.legal.terms} class="hover:text-sky-800 hover:underline">Terms of Use</a>
 				</p>
 			</div>
 
