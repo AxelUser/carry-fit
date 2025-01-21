@@ -48,5 +48,3 @@ export class PosthogAnalytics extends AnalyticsService {
 		}
 	}
 }
-
-export const posthogAnalytics = new PosthogAnalytics();

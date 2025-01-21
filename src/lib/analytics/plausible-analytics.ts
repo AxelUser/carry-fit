@@ -7,4 +7,8 @@ export class PlausibleAnalytics extends AnalyticsService {
 			plausible(eventName, { props: properties });
 		}
 	}
+
+	updateConsent(consent: boolean): void {
+		// No-op
+	}
 }

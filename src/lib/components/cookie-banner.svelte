@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
-	import { posthogAnalytics } from '$lib/analytics/posthog-analytics';
+	import { analyticsService } from '$lib/analytics';
 	import { links } from '$lib/utils/navigation';
 
 	let showBanner = $state(false);
@@ -18,7 +18,7 @@
 			necessary: true,
 			timestamp: new Date().toISOString()
 		};
-		posthogAnalytics.updateConsent(true);
+		analyticsService.updateConsent(true);
 		showBanner = false;
 	}
 
@@ -28,7 +28,7 @@
 			necessary: true,
 			timestamp: new Date().toISOString()
 		};
-		posthogAnalytics.updateConsent(false);
+		analyticsService.updateConsent(false);
 		showBanner = false;
 	}
 </script>

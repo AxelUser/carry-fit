@@ -12,6 +12,8 @@ export abstract class AnalyticsService {
 
 	protected abstract trackEventInternal(eventName: string, properties?: EventProperties): void;
 
+	abstract updateConsent(consent: boolean): void;
+
 	trackEvent(eventName: string, properties?: EventProperties) {
 		if (browser && !isLocalhost()) {
 			this.trackEventInternal(eventName, properties);
