@@ -42,7 +42,7 @@
 <div class="space-y-4">
 	<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Information We Collect</h2>
 	<p class="text-sky-800">
-		Through PostHog analytics, we may collect the following anonymous usage data:
+		Through PostHog and Plausible analytics, we may collect the following anonymous usage data:
 	</p>
 	<ul class="list-disc space-y-1 pl-5 text-sky-800">
 		<li>Pages visited and time spent on the website</li>
