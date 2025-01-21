@@ -19,7 +19,7 @@
 
 		<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 			<h1
-				class="mb-6 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl"
+				class="mb-8 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text pb-1 text-3xl font-bold text-transparent sm:text-4xl"
 			>
 				Terms of Use
 			</h1>

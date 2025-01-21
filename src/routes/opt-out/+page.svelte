@@ -5,16 +5,15 @@
 	import { posthogAnalytics } from '$lib/analytics/posthog-analytics';
 
 	let success = $state(false);
-	let isOptedIn = $state(cookieConsent.value?.analytics ?? false);
+	const isOptedIn = $derived(cookieConsent.value.analytics);
 
 	function toggleAnalytics() {
 		cookieConsent.value = {
-			analytics: !isOptedIn,
+			analytics: !cookieConsent.value.analytics,
 			necessary: true,
 			timestamp: new Date().toISOString()
 		};
-		posthogAnalytics.updateConsent(!isOptedIn);
-		isOptedIn = !isOptedIn;
+		posthogAnalytics.updateConsent(cookieConsent.value.analytics);
 		success = true;
 	}
 </script>
@@ -33,7 +32,7 @@
 
 		<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 			<h1
-				class="mb-6 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl"
+				class="mb-8 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text pb-1 text-3xl font-bold text-transparent sm:text-4xl"
 			>
 				Analytics Preferences
 			</h1>

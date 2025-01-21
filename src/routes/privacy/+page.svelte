@@ -19,7 +19,7 @@
 
 		<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 			<h1
-				class="mb-6 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl"
+				class="mb-8 bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text pb-1 text-3xl font-bold text-transparent sm:text-4xl"
 			>
 				Privacy Policy
 			</h1>
@@ -103,7 +103,9 @@
 					<ul class="list-disc space-y-1 pl-5 text-sky-800">
 						<li>Choose between necessary-only or analytics cookies through our consent banner</li>
 						<li>
-							<a href="/opt-out" class="font-medium text-sky-600 hover:text-sky-800 hover:underline"
+							<a
+								href="{base}/opt-out"
+								class="font-medium text-sky-600 hover:text-sky-800 hover:underline"
 								>Opt out of analytics tracking</a
 							> at any time
 						</li>

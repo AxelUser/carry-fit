@@ -8,6 +8,6 @@ export interface CookieConsent {
 
 export const cookieConsent = createLocalStore<CookieConsent>('cookie-consent', {
 	analytics: false,
-	necessary: true, // Required cookies are always enabled
+	necessary: true,
 	timestamp: null
 });

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { posthogAnalytics } from '$lib/analytics/posthog-analytics';
+	import { base } from '$app/paths';
 
 	let showBanner = $state(false);
 
@@ -41,12 +42,13 @@
 						<p>
 							We use cookies to improve your experience. By continuing to use our site, you agree to
 							our
-							<a href="/privacy" class="font-medium text-sky-600 hover:underline">Privacy Policy</a
+							<a href="{base}/privacy" class="font-medium text-sky-600 hover:underline"
+								>Privacy Policy</a
 							>.
 						</p>
 						<p class="mt-1 text-xs text-sky-600/80">
 							You can change your preferences anytime on our
-							<a href="/opt-out" class="font-medium hover:underline">opt-out page</a>.
+							<a href="{base}/opt-out" class="font-medium hover:underline">opt-out page</a>.
 						</p>
 					</div>
 					<div class="flex flex-wrap gap-2">
