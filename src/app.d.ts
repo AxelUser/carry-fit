@@ -2,6 +2,10 @@
 // for information about these interfaces
 declare global {
 	namespace App {
+		interface PageData {
+			title: string;
+			lastUpdated: Date | null;
+		}
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}

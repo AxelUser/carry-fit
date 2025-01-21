@@ -1,10 +1,20 @@
-import type { EventProperties } from './analytics-service';
-import { AnalyticsService } from './analytics-service';
+import type { EventProperties } from './analytics-provider';
+import { AnalyticsProvider } from './analytics-provider';
 
-export class PlausibleAnalytics extends AnalyticsService {
+class PlausibleAnalytics extends AnalyticsProvider {
 	protected trackEventInternal(eventName: string, properties?: EventProperties): void {
 		if (typeof plausible !== 'undefined') {
 			plausible(eventName, { props: properties });
 		}
 	}
+
+	init(consent: boolean): void {
+		// No-op
+	}
+
+	updateConsent(consent: boolean): void {
+		// No-op
+	}
 }
+
+export const plausibleAnalytics = new PlausibleAnalytics();

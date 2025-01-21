@@ -30,7 +30,7 @@
 		SortDirections
 	} from '$lib/types';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
-	import { analyticsService } from '$lib/analytics';
+	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy, untrack } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
@@ -38,12 +38,13 @@
 	import NewBadge from '$lib/components/new-badge.svelte';
 	import ShareBagLink from '$lib/components/share-bag-link.svelte';
 	import { favoritesUsageStore } from '$lib/stores/feature-usage.svelte';
-	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { getAirlineDimensions, getUserDimensionsIfFilled } from '$lib/utils/mapping';
 	import { convertDimensions } from '$lib/utils/math';
+	import CookieBanner from '$lib/components/cookie-banner.svelte';
+	import { links } from '$lib/utils/navigation';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -189,7 +190,7 @@
 			? preferencesStore.value.favoriteAirlines.filter((name) => name !== airlineName)
 			: [...preferencesStore.value.favoriteAirlines, airlineName];
 
-		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
+		metrics.favoriteAirlineToggled();
 		favoritesUsage.markAsUsed();
 
 		preferencesStore.value = {
@@ -318,32 +319,25 @@
 
 	$effect(() => {
 		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
-			const eventProps: Record<string, string | number> = {
-				user_bag_dimensions: `${userDimensions.depth}x${userDimensions.width}x${userDimensions.height} ${measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}`
-			};
-
-			if (showFlexibility) {
-				eventProps.user_bag_flexibility = flexibility;
-			}
-
-			analyticsService.trackEventDebounced('user_bag_validated', eventProps, 3000);
+			metrics.userBagValidated(
+				userDimensions.depth,
+				userDimensions.width,
+				userDimensions.height,
+				measurementSystem,
+				showFlexibility,
+				flexibility
+			);
 		}
 	});
 
 	$effect(() => {
 		if (showFavoritesOnly) {
-			analyticsService.trackEventDebounced(
-				'favorites_filter_enabled',
-				{
-					favorites_count: preferencesStore.value.favoriteAirlines.length
-				},
-				3000
-			);
+			metrics.favoritesFilterEnabled(preferencesStore.value.favoriteAirlines.length);
 		}
 	});
 
 	onDestroy(() => {
-		analyticsService.cancelDebouncedEvents();
+		disposeAnalytics();
 	});
 
 	const availableSelectedRegions = $derived(
@@ -373,6 +367,7 @@
 <svelte:window bind:innerWidth />
 
 <Changelog />
+<CookieBanner />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">
@@ -394,9 +389,10 @@
 					> airlines worldwide
 				</p>
 				<p class="mt-2 text-xs text-sky-600">
-					<a href="{base}/privacy" class="hover:text-sky-800 hover:underline">Privacy Policy</a>
+					<a href={links.legal.privacy} class="hover:text-sky-800 hover:underline">Privacy Policy</a
+					>
 					<span class="mx-1">·</span>
-					<a href="{base}/terms" class="hover:text-sky-800 hover:underline">Terms of Use</a>
+					<a href={links.legal.terms} class="hover:text-sky-800 hover:underline">Terms of Use</a>
 				</p>
 			</div>
 
