@@ -473,11 +473,16 @@ test.describe('Measurement system updates', () => {
 });
 
 test.describe('Bag sharing functionality', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+	});
+
 	test('should copy bag dimensions link to clipboard', async ({ page, context }) => {
 		// Grant clipboard permissions
 		await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-
-		await page.goto('/', { waitUntil: 'networkidle' });
 
 		// Enter bag dimensions
 		await page.getByLabel('Height').fill('50');
@@ -550,7 +555,6 @@ test.describe('Bag sharing functionality', () => {
 		page
 	}) => {
 		// First visit to set metric preference
-		await page.goto('/', { waitUntil: 'networkidle' });
 		await page.getByRole('button', { name: /Metric/i }).click();
 
 		// Visit page with imperial units in URL
