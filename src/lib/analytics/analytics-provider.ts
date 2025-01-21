@@ -6,7 +6,7 @@ export interface EventProperties {
 	[key: string]: string | number | boolean;
 }
 
-export abstract class AnalyticsService {
+export abstract class AnalyticsProvider {
 	private debouncedEvents: Map<string, ReturnType<typeof debounce<[EventProperties?], void>>> =
 		new Map();
 

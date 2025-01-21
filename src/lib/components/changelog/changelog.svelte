@@ -2,7 +2,7 @@
 	import { createLocalStore } from '$lib/storage/local-store.svelte';
 	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
-	import { analyticsService } from '$lib/analytics';
+	import { metrics } from '$lib/analytics';
 
 	const currentVersion =
 		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null;
@@ -22,14 +22,7 @@
 	function openChangelog() {
 		open = true;
 		if (currentVersion) {
-			analyticsService.trackEventDebounced(
-				'changelog_opened',
-				{
-					version_date: currentVersion.date.toISOString(),
-					is_new_version: hasNewVersion
-				},
-				3000
-			);
+			metrics.changelogOpened(currentVersion.date, hasNewVersion);
 		}
 	}
 

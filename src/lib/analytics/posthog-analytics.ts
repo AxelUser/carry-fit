@@ -1,12 +1,12 @@
-import { AnalyticsService } from './analytics-service';
-import type { EventProperties } from './analytics-service';
+import { AnalyticsProvider } from './analytics-provider';
+import type { EventProperties } from './analytics-provider';
 import { posthog } from 'posthog-js';
 import * as env from '$env/static/public';
 import { isLocalhost } from '$lib/utils/environment';
 import { browser } from '$app/environment';
 import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 
-export class PosthogAnalytics extends AnalyticsService {
+export class PosthogAnalytics extends AnalyticsProvider {
 	private initialized = false;
 
 	constructor() {
@@ -48,3 +48,5 @@ export class PosthogAnalytics extends AnalyticsService {
 		}
 	}
 }
+
+export const posthogAnalytics = new PosthogAnalytics();

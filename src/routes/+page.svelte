@@ -30,7 +30,7 @@
 		SortDirections
 	} from '$lib/types';
 	import { FlexibleSuitcase } from '$lib/components/visualization';
-	import { analyticsService } from '$lib/analytics';
+	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy, untrack } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
@@ -190,7 +190,7 @@
 			? preferencesStore.value.favoriteAirlines.filter((name) => name !== airlineName)
 			: [...preferencesStore.value.favoriteAirlines, airlineName];
 
-		analyticsService.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
+		metrics.favoriteAirlineToggled();
 		favoritesUsage.markAsUsed();
 
 		preferencesStore.value = {
@@ -319,32 +319,25 @@
 
 	$effect(() => {
 		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
-			const eventProps: Record<string, string | number> = {
-				user_bag_dimensions: `${userDimensions.depth}x${userDimensions.width}x${userDimensions.height} ${measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}`
-			};
-
-			if (showFlexibility) {
-				eventProps.user_bag_flexibility = flexibility;
-			}
-
-			analyticsService.trackEventDebounced('user_bag_validated', eventProps, 3000);
+			metrics.userBagValidated(
+				userDimensions.depth,
+				userDimensions.width,
+				userDimensions.height,
+				measurementSystem,
+				showFlexibility,
+				flexibility
+			);
 		}
 	});
 
 	$effect(() => {
 		if (showFavoritesOnly) {
-			analyticsService.trackEventDebounced(
-				'favorites_filter_enabled',
-				{
-					favorites_count: preferencesStore.value.favoriteAirlines.length
-				},
-				3000
-			);
+			metrics.favoritesFilterEnabled(preferencesStore.value.favoriteAirlines.length);
 		}
 	});
 
 	onDestroy(() => {
-		analyticsService.cancelDebouncedEvents();
+		disposeAnalytics();
 	});
 
 	const availableSelectedRegions = $derived(

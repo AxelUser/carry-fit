@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
-	import { analyticsService } from '$lib/analytics';
+	import { updateConsent } from '$lib/analytics';
 	import { links } from '$lib/utils/navigation';
 
 	let success = $state(false);
@@ -12,7 +12,7 @@
 			necessary: true,
 			timestamp: new Date().toISOString()
 		};
-		analyticsService.updateConsent(cookieConsent.value.analytics);
+		updateConsent(cookieConsent.value.analytics);
 		success = true;
 	}
 </script>

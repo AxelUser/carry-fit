@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { analyticsService } from '$lib/analytics';
+	import { metrics } from '$lib/analytics';
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
@@ -10,7 +10,7 @@
 		if (e instanceof ErrorEvent) {
 			error = e.error;
 		}
-		analyticsService.trackEvent('carryfit_error');
+		metrics.errorOccurred(error);
 	}
 </script>
 
