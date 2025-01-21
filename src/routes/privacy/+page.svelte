@@ -48,24 +48,23 @@
 								<li>Feature discovery data (which new features you've seen)</li>
 								<li>Changelog information (last viewed updates)</li>
 							</ul>
-							<p class="mt-2">
-								These cookies are stored in your browser's local storage to maintain your
-								preferences between visits. They don't collect any personal information and only
-								store the settings you choose while using our website.
-							</p>
 						</li>
 						<li>
-							<strong>Analytics Cookies:</strong> These help us understand how visitors interact with
-							our website through PostHog analytics. You can choose to enable or disable these cookies
-							through our cookie consent banner.
+							<strong>Analytics Cookies:</strong> These help us understand how visitors interact
+							with our website through PostHog analytics. When enabled:
+							<ul class="mt-2 list-disc space-y-1 pl-5">
+								<li>
+									Your visits can be tracked between page reloads and future visits on this device
+								</li>
+								<li>Usage patterns help us improve the website experience</li>
+								<li>All data remains anonymous and no personal information is collected</li>
+							</ul>
+							<p class="mt-2">
+								If analytics cookies are disabled, any tracking data is cleared when you reload or
+								leave the page, ensuring complete anonymity between visits.
+							</p>
 						</li>
 					</ul>
-					<p class="text-sky-800">
-						When you choose "Necessary Only", we use memory-only storage which means all tracking
-						data is cleared when you close the website. If you accept analytics cookies, the data
-						will be stored in your browser's local storage and cookies to provide more accurate
-						analytics.
-					</p>
 				</div>
 
 				<div class="space-y-4">
@@ -103,6 +102,11 @@
 					<p class="text-sky-800">You have full control over your privacy preferences:</p>
 					<ul class="list-disc space-y-1 pl-5 text-sky-800">
 						<li>Choose between necessary-only or analytics cookies through our consent banner</li>
+						<li>
+							<a href="/opt-out" class="font-medium text-sky-600 hover:text-sky-800 hover:underline"
+								>Opt out of analytics tracking</a
+							> at any time
+						</li>
 						<li>Change your preferences at any time by clearing your browser data</li>
 						<li>Use browser privacy features or extensions to block analytics scripts</li>
 						<li>No personal identifiable information is ever collected or stored</li>
