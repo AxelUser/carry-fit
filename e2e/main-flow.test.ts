@@ -4,6 +4,8 @@ test.describe('Allowance table interaction', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should display airline allowances table by default', async ({ page }) => {
@@ -65,6 +67,8 @@ test.describe('Bag compliance scoring calculation', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should only show compliance score when dimensions are entered', async ({ page }) => {
@@ -118,6 +122,8 @@ test.describe('Bag dimensions conversion', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should handle dimension unit conversion correctly', async ({ page }) => {
@@ -243,6 +249,8 @@ test.describe('Favorites functionality', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should add and remove airlines from favorites', async ({ page }) => {
@@ -404,6 +412,8 @@ test.describe('Measurement system updates', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should update units in table when measurement system changes', async ({ page }) => {
@@ -585,6 +595,8 @@ test.describe('Large screen table layout', () => {
 		await page.setViewportSize({ width: 1440, height: 900 });
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should display compliant and non-compliant tables side by side when dimensions are set', async ({
@@ -654,6 +666,8 @@ test.describe('Mobile screen table layout', () => {
 		await page.setViewportSize({ width: 375, height: 667 });
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
 	});
 
 	test('should display sections in single column and allow toggling', async ({ page }) => {
