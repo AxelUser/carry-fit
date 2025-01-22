@@ -8,7 +8,7 @@ const defaultPreferences: UserPreferences = {
 	measurementSystem: 'metric' as MeasurementSystem
 };
 
-export const preferencesStore = createLocalStore<UserPreferences>(
+let preferencesStore = createLocalStore<UserPreferences>(
 	STORAGE_KEY,
 	defaultPreferences,
 	(loaded, initial) => {
@@ -18,3 +18,26 @@ export const preferencesStore = createLocalStore<UserPreferences>(
 		};
 	}
 );
+
+// Create a preferences object with reactive getters/setters
+export default {
+	get measurementSystem() {
+		return preferencesStore.value.measurementSystem;
+	},
+	set measurementSystem(system: MeasurementSystem) {
+		preferencesStore.value = {
+			...preferencesStore.value,
+			measurementSystem: system
+		};
+	},
+
+	get favoriteAirlines() {
+		return preferencesStore.value.favoriteAirlines;
+	},
+	set favoriteAirlines(airlines: string[]) {
+		preferencesStore.value = {
+			...preferencesStore.value,
+			favoriteAirlines: airlines
+		};
+	}
+};

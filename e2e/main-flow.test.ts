@@ -424,22 +424,24 @@ test.describe('Bag sharing functionality', () => {
 		expect(page.url()).not.toContain('units=');
 	});
 
-	test('should respect persisted measurement system preference over shared link', async ({
+	test('should change measurement system preference when shared link is visited', async ({
 		page
 	}) => {
 		// First visit to set metric preference
 		await page.getByRole('button', { name: /Metric/i }).click();
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
 
 		// Visit page with imperial units in URL
 		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
 
-		// Change any dimension
-		await page.getByLabel('Height').fill('50');
+		// Verify measurement system is taken from URL
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
 
-		// Verify system reverts to metric (persisted preference)
-		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
-		// FIXME: Selected first element in locator, because of false positive strictness error: first vs nth(1)
-		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' }).first()).toBeVisible();
+		// Reload page
+		await page.reload();
+
+		// Verify measurement system is still imperial
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
 	});
 
 	test('should handle invalid measurement system in URL', async ({ page }) => {

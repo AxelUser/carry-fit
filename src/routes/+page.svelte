@@ -6,7 +6,7 @@
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
-	import { preferencesStore } from '$lib/stores/preferences';
+	import preferences from '$lib/stores/preferences';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -85,10 +85,9 @@
 		userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
 
-	// System that was set when the user entered bag dimensions (used to determine if conversion is needed)
-	let measurementSystem = $derived(
-		sharedBagInfo?.measurementSystem || preferencesStore.value.measurementSystem
-	);
+	if (sharedBagInfo?.measurementSystem) {
+		preferences.measurementSystem = sharedBagInfo.measurementSystem;
+	}
 
 	let flexibility = $state(0);
 	let showFlexibility = $state(false);
@@ -103,7 +102,12 @@
 	let filteredAirlines = $state(allAirlines);
 
 	const airlinesByCompliance = $derived(
-		groupAirlinesByCompliance(filteredAirlines, userDimensions, measurementSystem, flexibility)
+		groupAirlinesByCompliance(
+			filteredAirlines,
+			userDimensions,
+			preferences.measurementSystem,
+			flexibility
+		)
 	);
 
 	$effect(() => {
@@ -112,7 +116,7 @@
 				userDimensions.depth,
 				userDimensions.width,
 				userDimensions.height,
-				measurementSystem,
+				preferences.measurementSystem,
 				showFlexibility,
 				flexibility
 			);
@@ -121,21 +125,13 @@
 
 	$effect(() => {
 		if (showFavoritesOnly) {
-			metrics.favoritesFilterEnabled(preferencesStore.value.favoriteAirlines.length);
+			metrics.favoritesFilterEnabled(preferences.favoriteAirlines.length);
 		}
 	});
 
 	onDestroy(() => {
 		disposeAnalytics();
 	});
-
-	function setMeasurementSystem(system: MeasurementSystem) {
-		clearSharedBagInfo();
-		preferencesStore.value = {
-			...preferencesStore.value,
-			measurementSystem: system
-		};
-	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -174,16 +170,19 @@
 				<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
-					<MeasurementSystemSelect value={measurementSystem} changed={setMeasurementSystem} />
+					<MeasurementSystemSelect
+						bind:value={preferences.measurementSystem}
+						onChanged={clearSharedBagInfo}
+					/>
 
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						<BagInput
-							{userDimensions}
-							{measurementSystem}
+							bind:userDimensions
+							measurementSystem={preferences.measurementSystem}
 							bind:showFlexibility
 							bind:flexibility
-							flexibilityMaxValue={FLEXIBILITY_CONFIG[measurementSystem].max}
-							flexibilityStep={FLEXIBILITY_CONFIG[measurementSystem].step}
+							flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
+							flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
 							onChanged={() => {
 								clearSharedBagInfo();
 							}}
@@ -217,13 +216,13 @@
 			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 				<AllowanceFilter
 					airlines={allAirlines}
-					favoriteAirlines={preferencesStore.value.favoriteAirlines}
+					favoriteAirlines={preferences.favoriteAirlines}
 					bind:filteredAirlines
 				/>
 
 				<AllowanceTable
-					{measurementSystem}
-					bind:favoriteAirlines={preferencesStore.value.favoriteAirlines}
+					measurementSystem={preferences.measurementSystem}
+					bind:favoriteAirlines={preferences.favoriteAirlines}
 					airlines={filteredAirlines}
 					compliantAirlines={airlinesByCompliance.compliant}
 					nonCompliantAirlines={airlinesByCompliance.nonCompliant}

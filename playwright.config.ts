@@ -20,7 +20,7 @@ export default defineConfig({
 	webServer: isManualTest
 		? undefined
 		: {
-				command: `pnpm dev --port ${PORT}`,
+				command: !isCI ? `pnpm dev --port ${PORT}` : `pnpm build && pnpm preview --port ${PORT}`,
 				port: Number(PORT),
 				reuseExistingServer: !isCI,
 				timeout: 120000, // 2 minutes
