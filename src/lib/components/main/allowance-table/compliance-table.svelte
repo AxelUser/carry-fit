@@ -21,16 +21,13 @@
 		collapsible: boolean;
 		sortDirection: SortDirection;
 		toggleFavorite: (airline: string) => void;
+		onSectionToggle: (section: 'compliant' | 'non-compliant') => void;
 		favoriteAirlines: Set<string>;
 	}
 
 	const table = tv({
 		base: 'flex-1 ',
 		variants: {
-			compliant: {
-				true: 'bg-emerald-50',
-				false: 'bg-red-50'
-			},
 			layout: {
 				single: 'xl:max-w-[50%]',
 				multiple: ''
@@ -42,11 +39,12 @@
 		airlines,
 		measurementSystem,
 		open = $bindable(),
-		layout = 'single',
+		layout,
 		variant,
 		collapsible,
 		sortDirection = $bindable(),
 		toggleFavorite,
+		onSectionToggle,
 		favoriteAirlines
 	}: Props = $props();
 
@@ -64,9 +62,18 @@
 		compliant: 'bg-emerald-50',
 		nonCompliant: 'bg-red-50'
 	};
+
+	const section = variant === 'compliant' ? 'compliant' : 'non-compliant';
+
+	function toggleSection(section: 'compliant' | 'non-compliant') {
+		if (collapsible) {
+			open = !open;
+			onSectionToggle(section);
+		}
+	}
 </script>
 
-<div class={table({ layout })} data-testid="non-compliant-section" id="non-compliant-airlines">
+<div class={table({ layout })} data-testid={`${section}-section`} id={`${section}-airlines`}>
 	<details
 		class="group h-full"
 		{open}
@@ -78,7 +85,7 @@
 		<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
 			<button
 				class={cn('flex items-center gap-2 font-semibold', buttonStyles[variant])}
-				onclick={() => (open = !open)}
+				onclick={() => toggleSection(section)}
 			>
 				{#if collapsible}
 					<div class="translate-y-[1px] xl:hidden">
@@ -99,7 +106,7 @@
 		</summary>
 		<div class={cn('mt-3 rounded-lg border', borderStyles[variant])}>
 			<div class="overflow-x-auto">
-				<table class="w-full" data-testid="non-compliant-table">
+				<table class="w-full" data-testid={`${section}-table`}>
 					<thead>
 						<tr class={headerRowStyles[variant]}>
 							<Header {measurementSystem} bind:sortDirection />

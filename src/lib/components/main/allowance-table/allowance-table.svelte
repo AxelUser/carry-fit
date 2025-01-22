@@ -6,11 +6,11 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { ChevronsDownUp, ChevronsUpDown, SearchX } from 'lucide-svelte';
-	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '../../icons';
+	import { SearchX } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
 	import Row from './row.svelte';
 	import Header from './header.svelte';
+	import ComplianceTable from './compliance-table.svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -30,32 +30,34 @@
 		variant
 	}: Props = $props();
 
-	let favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
+	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
 
-	let showComplianceResult = $derived(
+	const showComplianceResult = $derived(
 		compliantAirlines.length > 0 || nonCompliantAirlines.length > 0
 	);
 
 	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
 
-	let sortedAirlines = $derived(sortAirlines(airlines));
-	let sortedCompliantAirlines = $derived(sortAirlines(compliantAirlines));
-	let sortedNonCompliantAirlines = $derived(sortAirlines(nonCompliantAirlines));
+	const sortedAirlines = $derived(sortAirlines(airlines));
+	const sortedCompliantAirlines = $derived(sortAirlines(compliantAirlines));
+	const sortedNonCompliantAirlines = $derived(sortAirlines(nonCompliantAirlines));
 
 	let isNonCompliantOpen = $state(false);
 	let isCompliantOpen = $state(false);
 
-	let hasCompliantAirlines = $derived(sortedCompliantAirlines.length > 0);
-	let hasNonCompliantAirlines = $derived(sortedNonCompliantAirlines.length > 0);
+	const hasCompliantAirlines = $derived(sortedCompliantAirlines.length > 0);
+	const hasNonCompliantAirlines = $derived(sortedNonCompliantAirlines.length > 0);
 
-	let onlyCompliantSection = $derived(hasCompliantAirlines && !hasNonCompliantAirlines);
-	let onlyNonCompliantSection = $derived(!hasCompliantAirlines && hasNonCompliantAirlines);
+	const onlyCompliantSection = $derived(hasCompliantAirlines && !hasNonCompliantAirlines);
+	const onlyNonCompliantSection = $derived(!hasCompliantAirlines && hasNonCompliantAirlines);
 
-	let complianceDetailsFoldable = $derived(
+	const complianceDetailsFoldable = $derived(
 		variant === 'single-column' && hasCompliantAirlines && hasNonCompliantAirlines
 	);
 
-	let singleScoringDetailsTableLayout = $derived(onlyCompliantSection || onlyNonCompliantSection);
+	const tableLayout = $derived(
+		onlyCompliantSection || onlyNonCompliantSection ? 'single' : 'multiple'
+	);
 
 	function sortAirlines<T extends AirlineInfo>(airlines: T[]) {
 		return airlines.toSorted((a, b) => {
@@ -94,36 +96,28 @@
 	let lastToggledSection = $state<'compliant' | 'non-compliant'>('non-compliant');
 
 	function toggleSection(section: 'compliant' | 'non-compliant') {
-		if (complianceDetailsFoldable) {
-			lastToggledSection = section;
-			if (section === 'compliant') {
-				isCompliantOpen = !isCompliantOpen;
-				if (isCompliantOpen) {
-					isNonCompliantOpen = false;
-					setTimeout(() => {
-						document.getElementById('compliant-airlines')?.scrollIntoView({
-							behavior: 'instant',
-							block: 'start'
-						});
-					}, 0);
-				}
-			} else {
-				isNonCompliantOpen = !isNonCompliantOpen;
-				if (isNonCompliantOpen) {
-					isCompliantOpen = false;
-					setTimeout(() => {
-						document.getElementById('non-compliant-airlines')?.scrollIntoView({
-							behavior: 'instant',
-							block: 'start'
-						});
-					}, 0);
-				}
+		lastToggledSection = section;
+		if (section === 'compliant') {
+			if (isCompliantOpen) {
+				isNonCompliantOpen = false;
+				setTimeout(() => {
+					document.getElementById('compliant-airlines')?.scrollIntoView({
+						behavior: 'instant',
+						block: 'start'
+					});
+				}, 0);
+			}
+		} else {
+			if (isNonCompliantOpen) {
+				isCompliantOpen = false;
+				setTimeout(() => {
+					document.getElementById('nonCompliant-airlines')?.scrollIntoView({
+						behavior: 'instant',
+						block: 'start'
+					});
+				}, 0);
 			}
 		}
-	}
-
-	function toggleSortDirection() {
-		sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
 	}
 
 	function toggleFavorite(airlineName: string) {
@@ -158,127 +152,33 @@
 	{#if showComplianceResult}
 		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
 			{#if hasNonCompliantAirlines}
-				<div
-					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
-					data-testid="non-compliant-section"
-					id="non-compliant-airlines"
-				>
-					<details
-						class="group h-full"
-						open={isNonCompliantOpen}
-						role="none"
-						onclick={(e) => {
-							e.preventDefault();
-						}}
-					>
-						<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-							<button
-								class="flex items-center gap-2 font-semibold text-red-700"
-								onclick={() => toggleSection('non-compliant')}
-							>
-								{#if complianceDetailsFoldable}
-									<div class="translate-y-[1px] xl:hidden">
-										{#if isNonCompliantOpen}
-											<ChevronsDownUp class="h-5 w-5" />
-										{:else}
-											<ChevronsUpDown class="h-5 w-5" />
-										{/if}
-									</div>
-								{/if}
-								<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
-									<CarryOnBagInactiveIcon class="h-6 w-6" />
-									Non-Compliant Airlines ({sortedNonCompliantAirlines.length})
-								</h3>
-							</button>
-						</summary>
-						<div class="mt-3 rounded-lg border border-red-200">
-							<div class="overflow-x-auto">
-								<table class="w-full" data-testid="non-compliant-table">
-									<thead>
-										<tr class="bg-red-50">
-											<Header {measurementSystem} bind:sortDirection />
-										</tr>
-									</thead>
-									<tbody>
-										{#each sortedNonCompliantAirlines as airline}
-											<Row
-												{airline}
-												{measurementSystem}
-												complianceResults={airline.complianceResults}
-												isFavorite={favoriteAirlinesSet.has(airline.airline)}
-												{toggleFavorite}
-											/>
-										{/each}
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</details>
-				</div>
+				<ComplianceTable
+					variant="nonCompliant"
+					airlines={sortedNonCompliantAirlines}
+					{measurementSystem}
+					bind:open={isNonCompliantOpen}
+					layout={tableLayout}
+					collapsible={complianceDetailsFoldable}
+					bind:sortDirection
+					{toggleFavorite}
+					favoriteAirlines={favoriteAirlinesSet}
+					onSectionToggle={toggleSection}
+				/>
 			{/if}
 
 			{#if hasCompliantAirlines}
-				<div
-					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
-					data-testid="compliant-section"
-					id="compliant-airlines"
-				>
-					<details
-						class="group h-full"
-						open={isCompliantOpen}
-						role="none"
-						onclick={(e) => {
-							e.preventDefault();
-						}}
-					>
-						<summary
-							class="cursor-pointer list-none [&::-webkit-details-marker]:hidden
-							{complianceDetailsFoldable ? 'xl:hidden' : ''}
-							"
-						>
-							<button
-								class="flex items-center gap-2 font-semibold text-emerald-700"
-								onclick={() => toggleSection('compliant')}
-							>
-								{#if complianceDetailsFoldable}
-									<div class="translate-y-[1px] xl:hidden">
-										{#if isCompliantOpen}
-											<ChevronsDownUp class="h-5 w-5" />
-										{:else}
-											<ChevronsUpDown class="h-5 w-5" />
-										{/if}
-									</div>
-								{/if}
-								<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
-									<CarryOnBagCheckedIcon class="h-6 w-6" />
-									Compliant Airlines ({sortedCompliantAirlines.length})
-								</h3>
-							</button>
-						</summary>
-						<div class="mt-3 rounded-lg border border-emerald-200">
-							<div class="overflow-x-auto">
-								<table class="w-full" data-testid="compliant-table">
-									<thead>
-										<tr class="bg-emerald-50">
-											<Header {measurementSystem} bind:sortDirection />
-										</tr>
-									</thead>
-									<tbody>
-										{#each sortedCompliantAirlines as airline}
-											<Row
-												{airline}
-												{measurementSystem}
-												complianceResults={airline.complianceResults}
-												isFavorite={favoriteAirlinesSet.has(airline.airline)}
-												{toggleFavorite}
-											/>
-										{/each}
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</details>
-				</div>
+				<ComplianceTable
+					variant="compliant"
+					airlines={sortedCompliantAirlines}
+					{measurementSystem}
+					bind:open={isCompliantOpen}
+					layout={tableLayout}
+					collapsible={complianceDetailsFoldable}
+					bind:sortDirection
+					{toggleFavorite}
+					favoriteAirlines={favoriteAirlinesSet}
+					onSectionToggle={toggleSection}
+				/>
 			{/if}
 		</div>
 	{:else}
