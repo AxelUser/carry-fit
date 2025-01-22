@@ -1,14 +1,9 @@
 <script lang="ts">
-	import {
-		type AirlineCompliance,
-		type AirlineInfo,
-		type MeasurementSystem,
-		type SortDirection
-	} from '$lib/types';
+	import { type AirlineCompliance, type MeasurementSystem, type SortDirection } from '$lib/types';
 	import { ChevronsDownUp, ChevronsUpDown } from 'lucide-svelte';
 	import Header from './header.svelte';
 	import Row from './row.svelte';
-	import { CarryOnBagInactiveIcon } from '$lib/components/icons';
+	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import { tv } from 'tailwind-variants';
 	import { cn } from '$lib/utils/styling';
 
@@ -29,8 +24,8 @@
 		base: 'flex-1 ',
 		variants: {
 			layout: {
-				single: 'xl:max-w-[50%]',
-				multiple: ''
+				single: '',
+				multiple: 'xl:max-w-[50%]'
 			}
 		}
 	});
@@ -97,7 +92,11 @@
 					</div>
 				{/if}
 				<h3 class="text-md inline-flex items-center gap-2 sm:text-lg">
-					<CarryOnBagInactiveIcon class="h-6 w-6" />
+					{#if variant === 'nonCompliant'}
+						<CarryOnBagInactiveIcon class="h-6 w-6" />
+					{:else}
+						<CarryOnBagCheckedIcon class="h-6 w-6" />
+					{/if}
 					{variant === 'nonCompliant'
 						? `Non-Compliant Airlines (${airlines.length})`
 						: `Compliant Airlines (${airlines.length})`}
