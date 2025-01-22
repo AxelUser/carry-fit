@@ -45,7 +45,7 @@
 	import { convertDimensions } from '$lib/utils/math';
 	import CookieBanner from '$lib/components/cookie-banner.svelte';
 	import { links } from '$lib/utils/navigation';
-	import { Info } from '$lib/components/main';
+	import { Info, MeasurementSystemSelect } from '$lib/components/main';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -401,7 +401,7 @@
 				<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 
 				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
-					{@render unitSelector()}
+					<MeasurementSystemSelect value={measurementSystem} changed={setMeasurementSystem} />
 
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
 						{@render bagInput()}
@@ -454,45 +454,6 @@
 		</div>
 	</div>
 </div>
-
-{#snippet unitSelector()}
-	<div class="mx-auto mb-4 max-w-2xl">
-		<div class="rounded-xl bg-white/95 p-4 shadow-xl ring-1 ring-sky-100">
-			<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-				<div>
-					<h3 class="text-base font-medium text-sky-900">Measurement System</h3>
-					<p class="text-sm text-sky-600">Choose your preferred unit of measurement</p>
-				</div>
-				<div class="grid grid-cols-2 gap-2">
-					<button
-						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{measurementSystem === MeasurementSystems.Metric
-							? 'bg-sky-100 text-sky-900'
-							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => setMeasurementSystem(MeasurementSystems.Metric)}
-						data-testid="metric-button"
-						data-active={measurementSystem === MeasurementSystems.Metric}
-					>
-						<span>Metric</span>
-						<span class="block text-xs text-sky-600">cm / kg</span>
-					</button>
-					<button
-						class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-							{measurementSystem === MeasurementSystems.Imperial
-							? 'bg-sky-100 text-sky-900'
-							: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
-						onclick={() => setMeasurementSystem(MeasurementSystems.Imperial)}
-						data-testid="imperial-button"
-						data-active={measurementSystem === MeasurementSystems.Imperial}
-					>
-						<span>Imperial</span>
-						<span class="block text-xs text-sky-600">in / lb</span>
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-{/snippet}
 
 {#snippet bagInput()}
 	<div class="mb-4">
