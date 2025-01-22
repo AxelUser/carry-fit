@@ -3,6 +3,17 @@
 	import { MeasurementSystems, type AirlineInfo, type MeasurementSystem } from '$lib/types';
 	import { getAirlineDimensions } from '$lib/utils/mapping';
 	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
+	import { tv } from 'tailwind-variants';
+
+	const row = tv({
+		base: 'border-t border-sky-100 hover:bg-sky-50',
+		variants: {
+			compliant: {
+				true: 'bg-emerald-50',
+				false: ''
+			}
+		}
+	});
 
 	interface Props {
 		airline: AirlineInfo;
@@ -15,11 +26,10 @@
 	let { airline, measurementSystem, complianceResults, isFavorite, toggleFavorite }: Props =
 		$props();
 
-	const isCompliant = $derived(complianceResults?.every(Boolean) ?? false);
 	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
 </script>
 
-<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
+<tr class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
 	<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
 		<Tooltip.Root>
 			<Tooltip.Trigger>
