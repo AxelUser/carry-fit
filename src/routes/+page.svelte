@@ -45,7 +45,7 @@
 	import { convertDimensions } from '$lib/utils/math';
 	import CookieBanner from '$lib/components/cookie-banner.svelte';
 	import { links } from '$lib/utils/navigation';
-	import { Info, MeasurementSystemSelect } from '$lib/components/main';
+	import { BagInput, Info, MeasurementSystemSelect } from '$lib/components/main';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -121,59 +121,9 @@
 	let measurementSystem = $derived(
 		sharedBagInfo?.measurementSystem || preferencesStore.value.measurementSystem
 	);
-	let initialMeasurementSystem: MeasurementSystem = $state(measurementSystem);
-	let showConversionPrompt = $state(false);
-
-	// If any of the dimensions change, update the initial measurement system to the current measurement system
-	$effect(() => {
-		// This is to trigger the effect when the dimensions change
-		userDimensions.depth;
-		userDimensions.width;
-		userDimensions.height;
-
-		untrack(() => {
-			if (initialMeasurementSystem !== measurementSystem) {
-				initialMeasurementSystem = measurementSystem;
-				showConversionPrompt = false;
-			}
-		});
-	});
-
-	$effect(() => {
-		const allDimensionsSet = untrack(
-			() => userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
-		);
-		// Show conversion prompt if dimensions are set and the measurement system was changed
-		if (allDimensionsSet && initialMeasurementSystem !== measurementSystem) {
-			showConversionPrompt = true;
-		} else if (initialMeasurementSystem !== measurementSystem) {
-			// If measurement system changed before all dimensions were set, show conversion prompt
-			initialMeasurementSystem = measurementSystem;
-			showConversionPrompt = false;
-		}
-	});
-
-	function applyConversion() {
-		userDimensions = convertDimensions(userDimensions, measurementSystem);
-		initialMeasurementSystem = measurementSystem;
-		showConversionPrompt = false;
-	}
-
-	function dismissConversion() {
-		initialMeasurementSystem = measurementSystem;
-		showConversionPrompt = false;
-	}
 
 	let flexibility = $state(0);
 	let showFlexibility = $state(false);
-
-	function resetDimensions() {
-		userDimensions.depth = 0;
-		userDimensions.width = 0;
-		userDimensions.height = 0;
-		showFlexibility = false;
-		flexibility = 0;
-	}
 
 	const favoritesUsage = favoritesUsageStore();
 
@@ -404,7 +354,17 @@
 					<MeasurementSystemSelect value={measurementSystem} changed={setMeasurementSystem} />
 
 					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
-						{@render bagInput()}
+						<BagInput
+							{userDimensions}
+							{measurementSystem}
+							bind:showFlexibility
+							bind:flexibility
+							flexibilityMaxValue={FLEXIBILITY_CONFIG[measurementSystem].max}
+							flexibilityStep={FLEXIBILITY_CONFIG[measurementSystem].step}
+							onChanged={() => {
+								clearSharedBagInfo();
+							}}
+						/>
 
 						{#if userDimensions.depth && userDimensions.width && userDimensions.height}
 							<div class="mt-6">
@@ -454,136 +414,6 @@
 		</div>
 	</div>
 </div>
-
-{#snippet bagInput()}
-	<div class="mb-4">
-		<div class="mb-6 flex items-baseline justify-between">
-			<h2 class="text-xl font-semibold text-sky-900">Bag Dimensions</h2>
-			<div class="flex items-center gap-2">
-				{#if dimensionsSet}
-					<ShareBagLink {userDimensions} {measurementSystem} />
-				{/if}
-				<button
-					onclick={resetDimensions}
-					class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
-				>
-					<X size={12} class="mt-0.5" />
-					<span>Reset</span>
-				</button>
-			</div>
-		</div>
-
-		{#if showConversionPrompt}
-			<div class="mb-4 rounded-lg bg-sky-50 p-3 text-sm">
-				<p class="text-sky-700">
-					Would you like to convert your dimensions to {measurementSystem ===
-					MeasurementSystems.Metric
-						? 'centimeters'
-						: 'inches'}?
-				</p>
-				<div class="mt-2 flex gap-3">
-					<button class="text-sky-600 hover:text-sky-800 hover:underline" onclick={applyConversion}>
-						Apply conversion
-					</button>
-					<button
-						class="text-sky-500 hover:text-sky-700 hover:underline"
-						onclick={dismissConversion}
-					>
-						Keep as is
-					</button>
-				</div>
-			</div>
-		{/if}
-
-		<div class="grid grid-cols-3 gap-4">
-			<div>
-				<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
-				<input
-					type="number"
-					id="height"
-					value={userDimensions.height}
-					oninput={(e) => {
-						userDimensions.height = Number(e.currentTarget.value);
-						clearSharedBagInfo();
-					}}
-					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min={0}
-				/>
-			</div>
-			<div>
-				<label for="width" class="mb-1 block text-sm font-medium text-sky-900">Width</label>
-				<input
-					type="number"
-					id="width"
-					value={userDimensions.width}
-					oninput={(e) => {
-						userDimensions.width = Number(e.currentTarget.value);
-						clearSharedBagInfo();
-					}}
-					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min={0}
-				/>
-			</div>
-			<div>
-				<label for="depth" class="mb-1 block text-sm font-medium text-sky-900">Depth</label>
-				<input
-					type="number"
-					id="depth"
-					value={userDimensions.depth}
-					oninput={(e) => {
-						userDimensions.depth = Number(e.currentTarget.value);
-						clearSharedBagInfo();
-					}}
-					class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
-					min={0}
-				/>
-			</div>
-		</div>
-
-		<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
-			Don't worry about the order - we'll find the best fit
-		</p>
-
-		<div class="border-b border-sky-100"></div>
-
-		<div class="mt-4">
-			<label class="inline-flex cursor-pointer items-center gap-2">
-				<input
-					type="checkbox"
-					bind:checked={showFlexibility}
-					class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
-				/>
-				<span class="text-sm font-medium text-sky-900">My Bag is Flexible</span>
-			</label>
-
-			{#if showFlexibility}
-				<div class="mt-3">
-					<div class="flex flex-col items-center gap-4">
-						<FlexibleSuitcase
-							value={flexibility}
-							unit={measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}
-							max={FLEXIBILITY_CONFIG[measurementSystem].max}
-						/>
-						<div class="flex w-full items-center gap-4">
-							<input
-								id="flexibility"
-								type="range"
-								bind:value={flexibility}
-								min="0"
-								max={FLEXIBILITY_CONFIG[measurementSystem].max}
-								step={FLEXIBILITY_CONFIG[measurementSystem].step}
-								class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
-							/>
-						</div>
-					</div>
-					<p class="mt-2 text-xs text-sky-600">
-						Adjust for how much your bag can be squeezed to fit
-					</p>
-				</div>
-			{/if}
-		</div>
-	</div>
-{/snippet}
 
 {#snippet complianceScore(percentage: number)}
 	<div
