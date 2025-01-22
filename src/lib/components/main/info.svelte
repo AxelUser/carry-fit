@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { AlertTriangle, MonitorCheck } from 'lucide-svelte';
+	import { Card } from '$lib/components/ui/card';
 
 	interface Props {
 		coveredByTest: number;
@@ -10,37 +11,21 @@
 </script>
 
 <div class="mx-auto mb-8 max-w-2xl lg:mx-0 lg:mb-0 lg:flex-1">
-	<details
-		class="group mb-4 overflow-hidden rounded-xl bg-white/95 shadow-xl ring-1 ring-sky-100 lg:hidden"
-	>
-		<summary class="cursor-pointer p-4 font-medium text-sky-900 hover:bg-sky-50">
-			About CarryFit
-		</summary>
-		<div class="border-t border-sky-100 p-6 pt-4">
-			{@render aboutContent()}
-		</div>
-	</details>
-
-	<div class="mb-4 hidden rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100 lg:block">
+	<Card collapsible title="About CarryFit" class="mb-4 lg:hidden">
 		{@render aboutContent()}
-	</div>
+	</Card>
 
-	<details
-		class="group overflow-hidden rounded-xl bg-amber-50/90 shadow-md ring-1 ring-amber-200 lg:hidden"
-	>
-		<summary
-			class="cursor-pointer border-l-4 border-amber-400 p-4 font-medium text-amber-700 hover:bg-amber-100/90"
-		>
-			Can I trust this tool?
-		</summary>
-		<div class="border-l-4 border-t border-amber-200 border-l-amber-400 p-5 pt-3">
-			{@render warningContent()}
-		</div>
-	</details>
+	<Card class="mb-4 hidden lg:block">
+		{@render aboutContent()}
+	</Card>
 
-	<div class="hidden rounded-xl border-l-4 border-amber-400 bg-amber-50/90 p-5 shadow-md lg:block">
+	<Card variant="warning" collapsible title="Can I trust this tool?" class="lg:hidden">
 		{@render warningContent()}
-	</div>
+	</Card>
+
+	<Card variant="warning" class="hidden lg:block">
+		{@render warningContent()}
+	</Card>
 </div>
 
 {#snippet aboutContent()}

@@ -6,9 +6,6 @@ yarn.lock
 # Generated files
 src/lib/allowances/allowance-consistency-results.json
 
-# Shadcn components
-src/lib/components/ui/**
-
 # GitHub workflows and configuration
 .github/**
 
