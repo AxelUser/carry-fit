@@ -20,6 +20,7 @@
 		Info,
 		MeasurementSystemSelect
 	} from '$lib/components/main';
+	import { Card } from '$lib/components/ui/card';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -175,7 +176,7 @@
 						onChanged={clearSharedBagInfo}
 					/>
 
-					<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
+					<Card>
 						<BagInput
 							bind:userDimensions
 							measurementSystem={preferences.measurementSystem}
@@ -209,11 +210,11 @@
 								<BuyMeCoffeeButton />
 							</div>
 						</div>
-					</div>
+					</Card>
 				</div>
 			</div>
 
-			<div class="rounded-xl bg-white/95 p-6 shadow-xl ring-1 ring-sky-100">
+			<Card>
 				<AllowanceFilter
 					airlines={allAirlines}
 					favoriteAirlines={preferences.favoriteAirlines}
@@ -228,7 +229,7 @@
 					nonCompliantAirlines={airlinesByCompliance.nonCompliant}
 					variant={isLargeScreen ? 'two-column' : 'single-column'}
 				/>
-			</div>
+			</Card>
 		</div>
 	</div>
 </div>
