@@ -27,8 +27,8 @@ export function checkCompliance(
 	}
 
 	// Sort dimensions from largest to smallest for both airline and bag
-	const bagDims = userDimensions.sort((a, b) => b - a);
-	const airlineDims = airlineDimensions.sort((a, b) => b - a);
+	const bagDims = userDimensions.toSorted((a, b) => b - a);
+	const airlineDims = airlineDimensions.toSorted((a, b) => b - a);
 
 	let remainingFlexibility = flexibility;
 
