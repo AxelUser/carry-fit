@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { AlertTriangle, MonitorCheck } from 'lucide-svelte';
 	import { Card } from '$lib/components/ui/card';
+	import { Delimiter } from '$lib/components/ui/delimiter';
 
 	interface Props {
 		coveredByTest: number;
@@ -45,7 +46,8 @@
 			rel="noopener noreferrer">added in a future update</a
 		>. If you'd like to see this feature, please vote for it on GitHub.
 	</p>
-	<div class="border-t border-sky-100 pt-3 text-sm text-sky-800">
+	<Delimiter class="mb-3" />
+	<div class="text-sm text-sky-800">
 		<p class="mb-2">
 			Created by <a
 				href="https://www.maltsev.space/"

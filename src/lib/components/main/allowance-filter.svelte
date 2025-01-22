@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
 	import { Check, X } from 'lucide-svelte';
+	import { Delimiter } from '$lib/components/ui/delimiter';
 
 	interface Props {
 		airlines: AirlineInfo[];
@@ -117,7 +118,9 @@
 			</div>
 		</div>
 
-		<div class="border-t border-sky-100 pt-4">
+		<Delimiter class="mb-4" />
+
+		<div>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-2">
 					<h4 class="font-medium text-sky-900">Favorites</h4>

@@ -3,6 +3,7 @@
 	import { MeasurementSystems, type MeasurementSystem, type UserDimensions } from '$lib/types';
 	import ShareBagLink from '../share-bag-link.svelte';
 	import { FlexibleSuitcase } from '../visualization';
+	import { Delimiter } from '$lib/components/ui/delimiter';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -103,7 +104,7 @@
 		Don't worry about the order - we'll find the best fit
 	</p>
 
-	<div class="border-b border-sky-100"></div>
+	<Delimiter class="mb-4" />
 
 	<div class="mt-4">
 		<label class="inline-flex cursor-pointer items-center gap-2">
