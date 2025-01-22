@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {
-		AlertTriangle,
 		Check,
 		X,
 		ChevronsUpDown,
@@ -29,23 +28,20 @@
 		MeasurementSystems,
 		SortDirections
 	} from '$lib/types';
-	import { FlexibleSuitcase } from '$lib/components/visualization';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
-	import { onDestroy, untrack } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { Changelog } from '$lib/components/changelog';
 	import { preferencesStore } from '$lib/stores/preferences';
 	import NewBadge from '$lib/components/new-badge.svelte';
-	import ShareBagLink from '$lib/components/share-bag-link.svelte';
 	import { favoritesUsageStore } from '$lib/stores/feature-usage.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { getAirlineDimensions, getUserDimensionsIfFilled } from '$lib/utils/mapping';
-	import { convertDimensions } from '$lib/utils/math';
 	import CookieBanner from '$lib/components/cookie-banner.svelte';
 	import { links } from '$lib/utils/navigation';
-	import { BagInput, Info, MeasurementSystemSelect } from '$lib/components/main';
+	import { BagInput, ComplianceScore, Info, MeasurementSystemSelect } from '$lib/components/main';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -113,7 +109,7 @@
 		}
 	);
 
-	let dimensionsSet = $derived(
+	let allDimensionsSet = $derived(
 		userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
 
@@ -165,12 +161,6 @@
 
 	const airlinesByCompliance = $derived(
 		groupAirlinesByCompliance(filteredAirlines, userDimensions, measurementSystem, flexibility)
-	);
-
-	const compliancePercentage = $derived(
-		filteredAirlines.length === 0
-			? 0
-			: (airlinesByCompliance.compliant.length / filteredAirlines.length) * 100
 	);
 
 	let isNonCompliantOpen = $state(false);
@@ -366,9 +356,12 @@
 							}}
 						/>
 
-						{#if userDimensions.depth && userDimensions.width && userDimensions.height}
+						{#if allDimensionsSet}
 							<div class="mt-6">
-								{@render complianceScore(compliancePercentage)}
+								<ComplianceScore
+									allAirlinesCount={filteredAirlines.length}
+									compliantAirlinesCount={airlinesByCompliance.compliant.length}
+								/>
 							</div>
 						{/if}
 
@@ -415,30 +408,8 @@
 	</div>
 </div>
 
-{#snippet complianceScore(percentage: number)}
-	<div
-		class="rounded-xl border-2 p-6 text-center shadow-sm
-		{percentage <= 60
-			? 'border-red-200 bg-red-50'
-			: percentage <= 80
-				? 'border-amber-200 bg-amber-50'
-				: 'border-emerald-200 bg-emerald-50'}"
-	>
-		<div class="mb-3 text-sm font-medium text-sky-700 sm:text-base">Compliance Score</div>
-		<div
-			class="mb-2 text-3xl font-bold tracking-tight sm:text-4xl
-			{percentage <= 60 ? 'text-red-600' : percentage <= 80 ? 'text-amber-600' : 'text-emerald-600'}"
-		>
-			{percentage.toFixed(0)}%
-		</div>
-		<div class="text-xs text-sky-600 sm:text-sm">
-			({airlinesByCompliance.compliant.length} out of {filteredAirlines.length} selected airlines)
-		</div>
-	</div>
-{/snippet}
-
 {#snippet airlinesTable()}
-	{#if dimensionsSet}
+	{#if allDimensionsSet}
 		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
 			{#if hasNonCompliantAirlines}
 				<div
