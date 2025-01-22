@@ -1,28 +1,16 @@
 <script lang="ts">
 	import {
-		MeasurementSystems,
 		SortDirections,
 		type AirlineCompliance,
 		type AirlineInfo,
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import {
-		ArrowDownAZ,
-		ArrowUpAZ,
-		ChevronsDownUp,
-		ChevronsUpDown,
-		MonitorCheck,
-		MonitorOff,
-		MonitorX,
-		SearchX,
-		Star,
-		StarOff
-	} from 'lucide-svelte';
-	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '../icons';
-	import { getAirlineDimensions } from '$lib/utils/mapping';
-	import * as Tooltip from '../ui/tooltip';
+	import { ChevronsDownUp, ChevronsUpDown, SearchX } from 'lucide-svelte';
+	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '../../icons';
 	import { metrics } from '$lib/analytics';
+	import Row from './row.svelte';
+	import Header from './header.svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -69,7 +57,7 @@
 
 	let singleScoringDetailsTableLayout = $derived(onlyCompliantSection || onlyNonCompliantSection);
 
-	function sortAirlines(airlines: AirlineInfo[]) {
+	function sortAirlines<T extends AirlineInfo>(airlines: T[]) {
 		return airlines.toSorted((a, b) => {
 			const direction = sortDirection === SortDirections.Ascending ? 1 : -1;
 			return a.airline.localeCompare(b.airline) * direction;
@@ -169,7 +157,7 @@
 {#snippet airlinesTable()}
 	{#if showComplianceResult}
 		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
-			{#if nonCompliantAirlines.length > 0}
+			{#if hasNonCompliantAirlines}
 				<div
 					class="flex-1 {!singleScoringDetailsTableLayout ? 'xl:max-w-[50%]' : ''}"
 					data-testid="non-compliant-section"
@@ -208,12 +196,18 @@
 								<table class="w-full" data-testid="non-compliant-table">
 									<thead>
 										<tr class="bg-red-50">
-											{@render tableHeader()}
+											<Header {measurementSystem} bind:sortDirection />
 										</tr>
 									</thead>
 									<tbody>
 										{#each sortedNonCompliantAirlines as airline}
-											{@render airlineAllowanceRow(airline)}
+											<Row
+												{airline}
+												{measurementSystem}
+												complianceResults={airline.complianceResults}
+												isFavorite={favoriteAirlinesSet.has(airline.airline)}
+												{toggleFavorite}
+											/>
 										{/each}
 									</tbody>
 								</table>
@@ -266,12 +260,18 @@
 								<table class="w-full" data-testid="compliant-table">
 									<thead>
 										<tr class="bg-emerald-50">
-											{@render tableHeader()}
+											<Header {measurementSystem} bind:sortDirection />
 										</tr>
 									</thead>
 									<tbody>
 										{#each sortedCompliantAirlines as airline}
-											{@render airlineAllowanceRow(airline)}
+											<Row
+												{airline}
+												{measurementSystem}
+												complianceResults={airline.complianceResults}
+												isFavorite={favoriteAirlinesSet.has(airline.airline)}
+												{toggleFavorite}
+											/>
 										{/each}
 									</tbody>
 								</table>
@@ -286,127 +286,20 @@
 			<table class="w-full">
 				<thead>
 					<tr class="bg-sky-50">
-						{@render tableHeader()}
+						<Header {measurementSystem} bind:sortDirection />
 					</tr>
 				</thead>
 				<tbody>
 					{#each sortedAirlines as airline}
-						{@render airlineAllowanceRow(airline)}
+						<Row
+							{airline}
+							{measurementSystem}
+							isFavorite={favoriteAirlinesSet.has(airline.airline)}
+							{toggleFavorite}
+						/>
 					{/each}
 				</tbody>
 			</table>
 		</div>
 	{/if}
-{/snippet}
-
-{#snippet tableHeader()}
-	<th role="columnheader"></th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
-			Airline
-			{#if sortDirection === 'asc'}
-				<ArrowDownAZ class="h-5 w-5" />
-			{:else}
-				<ArrowUpAZ class="h-5 w-5" />
-			{/if}
-		</button>
-	</th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Region</th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-		Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
-	</th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Weight</th>
-	<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">Policy</th>
-{/snippet}
-
-{#snippet airlineAllowanceRow(airline: AirlineInfo, complianceResults?: boolean[])}
-	{@const carryOnDimensions = getAirlineDimensions(airline.carryon, measurementSystem)}
-	{@const isCompliant = complianceResults?.every(Boolean) ?? false}
-
-	<tr class="border-t border-sky-100 {isCompliant ? 'bg-emerald-50' : ''} hover:bg-sky-50">
-		<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
-			<Tooltip.Root>
-				<Tooltip.Trigger>
-					{#if airline?.testResult?.success}
-						<MonitorCheck size={16} class="text-green-600" />
-					{:else if airline?.testResult?.success === false}
-						<MonitorX size={16} class="text-red-600" />
-					{:else}
-						<MonitorOff size={16} class="text-gray-600" />
-					{/if}
-				</Tooltip.Trigger>
-				<Tooltip.Content>
-					<p>
-						{#if airline?.testResult?.success}
-							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
-						{:else if airline?.testResult?.success === false}
-							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
-						{:else}
-							No tests yet
-						{/if}
-					</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-		</td>
-		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
-			<div class="flex items-center gap-2">
-				<button
-					class="group flex items-center"
-					onclick={() => toggleFavorite(airline.airline)}
-					data-testid="favorite-button"
-					data-favorite={favoriteAirlinesSet.has(airline.airline)}
-				>
-					{#if favoriteAirlinesSet.has(airline.airline)}
-						<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
-					{:else}
-						<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
-					{/if}
-				</button>
-				{airline.airline}
-			</div>
-		</td>
-		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
-		<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
-			{#if carryOnDimensions.length === 1}
-				<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}>
-					{`Total ${carryOnDimensions[0]}`}</span
-				>
-			{:else}
-				<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}
-					>{carryOnDimensions[0]}</span
-				>
-				x
-				<span class={complianceResults?.[1] === false ? 'text-red-600' : ''}
-					>{carryOnDimensions[1]}</span
-				>
-				x
-				<span class={complianceResults?.[2] === false ? 'text-red-600' : ''}
-					>{carryOnDimensions[2]}</span
-				>
-			{/if}
-		</td>
-		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
-			{#if airline.kilograms}
-				{measurementSystem === MeasurementSystems.Metric
-					? `${airline.kilograms} kg`
-					: `${airline.pounds} lb`}
-			{:else}
-				N/A
-			{/if}
-		</td>
-		<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="policy-link">
-			{#if airline.link}
-				<a
-					href={airline.link}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-blue-600 hover:text-blue-800 hover:underline"
-				>
-					View
-				</a>
-			{:else}
-				N/A
-			{/if}
-		</td>
-	</tr>
 {/snippet}
