@@ -2,7 +2,8 @@ import type {
 	UserDimensions,
 	MeasurementSystem,
 	AirlinesByCompliance,
-	AirlineInfo
+	AirlineInfo,
+	AirlineCompliance
 } from '$lib/types';
 import { getAirlineDimensions } from '$lib/utils/mapping';
 
@@ -63,8 +64,8 @@ export function groupAirlinesByCompliance(
 	}
 
 	return airlines.reduce<{
-		compliant: AirlineInfo[];
-		nonCompliant: AirlineInfo[];
+		compliant: AirlineCompliance[];
+		nonCompliant: AirlineCompliance[];
 	}>(
 		(acc, airline) => {
 			const compliance = checkCompliance(
@@ -74,9 +75,9 @@ export function groupAirlinesByCompliance(
 			);
 
 			if (compliance?.every(Boolean)) {
-				acc.compliant.push(airline);
-			} else {
-				acc.nonCompliant.push(airline);
+				acc.compliant.push({ ...airline, complianceResults: compliance });
+			} else if (compliance) {
+				acc.nonCompliant.push({ ...airline, complianceResults: compliance });
 			}
 
 			return acc;

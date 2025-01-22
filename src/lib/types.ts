@@ -19,6 +19,10 @@ export interface AirlineInfo {
 	};
 }
 
+export interface AirlineCompliance extends AirlineInfo {
+	complianceResults: boolean[];
+}
+
 export interface BagAllowanceDimensions {
 	inches: number | number[];
 	centimeters: number | number[];
@@ -63,8 +67,8 @@ export interface UserPreferences {
 }
 
 export interface AirlinesByCompliance {
-	compliant: AirlineInfo[];
-	nonCompliant: AirlineInfo[];
+	compliant: AirlineCompliance[];
+	nonCompliant: AirlineCompliance[];
 }
 
 export const SortDirections = {
