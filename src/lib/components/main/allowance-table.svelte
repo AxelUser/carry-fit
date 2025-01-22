@@ -26,23 +26,23 @@
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
-		airlines: AirlineInfo[];
 		favoriteAirlines: string[];
+		airlines: AirlineInfo[];
 		compliantAirlines: AirlineCompliance[];
 		nonCompliantAirlines: AirlineCompliance[];
 		variant: 'two-column' | 'single-column';
 	}
 
 	let {
-		airlines,
 		measurementSystem,
 		favoriteAirlines = $bindable(),
+		airlines,
 		compliantAirlines,
 		nonCompliantAirlines,
 		variant
 	}: Props = $props();
 
-	let favoriteAirlinesSet = $state(new Set(favoriteAirlines));
+	let favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
 
 	let showComplianceResult = $derived(
 		compliantAirlines.length > 0 || nonCompliantAirlines.length > 0
@@ -75,6 +75,33 @@
 			return a.airline.localeCompare(b.airline) * direction;
 		});
 	}
+
+	// Mutual exclusivity of compliance and non-compliance sections
+	$effect(() => {
+		// Always open compliance and non-compliance in two-column layout
+		if (variant === 'two-column') {
+			isNonCompliantOpen = true;
+			isCompliantOpen = true;
+			return;
+		}
+
+		// If only one section is available, open it
+		if (onlyCompliantSection) {
+			isNonCompliantOpen = false;
+			isCompliantOpen = true;
+			return;
+		}
+
+		if (onlyNonCompliantSection) {
+			isNonCompliantOpen = true;
+			isCompliantOpen = false;
+			return;
+		}
+
+		// If both sections available and this is single-column layout, open non-compliant
+		isNonCompliantOpen = true;
+		isCompliantOpen = false;
+	});
 
 	let lastToggledSection = $state<'compliant' | 'non-compliant'>('non-compliant');
 

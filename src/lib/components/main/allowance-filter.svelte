@@ -3,18 +3,18 @@
 	import { Check, X } from 'lucide-svelte';
 
 	interface Props {
-		allowances: AirlineInfo[];
+		airlines: AirlineInfo[];
 		favoriteAirlines: string[];
 		filteredAirlines: AirlineInfo[];
 	}
 
-	let { allowances, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
+	let { airlines, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
 
 	let showFavoritesOnly = $state(false);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
 
-	const allRegions = [...new Set(allowances.map((airline) => airline.region))].sort();
+	const allRegions = [...new Set(airlines.map((airline) => airline.region))].sort();
 
 	let selectedRegions = $state(new Set(allRegions));
 
@@ -23,7 +23,7 @@
 	);
 
 	$effect(() => {
-		filteredAirlines = allowances
+		filteredAirlines = airlines
 			.filter((airline) => selectedRegions.has(airline.region))
 			.filter((airline) => !showFavoritesOnly || favoriteAirlinesSet.has(airline.airline));
 	});
@@ -31,7 +31,7 @@
 	function isRegionAvailable(region: string): boolean {
 		return (
 			!showFavoritesOnly ||
-			allowances.some(
+			airlines.some(
 				(airline) => airline.region === region && favoriteAirlinesSet.has(airline.airline)
 			)
 		);
