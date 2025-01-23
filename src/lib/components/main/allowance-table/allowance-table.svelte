@@ -188,11 +188,7 @@
 	{:else}
 		<div class="overflow-x-auto">
 			<table class="w-full">
-				<thead>
-					<tr class="bg-sky-50">
-						<Header {measurementSystem} bind:sortDirection />
-					</tr>
-				</thead>
+				<Header {measurementSystem} bind:sortDirection />
 				<tbody>
 					{#each sortedAirlines as airline}
 						<Row

@@ -106,11 +106,7 @@
 		<div class={cn('mt-3 rounded-lg border', borderStyles[variant])}>
 			<div class="overflow-x-auto">
 				<table class="w-full" data-testid={`${section}-table`}>
-					<thead>
-						<tr class={headerRowStyles[variant]}>
-							<Header {measurementSystem} bind:sortDirection />
-						</tr>
-					</thead>
+					<Header {measurementSystem} bind:sortDirection {variant} />
 					<tbody>
 						{#each airlines as airline}
 							<Row
