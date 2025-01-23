@@ -77,3 +77,9 @@ export const SortDirections = {
 } as const;
 
 export type SortDirection = (typeof SortDirections)[keyof typeof SortDirections];
+
+export interface CookieConsent {
+	analytics: boolean;
+	necessary: boolean;
+	timestamp: string | null;
+}

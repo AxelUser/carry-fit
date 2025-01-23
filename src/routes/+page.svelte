@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { loadData, groupAirlinesByCompliance } from '$lib/allowances';
-	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
+	import {
+		type UserDimensions,
+		type MeasurementSystem,
+		MeasurementSystems,
+		type CookieConsent
+	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
@@ -20,6 +25,8 @@
 	} from '$lib/components/main';
 	import { Card } from '$lib/components/ui/card';
 	import { CookieBanner, Changelog } from '$lib/components/misc';
+	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
+	import { updateConsent } from '$lib/analytics';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -132,12 +139,20 @@
 	onDestroy(() => {
 		disposeAnalytics();
 	});
+
+	function handleConsent(consent: CookieConsent) {
+		cookieConsent.value = consent;
+		updateConsent(consent.analytics);
+	}
 </script>
 
 <svelte:window bind:innerWidth />
 
 <Changelog />
-<CookieBanner />
+<CookieBanner
+	onAccept={handleConsent}
+	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}
+/>
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen bg-white/90">

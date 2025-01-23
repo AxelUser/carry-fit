@@ -1,34 +1,29 @@
 <script lang="ts">
-	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
-	import { updateConsent } from '$lib/analytics';
 	import { links } from '$lib/utils/navigation';
+	import type { CookieConsent } from '$lib/types';
 
-	let showBanner = $state(false);
+	interface Props {
+		onAccept: (consent: CookieConsent) => void;
+		showBanner: boolean;
+	}
 
-	// Show banner only if consent hasn't been given yet
-	$effect(() => {
-		if (cookieConsent.isLoaded) {
-			showBanner = cookieConsent.value.timestamp === null;
-		}
-	});
+	let { onAccept, showBanner }: Props = $props();
 
 	function acceptAll() {
-		cookieConsent.value = {
+		onAccept({
 			analytics: true,
 			necessary: true,
 			timestamp: new Date().toISOString()
-		};
-		updateConsent(true);
+		});
 		showBanner = false;
 	}
 
 	function acceptNecessary() {
-		cookieConsent.value = {
+		onAccept({
 			analytics: false,
 			necessary: true,
 			timestamp: new Date().toISOString()
-		};
-		updateConsent(false);
+		});
 		showBanner = false;
 	}
 </script>
