@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { X } from 'lucide-svelte';
-	import { MeasurementSystems, type MeasurementSystem, type UserDimensions } from '$lib/types';
+	import { type MeasurementSystem, type UserDimensions } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Delimiter } from '$lib/components/ui/delimiter';
 
@@ -118,11 +118,7 @@
 		{#if showFlexibility}
 			<div class="mt-3">
 				<div class="flex flex-col items-center gap-4">
-					<FlexibleSuitcase
-						value={flexibility}
-						unit={measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}
-						max={flexibilityMaxValue}
-					/>
+					<FlexibleSuitcase value={flexibility} {measurementSystem} max={flexibilityMaxValue} />
 					<div class="flex w-full items-center gap-4">
 						<input
 							id="flexibility"
