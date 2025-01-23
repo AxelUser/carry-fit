@@ -11,7 +11,7 @@
 		airlines: AirlineCompliance[];
 		measurementSystem: MeasurementSystem;
 		open: boolean;
-		layout: 'single' | 'multiple';
+		layout: 'single-column' | 'two-column';
 		variant: 'nonCompliant' | 'compliant';
 		collapsible: boolean;
 		sortDirection: SortDirection;
@@ -24,8 +24,8 @@
 		base: 'flex-1 ',
 		variants: {
 			layout: {
-				single: '',
-				multiple: 'xl:max-w-[50%]'
+				'single-column': '',
+				'two-column': 'xl:max-w-[50%]'
 			}
 		}
 	});

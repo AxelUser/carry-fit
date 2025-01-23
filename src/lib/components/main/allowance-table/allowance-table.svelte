@@ -18,7 +18,7 @@
 		airlines: AirlineInfo[];
 		compliantAirlines: AirlineCompliance[];
 		nonCompliantAirlines: AirlineCompliance[];
-		variant: 'two-column' | 'single-column';
+		variant: 'single-column' | 'two-column';
 	}
 
 	let {
@@ -56,7 +56,7 @@
 	);
 
 	const tableLayout = $derived(
-		onlyCompliantSection || onlyNonCompliantSection ? 'single' : 'multiple'
+		onlyCompliantSection || onlyNonCompliantSection ? 'single-column' : 'two-column'
 	);
 
 	$inspect(onlyCompliantSection, 'onlyCompliantSection');
