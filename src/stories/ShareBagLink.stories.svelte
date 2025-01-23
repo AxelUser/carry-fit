@@ -1,10 +1,10 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import ShareBagLink from '$lib/components/share-bag-link.svelte';
+	import ShareBagLink from '$lib/components/misc/share-bag-link.svelte';
 	import { MeasurementSystems } from '$lib/types';
 
 	const { Story } = defineMeta({
-		title: 'Shared/ShareBagLink',
+		title: 'Misc/ShareBagLink',
 		component: ShareBagLink,
 		tags: ['autodocs'],
 		parameters: {

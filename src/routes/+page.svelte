@@ -5,12 +5,10 @@
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
-	import { Changelog } from '$lib/components/changelog';
 	import preferences from '$lib/stores/preferences';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import CookieBanner from '$lib/components/cookie-banner.svelte';
 	import { links } from '$lib/utils/navigation';
 	import {
 		AllowanceFilter,
@@ -21,6 +19,7 @@
 		MeasurementSystemSelect
 	} from '$lib/components/main';
 	import { Card } from '$lib/components/ui/card';
+	import { CookieBanner, Changelog } from '$lib/components/misc';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts

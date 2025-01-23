@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { X } from 'lucide-svelte';
 	import { MeasurementSystems, type MeasurementSystem, type UserDimensions } from '$lib/types';
-	import ShareBagLink from '../share-bag-link.svelte';
-	import { FlexibleSuitcase } from '../visualization';
+	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Delimiter } from '$lib/components/ui/delimiter';
 
 	interface Props {
