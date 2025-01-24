@@ -12,7 +12,7 @@
 				gradient:
 					'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800',
 				outline: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50',
-				ghost: 'bg-transparent hover:bg-sky-50',
+				ghost: 'bg-transparent hover:bg-sky-50 text-sky-600',
 				disabled: 'cursor-not-allowed bg-gray-100 text-gray-400 ring-1 ring-gray-200'
 			},
 			size: {
