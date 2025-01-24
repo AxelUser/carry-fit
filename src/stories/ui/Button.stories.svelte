@@ -110,3 +110,43 @@
 		<Button {...args}>Full Width</Button>
 	{/snippet}
 </Story>
+
+<Story name="Old vs New Selected Region Filter Button" args={{ variant: 'gradient', pill: true }}>
+	{#snippet children(args)}
+		<div class="grid grid-cols-2 justify-items-start gap-4">
+			<div class="text-sm font-medium">Old Button</div>
+			<button
+				class="flex items-center rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-3 py-1.5 text-xs font-medium text-white shadow-md transition-all duration-200 hover:from-sky-700 hover:to-blue-800 sm:px-4 sm:py-2 sm:text-sm"
+			>
+				<span>North America</span>
+				<div class="ml-2">
+					<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+				</div>
+			</button>
+			<div class="text-sm font-medium">New Button</div>
+			<Button {...args}>
+				<span>North America</span>
+				<div class="ml-2">
+					<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+				</div>
+			</Button>
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="Old vs New Unselected Region Filter Button" args={{ variant: 'outline', pill: true }}>
+	{#snippet children(args)}
+		<div class="grid grid-cols-2 justify-items-start gap-4">
+			<div class="text-sm font-medium">Old Button</div>
+			<button
+				class="flex items-center rounded-full bg-white px-3 py-1.5 text-xs font-medium text-sky-700 ring-1 ring-sky-200 transition-all duration-200 hover:bg-sky-50 sm:px-4 sm:py-2 sm:text-sm"
+			>
+				<span>North America</span>
+			</button>
+			<div class="text-sm font-medium">New Button</div>
+			<Button {...args}>
+				<span>North America</span>
+			</Button>
+		</div>
+	{/snippet}
+</Story>
