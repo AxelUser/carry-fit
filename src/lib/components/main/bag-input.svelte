@@ -3,6 +3,7 @@
 	import { type MeasurementSystem, type UserDimensions } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Delimiter } from '$lib/components/ui/delimiter';
+	import { Button } from '../ui/button';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -44,13 +45,10 @@
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
-			<button
-				onclick={resetDimensions}
-				class="flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200"
-			>
-				<X size={12} class="mt-0.5" />
+			<Button variant="secondary" size="sm" onclick={resetDimensions}>
+				<X class="mr-1 h-3 w-3" />
 				<span>Reset</span>
-			</button>
+			</Button>
 		</div>
 	</div>
 
