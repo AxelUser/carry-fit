@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { MeasurementSystems, type MeasurementSystem } from '$lib/types';
 	import { Card } from '$lib/components/ui/card';
+	import { Button } from '../ui/button';
 
 	interface Props {
 		value: MeasurementSystem;
@@ -22,30 +23,28 @@
 			<p class="text-sm text-sky-600">Choose your preferred unit of measurement</p>
 		</div>
 		<div class="grid grid-cols-2 gap-2">
-			<button
-				class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-					{value === MeasurementSystems.Metric
-					? 'bg-sky-100 text-sky-900'
-					: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+			<Button
+				class="flex flex-col items-center justify-center"
+				variant={value === MeasurementSystems.Metric ? 'primary' : 'outline'}
+				size="md"
 				onclick={() => setValue(MeasurementSystems.Metric)}
-				data-testid="metric-button"
+				data-testid="imperial-button"
 				data-active={value === MeasurementSystems.Metric}
 			>
 				<span>Metric</span>
 				<span class="block text-xs text-sky-600">cm / kg</span>
-			</button>
-			<button
-				class="rounded-lg px-3 py-2.5 text-sm font-medium transition-colors
-					{value === MeasurementSystems.Imperial
-					? 'bg-sky-100 text-sky-900'
-					: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'}"
+			</Button>
+			<Button
+				class="flex flex-col items-center justify-center"
+				variant={value === MeasurementSystems.Imperial ? 'primary' : 'outline'}
+				size="md"
 				onclick={() => setValue(MeasurementSystems.Imperial)}
 				data-testid="imperial-button"
 				data-active={value === MeasurementSystems.Imperial}
 			>
 				<span>Imperial</span>
 				<span class="block text-xs text-sky-600">in / lb</span>
-			</button>
+			</Button>
 		</div>
 	</Card>
 </div>
