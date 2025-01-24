@@ -9,6 +9,7 @@
 		component: CookieBanner,
 		tags: ['autodocs'],
 		parameters: {
+			layout: 'fullscreen',
 			docs: {
 				description: {
 					component:

@@ -8,6 +8,7 @@
 		component: FlexibleSuitcase,
 		tags: ['autodocs'],
 		parameters: {
+			layout: 'centered',
 			docs: {
 				description: {
 					component:

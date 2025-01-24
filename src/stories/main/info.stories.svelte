@@ -6,6 +6,9 @@
 		title: 'Main/Info',
 		component: Info,
 		tags: ['autodocs'],
+		parameters: {
+			layout: 'centered'
+		},
 		argTypes: {
 			coveredByTest: {
 				description: 'The number of airlines covered by the automated test',

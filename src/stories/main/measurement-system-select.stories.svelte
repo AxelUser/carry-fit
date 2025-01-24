@@ -7,6 +7,9 @@
 		title: 'Main/MeasurementSystemSelect',
 		component: MeasurementSystemSelect,
 		tags: ['autodocs'],
+		parameters: {
+			layout: 'padded'
+		},
 		argTypes: {
 			value: {
 				description: 'The currently selected measurement system',

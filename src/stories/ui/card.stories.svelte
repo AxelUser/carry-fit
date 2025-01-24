@@ -5,7 +5,10 @@
 	const { Story } = defineMeta({
 		title: 'UI/Card',
 		component: Card,
-		tags: ['autodocs']
+		tags: ['autodocs'],
+		parameters: {
+			layout: 'centered'
+		}
 	});
 </script>
 
