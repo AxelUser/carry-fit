@@ -1,44 +1,34 @@
 <script lang="ts">
-	import { createLocalStore } from '$lib/storage/local-store.svelte';
-	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
+	import { type Change } from '$lib/types';
 
-	const currentVersion =
-		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null;
+	interface Props {
+		changes: Change[];
+		lastSeenVersion: Date | null;
+		onOpen: (seenVersion: Date, isNewVersion: boolean) => void;
+	}
+
+	const { changes, lastSeenVersion, onOpen }: Props = $props();
+
+	const currentVersion = $derived(
+		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null
+	);
 	let open = $state(false);
-	let hasNewVersion = $state(false);
-
-	const versionStore = createLocalStore<string | null>('lastSeenVersion', null);
+	let hasNewVersion = $derived(
+		(currentVersion && lastSeenVersion && isNewerVersion(currentVersion.date, lastSeenVersion)) ??
+			false
+	);
 
 	function close() {
 		open = false;
-		if (currentVersion) {
-			versionStore.value = currentVersion.date.toISOString();
-		}
-		hasNewVersion = false;
 	}
 
 	function openChangelog() {
 		open = true;
 		if (currentVersion) {
 			metrics.changelogOpened(currentVersion.date, hasNewVersion);
-		}
-	}
-
-	function checkVersion() {
-		try {
-			if (!currentVersion) return;
-
-			const lastSeenVersionDate = versionStore.value ? new Date(versionStore.value) : null;
-
-			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
-				hasNewVersion = true;
-			}
-		} catch (e) {
-			console.error(e);
-			versionStore.reset();
-			hasNewVersion = true;
+			onOpen(currentVersion.date, $state.snapshot(hasNewVersion));
 		}
 	}
 
@@ -46,12 +36,6 @@
 		if (!current) return true;
 		return current.getTime() > last.getTime();
 	}
-
-	$effect(() => {
-		if (versionStore.isLoaded) {
-			checkVersion();
-		}
-	});
 
 	$effect(() => {
 		if (open) {

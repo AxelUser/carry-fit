@@ -11,6 +11,8 @@
 	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
+	import versionStore from '$lib/stores/versionStore.svelte';
+	import { changes } from '$lib/changes';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -148,7 +150,14 @@
 
 <svelte:window bind:innerWidth />
 
-<Changelog />
+<Changelog
+	{changes}
+	lastSeenVersion={versionStore.lastSeenVersion}
+	onOpen={(seenVersion, isNewVersion) => {
+		versionStore.lastSeenVersion = seenVersion;
+		metrics.changelogOpened(seenVersion, isNewVersion);
+	}}
+/>
 <CookieBanner
 	onAccept={handleConsent}
 	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}

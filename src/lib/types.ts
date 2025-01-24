@@ -83,3 +83,8 @@ export interface CookieConsent {
 	necessary: boolean;
 	timestamp: string | null;
 }
+
+export interface Change {
+	date: Date;
+	changes: string[];
+}

@@ -1,8 +1,4 @@
-interface Change {
-	date: Date;
-	changes: string[];
-}
-
+import type { Change } from './types';
 export const changes: Change[] = [
 	{
 		date: new Date('2025-01-11T00:00:00Z'),
