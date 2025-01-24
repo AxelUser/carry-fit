@@ -150,3 +150,20 @@
 		</div>
 	{/snippet}
 </Story>
+
+<Story name="Old vs New Disabled Region Filter Button" args={{ variant: 'disabled', pill: true }}>
+	{#snippet children(args)}
+		<div class="grid grid-cols-2 justify-items-start gap-4">
+			<div class="text-sm font-medium">Old Button</div>
+			<button
+				class="flex cursor-not-allowed items-center rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-400 ring-1 ring-gray-200 transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm"
+			>
+				<span>North America</span>
+			</button>
+			<div class="text-sm font-medium">New Button</div>
+			<Button {...args}>
+				<span>North America</span>
+			</Button>
+		</div>
+	{/snippet}
+</Story>

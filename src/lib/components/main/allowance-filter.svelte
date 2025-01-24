@@ -2,6 +2,7 @@
 	import type { AirlineInfo } from '$lib/types';
 	import { Check, X } from 'lucide-svelte';
 	import { Delimiter } from '$lib/components/ui/delimiter';
+	import { Button } from '$lib/components/ui/button';
 
 	interface Props {
 		airlines: AirlineInfo[];
@@ -76,20 +77,14 @@
 				</div>
 
 				<div class="grid grid-cols-2 gap-2">
-					<button
-						class="flex items-center justify-center gap-1.5 rounded-lg bg-sky-100 px-2 py-1.5 text-xs font-medium text-sky-700 transition-colors hover:bg-sky-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
-						onclick={selectAllRegions}
-					>
-						<Check class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+					<Button variant="primary" onclick={selectAllRegions}>
+						<Check class="mr-1.5 h-4 w-4" />
 						<span>Select All</span>
-					</button>
-					<button
-						class="flex items-center justify-center gap-1.5 rounded-lg bg-gray-100 px-2 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-200 sm:gap-2 sm:px-3 sm:py-2 sm:text-sm"
-						onclick={clearAllRegions}
-					>
-						<X class="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+					</Button>
+					<Button variant="secondary" onclick={clearAllRegions}>
+						<X class="mr-1.5 h-4 w-4" />
 						<span>Clear All</span>
-					</button>
+					</Button>
 				</div>
 			</div>
 
@@ -97,23 +92,19 @@
 				{#each allRegions as region}
 					{@const isSelected = selectedRegions.has(region)}
 					{@const isAvailable = isRegionAvailable(region)}
-					<button
-						class="flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm
-                            {isAvailable
-							? isSelected
-								? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800'
-								: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50'
-							: 'cursor-not-allowed bg-gray-100 text-gray-400 ring-1 ring-gray-200'}"
+
+					<Button
+						variant={isAvailable ? (isSelected ? 'gradient' : 'outline') : 'disabled'}
+						pill
 						onclick={() => isAvailable && toggleRegion(region)}
-						disabled={!isAvailable}
 					>
 						<span>{region}</span>
 						{#if isSelected && isAvailable}
 							<div class="ml-2 animate-bounce">
-								<Check class="h-3 w-3 sm:h-4 sm:w-4" />
+								<Check class="h-4 w-4" />
 							</div>
 						{/if}
-					</button>
+					</Button>
 				{/each}
 			</div>
 		</div>
