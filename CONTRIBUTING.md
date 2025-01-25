@@ -36,6 +36,19 @@ Thank you for your interest in contributing to CarryFit! This document provides 
 5. Run tests: `pnpm test`
 6. Submit a Pull Request
 
+## Using Storybook
+
+Storybook is used for developing and testing UI components in isolation. Moreover, it contains a lot of examples and documentation for most of the components used in the project.
+
+1. **Start Storybook**
+   - Run `pnpm storybook` to start the Storybook development server
+   - Access Storybook at `http://localhost:6006`
+
+2. **Creating Stories**
+   - Stories are located in `src/stories` directory
+   - Create new story files with `.stories.svelte` extension
+   - Use the Svelte CSF format for writing stories
+
 ## Testing
 
 1. **Unit Tests**
