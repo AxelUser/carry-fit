@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Tooltip from '$lib/components/ui/tooltip';
+	import * as Tooltip from '$lib/components/ui/tooltip/index';
 	import { MeasurementSystems, type AirlineInfo, type MeasurementSystem } from '$lib/types';
 	import { getAirlineDimensions } from '$lib/utils/mapping';
 	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
@@ -31,28 +31,30 @@
 
 <tr class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
 	<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
-		<Tooltip.Root>
-			<Tooltip.Trigger>
-				{#if airline?.testResult?.success}
-					<MonitorCheck size={16} class="text-green-600" />
-				{:else if airline?.testResult?.success === false}
-					<MonitorX size={16} class="text-red-600" />
-				{:else}
-					<MonitorOff size={16} class="text-gray-600" />
-				{/if}
-			</Tooltip.Trigger>
-			<Tooltip.Content>
-				<p>
+		<Tooltip.Provider>
+			<Tooltip.Root>
+				<Tooltip.Trigger>
 					{#if airline?.testResult?.success}
-						Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						<MonitorCheck size={16} class="text-green-600" />
 					{:else if airline?.testResult?.success === false}
-						Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						<MonitorX size={16} class="text-red-600" />
 					{:else}
-						No tests yet
+						<MonitorOff size={16} class="text-gray-600" />
 					{/if}
-				</p>
-			</Tooltip.Content>
-		</Tooltip.Root>
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					<p>
+						{#if airline?.testResult?.success}
+							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else if airline?.testResult?.success === false}
+							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else}
+							No tests yet
+						{/if}
+					</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
+		</Tooltip.Provider>
 	</td>
 	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
 		<div class="flex items-center gap-2">
