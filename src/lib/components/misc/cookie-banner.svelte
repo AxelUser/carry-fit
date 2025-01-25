@@ -33,19 +33,21 @@
 	<div class="fixed inset-0 z-[100] bg-black/20">
 		<div class="fixed bottom-0 left-0 right-0 bg-white p-6 shadow-xl ring-1 ring-sky-100">
 			<div class="mx-auto max-w-7xl">
-				<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+				<div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<div class="text-base text-sky-900">
 						<p>
 							We use cookies to improve your experience. By continuing to use our site, you agree to
 							our
-							<a href={links.legal.privacy} class="font-medium text-sky-600 hover:underline"
-								>Privacy Policy</a
+							<a
+								href={links.legal.privacy}
+								class="whitespace-nowrap font-medium text-sky-600 hover:underline">Privacy Policy</a
 							>.
 						</p>
 						<p class="mt-1 text-sm">
 							You can change your preferences anytime on our
-							<a href={links.legal.optOut} class="font-medium text-sky-600 hover:underline"
-								>opt-out page</a
+							<a
+								href={links.legal.optOut}
+								class="whitespace-nowrap font-medium text-sky-600 hover:underline">opt-out page</a
 							>.
 						</p>
 					</div>

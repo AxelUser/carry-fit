@@ -12,6 +12,9 @@
 
 	let { airlines, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
 
+	let innerWidth = $state(0);
+	const isMobile = $derived(innerWidth < 640);
+
 	let showFavoritesOnly = $state(false);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
@@ -58,6 +61,8 @@
 	}
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="mb-6">
 	<h3 class="mb-4 text-base font-semibold text-sky-900 sm:text-lg">Filters</h3>
 
@@ -77,11 +82,11 @@
 				</div>
 
 				<div class="grid grid-cols-2 gap-2">
-					<Button variant="primary" onclick={selectAllRegions}>
+					<Button size={isMobile ? 'sm' : 'md'} variant="primary" onclick={selectAllRegions}>
 						<Check class="mr-1.5 h-4 w-4" />
 						<span>Select All</span>
 					</Button>
-					<Button variant="secondary" onclick={clearAllRegions}>
+					<Button size={isMobile ? 'sm' : 'md'} variant="secondary" onclick={clearAllRegions}>
 						<X class="mr-1.5 h-4 w-4" />
 						<span>Clear All</span>
 					</Button>
@@ -94,6 +99,7 @@
 					{@const isAvailable = isRegionAvailable(region)}
 
 					<Button
+						size={isMobile ? 'sm' : 'md'}
 						variant={isAvailable ? (isSelected ? 'gradient' : 'outline') : 'disabled'}
 						pill
 						onclick={() => isAvailable && toggleRegion(region)}
