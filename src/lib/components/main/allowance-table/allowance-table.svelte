@@ -135,7 +135,7 @@
 </script>
 
 <div class="overflow-x-auto rounded-lg">
-	{#if airlines.length === 0}
+	{#if airlines.length === 0 && !showComplianceResult}
 		<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
 			<div class="rounded-full bg-sky-50 p-4">
 				<div class="rounded-full bg-sky-100 p-3">
