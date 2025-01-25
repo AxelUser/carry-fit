@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import ShareBagLink from '$lib/components/misc/share-bag-link.svelte';
+	import { ShareBagLink } from '$lib/components/misc';
 	import { MeasurementSystems } from '$lib/types';
 
 	const { Story } = defineMeta({

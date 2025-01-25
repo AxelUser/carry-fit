@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import MeasurementSystemSelect from '$lib/components/main/measurement-system-select.svelte';
+	import { MeasurementSystemSelect } from '$lib/components/main';
 	import { MeasurementSystems } from '$lib/types';
 
 	const { Story } = defineMeta({

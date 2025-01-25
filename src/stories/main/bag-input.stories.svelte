@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import BagInput from '$lib/components/main/bag-input.svelte';
+	import { BagInput } from '$lib/components/main';
 	import { MeasurementSystems } from '$lib/types';
 
 	const { Story } = defineMeta({

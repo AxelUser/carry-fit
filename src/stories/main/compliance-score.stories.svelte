@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import ComplianceScore from '$lib/components/main/compliance-score.svelte';
+	import { ComplianceScore } from '$lib/components/main';
 
 	const { Story } = defineMeta({
 		title: 'Main/ComplianceScore',

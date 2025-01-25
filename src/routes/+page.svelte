@@ -23,7 +23,8 @@
 		BagInput,
 		ComplianceScore,
 		Info,
-		MeasurementSystemSelect
+		MeasurementSystemSelect,
+		SupportSection
 	} from '$lib/components/main';
 	import { Card } from '$lib/components/ui/card';
 	import { CookieBanner, Changelog } from '$lib/components/misc';
@@ -221,18 +222,7 @@
 							</div>
 						{/if}
 
-						<div class="mt-8 rounded-lg bg-sky-50/80 p-4 text-center">
-							<p class="mb-3 text-sm text-sky-700">
-								If you find this tool helpful and want to support it:
-							</p>
-							<div
-								class="flex flex-col items-center gap-1 2xs:flex-row 2xs:items-center 2xs:justify-center 2xs:gap-2"
-							>
-								<GithubStarButton />
-								<span class="text-sm text-sky-500 2xs:inline">or</span>
-								<BuyMeCoffeeButton />
-							</div>
-						</div>
+						<SupportSection class="mt-8" />
 					</Card>
 				</div>
 			</div>

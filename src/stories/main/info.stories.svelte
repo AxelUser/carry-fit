@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import Info from '$lib/components/main/info.svelte';
+	import { Info } from '$lib/components/main';
 
 	const { Story } = defineMeta({
 		title: 'Main/Info',
