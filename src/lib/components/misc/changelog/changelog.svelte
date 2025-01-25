@@ -1,44 +1,35 @@
 <script lang="ts">
-	import { createLocalStore } from '$lib/storage/local-store.svelte';
-	import { changes } from './changes';
 	import { X } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
+	import { type Change } from '$lib/types';
+	import { Button } from '$lib/components/ui/button';
 
-	const currentVersion =
-		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null;
+	interface Props {
+		changes: Change[];
+		lastSeenVersion: Date | null;
+		onOpen: (seenVersion: Date, isNewVersion: boolean) => void;
+	}
+
+	const { changes, lastSeenVersion, onOpen }: Props = $props();
+
+	const currentVersion = $derived(
+		changes.length > 0 ? changes.sort((a, b) => b.date.getTime() - a.date.getTime())[0] : null
+	);
 	let open = $state(false);
-	let hasNewVersion = $state(false);
-
-	const versionStore = createLocalStore<string | null>('lastSeenVersion', null);
+	let hasNewVersion = $derived(
+		(currentVersion && lastSeenVersion && isNewerVersion(currentVersion.date, lastSeenVersion)) ??
+			false
+	);
 
 	function close() {
 		open = false;
-		if (currentVersion) {
-			versionStore.value = currentVersion.date.toISOString();
-		}
-		hasNewVersion = false;
 	}
 
 	function openChangelog() {
 		open = true;
 		if (currentVersion) {
 			metrics.changelogOpened(currentVersion.date, hasNewVersion);
-		}
-	}
-
-	function checkVersion() {
-		try {
-			if (!currentVersion) return;
-
-			const lastSeenVersionDate = versionStore.value ? new Date(versionStore.value) : null;
-
-			if (!lastSeenVersionDate || isNewerVersion(currentVersion.date, lastSeenVersionDate)) {
-				hasNewVersion = true;
-			}
-		} catch (e) {
-			console.error(e);
-			versionStore.reset();
-			hasNewVersion = true;
+			onOpen(currentVersion.date, $state.snapshot(hasNewVersion));
 		}
 	}
 
@@ -46,12 +37,6 @@
 		if (!current) return true;
 		return current.getTime() > last.getTime();
 	}
-
-	$effect(() => {
-		if (versionStore.isLoaded) {
-			checkVersion();
-		}
-	});
 
 	$effect(() => {
 		if (open) {
@@ -68,13 +53,10 @@
 	<div class="fixed bottom-4 z-50 w-full">
 		<div class="mx-auto max-w-[1700px] px-4">
 			<div class="flex justify-end">
-				<button
-					onclick={openChangelog}
-					class="flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all hover:from-sky-700 hover:to-blue-800"
-				>
+				<Button pill variant="gradient" onclick={openChangelog} class="gap-2">
 					<span>Latest Updates</span>
 					{#if hasNewVersion}
-						<div class="relative">
+						<div class="relative mr-1">
 							<div class="absolute -right-1.5 -top-1 h-2 w-2">
 								<div
 									class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
@@ -83,7 +65,7 @@
 							</div>
 						</div>
 					{/if}
-				</button>
+				</Button>
 			</div>
 		</div>
 	</div>
@@ -107,13 +89,9 @@
 					<h2 id="dialog-title" class="text-xl font-semibold text-sky-900">
 						Latest Updates ({currentVersion.date.toLocaleDateString()})
 					</h2>
-					<button
-						onclick={() => (open = false)}
-						class="rounded-lg p-1 text-sky-600 hover:bg-sky-100"
-						aria-label="Close dialog"
-					>
+					<Button variant="ghost" onclick={() => (open = false)}>
 						<X class="h-5 w-5" />
-					</button>
+					</Button>
 				</div>
 				{#if currentVersion.changes.length === 1}
 					<p id="dialog-description" class="text-sky-900">
@@ -129,12 +107,7 @@
 			</div>
 
 			<div class="flex justify-end">
-				<button
-					class="rounded-lg bg-gradient-to-r from-sky-600 to-blue-700 px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:from-sky-700 hover:to-blue-800"
-					onclick={close}
-				>
-					Got it!
-				</button>
+				<Button variant="primary" onclick={close}>Got it!</Button>
 			</div>
 		</div>
 	</div>

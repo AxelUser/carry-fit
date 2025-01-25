@@ -1,5 +1,5 @@
 import { Metrics } from './metrics';
-import { mergedAnalytics as analyticsProvider } from './merged-analytics-provider';
+import { posthogAnalytics as analyticsProvider } from './posthog-analytics';
 
 function updateConsent(consent: boolean) {
 	analyticsProvider.updateConsent(consent);

@@ -51,4 +51,8 @@ export class Metrics {
 			3000
 		);
 	}
+
+	easterEggShown(name: string) {
+		this.provider.trackEventDebounced('easter_egg_shown', { name }, 2000);
+	}
 }

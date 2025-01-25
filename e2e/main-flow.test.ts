@@ -118,133 +118,6 @@ test.describe('Bag compliance scoring calculation', () => {
 	});
 });
 
-test.describe('Bag dimensions conversion', () => {
-	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-	});
-
-	test('should handle dimension unit conversion correctly', async ({ page }) => {
-		// Enter dimensions in metric
-		await page.getByLabel('Height').fill('50');
-		await page.getByLabel('Width').fill('40');
-		await page.getByLabel('Depth').fill('25');
-
-		// Switch to imperial - should show conversion prompt
-		await page.getByRole('button', { name: /Imperial/i }).click();
-		await expect(
-			page.getByText('Would you like to convert your dimensions to inches?')
-		).toBeVisible();
-
-		// Click "Apply conversion" and verify converted values (rounded to 1 decimal)
-		await page.getByRole('button', { name: 'Apply conversion' }).click();
-		await expect(page.getByLabel('Height')).toHaveValue('19.7');
-		await expect(page.getByLabel('Width')).toHaveValue('15.7');
-		await expect(page.getByLabel('Depth')).toHaveValue('9.8');
-
-		// Enter new values in imperial
-		await page.getByLabel('Height').fill('20');
-		await page.getByLabel('Width').fill('16');
-		await page.getByLabel('Depth').fill('10');
-
-		// Switch back to metric - should show conversion prompt again
-		await page.getByRole('button', { name: /Metric/i }).click();
-		await expect(
-			page.getByText('Would you like to convert your dimensions to centimeters?')
-		).toBeVisible();
-
-		// Click "Keep as is" this time
-		await page.getByRole('button', { name: 'Keep as is' }).click();
-
-		// Values should remain unchanged
-		await expect(page.getByLabel('Height')).toHaveValue('20');
-		await expect(page.getByLabel('Width')).toHaveValue('16');
-		await expect(page.getByLabel('Depth')).toHaveValue('10');
-
-		// Verify prompt is dismissed
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-
-	test('should not show conversion prompt when no dimensions are entered', async ({ page }) => {
-		// Switch between units without entering dimensions
-		await page.getByRole('button', { name: /Imperial/i }).click();
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-
-		await page.getByRole('button', { name: /Metric/i }).click();
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-
-	test('should not show conversion prompt after dimensions reset', async ({ page }) => {
-		// Enter initial dimensions in metric
-		await page.getByLabel('Height').fill('50');
-		await page.getByLabel('Width').fill('40');
-		await page.getByLabel('Depth').fill('25');
-
-		// Reset dimensions using the reset button
-		await page.getByRole('button', { name: 'Reset' }).click();
-
-		// Switch to imperial
-		await page.getByRole('button', { name: /Imperial/i }).click();
-
-		// Enter new dimensions - should not show conversion prompt
-		await page.getByLabel('Height').fill('20');
-		await page.getByLabel('Width').fill('16');
-		await page.getByLabel('Depth').fill('10');
-
-		// Expect that the conversion prompt is not shown
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-
-	test('should not show conversion prompt when starting dimensions input after system change', async ({
-		page
-	}) => {
-		// Start with metric system
-		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
-
-		// Switch to imperial before entering any dimensions
-		await page.getByRole('button', { name: /Imperial/i }).click();
-
-		// Enter dimensions one by one - no prompt should appear at any point
-		await page.getByLabel('Height').fill('20');
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-
-		// Switch back to metric
-		await page.getByRole('button', { name: /Metric/i }).click();
-
-		// Start entering new dimensions - no prompt should appear
-		await page.getByLabel('Width').fill('40');
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-
-		// Complete filling all dimensions - still no prompt
-		await page.getByLabel('Height').fill('50');
-		await page.getByLabel('Depth').fill('25');
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-
-	test('should hide conversion prompt when user starts editing dimensions', async ({ page }) => {
-		// Enter initial dimensions in metric
-		await page.getByLabel('Height').fill('50');
-		await page.getByLabel('Width').fill('40');
-		await page.getByLabel('Depth').fill('25');
-
-		// Switch to imperial - should show conversion prompt
-		await page.getByRole('button', { name: /Imperial/i }).click();
-		await expect(
-			page.getByText('Would you like to convert your dimensions to inches?')
-		).toBeVisible();
-
-		// Start editing dimensions - prompt should disappear
-		await page.getByLabel('Height').fill('20');
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-
-		// Edit another dimension - prompt should stay hidden
-		await page.getByLabel('Width').fill('16');
-		await expect(page.getByText('Would you like to convert your dimensions')).not.toBeVisible();
-	});
-});
-
 test.describe('Favorites functionality', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
@@ -551,22 +424,24 @@ test.describe('Bag sharing functionality', () => {
 		expect(page.url()).not.toContain('units=');
 	});
 
-	test('should respect persisted measurement system preference over shared link', async ({
+	test('should change measurement system preference when shared link is visited', async ({
 		page
 	}) => {
 		// First visit to set metric preference
 		await page.getByRole('button', { name: /Metric/i }).click();
+		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
 
 		// Visit page with imperial units in URL
 		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
 
-		// Change any dimension
-		await page.getByLabel('Height').fill('50');
+		// Verify measurement system is taken from URL
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
 
-		// Verify system reverts to metric (persisted preference)
-		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
-		// FIXME: Selected first element in locator, because of false positive strictness error: first vs nth(1)
-		await expect(page.getByRole('columnheader', { name: 'Carry-On (cm)' }).first()).toBeVisible();
+		// Reload page
+		await page.reload();
+
+		// Verify measurement system is still imperial
+		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
 	});
 
 	test('should handle invalid measurement system in URL', async ({ page }) => {

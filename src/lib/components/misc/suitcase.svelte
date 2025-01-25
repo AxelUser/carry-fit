@@ -1,15 +1,27 @@
 <script lang="ts">
 	import HandPushingLeftwards from '$lib/components/icons/hand-pushing-leftwards.svelte';
 	import HandPushingRightwards from '$lib/components/icons/hand-pushing-rightwards.svelte';
+	import { type MeasurementSystem, MeasurementSystems } from '$lib/types';
 
 	interface Props {
 		value: number;
-		unit: string;
+		measurementSystem: MeasurementSystem;
 		max: number;
 	}
 
-	let { value, unit, max }: Props = $props();
-	let scale = $derived(1 - (value / max) * 0.3);
+	let { value, measurementSystem, max }: Props = $props();
+	const normalizedValue = $derived.by(() => {
+		if (value < 0) {
+			return 0;
+		}
+		if (value > max) {
+			return max;
+		}
+		return value;
+	});
+
+	const scale = $derived(1 - (normalizedValue / max) * 0.3);
+	const unit = $derived(measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in');
 </script>
 
 <div class="relative mx-auto h-[84px] w-[112px]">
