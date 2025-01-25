@@ -2,6 +2,7 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { links } from '$lib/utils/navigation';
+	import { Button } from '$lib/components/ui/button';
 
 	let success = $state(false);
 	const isOptedIn = $derived(cookieConsent.value.analytics);
@@ -47,14 +48,9 @@
 {/if}
 
 <div class="mt-6">
-	<button
-		onclick={toggleAnalytics}
-		class="rounded-lg {isOptedIn
-			? 'border border-sky-600 bg-white text-sky-600 hover:bg-sky-50'
-			: 'bg-sky-600 text-white hover:bg-sky-700'} px-4 py-2 text-sm font-medium shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-	>
+	<Button variant={isOptedIn ? 'outline' : 'primary'} onclick={toggleAnalytics}>
 		{isOptedIn ? 'Disable Analytics Cookies' : 'Enable Analytics Cookies'}
-	</button>
+	</Button>
 </div>
 
 <div class="space-y-4">
