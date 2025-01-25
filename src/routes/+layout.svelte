@@ -3,6 +3,7 @@
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
+	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
 	let { children } = $props();
 	let error = $state<Error | null>(null);
 
@@ -15,6 +16,8 @@
 </script>
 
 <svelte:window on:error={handleError} />
+
+<UltraWideJoke />
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">

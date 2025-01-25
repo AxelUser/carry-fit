@@ -8,7 +8,6 @@
 		type CookieConsent
 	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
-	import { GithubStarButton, BuyMeCoffeeButton } from '$lib/components/social';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
 	import versionStore from '$lib/stores/versionStore.svelte';

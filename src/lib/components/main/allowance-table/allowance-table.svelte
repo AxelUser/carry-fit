@@ -59,10 +59,6 @@
 		onlyCompliantSection || onlyNonCompliantSection ? 'single-column' : 'two-column'
 	);
 
-	$inspect(onlyCompliantSection, 'onlyCompliantSection');
-	$inspect(onlyNonCompliantSection, 'onlyNonCompliantSection');
-	$inspect(tableLayout, 'tableLayout');
-
 	function sortAirlines<T extends AirlineInfo>(airlines: T[]) {
 		return airlines.toSorted((a, b) => {
 			const direction = sortDirection === SortDirections.Ascending ? 1 : -1;
