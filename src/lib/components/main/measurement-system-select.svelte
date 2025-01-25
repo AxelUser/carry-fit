@@ -28,7 +28,7 @@
 				variant={value === MeasurementSystems.Metric ? 'primary' : 'outline'}
 				size="md"
 				onclick={() => setValue(MeasurementSystems.Metric)}
-				data-testid="imperial-button"
+				data-testid="metric-button"
 				data-active={value === MeasurementSystems.Metric}
 			>
 				<span>Metric</span>
