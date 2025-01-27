@@ -25,8 +25,8 @@
 		<div class="grid grid-cols-2 gap-2">
 			<Button
 				class="flex flex-col items-center justify-center"
-				variant={value === MeasurementSystems.Metric ? 'primary' : 'outline'}
-				size="md"
+				variant={value === MeasurementSystems.Metric ? 'default' : 'outline'}
+				size="lg"
 				onclick={() => setValue(MeasurementSystems.Metric)}
 				data-testid="metric-button"
 				data-active={value === MeasurementSystems.Metric}
@@ -36,8 +36,8 @@
 			</Button>
 			<Button
 				class="flex flex-col items-center justify-center"
-				variant={value === MeasurementSystems.Imperial ? 'primary' : 'outline'}
-				size="md"
+				variant={value === MeasurementSystems.Imperial ? 'default' : 'outline'}
+				size="lg"
 				onclick={() => setValue(MeasurementSystems.Imperial)}
 				data-testid="imperial-button"
 				data-active={value === MeasurementSystems.Imperial}

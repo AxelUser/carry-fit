@@ -48,7 +48,7 @@
 {/if}
 
 <div class="mt-6">
-	<Button variant={isOptedIn ? 'outline' : 'primary'} onclick={toggleAnalytics}>
+	<Button variant={isOptedIn ? 'outline' : 'default'} onclick={toggleAnalytics}>
 		{isOptedIn ? 'Disable Analytics Cookies' : 'Enable Analytics Cookies'}
 	</Button>
 </div>

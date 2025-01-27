@@ -65,7 +65,7 @@
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="+1" size="base">
-			<Button slot="trigger" variant="outline" size="md">Base</Button>
+			<Button slot="trigger" variant="outline" size="default">Base</Button>
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="+1" size="lg">

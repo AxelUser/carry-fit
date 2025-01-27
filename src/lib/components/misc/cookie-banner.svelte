@@ -55,14 +55,11 @@
 						<Button
 							variant="ghost"
 							data-testid="accept-necessary-cookies"
-							type="button"
 							onclick={acceptNecessary}
 						>
 							Necessary Only
 						</Button>
-						<Button data-testid="accept-all-cookies" type="button" onclick={acceptAll}>
-							Accept All Cookies
-						</Button>
+						<Button data-testid="accept-all-cookies" onclick={acceptAll}>Accept All Cookies</Button>
 					</div>
 				</div>
 			</div>

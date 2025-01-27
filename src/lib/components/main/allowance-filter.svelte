@@ -82,11 +82,11 @@
 				</div>
 
 				<div class="grid grid-cols-2 gap-2">
-					<Button size={isMobile ? 'sm' : 'md'} variant="primary" onclick={selectAllRegions}>
+					<Button size={isMobile ? 'sm' : 'default'} variant="default" onclick={selectAllRegions}>
 						<Check class="mr-1.5 h-4 w-4" />
 						<span>Select All</span>
 					</Button>
-					<Button size={isMobile ? 'sm' : 'md'} variant="secondary" onclick={clearAllRegions}>
+					<Button size={isMobile ? 'sm' : 'default'} variant="secondary" onclick={clearAllRegions}>
 						<X class="mr-1.5 h-4 w-4" />
 						<span>Clear All</span>
 					</Button>
@@ -99,9 +99,9 @@
 					{@const isAvailable = isRegionAvailable(region)}
 
 					<Button
-						size={isMobile ? 'sm' : 'md'}
-						variant={isAvailable ? (isSelected ? 'gradient' : 'outline') : 'disabled'}
-						pill
+						size={isMobile ? 'sm' : 'default'}
+						variant={isSelected ? 'default' : 'outline'}
+						disabled={!isAvailable}
 						onclick={() => isAvailable && toggleRegion(region)}
 					>
 						<span>{region}</span>

@@ -25,7 +25,7 @@
 <svelte:window bind:innerWidth />
 
 {#if easterEggs.ultraWide}
-	<div class="3xl:block fixed hidden">
+	<div class="fixed hidden 3xl:block">
 		{@render card('left')}
 		{@render card('right')}
 	</div>
@@ -45,7 +45,7 @@
 						<span>Nice ultrawide you got there! 👀 Worth every pixel, right?</span>
 						<span>PS: I would show you more but my markup skills only cover half the screen...</span
 						>
-						<Button onclick={close} variant="primary">Don't bother me anymore!</Button>
+						<Button onclick={close} variant="default">Don't bother me anymore!</Button>
 					</div>
 				{/if}
 			</div>

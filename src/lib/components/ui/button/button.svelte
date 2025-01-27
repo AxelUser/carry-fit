@@ -1,72 +1,74 @@
-<script lang="ts">
-	import { cn } from '$lib/utils/styling';
-	import type { HTMLButtonAttributes } from 'svelte/elements';
-	import { tv, type VariantProps } from 'tailwind-variants';
+<script lang="ts" module>
+	import type { WithElementRef } from "bits-ui";
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
+	import { type VariantProps, tv } from "tailwind-variants";
 
-	const buttonVariants = tv({
-		base: 'inline-flex items-center justify-center rounded-lg font-medium transition-colors',
+	export const buttonVariants = tv({
+		base: "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
 		variants: {
 			variant: {
-				primary: 'bg-sky-100 text-sky-700 hover:bg-sky-200',
-				secondary: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-				gradient:
-					'bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-md hover:from-sky-700 hover:to-blue-800',
-				outline: 'bg-white text-sky-700 ring-1 ring-sky-200 hover:bg-sky-50',
-				ghost: 'bg-transparent hover:bg-sky-50 text-sky-600',
-				disabled: 'cursor-not-allowed bg-gray-100 text-gray-400 ring-1 ring-gray-200'
+				default: "bg-primary text-primary-foreground hover:bg-primary/90",
+				destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+				outline:
+					"border-input bg-background hover:bg-accent hover:text-accent-foreground border",
+				secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+				ghost: "hover:bg-accent hover:text-accent-foreground",
+				link: "text-primary underline-offset-4 hover:underline",
 			},
 			size: {
-				sm: 'px-2 py-1 text-xs',
-				md: 'px-3 py-2 text-sm',
-				lg: 'px-4 py-2 text-base'
+				default: "h-10 px-4 py-2",
+				sm: "h-9 rounded-md px-3",
+				lg: "h-11 rounded-md px-8",
+				icon: "h-10 w-10",
 			},
-			pill: {
-				true: 'rounded-full',
-				false: 'rounded-lg'
-			},
-			fullWidth: {
-				true: 'w-full',
-				false: ''
-			}
 		},
 		defaultVariants: {
-			variant: 'primary',
-			size: 'md',
-			pill: false,
-			fullWidth: false
-		}
+			variant: "default",
+			size: "default",
+		},
 	});
 
-	type ButtonVariants = VariantProps<typeof buttonVariants>;
+	export type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
+	export type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
-	type Props = ButtonVariants & HTMLButtonAttributes;
-
-	let {
-		class: className = '',
-		variant,
-		size,
-		pill,
-		fullWidth,
-		disabled = false,
-		type = 'button',
-		children,
-		...otherProps
-	}: Props = $props();
-
-	$effect(() => {
-		if (disabled) {
-			variant = 'disabled';
-		}
-	});
+	export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
+		WithElementRef<HTMLAnchorAttributes> & {
+			variant?: ButtonVariant;
+			size?: ButtonSize;
+		};
 </script>
 
-<button
-	{type}
-	class={cn(buttonVariants({ variant, size, pill, fullWidth }), className)}
-	{disabled}
-	{...otherProps}
->
-	{#if children}
-		{@render children()}
-	{/if}
-</button>
+<script lang="ts">
+	import { cn } from "$lib/utils/styling.js";
+
+	let {
+		class: className,
+		variant = "default",
+		size = "default",
+		ref = $bindable(null),
+		href = undefined,
+		type = "button",
+		children,
+		...restProps
+	}: ButtonProps = $props();
+</script>
+
+{#if href}
+	<a
+		bind:this={ref}
+		class={cn(buttonVariants({ variant, size }), className)}
+		{href}
+		{...restProps}
+	>
+		{@render children?.()}
+	</a>
+{:else}
+	<button
+		bind:this={ref}
+		class={cn(buttonVariants({ variant, size }), className)}
+		{type}
+		{...restProps}
+	>
+		{@render children?.()}
+	</button>
+{/if}

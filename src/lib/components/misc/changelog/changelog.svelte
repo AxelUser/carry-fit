@@ -53,7 +53,7 @@
 	<div class="fixed bottom-4 z-50 w-full">
 		<div class="mx-auto max-w-[1700px] px-4">
 			<div class="flex justify-end">
-				<Button pill variant="gradient" onclick={openChangelog} class="gap-2">
+				<Button variant="secondary" onclick={openChangelog} class="gap-2">
 					<span>Latest Updates</span>
 					{#if hasNewVersion}
 						<div class="relative mr-1">
@@ -107,7 +107,7 @@
 			</div>
 
 			<div class="flex justify-end">
-				<Button variant="primary" onclick={close}>Got it!</Button>
+				<Button variant="default" onclick={close}>Got it!</Button>
 			</div>
 		</div>
 	</div>
