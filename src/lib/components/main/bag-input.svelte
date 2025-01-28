@@ -57,49 +57,40 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-3 gap-4">
-		<div>
-			<Label for="height">Height</Label>
-			<Input
-				class="mt-1"
-				type="number"
-				id="height"
-				value={userDimensions.height}
-				oninput={(e) => {
-					userDimensions.height = Number(e.currentTarget.value);
-					onChanged();
-				}}
-				min={0}
-			/>
-		</div>
-		<div>
-			<Label class="mb-1" for="width">Width</Label>
-			<Input
-				class="mt-1"
-				type="number"
-				id="width"
-				value={userDimensions.width}
-				oninput={(e) => {
-					userDimensions.width = Number(e.currentTarget.value);
-					onChanged();
-				}}
-				min={0}
-			/>
-		</div>
-		<div>
-			<Label for="depth">Depth</Label>
-			<Input
-				class="mt-1"
-				type="number"
-				id="depth"
-				value={userDimensions.depth}
-				oninput={(e) => {
-					userDimensions.depth = Number(e.currentTarget.value);
-					onChanged();
-				}}
-				min={0}
-			/>
-		</div>
+	<div class="grid grid-cols-3 gap-x-4 gap-y-2">
+		<Label for="height">Height</Label>
+		<Label class="mb-1" for="width">Width</Label>
+		<Label for="depth">Depth</Label>
+		<Input
+			type="number"
+			id="height"
+			value={userDimensions.height}
+			oninput={(e) => {
+				userDimensions.height = Number(e.currentTarget.value);
+				onChanged();
+			}}
+			min={0}
+		/>
+		<Input
+			type="number"
+			id="width"
+			value={userDimensions.width}
+			oninput={(e) => {
+				userDimensions.width = Number(e.currentTarget.value);
+				onChanged();
+			}}
+			min={0}
+		/>
+		<Input
+			type="number"
+			id="depth"
+			value={userDimensions.depth}
+			oninput={(e) => {
+				userDimensions.depth = Number(e.currentTarget.value);
+				onChanged();
+			}}
+			min={0}
+		/>
 	</div>
 
 	<p class="mb-4 mt-4 text-center text-sm font-medium text-primary">
