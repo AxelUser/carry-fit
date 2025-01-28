@@ -7,13 +7,14 @@
 	} from '$lib/types';
 	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
 	import { tv } from 'tailwind-variants';
+	import * as Table from '$lib/components/ui/table';
 
 	const header = tv({
 		variants: {
 			variant: {
-				default: 'bg-sky-50',
+				default: '',
 				compliant: 'bg-emerald-50',
-				nonCompliant: 'bg-red-50'
+				nonCompliant: 'bg-destructive-50'
 			}
 		},
 		defaultVariants: {
@@ -37,11 +38,11 @@
 	}
 </script>
 
-<thead>
-	<tr class={header({ variant })}>
-		<th role="columnheader"></th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-			<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+<Table.Header>
+	<Table.Row class={header({ variant })}>
+		<Table.Head></Table.Head>
+		<Table.Head>
+			<button class="flex items-center gap-2" onclick={toggleSortDirection}>
 				Airline
 				{#if sortDirection === SortDirections.Ascending}
 					<ArrowDownAZ class="h-5 w-5" />
@@ -49,18 +50,12 @@
 					<ArrowUpAZ class="h-5 w-5" />
 				{/if}
 			</button>
-		</th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Region</th
+		</Table.Head>
+		<Table.Head>Region</Table.Head>
+		<Table.Head
+			>Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})</Table.Head
 		>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-			Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
-		</th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Weight</th
-		>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Policy</th
-		>
-	</tr>
-</thead>
+		<Table.Head>Weight</Table.Head>
+		<Table.Head>Policy</Table.Head>
+	</Table.Row>
+</Table.Header>

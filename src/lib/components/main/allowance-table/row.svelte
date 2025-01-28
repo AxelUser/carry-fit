@@ -4,6 +4,8 @@
 	import { getAirlineDimensions } from '$lib/utils/mapping';
 	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
 	import { tv } from 'tailwind-variants';
+	import * as Table from '$lib/components/ui/table';
+	import { Button } from '$lib/components/ui/button';
 
 	const row = tv({
 		base: 'border-t border-sky-100 hover:bg-sky-50',
@@ -29,8 +31,8 @@
 	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
 </script>
 
-<tr class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
-	<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
+<Table.Row class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
+	<Table.Cell>
 		<Tooltip.Provider>
 			<Tooltip.Root>
 				<Tooltip.Trigger>
@@ -55,8 +57,8 @@
 				</Tooltip.Content>
 			</Tooltip.Root>
 		</Tooltip.Provider>
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
+	</Table.Cell>
+	<Table.Cell>
 		<div class="flex items-center gap-2">
 			<button
 				class="group flex items-center"
@@ -72,9 +74,9 @@
 			</button>
 			{airline.airline}
 		</div>
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
-	<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
+	</Table.Cell>
+	<Table.Cell data-testid="region">{airline.region}</Table.Cell>
+	<Table.Cell class="whitespace-nowrap" data-testid="dimensions">
 		{#if carryOnDimensions.length === 1}
 			<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}>
 				{`Total ${carryOnDimensions[0]}`}</span
@@ -92,8 +94,8 @@
 				>{carryOnDimensions[2]}</span
 			>
 		{/if}
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
+	</Table.Cell>
+	<Table.Cell data-testid="weight-limit">
 		{#if airline.kilograms}
 			{measurementSystem === MeasurementSystems.Metric
 				? `${airline.kilograms} kg`
@@ -101,19 +103,20 @@
 		{:else}
 			N/A
 		{/if}
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="policy-link">
+	</Table.Cell>
+	<Table.Cell data-testid="policy-link">
 		{#if airline.link}
-			<a
+			<Button
+				variant="link"
+				size="sm"
 				href={airline.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="text-blue-600 hover:text-blue-800 hover:underline"
 			>
 				View
-			</a>
+			</Button>
 		{:else}
 			N/A
 		{/if}
-	</td>
-</tr>
+	</Table.Cell>
+</Table.Row>

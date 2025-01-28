@@ -12,6 +12,7 @@
 	import Header from './header.svelte';
 	import ComplianceTable from './compliance-table.svelte';
 	import * as Card from '$lib/components/ui/card';
+	import * as Table from '$lib/components/ui/table';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -191,9 +192,9 @@
 		</div>
 	{:else}
 		<div class="overflow-x-auto">
-			<table class="w-full">
+			<Table.Root>
 				<Header {measurementSystem} bind:sortDirection />
-				<tbody>
+				<Table.Body>
 					{#each sortedAirlines as airline}
 						<Row
 							{airline}
@@ -202,8 +203,8 @@
 							{toggleFavorite}
 						/>
 					{/each}
-				</tbody>
-			</table>
+				</Table.Body>
+			</Table.Root>
 		</div>
 	{/if}
 {/snippet}
