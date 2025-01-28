@@ -2,7 +2,6 @@
 	import { X } from 'lucide-svelte';
 	import { type MeasurementSystem, type UserDimensions } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
-	import { Delimiter } from '$lib/components/ui/delimiter';
 	import { Button } from '../ui/button';
 	import { Label } from '../ui/label';
 	import { Input } from '../ui/input';

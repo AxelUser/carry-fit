@@ -11,6 +11,7 @@
 	import Row from './row.svelte';
 	import Header from './header.svelte';
 	import ComplianceTable from './compliance-table.svelte';
+	import * as Card from '$lib/components/ui/card';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -130,23 +131,30 @@
 	}
 </script>
 
-<div class="overflow-x-auto rounded-lg">
-	{#if airlines.length === 0 && !showComplianceResult}
-		<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
-			<div class="rounded-full bg-sky-50 p-4">
-				<div class="rounded-full bg-sky-100 p-3">
-					<SearchX class="h-8 w-8 text-sky-600" />
+<Card.Root>
+	<Card.Header>
+		<Card.Title>Airlines</Card.Title>
+	</Card.Header>
+	<Card.Content class="overflow-x-auto">
+		{#if airlines.length === 0 && !showComplianceResult}
+			<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
+				<div class="rounded-full bg-sky-50 p-4">
+					<div class="rounded-full bg-sky-100 p-3">
+						<SearchX class="h-8 w-8 text-sky-600" />
+					</div>
 				</div>
+				<p class="text-xl font-medium text-sky-600 sm:text-2xl">
+					No carry-on allowances to display
+				</p>
+				<p class="text-base text-sky-500 sm:text-lg">
+					Try adjusting your filters to see available allowances
+				</p>
 			</div>
-			<p class="text-xl font-medium text-sky-600 sm:text-2xl">No carry-on allowances to display</p>
-			<p class="text-base text-sky-500 sm:text-lg">
-				Try adjusting your filters to see available allowances
-			</p>
-		</div>
-	{:else}
-		{@render airlinesTable()}
-	{/if}
-</div>
+		{:else}
+			{@render airlinesTable()}
+		{/if}
+	</Card.Content>
+</Card.Root>
 
 {#snippet airlinesTable()}
 	{#if showComplianceResult}

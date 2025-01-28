@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { AlertTriangle, MonitorCheck } from 'lucide-svelte';
+	import { MonitorCheck } from 'lucide-svelte';
 	import * as Card from '$lib/components/ui/card';
-	import * as Alert from '$lib/components/ui/alert';
 	import { Separator } from '$lib/components/ui/separator';
 
 	interface Props {

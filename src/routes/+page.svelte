@@ -227,16 +227,12 @@
 				</div>
 			</div>
 
-			<Card.Root>
-				<Card.Header>
-					<Card.Title>Airlines</Card.Title>
-				</Card.Header>
+			<div class="flex flex-col gap-4">
 				<AllowanceFilter
 					airlines={allAirlines}
 					favoriteAirlines={preferences.favoriteAirlines}
 					bind:filteredAirlines
 				/>
-
 				<AllowanceTable
 					measurementSystem={preferences.measurementSystem}
 					bind:favoriteAirlines={preferences.favoriteAirlines}
@@ -245,7 +241,7 @@
 					nonCompliantAirlines={airlinesByCompliance.nonCompliant}
 					variant={isLargeScreen ? 'two-column' : 'single-column'}
 				/>
-			</Card.Root>
+			</div>
 		</div>
 	</div>
 </div>
