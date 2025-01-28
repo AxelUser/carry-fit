@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { WithElementRef } from "bits-ui";
 	import type { HTMLAttributes } from "svelte/elements";
+	import type { WithElementRef } from "bits-ui";
 	import { cn } from "$lib/utils/styling.js";
 
 	let {
@@ -8,13 +8,16 @@
 		class: className,
 		children,
 		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
+	}: WithElementRef<HTMLAttributes<HTMLTableRowElement>> = $props();
 </script>
 
-<div
+<tr
 	bind:this={ref}
-	class={cn("bg-card text-card-foreground rounded-lg border shadow-sm", className)}
+	class={cn(
+		"hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+		className
+	)}
 	{...restProps}
 >
 	{@render children?.()}
-</div>
+</tr>

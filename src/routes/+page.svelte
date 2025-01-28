@@ -25,10 +25,11 @@
 		MeasurementSystemSelect,
 		SupportSection
 	} from '$lib/components/main';
-	import { Card } from '$lib/components/ui/card';
+	import * as Card from '$lib/components/ui/card';
 	import { CookieBanner, Changelog } from '$lib/components/misc';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
+	import { Button } from '$lib/components/ui/button';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -164,7 +165,7 @@
 />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
-	<div class="min-h-screen bg-white/90">
+	<div class="min-h-screen">
 		<div class="mx-auto md:container">
 			<div class="mb-8 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
@@ -177,16 +178,14 @@
 						<CarryFitIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
-				<p class="text-lg font-medium text-sky-900 sm:text-xl">
-					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
+				<p class="font-mediu text-lg sm:text-xl">
+					Instantly validate your carry-on bag dimensions for <span class="text-primary"
 						>{allAirlines.length}</span
 					> airlines worldwide
 				</p>
-				<p class="mt-2 text-xs text-sky-600">
-					<a href={links.legal.privacy} class="hover:text-sky-800 hover:underline">Privacy Policy</a
-					>
-					<span class="mx-1">·</span>
-					<a href={links.legal.terms} class="hover:text-sky-800 hover:underline">Terms of Use</a>
+				<p class="mt-2 text-xs">
+					<Button href={links.legal.privacy} variant="link" size="sm">Privacy Policy</Button>
+					<Button href={links.legal.terms} variant="link" size="sm">Terms of Use</Button>
 				</p>
 			</div>
 
@@ -199,34 +198,39 @@
 						onChanged={clearSharedBagInfo}
 					/>
 
-					<Card>
-						<BagInput
-							bind:userDimensions
-							measurementSystem={preferences.measurementSystem}
-							bind:showFlexibility
-							bind:flexibility
-							flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
-							flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
-							onChanged={() => {
-								clearSharedBagInfo();
-							}}
-						/>
+					<Card.Root>
+						<Card.Content>
+							<BagInput
+								bind:userDimensions
+								measurementSystem={preferences.measurementSystem}
+								bind:showFlexibility
+								bind:flexibility
+								flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
+								flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
+								onChanged={() => {
+									clearSharedBagInfo();
+								}}
+							/>
 
-						{#if allDimensionsSet}
-							<div class="mt-6">
-								<ComplianceScore
-									allAirlinesCount={filteredAirlines.length}
-									compliantAirlinesCount={airlinesByCompliance.compliant.length}
-								/>
-							</div>
-						{/if}
+							{#if allDimensionsSet}
+								<div class="mt-6">
+									<ComplianceScore
+										allAirlinesCount={filteredAirlines.length}
+										compliantAirlinesCount={airlinesByCompliance.compliant.length}
+									/>
+								</div>
+							{/if}
 
-						<SupportSection class="mt-8" />
-					</Card>
+							<SupportSection class="mt-8" />
+						</Card.Content>
+					</Card.Root>
 				</div>
 			</div>
 
-			<Card>
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>Airlines</Card.Title>
+				</Card.Header>
 				<AllowanceFilter
 					airlines={allAirlines}
 					favoriteAirlines={preferences.favoriteAirlines}
@@ -241,7 +245,7 @@
 					nonCompliantAirlines={airlinesByCompliance.nonCompliant}
 					variant={isLargeScreen ? 'two-column' : 'single-column'}
 				/>
-			</Card>
+			</Card.Root>
 		</div>
 	</div>
 </div>

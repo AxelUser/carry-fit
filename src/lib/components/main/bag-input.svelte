@@ -4,6 +4,11 @@
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Delimiter } from '$lib/components/ui/delimiter';
 	import { Button } from '../ui/button';
+	import { Label } from '../ui/label';
+	import { Input } from '../ui/input';
+	import { Separator } from '../ui/separator';
+	import { Checkbox } from '../ui/checkbox';
+	import { Slider } from '../ui/slider';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -40,13 +45,13 @@
 
 <div class="mb-4">
 	<div class="mb-6 flex items-baseline justify-between">
-		<h2 class="text-xl font-semibold text-sky-900">Bag Dimensions</h2>
+		<h2 class="text-2xl font-semibold">Bag Dimensions</h2>
 		<div class="flex items-center gap-2">
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
 			<Button variant="secondary" size="sm" onclick={resetDimensions}>
-				<X class="mr-1 h-3 w-3" />
+				<X class="h-3 w-3" />
 				<span>Reset</span>
 			</Button>
 		</div>
@@ -54,8 +59,9 @@
 
 	<div class="grid grid-cols-3 gap-4">
 		<div>
-			<label for="height" class="mb-1 block text-sm font-medium text-sky-900">Height</label>
-			<input
+			<Label for="height">Height</Label>
+			<Input
+				class="mt-1"
 				type="number"
 				id="height"
 				value={userDimensions.height}
@@ -63,13 +69,13 @@
 					userDimensions.height = Number(e.currentTarget.value);
 					onChanged();
 				}}
-				class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 				min={0}
 			/>
 		</div>
 		<div>
-			<label for="width" class="mb-1 block text-sm font-medium text-sky-900">Width</label>
-			<input
+			<Label class="mb-1" for="width">Width</Label>
+			<Input
+				class="mt-1"
 				type="number"
 				id="width"
 				value={userDimensions.width}
@@ -77,13 +83,13 @@
 					userDimensions.width = Number(e.currentTarget.value);
 					onChanged();
 				}}
-				class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 				min={0}
 			/>
 		</div>
 		<div>
-			<label for="depth" class="mb-1 block text-sm font-medium text-sky-900">Depth</label>
-			<input
+			<Label for="depth">Depth</Label>
+			<Input
+				class="mt-1"
 				type="number"
 				id="depth"
 				value={userDimensions.depth}
@@ -91,45 +97,36 @@
 					userDimensions.depth = Number(e.currentTarget.value);
 					onChanged();
 				}}
-				class="w-full rounded-lg border-sky-200 bg-sky-50 text-sm focus:border-sky-400 focus:ring-sky-400"
 				min={0}
 			/>
 		</div>
 	</div>
 
-	<p class="mb-4 mt-4 text-center text-sm font-medium text-sky-700">
+	<p class="mb-4 mt-4 text-center text-sm font-medium text-primary">
 		Don't worry about the order - we'll find the best fit
 	</p>
 
-	<Delimiter class="mb-4" />
+	<Separator />
 
 	<div class="mt-4">
-		<label class="inline-flex cursor-pointer items-center gap-2">
-			<input
-				type="checkbox"
-				bind:checked={showFlexibility}
-				class="form-checkbox rounded border-sky-300 text-sky-600 focus:ring-0 focus:ring-offset-0"
-			/>
-			<span class="text-sm font-medium text-sky-900">My Bag is Flexible</span>
-		</label>
+		<div class="flex items-center gap-2">
+			<Checkbox id="flexibility" bind:checked={showFlexibility} />
+			<Label for="flexibility">My Bag is Flexible</Label>
+		</div>
 
 		{#if showFlexibility}
 			<div class="mt-3">
-				<div class="flex flex-col items-center gap-4">
+				<div class="flex flex-col items-center gap-4 px-2">
 					<FlexibleSuitcase value={flexibility} {measurementSystem} max={flexibilityMaxValue} />
-					<div class="flex w-full items-center gap-4">
-						<input
-							id="flexibility"
-							type="range"
-							bind:value={flexibility}
-							min="0"
-							max={flexibilityMaxValue}
-							step={flexibilityStep}
-							class="h-2 flex-1 rounded-lg bg-sky-200 accent-sky-600"
-						/>
-					</div>
+					<Slider
+						type="single"
+						bind:value={flexibility}
+						min={0}
+						max={flexibilityMaxValue}
+						step={flexibilityStep}
+					/>
+					<p class="text-sm text-primary">Adjust for how much your bag can be squeezed to fit</p>
 				</div>
-				<p class="mt-2 text-xs text-sky-600">Adjust for how much your bag can be squeezed to fit</p>
 			</div>
 		{/if}
 	</div>

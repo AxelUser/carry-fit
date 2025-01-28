@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Card } from '$lib/components/ui/card';
+	import * as Card from '$lib/components/ui/card';
 	import { Button } from '../ui/button';
-	import easterEggs from '$lib/stores/easterEggs.svelte';
+	import easterEggs from '$lib/stores/easter-eggs.svelte';
 	import { metrics } from '$lib/analytics';
 
 	const positions = {
@@ -36,7 +36,7 @@
 		class="fixed top-1/2 -translate-y-1/2 {positions[side]} max-w-[250px]"
 		style="min-width: 180px"
 	>
-		<Card variant="default">
+		<Card.Root>
 			<div class="text-sm font-medium text-sky-700">
 				{#if side === 'left'}
 					👉 Hey, psst... look at the other side of your fancy monitor!
@@ -49,6 +49,6 @@
 					</div>
 				{/if}
 			</div>
-		</Card>
+		</Card.Root>
 	</div>
 {/snippet}
