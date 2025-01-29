@@ -92,7 +92,7 @@
 		/>
 	</div>
 
-	<p class="mb-4 mt-4 text-center text-sm font-medium text-primary">
+	<p class="mb-4 mt-4 text-center text-sm font-medium text-card-foreground/80">
 		Don't worry about the order - we'll find the best fit
 	</p>
 
