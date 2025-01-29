@@ -32,7 +32,7 @@
 					data-testid="metric-button"
 					data-active={value === MeasurementSystems.Metric}
 				>
-					cm / kg
+					Metric (cm / kg)
 				</Button>
 				<Button
 					class="flex flex-col items-center justify-center"
@@ -42,7 +42,7 @@
 					data-testid="imperial-button"
 					data-active={value === MeasurementSystems.Imperial}
 				>
-					in / lb
+					Imperial (in / lb)
 				</Button>
 			</div>
 		</Card.Content>
