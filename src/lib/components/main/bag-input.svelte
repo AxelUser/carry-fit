@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { X } from 'lucide-svelte';
+	import { Eraser } from 'lucide-svelte';
 	import { type MeasurementSystem, type UserDimensions } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
-	import { Button } from '../ui/button';
 	import { Label } from '../ui/label';
 	import { Input } from '../ui/input';
 	import { Separator } from '../ui/separator';
 	import { Checkbox } from '../ui/checkbox';
 	import { Slider } from '../ui/slider';
+	import { badgeVariants } from '../ui/badge';
+	import { cn } from '$lib/utils/styling';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -49,10 +50,13 @@
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
-			<Button variant="secondary" size="sm" onclick={resetDimensions}>
-				<X class="h-3 w-3" />
-				<span>Reset</span>
-			</Button>
+			<button
+				class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
+				onclick={resetDimensions}
+			>
+				<Eraser class="mr-1 size-3" />
+				<span>Clear</span>
+			</button>
 		</div>
 	</div>
 
