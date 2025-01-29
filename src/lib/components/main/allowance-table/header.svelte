@@ -13,8 +13,8 @@
 		variants: {
 			variant: {
 				default: '',
-				compliant: 'bg-emerald-50',
-				nonCompliant: 'bg-destructive-50'
+				compliant: '',
+				nonCompliant: ''
 			}
 		},
 		defaultVariants: {

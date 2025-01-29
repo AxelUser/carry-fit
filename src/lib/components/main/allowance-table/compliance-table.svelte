@@ -45,17 +45,7 @@
 
 	const buttonStyles = {
 		compliant: 'text-emerald-700',
-		nonCompliant: 'text-red-700'
-	};
-
-	const borderStyles = {
-		compliant: 'border-emerald-200',
-		nonCompliant: 'border-red-200'
-	};
-
-	const headerRowStyles = {
-		compliant: 'bg-emerald-50',
-		nonCompliant: 'bg-red-50'
+		nonCompliant: 'text-destructive'
 	};
 
 	const section = variant === 'compliant' ? 'compliant' : 'non-compliant';
@@ -103,7 +93,7 @@
 				</h3>
 			</button>
 		</summary>
-		<div class={cn('mt-3 rounded-lg border', borderStyles[variant])}>
+		<div class={cn('mt-3 rounded-lg border')}>
 			<div class="overflow-x-auto">
 				<table class="w-full" data-testid={`${section}-table`}>
 					<Header {measurementSystem} bind:sortDirection {variant} />

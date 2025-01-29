@@ -10,7 +10,7 @@
 		base: 'text-base',
 		variants: {
 			compliant: {
-				true: 'bg-emerald-50',
+				true: '',
 				false: ''
 			}
 		}
@@ -38,7 +38,7 @@
 					{#if airline?.testResult?.success}
 						<MonitorCheck size={16} class="text-green-600" />
 					{:else if airline?.testResult?.success === false}
-						<MonitorX size={16} class="text-red-600" />
+						<MonitorX size={16} class="text-destructive" />
 					{:else}
 						<MonitorOff size={16} class="text-muted-foreground" />
 					{/if}
@@ -66,9 +66,9 @@
 				data-favorite={isFavorite}
 			>
 				{#if isFavorite}
-					<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
+					<Star class="h-4 w-4 text-primary transition-colors hover:text-muted-foreground" />
 				{:else}
-					<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
+					<StarOff class="h-4 w-4 text-muted-foreground transition-colors hover:text-primary" />
 				{/if}
 			</button>
 			{airline.airline}
@@ -77,19 +77,19 @@
 	<Table.Cell data-testid="region">{airline.region}</Table.Cell>
 	<Table.Cell class="whitespace-nowrap" data-testid="dimensions">
 		{#if carryOnDimensions.length === 1}
-			<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}>
+			<span class={complianceResults?.[0] === false ? 'text-destructive' : ''}>
 				{`Total ${carryOnDimensions[0]}`}</span
 			>
 		{:else}
-			<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[0] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[0]}</span
 			>
 			x
-			<span class={complianceResults?.[1] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[1] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[1]}</span
 			>
 			x
-			<span class={complianceResults?.[2] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[2] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[2]}</span
 			>
 		{/if}
