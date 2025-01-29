@@ -22,8 +22,7 @@
 		BagInput,
 		ComplianceScore,
 		Info,
-		MeasurementSystemSelect,
-		SupportSection
+		MeasurementSystemSelect
 	} from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
 	import { CookieBanner, Changelog } from '$lib/components/misc';
@@ -189,10 +188,10 @@
 				</p>
 			</div>
 
-			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
+			<div class="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
 				<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 
-				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
+				<div class="mx-auto w-full max-w-2xl lg:mx-0 lg:flex-1">
 					<MeasurementSystemSelect
 						bind:value={preferences.measurementSystem}
 						onChanged={clearSharedBagInfo}
@@ -220,8 +219,6 @@
 									/>
 								</div>
 							{/if}
-
-							<SupportSection class="mt-8" />
 						</Card.Content>
 					</Card.Root>
 				</div>
