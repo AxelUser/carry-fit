@@ -5,10 +5,9 @@
 	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
 	import { tv } from 'tailwind-variants';
 	import * as Table from '$lib/components/ui/table';
-	import { Button } from '$lib/components/ui/button';
 
 	const row = tv({
-		base: 'border-t border-sky-100 hover:bg-sky-50',
+		base: 'text-base',
 		variants: {
 			compliant: {
 				true: 'bg-emerald-50',
@@ -41,7 +40,7 @@
 					{:else if airline?.testResult?.success === false}
 						<MonitorX size={16} class="text-red-600" />
 					{:else}
-						<MonitorOff size={16} class="text-gray-600" />
+						<MonitorOff size={16} class="text-muted-foreground" />
 					{/if}
 				</Tooltip.Trigger>
 				<Tooltip.Content>
@@ -106,15 +105,14 @@
 	</Table.Cell>
 	<Table.Cell data-testid="policy-link">
 		{#if airline.link}
-			<Button
-				variant="link"
-				size="sm"
+			<a
+				class="text-primary hover:underline"
 				href={airline.link}
 				target="_blank"
 				rel="noopener noreferrer"
 			>
 				View
-			</Button>
+			</a>
 		{:else}
 			N/A
 		{/if}
