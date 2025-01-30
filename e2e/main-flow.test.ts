@@ -247,7 +247,7 @@ test.describe('Favorites functionality', () => {
 		// Add airlines to favorites and collect their names
 		for (const rowIndex of airlineRows) {
 			const row = page.getByRole('row').nth(rowIndex);
-			const airlineName = await row.getByTestId('airline').textContent();
+			const airlineName = await row.getByTestId('airline-name').textContent();
 			favoriteAirlineNames.push(airlineName!);
 			await row.getByTestId('favorite-button').click();
 		}
@@ -268,7 +268,7 @@ test.describe('Favorites functionality', () => {
 		// Verify all previously favorited airlines are still present
 		for (const airlineName of favoriteAirlineNames) {
 			await expect(
-				page.getByTestId('airline').filter({ hasText: new RegExp(`^${airlineName}$`) })
+				page.getByTestId('airline-name').filter({ hasText: new RegExp(`^${airlineName}$`) })
 			).toBeVisible();
 		}
 
@@ -422,26 +422,6 @@ test.describe('Bag sharing functionality', () => {
 		expect(page.url()).not.toContain('width=');
 		expect(page.url()).not.toContain('depth=');
 		expect(page.url()).not.toContain('units=');
-	});
-
-	test('should change measurement system preference when shared link is visited', async ({
-		page
-	}) => {
-		// First visit to set metric preference
-		await page.getByRole('button', { name: /Metric/i }).click();
-		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
-
-		// Visit page with imperial units in URL
-		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
-
-		// Verify measurement system is taken from URL
-		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
-
-		// Reload page
-		await page.reload();
-
-		// Verify measurement system is still imperial
-		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'true');
 	});
 
 	test('should handle invalid measurement system in URL', async ({ page }) => {

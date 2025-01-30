@@ -57,7 +57,7 @@
 			</Tooltip.Root>
 		</Tooltip.Provider>
 	</Table.Cell>
-	<Table.Cell>
+	<Table.Cell data-testid="airline-name">
 		<div class="flex items-center gap-2">
 			<button
 				class="group flex items-center"

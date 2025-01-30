@@ -24,9 +24,13 @@
 </script>
 
 <Table.Header>
-	<Table.Row>
+	<Table.Row role="row">
 		<Table.Head></Table.Head>
-		<Table.Head>
+		<Table.Head
+			role="columnheader"
+			scope="col"
+			aria-sort={sortDirection === SortDirections.Ascending ? 'ascending' : 'descending'}
+		>
 			<button class="ml-4 flex items-center gap-2" onclick={toggleSortDirection}>
 				Airline
 				{#if sortDirection === SortDirections.Ascending}
@@ -36,11 +40,11 @@
 				{/if}
 			</button>
 		</Table.Head>
-		<Table.Head>Region</Table.Head>
-		<Table.Head
-			>Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})</Table.Head
-		>
-		<Table.Head>Weight</Table.Head>
-		<Table.Head>Policy</Table.Head>
+		<Table.Head role="columnheader" scope="col">Region</Table.Head>
+		<Table.Head role="columnheader" scope="col">
+			Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
+		</Table.Head>
+		<Table.Head role="columnheader" scope="col">Weight</Table.Head>
+		<Table.Head role="columnheader" scope="col">Policy</Table.Head>
 	</Table.Row>
 </Table.Header>
