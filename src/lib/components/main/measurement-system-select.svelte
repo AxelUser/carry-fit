@@ -20,7 +20,7 @@
 	<Card.Root>
 		<Card.Header>
 			<Card.Title>Measurement System</Card.Title>
-			<Card.Description>Choose your preferred unit of measurement</Card.Description>
+			<Card.Description>Choose your preferred units of measurement</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			<div class="grid grid-cols-2 gap-2">
