@@ -6,29 +6,14 @@
 		type SortDirection
 	} from '$lib/types';
 	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
-	import { tv } from 'tailwind-variants';
 	import * as Table from '$lib/components/ui/table';
-
-	const header = tv({
-		variants: {
-			variant: {
-				default: '',
-				compliant: '',
-				nonCompliant: ''
-			}
-		},
-		defaultVariants: {
-			variant: 'default'
-		}
-	});
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
 		sortDirection: SortDirection;
-		variant?: 'default' | 'compliant' | 'nonCompliant';
 	}
 
-	let { measurementSystem, sortDirection = $bindable(), variant }: Props = $props();
+	let { measurementSystem, sortDirection = $bindable() }: Props = $props();
 
 	function toggleSortDirection() {
 		sortDirection =
@@ -39,15 +24,15 @@
 </script>
 
 <Table.Header>
-	<Table.Row class={header({ variant })}>
+	<Table.Row>
 		<Table.Head></Table.Head>
 		<Table.Head>
-			<button class="flex items-center gap-2" onclick={toggleSortDirection}>
+			<button class="ml-4 flex items-center gap-2" onclick={toggleSortDirection}>
 				Airline
 				{#if sortDirection === SortDirections.Ascending}
-					<ArrowDownAZ class="h-5 w-5" />
+					<ArrowDownAZ class="size-5" />
 				{:else}
-					<ArrowUpAZ class="h-5 w-5" />
+					<ArrowUpAZ class="size-5" />
 				{/if}
 			</button>
 		</Table.Head>

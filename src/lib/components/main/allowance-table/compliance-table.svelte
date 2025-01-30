@@ -96,7 +96,7 @@
 		<div class={cn('mt-3 rounded-lg border')}>
 			<div class="overflow-x-auto">
 				<table class="w-full" data-testid={`${section}-table`}>
-					<Header {measurementSystem} bind:sortDirection {variant} />
+					<Header {measurementSystem} bind:sortDirection />
 					<tbody>
 						{#each airlines as airline}
 							<Row

@@ -34,13 +34,13 @@
 	<Table.Cell>
 		<Tooltip.Provider>
 			<Tooltip.Root>
-				<Tooltip.Trigger>
+				<Tooltip.Trigger class="flex items-center">
 					{#if airline?.testResult?.success}
-						<MonitorCheck size={16} class="text-green-600" />
+						<MonitorCheck class="size-4 text-green-600" />
 					{:else if airline?.testResult?.success === false}
-						<MonitorX size={16} class="text-destructive" />
+						<MonitorX class="size-4 text-destructive" />
 					{:else}
-						<MonitorOff size={16} class="text-muted-foreground" />
+						<MonitorOff class="size-4 text-muted-foreground" />
 					{/if}
 				</Tooltip.Trigger>
 				<Tooltip.Content>

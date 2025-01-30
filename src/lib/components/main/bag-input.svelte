@@ -45,7 +45,7 @@
 
 <div class="mb-4">
 	<div class="mb-6 flex items-baseline justify-between">
-		<h2 class="text-2xl font-semibold">Bag Dimensions</h2>
+		<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
 		<div class="flex items-center gap-2">
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
