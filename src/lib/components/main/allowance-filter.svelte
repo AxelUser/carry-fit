@@ -6,6 +6,8 @@
 	import { Separator } from '../ui/separator';
 	import { Checkbox } from '../ui/checkbox';
 	import { Label } from '../ui/label';
+	import { badgeVariants } from '../ui/badge';
+	import { cn } from '$lib/utils/styling';
 
 	interface Props {
 		airlines: AirlineInfo[];
@@ -74,7 +76,7 @@
 		<div class="space-y-6">
 			<div class="space-y-6">
 				<div>
-					<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
 						<div>
 							<h3 class="font-medium">Regions</h3>
 							<p class="text-xs text-muted-foreground sm:text-sm">
@@ -87,23 +89,25 @@
 							</p>
 						</div>
 
-						<div class="grid grid-cols-2 gap-2">
-							<Button
-								size={isMobile ? 'sm' : 'default'}
-								variant="default"
+						<div class="flex items-start gap-2">
+							<button
+								class={cn(
+									badgeVariants({ variant: 'secondary' }),
+									'focus:outline-none focus:ring-0 focus:ring-offset-0'
+								)}
 								onclick={selectAllRegions}
 							>
-								<Check class="mr-1.5 h-4 w-4" />
-								<span>Select All</span>
-							</Button>
-							<Button
-								size={isMobile ? 'sm' : 'default'}
-								variant="secondary"
+								Select All
+							</button>
+							<button
+								class={cn(
+									badgeVariants({ variant: 'secondary' }),
+									'focus:outline-none focus:ring-0 focus:ring-offset-0'
+								)}
 								onclick={clearAllRegions}
 							>
-								<X class="mr-1.5 h-4 w-4" />
-								<span>Clear All</span>
-							</Button>
+								Clear All
+							</button>
 						</div>
 					</div>
 
@@ -113,7 +117,7 @@
 							{@const isAvailable = isRegionAvailable(region)}
 
 							<Button
-								size={isMobile ? 'sm' : 'default'}
+								size="sm"
 								variant={isSelected ? 'default' : 'outline'}
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
