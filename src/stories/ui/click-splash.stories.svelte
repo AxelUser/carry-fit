@@ -56,19 +56,19 @@
 
 <Story name="TextSizes">
 	<div class="flex gap-4">
-		<ClickSplash duration={1000} content="+1" size="xs">
+		<ClickSplash duration={1000} content="Clicked!" size="xs">
 			<Button slot="trigger" variant="outline" size="sm">Extra Small</Button>
 		</ClickSplash>
 
-		<ClickSplash duration={1000} content="+1" size="sm">
+		<ClickSplash duration={1000} content="Clicked!" size="sm">
 			<Button slot="trigger" variant="outline" size="sm">Small</Button>
 		</ClickSplash>
 
-		<ClickSplash duration={1000} content="+1" size="base">
+		<ClickSplash duration={1000} content="Clicked!" size="base">
 			<Button slot="trigger" variant="outline" size="default">Base</Button>
 		</ClickSplash>
 
-		<ClickSplash duration={1000} content="+1" size="lg">
+		<ClickSplash duration={1000} content="Clicked!" size="lg">
 			<Button slot="trigger" variant="outline" size="lg">Large</Button>
 		</ClickSplash>
 	</div>
