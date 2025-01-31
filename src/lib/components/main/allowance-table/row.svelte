@@ -1,25 +1,13 @@
 <script lang="ts">
-	import * as Tooltip from '$lib/components/ui/tooltip/index';
 	import { MeasurementSystems, type AirlineInfo, type MeasurementSystem } from '$lib/types';
 	import { getAirlineDimensions } from '$lib/utils/mapping';
-	import MonitorCheck from 'lucide-svelte/icons/monitor-check';
-	import MonitorOff from 'lucide-svelte/icons/monitor-off';
-	import MonitorX from 'lucide-svelte/icons/monitor-x';
-	import Star from 'lucide-svelte/icons/star';
-	import StarOff from 'lucide-svelte/icons/star-off';
 
-	import { tv } from 'tailwind-variants';
 	import * as Table from '$lib/components/ui/table';
-
-	const row = tv({
-		base: 'text-base',
-		variants: {
-			compliant: {
-				true: '',
-				false: ''
-			}
-		}
-	});
+	import MonitorCheck from '$lib/components/icons/lucide/monitor-check.svelte';
+	import MonitorX from '$lib/components/icons/lucide/monitor-x.svelte';
+	import MonitorOff from '$lib/components/icons/lucide/monitor-off.svelte';
+	import Star from '$lib/components/icons/lucide/star.svelte';
+	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
 
 	interface Props {
 		airline: AirlineInfo;
@@ -35,32 +23,15 @@
 	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
 </script>
 
-<Table.Row class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
+<Table.Row class="text-base">
 	<Table.Cell>
-		<Tooltip.Provider>
-			<Tooltip.Root>
-				<Tooltip.Trigger class="flex items-center">
-					{#if airline?.testResult?.success}
-						<MonitorCheck class="size-4 text-green-600" />
-					{:else if airline?.testResult?.success === false}
-						<MonitorX class="size-4 text-destructive" />
-					{:else}
-						<MonitorOff class="size-4 text-muted-foreground" />
-					{/if}
-				</Tooltip.Trigger>
-				<Tooltip.Content>
-					<p>
-						{#if airline?.testResult?.success}
-							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
-						{:else if airline?.testResult?.success === false}
-							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
-						{:else}
-							No tests yet
-						{/if}
-					</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-		</Tooltip.Provider>
+		{#if airline?.testResult?.success}
+			<MonitorCheck size={16} class="text-green-600" />
+		{:else if airline?.testResult?.success === false}
+			<MonitorX size={16} class="text-destructive" />
+		{:else}
+			<MonitorOff size={16} class="text-muted-foreground" />
+		{/if}
 	</Table.Cell>
 	<Table.Cell data-testid="airline-name">
 		<div class="flex items-center gap-2">
@@ -71,9 +42,9 @@
 				data-favorite={isFavorite}
 			>
 				{#if isFavorite}
-					<Star class="h-4 w-4 text-primary transition-colors hover:text-muted-foreground" />
+					<Star size={16} class="text-primary transition-colors hover:text-muted-foreground" />
 				{:else}
-					<StarOff class="h-4 w-4 text-muted-foreground transition-colors hover:text-primary" />
+					<StarOff size={16} class="text-muted-foreground transition-colors hover:text-primary" />
 				{/if}
 			</button>
 			{airline.airline}
