@@ -166,7 +166,7 @@
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen">
 		<div class="mx-auto md:container">
-			<div class="mb-8 py-2 text-center">
+			<div class="mb-2 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
 					<span
 						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
@@ -177,8 +177,8 @@
 						<CarryFitIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
-				<p class="font-mediu text-lg sm:text-xl">
-					Instantly validate your carry-on bag dimensions for <span class="text-primary"
+				<p class="text-lg sm:text-xl">
+					Instantly validate your carry-on bag dimensions for <span class="font-medium text-primary"
 						>{allAirlines.length}</span
 					> airlines worldwide
 				</p>
