@@ -6,6 +6,7 @@ test.describe('Allowance table interaction', () => {
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
 		await page.getByTestId('accept-all-cookies').click();
 		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
 	});
 
 	test('should display airline allowances table by default', async ({ page }) => {
@@ -22,6 +23,7 @@ test.describe('Allowance table interaction', () => {
 	test('should filter airlines by region', async ({ page }) => {
 		// Get initial number of rows
 		const initialRows = await page.getByRole('row').count();
+		expect(initialRows).toBeGreaterThan(0);
 
 		// Deselect all regions except one
 		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
