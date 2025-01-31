@@ -21,7 +21,7 @@
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">
-		<div class="min-h-screen bg-white/90">
+		<div class="min-h-scree">
 			<div class="mx-auto md:container">
 				<div class="mb-12 py-2 text-center">
 					<h1 class="mb-3 font-extrabold">
@@ -36,7 +36,7 @@
 					</h1>
 				</div>
 
-				<div class="mx-auto max-w-2xl rounded-xl bg-white/95 p-8 shadow-xl ring-1 ring-sky-100">
+				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-sky-100">
 					<div class="mb-6 flex items-start gap-4">
 						<div
 							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100"

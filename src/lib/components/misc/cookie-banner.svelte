@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { links } from '$lib/utils/navigation';
 	import type { CookieConsent } from '$lib/types';
-	import { Button } from '../ui/button';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 
 	interface Props {
 		onAccept: (consent: CookieConsent) => void;
@@ -29,43 +29,36 @@
 	}
 </script>
 
-{#if showBanner}
-	<div class="fixed inset-0 z-[100] bg-black/20">
-		<div class="fixed bottom-0 left-0 right-0 bg-white p-6 shadow-xl ring-1 ring-sky-100">
-			<div class="mx-auto max-w-7xl">
-				<div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-					<div class="text-base text-sky-900">
-						<p>
-							We use cookies to improve your experience. By continuing to use our site, you agree to
-							our
-							<a
-								href={links.legal.privacy}
-								class="whitespace-nowrap font-medium text-sky-600 hover:underline">Privacy Policy</a
-							>.
-						</p>
-						<p class="mt-1 text-sm">
-							You can change your preferences anytime on our
-							<a
-								href={links.legal.optOut}
-								class="whitespace-nowrap font-medium text-sky-600 hover:underline">opt-out page</a
-							>.
-						</p>
-					</div>
-					<div class="flex flex-wrap gap-2">
-						<Button
-							variant="ghost"
-							data-testid="accept-necessary-cookies"
-							type="button"
-							onclick={acceptNecessary}
-						>
-							Necessary Only
-						</Button>
-						<Button data-testid="accept-all-cookies" type="button" onclick={acceptAll}>
-							Accept All Cookies
-						</Button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{/if}
+<AlertDialog.Root bind:open={showBanner}>
+	<AlertDialog.Content
+		class="sm:max-w-[500px]"
+		escapeKeydownBehavior="ignore"
+		interactOutsideBehavior="ignore"
+	>
+		<AlertDialog.Header>
+			<AlertDialog.Title>Cookie Preferences</AlertDialog.Title>
+			<AlertDialog.Description class="text-left text-sm">
+				<p>
+					We use cookies to improve your experience. By continuing to use our site, you agree to our
+					<a
+						href={links.legal.privacy}
+						class="whitespace-nowrap font-medium text-primary hover:underline">Privacy Policy</a
+					>. You can change your preferences anytime on our
+					<a
+						href={links.legal.optOut}
+						class="whitespace-nowrap font-medium text-primary hover:underline">opt-out page</a
+					>.
+				</p>
+			</AlertDialog.Description>
+		</AlertDialog.Header>
+
+		<AlertDialog.Footer class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-start">
+			<AlertDialog.Cancel data-testid="accept-necessary-cookies" onclick={acceptNecessary}>
+				Necessary Only
+			</AlertDialog.Cancel>
+			<AlertDialog.Action autofocus={true} data-testid="accept-all-cookies" onclick={acceptAll}>
+				Accept All Cookies
+			</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>

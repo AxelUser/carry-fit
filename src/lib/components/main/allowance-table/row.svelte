@@ -1,15 +1,16 @@
 <script lang="ts">
-	import * as Tooltip from '$lib/components/ui/tooltip';
+	import * as Tooltip from '$lib/components/ui/tooltip/index';
 	import { MeasurementSystems, type AirlineInfo, type MeasurementSystem } from '$lib/types';
 	import { getAirlineDimensions } from '$lib/utils/mapping';
 	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
 	import { tv } from 'tailwind-variants';
+	import * as Table from '$lib/components/ui/table';
 
 	const row = tv({
-		base: 'border-t border-sky-100 hover:bg-sky-50',
+		base: 'text-base',
 		variants: {
 			compliant: {
-				true: 'bg-emerald-50',
+				true: '',
 				false: ''
 			}
 		}
@@ -29,32 +30,34 @@
 	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
 </script>
 
-<tr class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
-	<td class="px-2 pb-2 pt-3 text-sm sm:text-base">
-		<Tooltip.Root>
-			<Tooltip.Trigger>
-				{#if airline?.testResult?.success}
-					<MonitorCheck size={16} class="text-green-600" />
-				{:else if airline?.testResult?.success === false}
-					<MonitorX size={16} class="text-red-600" />
-				{:else}
-					<MonitorOff size={16} class="text-gray-600" />
-				{/if}
-			</Tooltip.Trigger>
-			<Tooltip.Content>
-				<p>
+<Table.Row class={row({ compliant: complianceResults?.every(Boolean) ?? false })}>
+	<Table.Cell>
+		<Tooltip.Provider>
+			<Tooltip.Root>
+				<Tooltip.Trigger class="flex items-center">
 					{#if airline?.testResult?.success}
-						Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						<MonitorCheck class="size-4 text-green-600" />
 					{:else if airline?.testResult?.success === false}
-						Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						<MonitorX class="size-4 text-destructive" />
 					{:else}
-						No tests yet
+						<MonitorOff class="size-4 text-muted-foreground" />
 					{/if}
-				</p>
-			</Tooltip.Content>
-		</Tooltip.Root>
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="airline">
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					<p>
+						{#if airline?.testResult?.success}
+							Passing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else if airline?.testResult?.success === false}
+							Failing since {airline?.testResult?.lastTest?.toLocaleDateString()}
+						{:else}
+							No tests yet
+						{/if}
+					</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
+		</Tooltip.Provider>
+	</Table.Cell>
+	<Table.Cell data-testid="airline-name">
 		<div class="flex items-center gap-2">
 			<button
 				class="group flex items-center"
@@ -63,35 +66,35 @@
 				data-favorite={isFavorite}
 			>
 				{#if isFavorite}
-					<Star class="h-4 w-4 text-amber-400 transition-colors group-hover:text-amber-500" />
+					<Star class="h-4 w-4 text-primary transition-colors hover:text-muted-foreground" />
 				{:else}
-					<StarOff class="h-4 w-4 text-sky-300 transition-colors group-hover:text-sky-400" />
+					<StarOff class="h-4 w-4 text-muted-foreground transition-colors hover:text-primary" />
 				{/if}
 			</button>
 			{airline.airline}
 		</div>
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="region">{airline.region}</td>
-	<td class="whitespace-nowrap p-2 text-sm sm:p-3 sm:text-base" data-testid="dimensions">
+	</Table.Cell>
+	<Table.Cell data-testid="region">{airline.region}</Table.Cell>
+	<Table.Cell class="whitespace-nowrap" data-testid="dimensions">
 		{#if carryOnDimensions.length === 1}
-			<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}>
+			<span class={complianceResults?.[0] === false ? 'text-destructive' : ''}>
 				{`Total ${carryOnDimensions[0]}`}</span
 			>
 		{:else}
-			<span class={complianceResults?.[0] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[0] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[0]}</span
 			>
 			x
-			<span class={complianceResults?.[1] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[1] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[1]}</span
 			>
 			x
-			<span class={complianceResults?.[2] === false ? 'text-red-600' : ''}
+			<span class={complianceResults?.[2] === false ? 'text-destructive' : ''}
 				>{carryOnDimensions[2]}</span
 			>
 		{/if}
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="weight-limit">
+	</Table.Cell>
+	<Table.Cell data-testid="weight-limit">
 		{#if airline.kilograms}
 			{measurementSystem === MeasurementSystems.Metric
 				? `${airline.kilograms} kg`
@@ -99,19 +102,19 @@
 		{:else}
 			N/A
 		{/if}
-	</td>
-	<td class="p-2 text-sm sm:p-3 sm:text-base" data-testid="policy-link">
+	</Table.Cell>
+	<Table.Cell data-testid="policy-link">
 		{#if airline.link}
 			<a
+				class="text-primary hover:underline"
 				href={airline.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="text-blue-600 hover:text-blue-800 hover:underline"
 			>
 				View
 			</a>
 		{:else}
 			N/A
 		{/if}
-	</td>
-</tr>
+	</Table.Cell>
+</Table.Row>

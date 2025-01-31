@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { ClickSplash } from '$lib/components/ui/click-splash';
 	import { Link } from 'lucide-svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
+	import { badgeVariants } from '../ui/badge';
+	import { cn } from '$lib/utils/styling';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -24,8 +25,12 @@
 </script>
 
 <ClickSplash onTrigger={copyShareLink} content="Copied!">
-	<Button slot="trigger" variant="secondary" size="sm">
-		<Link class="mr-1 h-3 w-3" />
+	<button
+		slot="trigger"
+		class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
+		onclick={copyShareLink}
+	>
+		<Link class="mr-1 size-3" />
 		<span>Copy</span>
-	</Button>
+	</button>
 </ClickSplash>

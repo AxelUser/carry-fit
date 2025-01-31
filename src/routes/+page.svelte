@@ -22,13 +22,13 @@
 		BagInput,
 		ComplianceScore,
 		Info,
-		MeasurementSystemSelect,
-		SupportSection
+		MeasurementSystemSelect
 	} from '$lib/components/main';
-	import { Card } from '$lib/components/ui/card';
+	import * as Card from '$lib/components/ui/card';
 	import { CookieBanner, Changelog } from '$lib/components/misc';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
+	import { Button } from '$lib/components/ui/button';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -164,7 +164,7 @@
 />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
-	<div class="min-h-screen bg-white/90">
+	<div class="min-h-screen">
 		<div class="mx-auto md:container">
 			<div class="mb-8 py-2 text-center">
 				<h1 class="mb-3 font-extrabold">
@@ -177,62 +177,59 @@
 						<CarryFitIcon class="h-12 w-12 sm:h-16 sm:w-16" />
 					</span>
 				</h1>
-				<p class="text-lg font-medium text-sky-900 sm:text-xl">
-					Instantly validate your carry-on bag dimensions for <span class="text-blue-600"
+				<p class="font-mediu text-lg sm:text-xl">
+					Instantly validate your carry-on bag dimensions for <span class="text-primary"
 						>{allAirlines.length}</span
 					> airlines worldwide
 				</p>
-				<p class="mt-2 text-xs text-sky-600">
-					<a href={links.legal.privacy} class="hover:text-sky-800 hover:underline">Privacy Policy</a
-					>
-					<span class="mx-1">·</span>
-					<a href={links.legal.terms} class="hover:text-sky-800 hover:underline">Terms of Use</a>
+				<p class="mt-2 text-xs">
+					<Button href={links.legal.privacy} variant="link" size="sm">Privacy Policy</Button>
+					<Button href={links.legal.terms} variant="link" size="sm">Terms of Use</Button>
 				</p>
 			</div>
 
-			<div class="mb-8 lg:flex lg:items-start lg:gap-8">
+			<div class="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
 				<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 
-				<div class="mx-auto max-w-2xl lg:mx-0 lg:flex-1">
+				<div class="mx-auto w-full max-w-2xl lg:mx-0 lg:flex-1">
 					<MeasurementSystemSelect
 						bind:value={preferences.measurementSystem}
 						onChanged={clearSharedBagInfo}
 					/>
 
-					<Card>
-						<BagInput
-							bind:userDimensions
-							measurementSystem={preferences.measurementSystem}
-							bind:showFlexibility
-							bind:flexibility
-							flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
-							flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
-							onChanged={() => {
-								clearSharedBagInfo();
-							}}
-						/>
+					<Card.Root>
+						<Card.Content>
+							<BagInput
+								bind:userDimensions
+								measurementSystem={preferences.measurementSystem}
+								bind:showFlexibility
+								bind:flexibility
+								flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
+								flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
+								onChanged={() => {
+									clearSharedBagInfo();
+								}}
+							/>
 
-						{#if allDimensionsSet}
-							<div class="mt-6">
-								<ComplianceScore
-									allAirlinesCount={filteredAirlines.length}
-									compliantAirlinesCount={airlinesByCompliance.compliant.length}
-								/>
-							</div>
-						{/if}
-
-						<SupportSection class="mt-8" />
-					</Card>
+							{#if allDimensionsSet}
+								<div class="mt-6">
+									<ComplianceScore
+										allAirlinesCount={filteredAirlines.length}
+										compliantAirlinesCount={airlinesByCompliance.compliant.length}
+									/>
+								</div>
+							{/if}
+						</Card.Content>
+					</Card.Root>
 				</div>
 			</div>
 
-			<Card>
+			<div class="flex flex-col gap-4">
 				<AllowanceFilter
 					airlines={allAirlines}
 					favoriteAirlines={preferences.favoriteAirlines}
 					bind:filteredAirlines
 				/>
-
 				<AllowanceTable
 					measurementSystem={preferences.measurementSystem}
 					bind:favoriteAirlines={preferences.favoriteAirlines}
@@ -241,7 +238,7 @@
 					nonCompliantAirlines={airlinesByCompliance.nonCompliant}
 					variant={isLargeScreen ? 'two-column' : 'single-column'}
 				/>
-			</Card>
+			</div>
 		</div>
 	</div>
 </div>

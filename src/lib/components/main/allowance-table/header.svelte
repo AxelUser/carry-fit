@@ -6,28 +6,14 @@
 		type SortDirection
 	} from '$lib/types';
 	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
-	import { tv } from 'tailwind-variants';
-
-	const header = tv({
-		variants: {
-			variant: {
-				default: 'bg-sky-50',
-				compliant: 'bg-emerald-50',
-				nonCompliant: 'bg-red-50'
-			}
-		},
-		defaultVariants: {
-			variant: 'default'
-		}
-	});
+	import * as Table from '$lib/components/ui/table';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
 		sortDirection: SortDirection;
-		variant?: 'default' | 'compliant' | 'nonCompliant';
 	}
 
-	let { measurementSystem, sortDirection = $bindable(), variant }: Props = $props();
+	let { measurementSystem, sortDirection = $bindable() }: Props = $props();
 
 	function toggleSortDirection() {
 		sortDirection =
@@ -37,30 +23,28 @@
 	}
 </script>
 
-<thead>
-	<tr class={header({ variant })}>
-		<th role="columnheader"></th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
-			<button class="flex items-center gap-2 hover:text-sky-700" onclick={toggleSortDirection}>
+<Table.Header>
+	<Table.Row role="row">
+		<Table.Head></Table.Head>
+		<Table.Head
+			role="columnheader"
+			scope="col"
+			aria-sort={sortDirection === SortDirections.Ascending ? 'ascending' : 'descending'}
+		>
+			<button class="ml-4 flex items-center gap-2" onclick={toggleSortDirection}>
 				Airline
 				{#if sortDirection === SortDirections.Ascending}
-					<ArrowDownAZ class="h-5 w-5" />
+					<ArrowDownAZ class="size-5" />
 				{:else}
-					<ArrowUpAZ class="h-5 w-5" />
+					<ArrowUpAZ class="size-5" />
 				{/if}
 			</button>
-		</th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Region</th
-		>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader">
+		</Table.Head>
+		<Table.Head role="columnheader" scope="col">Region</Table.Head>
+		<Table.Head role="columnheader" scope="col">
 			Carry-On ({measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'})
-		</th>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Weight</th
-		>
-		<th class="p-2 text-left text-sm text-sky-900 sm:p-3 sm:text-base" role="columnheader"
-			>Policy</th
-		>
-	</tr>
-</thead>
+		</Table.Head>
+		<Table.Head role="columnheader" scope="col">Weight</Table.Head>
+		<Table.Head role="columnheader" scope="col">Policy</Table.Head>
+	</Table.Row>
+</Table.Header>

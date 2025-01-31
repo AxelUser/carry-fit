@@ -38,7 +38,7 @@
 	}
 </script>
 
-<div role="none" class="relative inline-block" onclick={handleTriggerClick}>
+<div role="none" class="relative inline-flex items-start" onclick={handleTriggerClick}>
 	<slot name="trigger" />
 
 	{#key clickCount}

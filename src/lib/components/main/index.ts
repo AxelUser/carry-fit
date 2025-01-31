@@ -4,4 +4,4 @@ export { default as BagInput } from './bag-input.svelte';
 export { default as ComplianceScore } from './compliance-score.svelte';
 export { default as AllowanceFilter } from './allowance-filter.svelte';
 export { AllowanceTable } from './allowance-table';
-export { default as SupportSection } from './support-section.svelte';
+export { default as SupportSection } from '../misc/support-section.svelte';

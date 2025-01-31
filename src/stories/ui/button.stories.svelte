@@ -20,20 +20,12 @@
 			variant: {
 				description: 'The visual style variant of the button',
 				control: 'select',
-				options: ['primary', 'secondary', 'gradient', 'outline', 'ghost', 'disabled']
+				options: ['default', 'secondary', 'outline', 'ghost']
 			},
 			size: {
 				description: 'The size of the button',
 				control: 'select',
 				options: ['sm', 'md', 'lg']
-			},
-			pill: {
-				description: 'Whether the button should have fully rounded corners',
-				control: 'boolean'
-			},
-			fullWidth: {
-				description: 'Whether the button should take up the full width of its container',
-				control: 'boolean'
 			},
 			disabled: {
 				description: 'Whether the button is disabled',
@@ -48,57 +40,47 @@
 	});
 </script>
 
-<Story name="Primary" args={{ variant: 'primary', size: 'md' }}>
+<Story name="Default" args={{ variant: 'default', size: 'default' }}>
 	{#snippet children(args)}
-		<Button {...args}>Primary</Button>
+		<Button {...args}>Default</Button>
 	{/snippet}
 </Story>
-<Story name="Secondary" args={{ variant: 'secondary', size: 'md' }}>
+<Story name="Secondary" args={{ variant: 'secondary', size: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>Secondary</Button>
 	{/snippet}
 </Story>
-<Story name="Gradient" args={{ variant: 'gradient', size: 'md' }}>
-	{#snippet children(args)}
-		<Button {...args}>Gradient</Button>
-	{/snippet}
-</Story>
-<Story name="Outline" args={{ variant: 'outline', size: 'md' }}>
+<Story name="Outline" args={{ variant: 'outline', size: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>Outline</Button>
 	{/snippet}
 </Story>
-<Story name="Ghost" args={{ variant: 'ghost', size: 'md' }}>
+<Story name="Ghost" args={{ variant: 'ghost', size: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>Ghost</Button>
 	{/snippet}
 </Story>
-<Story name="Disabled" args={{ variant: 'disabled', size: 'md' }}>
+<Story name="Disabled" args={{ disabled: true, size: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>Disabled</Button>
 	{/snippet}
 </Story>
-<Story name="Small" args={{ variant: 'primary', size: 'sm' }}>
+<Story name="Small" args={{ size: 'sm' }}>
 	{#snippet children(args)}
 		<Button {...args}>Small</Button>
 	{/snippet}
 </Story>
-<Story name="Medium" args={{ variant: 'primary', size: 'md' }}>
+<Story name="Medium" args={{ size: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>Medium</Button>
 	{/snippet}
 </Story>
-<Story name="Large" args={{ variant: 'primary', size: 'lg' }}>
+<Story name="Large" args={{ size: 'lg' }}>
 	{#snippet children(args)}
 		<Button {...args}>Large</Button>
 	{/snippet}
 </Story>
-<Story name="Pill" args={{ variant: 'primary', pill: true }}>
-	{#snippet children(args)}
-		<Button {...args}>Pill-like style</Button>
-	{/snippet}
-</Story>
-<Story name="Region filter button" args={{ variant: 'gradient', pill: true }}>
+<Story name="Region filter button" args={{ variant: 'default' }}>
 	{#snippet children(args)}
 		<Button {...args}>
 			<span>North America</span>
@@ -106,13 +88,8 @@
 		</Button>
 	{/snippet}
 </Story>
-<Story name="Full Width" args={{ variant: 'primary', fullWidth: true }}>
-	{#snippet children(args)}
-		<Button {...args}>Full Width</Button>
-	{/snippet}
-</Story>
 
-<Story name="Old vs New Selected Region Filter Button" args={{ variant: 'gradient', pill: true }}>
+<Story name="Old vs New Selected Region Filter Button" args={{ variant: 'default' }}>
 	{#snippet children(args)}
 		<div class="grid grid-cols-2 justify-items-start gap-4">
 			<div class="text-sm font-medium">Old Button</div>
@@ -135,7 +112,7 @@
 	{/snippet}
 </Story>
 
-<Story name="Old vs New Unselected Region Filter Button" args={{ variant: 'outline', pill: true }}>
+<Story name="Old vs New Unselected Region Filter Button" args={{ variant: 'outline' }}>
 	{#snippet children(args)}
 		<div class="grid grid-cols-2 justify-items-start gap-4">
 			<div class="text-sm font-medium">Old Button</div>
@@ -152,7 +129,7 @@
 	{/snippet}
 </Story>
 
-<Story name="Old vs New Disabled Region Filter Button" args={{ variant: 'disabled', pill: true }}>
+<Story name="Old vs New Disabled Region Filter Button" args={{ disabled: true }}>
 	{#snippet children(args)}
 		<div class="grid grid-cols-2 justify-items-start gap-4">
 			<div class="text-sm font-medium">Old Button</div>
