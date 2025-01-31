@@ -6,8 +6,9 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { SearchX } from 'lucide-svelte';
+	import { SearchX, RefreshCw } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
+	import { debounce } from '$lib/utils/actions';
 	import Row from './row.svelte';
 	import Header from './header.svelte';
 	import ComplianceTable from './compliance-table.svelte';
@@ -130,6 +131,19 @@
 
 		metrics.favoriteAirlineToggled();
 	}
+
+	// This is a workaround to prevent the sluggishness of the table when the airlines data is updated
+	let isLoading = $state(false);
+	const debouncedUpdate = debounce(() => {
+		isLoading = false;
+	}, 1000);
+
+	$effect(() => {
+		if (compliantAirlines || nonCompliantAirlines || airlines) {
+			isLoading = true;
+			debouncedUpdate();
+		}
+	});
 </script>
 
 <Card.Root>
@@ -144,11 +158,21 @@
 						<SearchX class="h-8 w-8 text-primary-foreground" />
 					</div>
 				</div>
-				<p class="text-xl font-medium text-primary sm:text-2xl">
-					No carry-on allowances to display
-				</p>
-				<p class="text-base text-primary sm:text-lg">
+				<p class="text-xl font-medium text-primary sm:text-2xl">Nothing to display</p>
+				<p class="text-center text-base text-primary sm:text-lg">
 					Try adjusting your filters to see available allowances
+				</p>
+			</div>
+		{:else if isLoading}
+			<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
+				<div class="rounded-full bg-primary">
+					<div class="rounded-full bg-primary/50 p-3">
+						<RefreshCw class="h-8 w-8 animate-spin text-primary-foreground" />
+					</div>
+				</div>
+				<p class="text-xl font-medium text-primary sm:text-2xl">Refreshing airlines</p>
+				<p class="text-center text-base text-primary sm:text-lg">
+					Please wait while we update the results
 				</p>
 			</div>
 		{:else}
