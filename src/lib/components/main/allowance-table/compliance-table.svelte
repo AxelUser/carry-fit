@@ -6,6 +6,7 @@
 	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import { tv } from 'tailwind-variants';
 	import { cn } from '$lib/utils/styling';
+	import * as Table from '$lib/components/ui/table';
 
 	interface Props {
 		airlines: AirlineCompliance[];
@@ -95,9 +96,9 @@
 		</summary>
 		<div class={cn('mt-3 rounded-lg border')}>
 			<div class="overflow-x-auto">
-				<table class="w-full" data-testid={`${section}-table`}>
+				<Table.Root class="w-full" data-testid={`${section}-table`}>
 					<Header {measurementSystem} bind:sortDirection />
-					<tbody>
+					<Table.Body>
 						{#each airlines as airline}
 							<Row
 								{airline}
@@ -107,8 +108,8 @@
 								{toggleFavorite}
 							/>
 						{/each}
-					</tbody>
-				</table>
+					</Table.Body>
+				</Table.Root>
 			</div>
 		</div>
 	</details>
