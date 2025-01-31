@@ -2,7 +2,12 @@
 	import * as Tooltip from '$lib/components/ui/tooltip/index';
 	import { MeasurementSystems, type AirlineInfo, type MeasurementSystem } from '$lib/types';
 	import { getAirlineDimensions } from '$lib/utils/mapping';
-	import { MonitorCheck, MonitorOff, MonitorX, Star, StarOff } from 'lucide-svelte';
+	import MonitorCheck from 'lucide-svelte/icons/monitor-check';
+	import MonitorOff from 'lucide-svelte/icons/monitor-off';
+	import MonitorX from 'lucide-svelte/icons/monitor-x';
+	import Star from 'lucide-svelte/icons/star';
+	import StarOff from 'lucide-svelte/icons/star-off';
+
 	import { tv } from 'tailwind-variants';
 	import * as Table from '$lib/components/ui/table';
 
