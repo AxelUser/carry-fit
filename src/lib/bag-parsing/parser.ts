@@ -81,11 +81,16 @@ export class DimensionParser {
 
 				const cmValues = [];
 				const inValues = [];
+				const visited = new Set<number>();
 
 				// Group numbers into pairs
-				for (let i = 0; i < values.length; i += 2) {
+				for (let i = 0; i < values.length; i++) {
+					if (visited.has(i)) continue;
+
 					const value1 = values[i];
 					const value2 = values[i + pairDistance];
+					visited.add(i);
+					visited.add(i + pairDistance);
 
 					if (value1 > value2) {
 						cmValues.push(value1);

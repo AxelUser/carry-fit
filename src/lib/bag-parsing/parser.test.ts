@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { DimensionParser } from './parser';
-import { convertDimensions } from '$lib/utils/math';
-import type { UserDimensions } from '$lib/types';
 
 describe('DimensionParser', () => {
 	const parser = new DimensionParser();
@@ -11,22 +9,36 @@ describe('DimensionParser', () => {
 			const text = '34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in';
 
 			const metricResult = parser.parse(text, 'metric');
-			expect(convertToDescArray(metricResult)).toEqual([53, 34, 19]);
+			expect(metricResult).toEqual({
+				width: 34.0,
+				height: 53.0,
+				depth: 19.0
+			});
 
 			const imperialResult = parser.parse(text, 'imperial');
-			expect(convertToDescArray(imperialResult)).toEqual([20.87, 13.39, 7.48]);
+			expect(imperialResult).toEqual({
+				width: 13.39,
+				height: 20.87,
+				depth: 7.48
+			});
 		});
 
 		it('should parse dimensions with H/W/D format', () => {
 			const text = '7.48H X 10.24W X 15.75D IN.';
 
 			const imperialResult = parser.parse(text, 'imperial');
-			expect(convertToDescArray(imperialResult)).toEqual([15.75, 10.24, 7.48]);
+			expect(imperialResult).toEqual({
+				height: 7.48,
+				width: 10.24,
+				depth: 15.75
+			});
 
 			const metricResult = parser.parse(text, 'metric');
-			expect(convertToDescArray(metricResult)).toEqual(
-				convertDimensions([15.75, 10.24, 7.48], 'metric')
-			);
+			expect(metricResult).toEqual({
+				height: 7.48 * IN_TO_CM,
+				width: 10.24 * IN_TO_CM,
+				depth: 15.75 * IN_TO_CM
+			});
 		});
 
 		it('should parse dimensions with mixed units and parentheses', () => {
@@ -36,10 +48,18 @@ describe('DimensionParser', () => {
 				Depth: 9" (23 cm)`;
 
 			const imperialResult = parser.parse(text, 'imperial');
-			expect(convertToDescArray(imperialResult)).toEqual([21.5, 13, 9]);
+			expect(imperialResult).toEqual({
+				height: 21.5,
+				width: 13,
+				depth: 9
+			});
 
 			const metricResult = parser.parse(text, 'metric');
-			expect(convertToDescArray(metricResult)).toEqual([54.5, 33, 23]);
+			expect(metricResult).toEqual({
+				height: 54.5,
+				width: 33,
+				depth: 23
+			});
 		});
 
 		it('should handle invalid input', () => {
@@ -58,24 +78,29 @@ describe('DimensionParser', () => {
 			`;
 
 			const result = parser.parse(text, 'metric');
-			expect(convertToDescArray(result)).toEqual([53.0, 34.0, 19.0]);
+			expect(result).toEqual({
+				width: 34.0,
+				height: 53.0,
+				depth: 19.0
+			});
 		});
 
 		it('should convert units when only one system is provided', () => {
 			const text = '20 x 30 x 40 cm';
 
 			const metricResult = parser.parse(text, 'metric');
-			expect(convertToDescArray(metricResult)).toEqual([40, 30, 20]);
+			expect(metricResult).toEqual({
+				width: 20,
+				height: 30,
+				depth: 40
+			});
 
 			const imperialResult = parser.parse(text, 'imperial');
-			const expectedImperial = convertDimensions([40, 30, 20], 'imperial');
-			expect(convertToDescArray(imperialResult)).toEqual(expectedImperial);
+			expect(imperialResult).toEqual({
+				width: 20 * CM_TO_IN,
+				height: 30 * CM_TO_IN,
+				depth: 40 * CM_TO_IN
+			});
 		});
 	});
 });
-
-function convertToDescArray(dims: UserDimensions | null): number[] | null {
-	if (!dims) return null;
-
-	return [dims.depth, dims.height, dims.width].toSorted((a, b) => b - a);
-}
