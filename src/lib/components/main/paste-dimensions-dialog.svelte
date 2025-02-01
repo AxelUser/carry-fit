@@ -15,7 +15,6 @@
 	import { badgeVariants } from '../ui/badge';
 	import { cn } from '$lib/utils/styling';
 	import { metrics } from '$lib/analytics';
-	import { snapshot } from 'node:test';
 
 	let open = $state(false);
 	let pastedText = $state('');
