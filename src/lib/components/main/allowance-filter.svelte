@@ -17,9 +17,6 @@
 
 	let { airlines, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
 
-	let innerWidth = $state(0);
-	const isMobile = $derived(innerWidth < 640);
-
 	let showFavoritesOnly = $state(false);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
@@ -65,8 +62,6 @@
 		selectedRegions = newSet;
 	}
 </script>
-
-<svelte:window bind:innerWidth />
 
 <Card.Root>
 	<Card.Header>

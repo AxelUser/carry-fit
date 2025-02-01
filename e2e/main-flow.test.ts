@@ -6,6 +6,7 @@ test.describe('Allowance table interaction', () => {
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
 		await page.getByTestId('accept-all-cookies').click();
 		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
 	});
 
 	test('should display airline allowances table by default', async ({ page }) => {
@@ -22,11 +23,15 @@ test.describe('Allowance table interaction', () => {
 	test('should filter airlines by region', async ({ page }) => {
 		// Get initial number of rows
 		const initialRows = await page.getByRole('row').count();
+		expect(initialRows).toBeGreaterThan(0);
 
 		// Deselect all regions except one
 		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
 		await page.getByText('Clear All').click();
 		await europeCheckbox.click();
+
+		// Wait for the table to be shown after filtering
+		await expect(page.getByRole('table')).toBeVisible();
 
 		// Get filtered number of rows and verify it's less than initial
 		const filteredRows = await page.getByRole('row').count();
@@ -124,6 +129,7 @@ test.describe('Favorites functionality', () => {
 		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
 		await page.getByTestId('accept-all-cookies').click();
 		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
 	});
 
 	test('should add and remove airlines from favorites', async ({ page }) => {
@@ -166,6 +172,9 @@ test.describe('Favorites functionality', () => {
 		// Enable favorites filter
 		await page.getByLabel('Favorites only').check();
 
+		// Wait for the table to be shown after filtering
+		await expect(page.getByRole('table')).toBeVisible();
+
 		// Should show only favorited airlines
 		const filteredAirlineCount = (await page.getByRole('row').count()) - 1;
 		expect(filteredAirlineCount).toBe(2);
@@ -185,7 +194,7 @@ test.describe('Favorites functionality', () => {
 
 		// Reload page
 		await page.reload();
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
 
 		// First airline should still be favorited
 		await expect(page.getByRole('row').nth(1).getByTestId('favorite-button')).toHaveAttribute(
@@ -257,7 +266,7 @@ test.describe('Favorites functionality', () => {
 
 		// Reload page
 		await page.reload();
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
 
 		// Verify favorites count persisted
 		await expect(page.getByTestId('favorites-count')).toHaveText('3 airlines');

@@ -18,13 +18,13 @@
 	}
 </script>
 
-<p class="text-sky-800">
+<p>
 	Control your privacy settings for analytics. Current status:
 	<span class="font-medium">
 		{isOptedIn ? 'Analytics Cookies Enabled' : 'Analytics Cookies Disabled'}
 	</span>
 </p>
-<ul class="list-disc space-y-1 pl-5 text-sky-800">
+<ul class="list-disc space-y-1 pl-5">
 	<li>
 		{isOptedIn
 			? 'Your visits are tracked between page reloads and future visits on this device'
@@ -48,24 +48,23 @@
 {/if}
 
 <div class="mt-6">
-	<Button variant={isOptedIn ? 'outline' : 'default'} onclick={toggleAnalytics}>
+	<Button variant={isOptedIn ? 'destructive' : 'default'} onclick={toggleAnalytics}>
 		{isOptedIn ? 'Disable Analytics Cookies' : 'Enable Analytics Cookies'}
 	</Button>
 </div>
 
 <div class="space-y-4">
-	<h2 class="text-xl font-semibold text-sky-900 sm:text-2xl">Additional Information</h2>
-	<p class="text-sky-800">
+	<h2 class="text-xl font-semibold sm:text-2xl">Additional Information</h2>
+	<p>
 		For more information about our privacy practices, please read our <a
 			href={links.legal.privacy}
-			class="font-medium text-sky-600 hover:text-sky-800 hover:underline">Privacy Policy</a
+			class="font-medium text-primary hover:underline">Privacy Policy</a
 		>.
 	</p>
-	<p class="text-sky-800">
+	<p>
 		If you have any questions or concerns, please contact us at <a
 			href="mailto:alexey.maltsev.work@gmail.com"
-			class="font-medium text-sky-600 hover:text-sky-800 hover:underline"
-			>alexey.maltsev.work@gmail.com</a
+			class="font-medium text-primary hover:underline">alexey.maltsev.work@gmail.com</a
 		>.
 	</p>
 </div>
