@@ -55,4 +55,20 @@ export class Metrics {
 	easterEggShown(name: string) {
 		this.provider.trackEventDebounced('easter_egg_shown', { name }, 2000);
 	}
+
+	dimensionParsingOpened() {
+		this.provider.trackEvent('dimension_parsing_opened');
+	}
+
+	dimensionParsingUsed(success: boolean, text?: string) {
+		const eventProps: Record<string, string | boolean> = {
+			dimension_parsing_success: success
+		};
+
+		if (!success && text) {
+			eventProps['dimension_parsing_failed_cropped_text'] = text.slice(0, 100);
+		}
+
+		this.provider.trackEvent('dimension_parsing_used', eventProps);
+	}
 }

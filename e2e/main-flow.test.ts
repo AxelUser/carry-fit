@@ -616,3 +616,114 @@ test.describe('Mobile screen table layout', () => {
 		await expect(page.getByTestId('compliant-table')).not.toBeVisible();
 	});
 });
+
+test.describe('Bag dimension parsing', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+	});
+
+	test('should parse valid dimensions string and set bag dimensions', async ({ page }) => {
+		// Open the paste dialog
+		await page.getByRole('button', { name: /Paste/i }).click();
+		await expect(page.getByRole('dialog')).toBeVisible();
+
+		// Input valid dimensions string
+		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+
+		// Dialog should close
+		await expect(page.getByRole('dialog')).not.toBeVisible();
+
+		// Verify dimensions are set correctly
+		await expect(page.getByLabel('Height')).toHaveValue('34');
+		await expect(page.getByLabel('Width')).toHaveValue('53');
+		await expect(page.getByLabel('Depth')).toHaveValue('19');
+
+		// Verify compliance score is visible (indicating dimensions were processed)
+		await expect(page.getByText(/Compliance Score/)).toBeVisible();
+	});
+
+	test('should show error for invalid dimensions string', async ({ page }) => {
+		// Store initial dimensions
+		const initialHeight = await page.getByLabel('Height').inputValue();
+		const initialWidth = await page.getByLabel('Width').inputValue();
+		const initialDepth = await page.getByLabel('Depth').inputValue();
+
+		// Open the paste dialog
+		await page.getByRole('button', { name: /Paste/i }).click();
+		await expect(page.getByRole('dialog')).toBeVisible();
+
+		// Input invalid text
+		await page.getByRole('textbox').fill('This is not a dimension string');
+		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+
+		// Error should be visible
+		await expect(page.getByText(/No dimensions found/)).toBeVisible();
+
+		// Dialog should stay open
+		await expect(page.getByRole('dialog')).toBeVisible();
+
+		// Dimensions should remain unchanged
+		await expect(page.getByLabel('Height')).toHaveValue(initialHeight);
+		await expect(page.getByLabel('Width')).toHaveValue(initialWidth);
+		await expect(page.getByLabel('Depth')).toHaveValue(initialDepth);
+	});
+
+	test('should not affect dimensions when dialog is cancelled', async ({ page }) => {
+		// Set some initial dimensions
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Open the paste dialog
+		await page.getByRole('button', { name: /Paste/i }).click();
+		await expect(page.getByRole('dialog')).toBeVisible();
+
+		// Input valid dimensions string but cancel
+		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('button', { name: 'Cancel' }).click();
+
+		// Dialog should close
+		await expect(page.getByRole('dialog')).not.toBeVisible();
+
+		// Dimensions should remain unchanged
+		await expect(page.getByLabel('Height')).toHaveValue('50');
+		await expect(page.getByLabel('Width')).toHaveValue('40');
+		await expect(page.getByLabel('Depth')).toHaveValue('25');
+	});
+
+	test('should parse dimensions according to selected measurement system', async ({ page }) => {
+		// Switch to imperial system
+		await page.getByRole('button', { name: /Imperial/i }).click();
+
+		// Open the paste dialog
+		await page.getByRole('button', { name: /Paste/i }).click();
+		await expect(page.getByRole('dialog')).toBeVisible();
+
+		// Input dimensions with both units
+		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+
+		// Dialog should close
+		await expect(page.getByRole('dialog')).not.toBeVisible();
+
+		// Verify imperial dimensions are set
+		await expect(page.getByLabel('Height')).toHaveValue('13.39');
+		await expect(page.getByLabel('Width')).toHaveValue('20.87');
+		await expect(page.getByLabel('Depth')).toHaveValue('7.48');
+
+		// Switch back to metric and try another parse
+		await page.getByRole('button', { name: /Metric/i }).click();
+		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+
+		// Verify metric dimensions are set
+		await expect(page.getByLabel('Height')).toHaveValue('34');
+		await expect(page.getByLabel('Width')).toHaveValue('53');
+		await expect(page.getByLabel('Depth')).toHaveValue('19');
+	});
+});
