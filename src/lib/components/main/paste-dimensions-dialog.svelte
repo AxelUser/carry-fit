@@ -47,7 +47,19 @@
 
 		onDimensionsFound(result);
 		open = false;
-		pastedText = '';
+	}
+
+	$effect(() => {
+		if (!open) {
+			pastedText = '';
+			error = '';
+		}
+	});
+
+	function handleValueChange() {
+		if (error) {
+			error = '';
+		}
 	}
 </script>
 
@@ -71,6 +83,7 @@
 		<Textarea
 			placeholder="e.g. 45 x 35 x 20 cm"
 			bind:value={pastedText}
+			oninput={handleValueChange}
 			rows={4}
 			class="max-h-60"
 		/>
@@ -84,7 +97,7 @@
 
 		<div class="flex justify-end gap-2">
 			<Button variant="outline" onclick={() => (open = false)}>Cancel</Button>
-			<Button onclick={handlePaste}>Parse Dimensions</Button>
+			<Button disabled={pastedText.length === 0} onclick={handlePaste}>Parse Dimensions</Button>
 		</div>
 	</DialogContent>
 </Dialog>
