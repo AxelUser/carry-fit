@@ -10,8 +10,12 @@
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { DimensionParser } from '$lib/bag-parsing/parser';
 	import { Alert, AlertDescription } from '$lib/components/ui/alert';
-	import { AlertTriangle } from 'lucide-svelte';
-	import type { MeasurementSystem } from '$lib/types';
+	import { AlertTriangle, ClipboardPaste } from 'lucide-svelte';
+	import type { MeasurementSystem, UserDimensions } from '$lib/types';
+	import { badgeVariants } from '../ui/badge';
+	import { cn } from '$lib/utils/styling';
+	import { metrics } from '$lib/analytics';
+	import { snapshot } from 'node:test';
 
 	let open = $state(false);
 	let pastedText = $state('');
@@ -21,18 +25,24 @@
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
-		onDimensionsFound: (dimensions: { height: number; width: number; depth: number }) => void;
+		onDimensionsFound: (dimensions: UserDimensions) => void;
 	}
 
 	let { measurementSystem, onDimensionsFound }: Props = $props();
+
+	function openDialog() {
+		open = true;
+		metrics.dimensionParsingOpened();
+	}
 
 	function handlePaste() {
 		error = '';
 		const result = parser.parse(pastedText, measurementSystem);
 
+		metrics.dimensionParsingUsed(!!result, pastedText);
+
 		if (!result) {
-			error =
-				'Could not find dimensions in the pasted text. Please try copying more text from the product page.';
+			error = 'No dimensions found. Try pasting only the line with bag measurements.';
 			return;
 		}
 
@@ -42,7 +52,13 @@
 	}
 </script>
 
-<Button variant="outline" onclick={() => (open = true)}>Paste from Website</Button>
+<button
+	class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
+	onclick={openDialog}
+>
+	<ClipboardPaste class="mr-1 size-3" />
+	<span>Paste</span>
+</button>
 
 <Dialog bind:open>
 	<DialogContent>
@@ -53,7 +69,12 @@
 			</DialogDescription>
 		</DialogHeader>
 
-		<Textarea placeholder="Paste product description here..." bind:value={pastedText} rows={6} />
+		<Textarea
+			placeholder="e.g. 45 x 35 x 20 cm"
+			bind:value={pastedText}
+			rows={4}
+			class="max-h-60"
+		/>
 
 		{#if error}
 			<Alert variant="destructive">

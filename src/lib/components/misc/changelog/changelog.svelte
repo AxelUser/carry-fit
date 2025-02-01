@@ -47,7 +47,12 @@
 				<Dialog.Root bind:open>
 					<Dialog.Trigger>
 						{#snippet child()}
-							<Button size="sm" variant="secondary" onclick={openChangelog} class="gap-2">
+							<Button
+								size="sm"
+								variant={hasNewVersion ? 'default' : 'secondary'}
+								onclick={openChangelog}
+								class="gap-2"
+							>
 								<span>Latest Updates</span>
 								{#if hasNewVersion}
 									<div class="relative mr-1">

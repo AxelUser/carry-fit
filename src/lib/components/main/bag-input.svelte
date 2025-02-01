@@ -43,7 +43,7 @@
 		flexibility = 0;
 	}
 
-	function handlePastedDimensions(dimensions: { height: number; width: number; depth: number }) {
+	function handlePastedDimensions(dimensions: UserDimensions) {
 		userDimensions.height = dimensions.height;
 		userDimensions.width = dimensions.width;
 		userDimensions.depth = dimensions.depth;
@@ -52,13 +52,13 @@
 </script>
 
 <div class="mb-4">
-	<div class="mb-6 flex items-baseline justify-between">
+	<div class="mb-2 flex flex-col items-baseline justify-between gap-2 xs:flex-row">
 		<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
-		<div class="flex items-center gap-2">
-			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
+		<div class="items-center gap-2">
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
+			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
 			<button
 				class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
 				onclick={resetDimensions}
@@ -67,6 +67,10 @@
 				<span>Clear</span>
 			</button>
 		</div>
+	</div>
+
+	<div class="mb-4 flex items-center justify-between gap-2 text-sm text-muted-foreground">
+		<p>Enter dimensions manually or <b>copy-paste from a website</b></p>
 	</div>
 
 	<div class="grid grid-cols-3 gap-x-4 gap-y-2">

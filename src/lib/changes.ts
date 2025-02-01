@@ -23,5 +23,11 @@ export const changes: Change[] = [
 		changes: [
 			'New responsive layout: compliant and non-compliant airlines side by side on desktop, toggleable sections on mobile! 📱💻'
 		]
+	},
+	{
+		date: new Date('2025-02-01T00:00:00Z'),
+		changes: [
+			'Found your perfect bag online? Just copy-paste the product description and our dimension-detecting wizard will find the measurements for you! ✨📏'
+		]
 	}
 ];
