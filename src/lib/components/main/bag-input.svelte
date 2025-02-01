@@ -9,6 +9,7 @@
 	import { Slider } from '../ui/slider';
 	import { badgeVariants } from '../ui/badge';
 	import { cn } from '$lib/utils/styling';
+	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -41,12 +42,20 @@
 		showFlexibility = false;
 		flexibility = 0;
 	}
+
+	function handlePastedDimensions(dimensions: { height: number; width: number; depth: number }) {
+		userDimensions.height = dimensions.height;
+		userDimensions.width = dimensions.width;
+		userDimensions.depth = dimensions.depth;
+		onChanged();
+	}
 </script>
 
 <div class="mb-4">
 	<div class="mb-6 flex items-baseline justify-between">
 		<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
 		<div class="flex items-center gap-2">
+			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
