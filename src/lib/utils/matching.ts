@@ -115,7 +115,8 @@ function computeWordBoundaries(target: string): number {
 	const cached = boundaryCache.get(target);
 	if (cached) return cached;
 
-	const boundaries = 1 + target.split(' ').length;
+	// Count word boundaries by counting spaces and adding 1 for the start
+	const boundaries = 1 + (target.match(/\s+/g)?.length ?? 0);
 	boundaryCache.set(target, boundaries);
 	return boundaries;
 }
