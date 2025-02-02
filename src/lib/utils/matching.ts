@@ -81,8 +81,8 @@ export function computeMatchScore(query: string, target: string): number {
 	if (queryIndex < normalizedQuery.length) return 0;
 
 	// Calculate final score:
-	// 1. Calculate best possible score (if all matches were at word boundaries)
-	const maxPossibleScore = normalizedQuery.length * WEIGHTS.WORD_BOUNDARY;
+	// 1. Calculate best possible score
+	const maxPossibleScore = computeMaxPossibleScore(normalizedQuery, normalizedTarget);
 
 	// 2. Normalize match score to 0-1 range
 	const normalizedMatchScore = matchScore / maxPossibleScore;
@@ -93,4 +93,29 @@ export function computeMatchScore(query: string, target: string): number {
 
 	// 4. Return final score (clamped between 0 and 1)
 	return Math.max(0, Math.min(1, normalizedMatchScore - skipPenalty));
+}
+
+function computeMaxPossibleScore(query: string, target: string): number {
+	const targetWordBoundaries = computeWordBoundaries(target);
+
+	// Calculate best possible score using available word boundaries
+	return (
+		Math.min(
+			query.length, // Can't use more boundaries than query length
+			targetWordBoundaries
+		) *
+			WEIGHTS.WORD_BOUNDARY +
+		Math.max(0, query.length - targetWordBoundaries) * WEIGHTS.CONSECUTIVE
+	);
+}
+
+const boundaryCache = new Map<string, number>();
+
+function computeWordBoundaries(target: string): number {
+	const cached = boundaryCache.get(target);
+	if (cached) return cached;
+
+	const boundaries = 1 + target.split(' ').length;
+	boundaryCache.set(target, boundaries);
+	return boundaries;
 }
