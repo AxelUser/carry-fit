@@ -739,3 +739,118 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByLabel('Depth')).toHaveValue('19');
 	});
 });
+
+test.describe('Allowance table search functionality', () => {
+	const searchWaitTime = 300;
+
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
+	});
+
+	test('should filter airlines by search term', async ({ page }) => {
+		// Get initial number of rows
+		const initialRows = await page.getByTestId('airline-name').count();
+		expect(initialRows).toBeGreaterThan(1); // Account for header row
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify filtered results
+		const filteredRows = await page.getByTestId('airline-name').count();
+		expect(filteredRows).toBe(1); // Finnair row
+
+		// Verify the visible airline is Finnair
+		await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+	});
+
+	test('should show empty state when no airlines match search', async ({ page }) => {
+		// Enter non-matching search term
+		await page.getByTestId('search-input').fill('NonexistentAirline');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify empty state is shown
+		await expect(page.getByText('No airlines found')).toBeVisible();
+		await expect(
+			page.getByText('No airlines match your search "NonexistentAirline"')
+		).toBeVisible();
+	});
+
+	test('should clear search when X button is clicked', async ({ page }) => {
+		// Get initial number of rows
+		const initialRows = await page.getByTestId('airline-name').count();
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for debounce
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify search filtered the results
+		const filteredRows = await page.getByTestId('airline-name').count();
+		expect(filteredRows).toBe(1);
+
+		// Click clear button
+		await page.getByTestId('search-clear-button').click();
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify original number of rows is restored
+		const finalRows = await page.getByTestId('airline-name').count();
+		expect(finalRows).toBe(initialRows);
+	});
+
+	test('should search in compliance tables when dimensions are set', async ({ page }) => {
+		// Enter bag dimensions to show compliance tables
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Wait for tables to update
+		await expect(page.getByTestId('compliance-sections')).toBeVisible();
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify search works in compliance tables
+		expect(await page.getByTestId('airline-name').count()).toBe(1);
+		await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+
+		// Clear search
+		await page.getByTestId('search-clear-button').click();
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify more airlines are visible after clearing search
+		expect(await page.getByTestId('airline-name').count()).toBeGreaterThan(1);
+	});
+
+	test('should handle case-insensitive search', async ({ page }) => {
+		// Try different case variations
+		const searchTerms = ['finnair', 'FINNAIR', 'FiNnAiR'];
+
+		for (const term of searchTerms) {
+			await page.getByTestId('search-input').fill(term);
+
+			// Wait for search to complete
+			await page.waitForTimeout(searchWaitTime);
+
+			// Verify Finnair is found regardless of case
+			expect(await page.getByTestId('airline-name').count()).toBe(1);
+			await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+		}
+	});
+});

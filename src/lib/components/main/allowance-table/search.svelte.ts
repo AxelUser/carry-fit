@@ -13,7 +13,7 @@ class SearchState {
 				score: computeMatchScore(this.searchTerm, airline.airline)
 			}))
 			.sort((a, b) => b.score - a.score)
-			.filter((airline) => airline.score > 0.15)
+			.filter((airline) => airline.score > 0.1)
 			.slice(0, 10)
 			.map((airline) => airline.airline);
 	}
