@@ -30,7 +30,7 @@ export const newUserTour: Tour = {
 			popover: {
 				title: 'Quick Input',
 				description:
-					"Copy-paste bag dimensions directly from product pages or descriptions - we'll automatically detect the measurements!"
+					"Click here to copy-paste bag dimensions directly from product pages or descriptions - we'll automatically detect the measurements!"
 			}
 		},
 		{
