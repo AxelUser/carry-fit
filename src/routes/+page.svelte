@@ -8,7 +8,7 @@
 		type CookieConsent
 	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import preferences from '$lib/stores/preferences';
 	import versionStore from '$lib/stores/versionStore.svelte';
 	import { changes } from '$lib/changes';
@@ -29,6 +29,7 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
+	import { showTour } from '$lib/tours';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -138,14 +139,20 @@
 		}
 	});
 
-	onDestroy(() => {
-		disposeAnalytics();
-	});
-
 	function handleConsent(consent: CookieConsent) {
 		cookieConsent.value = consent;
 		updateConsent(consent.analytics);
 	}
+
+	onMount(() => {
+		if (browser) {
+			showTour('new-user');
+		}
+	});
+
+	onDestroy(() => {
+		disposeAnalytics();
+	});
 </script>
 
 <svelte:window bind:innerWidth />

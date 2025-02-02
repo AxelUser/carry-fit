@@ -23,7 +23,7 @@
 			<Card.Description>Choose your preferred units of measurement</Card.Description>
 		</Card.Header>
 		<Card.Content>
-			<div class="grid grid-cols-2 gap-2">
+			<div data-tour-id="measurement-system-select" class="grid grid-cols-2 gap-2">
 				<Button
 					class="flex flex-col items-center justify-center"
 					variant={value === MeasurementSystems.Metric ? 'default' : 'outline'}

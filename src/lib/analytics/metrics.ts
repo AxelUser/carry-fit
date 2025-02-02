@@ -71,4 +71,12 @@ export class Metrics {
 
 		this.provider.trackEvent('dimension_parsing_used', eventProps);
 	}
+
+	tourShown(tour: string) {
+		this.provider.trackEvent('tour_shown', { tour_name: tour });
+	}
+
+	tourCompleted(tour: string) {
+		this.provider.trackEvent('tour_completed', { tour_name: tour });
+	}
 }
