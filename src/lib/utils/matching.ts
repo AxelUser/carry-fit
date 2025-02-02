@@ -35,10 +35,6 @@ export function computeMatchScore(query: string, target: string): number {
 	// Return 0 if either string is empty
 	if (!query || !target) return 0;
 
-	// Convert both strings to lowercase for case-insensitive comparison
-	const normalizedQuery = query.toLowerCase();
-	const normalizedTarget = target.toLowerCase();
-
 	// Track current position in both strings
 	let queryIndex = 0;
 	let targetIndex = 0;
@@ -51,15 +47,19 @@ export function computeMatchScore(query: string, target: string): number {
 	// Keep scanning until we either:
 	// 1. Find all query characters (success) or
 	// 2. Run out of target characters (partial/no match)
-	while (queryIndex < normalizedQuery.length && targetIndex < normalizedTarget.length) {
-		const isMatch = normalizedQuery[queryIndex] === normalizedTarget[targetIndex];
+	while (queryIndex < query.length && targetIndex < target.length) {
+		// Use localeCompare with sensitivity: 'base' for case-insensitive comparison
+		const isMatch =
+			query[queryIndex].localeCompare(target[targetIndex], undefined, {
+				sensitivity: 'base'
+			}) === 0;
 
 		if (isMatch) {
 			// Determine match quality and assign appropriate score:
 			// - Word boundary matches (after space or start)
 			// - Consecutive matches
 			// - Regular matches
-			const isWordBoundary = targetIndex === 0 || normalizedTarget[targetIndex - 1] === ' ';
+			const isWordBoundary = targetIndex === 0 || target[targetIndex - 1] === ' ';
 			const positionScore = isWordBoundary
 				? WEIGHTS.WORD_BOUNDARY
 				: consecutiveMatches > 0
@@ -78,18 +78,18 @@ export function computeMatchScore(query: string, target: string): number {
 	}
 
 	// If we didn't find all query characters, return no match
-	if (queryIndex < normalizedQuery.length) return 0;
+	if (queryIndex < query.length) return 0;
 
 	// Calculate final score:
 	// 1. Calculate best possible score
-	const maxPossibleScore = computeMaxPossibleScore(normalizedQuery, normalizedTarget);
+	const maxPossibleScore = computeMaxPossibleScore(query, target);
 
 	// 2. Normalize match score to 0-1 range
 	const normalizedMatchScore = matchScore / maxPossibleScore;
 
 	// 3. Calculate penalty for skipped characters
 	// (skips are worse if they're a large portion of target length)
-	const skipPenalty = (skippedCharCount / normalizedTarget.length) * WEIGHTS.SKIPPED;
+	const skipPenalty = (skippedCharCount / target.length) * WEIGHTS.SKIPPED;
 
 	// 4. Return final score (clamped between 0 and 1)
 	return Math.max(0, Math.min(1, normalizedMatchScore - skipPenalty));
