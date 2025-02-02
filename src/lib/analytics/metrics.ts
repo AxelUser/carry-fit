@@ -76,7 +76,7 @@ export class Metrics {
 		this.provider.trackEvent('tour_shown', { tour_name: tour });
 	}
 
-	tourCompleted(tour: string) {
-		this.provider.trackEvent('tour_completed', { tour_name: tour });
+	tourFinished(tour: string, completed: boolean) {
+		this.provider.trackEvent('tour_finished', { tour_name: tour, tour_completed: completed });
 	}
 }

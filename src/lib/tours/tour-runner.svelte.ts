@@ -22,10 +22,8 @@ function createDriver(name: TourNames, steps: DriveStep[]) {
 		popoverClass: 'tour-popover',
 		onDestroyStarted: () => {
 			const completed = driverObj.isLastStep();
-			if (completed) {
-				metrics.tourCompleted(name);
-				tourProgress.markTourCompleted(name);
-			}
+			metrics.tourFinished(name, completed);
+			tourProgress.markTourCompleted(name);
 			driverObj.destroy();
 		}
 	});
