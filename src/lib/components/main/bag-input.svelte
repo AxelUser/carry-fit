@@ -73,7 +73,7 @@
 		<p>Enter dimensions manually or <b>copy-paste from a website</b></p>
 	</div>
 
-	<div class="grid grid-cols-3 gap-x-4 gap-y-2">
+	<div data-tour-id="bag-input" class="grid grid-cols-3 gap-x-4 gap-y-2">
 		<Label for="height">Height</Label>
 		<Label class="mb-1" for="width">Width</Label>
 		<Label for="depth">Depth</Label>

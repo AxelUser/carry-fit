@@ -1,16 +1,15 @@
 import { driver, type DriveStep } from 'driver.js';
 import { newUserTour } from './new-user.tour';
-import type { Tour } from './types';
+import { TOURS, type Tour, type TourNames } from './types';
 import { metrics } from '$lib/analytics';
+import tourProgress from '$lib/stores/tours';
 import 'driver.js/dist/driver.css';
 
-type TourNames = 'new-user';
-
-const tours: Record<TourNames, Tour> = {
-	'new-user': newUserTour
+const activeTours: Record<TourNames, Tour> = {
+	[TOURS.newUserV1]: newUserTour
 };
 
-function createDriver(name: string, steps: DriveStep[]) {
+function createDriver(name: TourNames, steps: DriveStep[]) {
 	const driverObj = driver({
 		showProgress: true,
 		steps: steps,
@@ -25,6 +24,7 @@ function createDriver(name: string, steps: DriveStep[]) {
 			const completed = driverObj.isLastStep();
 			if (completed) {
 				metrics.tourCompleted(name);
+				tourProgress.markTourCompleted(name);
 			}
 			driverObj.destroy();
 		}
@@ -34,18 +34,15 @@ function createDriver(name: string, steps: DriveStep[]) {
 }
 
 function canRunTour(tour: TourNames): boolean {
-	const tourData = tours[tour];
-
-	return tourData !== undefined;
+	return activeTours[tour] !== undefined && !tourProgress.isTourCompleted(tour);
 }
 
-export function showTour(tour: TourNames) {
-	if (!canRunTour(tour)) {
+export function showTour(tour: TourNames, force = false) {
+	if (!canRunTour(tour) && !force) {
 		return;
 	}
 
-	const tourData = tours[tour];
-
+	const tourData = activeTours[tour];
 	const driver = createDriver(tour, tourData.steps());
 	driver.drive();
 

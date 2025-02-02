@@ -30,6 +30,7 @@
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
 	import { showTour } from '$lib/tours';
+	import { TOURS } from '$lib/tours/types';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -144,9 +145,13 @@
 		updateConsent(consent.analytics);
 	}
 
-	onMount(() => {
-		if (browser) {
-			showTour('new-user');
+	const isUserReadyForTour = $derived(
+		cookieConsent.isLoaded && cookieConsent.value.timestamp !== null
+	);
+
+	$effect(() => {
+		if (browser && isUserReadyForTour) {
+			showTour(TOURS.newUserV1);
 		}
 	});
 
@@ -189,10 +194,18 @@
 						>{allAirlines.length}</span
 					> airlines worldwide
 				</p>
-				<p class="mt-2 text-xs">
+				<div class="mt-4 flex justify-center gap-2">
+					<Button
+						data-tour-id="take-tour-button"
+						variant="link"
+						size="sm"
+						onclick={() => showTour(TOURS.newUserV1, true)}
+					>
+						Take a Tour
+					</Button>
 					<Button href={links.legal.privacy} variant="link" size="sm">Privacy Policy</Button>
 					<Button href={links.legal.terms} variant="link" size="sm">Terms of Use</Button>
-				</p>
+				</div>
 			</div>
 
 			<div class="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">

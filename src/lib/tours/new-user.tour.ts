@@ -18,7 +18,7 @@ export const newUserTour: Tour = {
 			}
 		},
 		{
-			element: '#height',
+			element: '[data-tour-id="bag-input"]',
 			popover: {
 				title: 'Enter Bag Dimensions',
 				description:
@@ -61,6 +61,13 @@ export const newUserTour: Tour = {
 				title: 'Verify Policies',
 				description:
 					'Always check the official airline policy before traveling - requirements may change!'
+			}
+		},
+		{
+			element: '[data-tour-id="take-tour-button"]',
+			popover: {
+				title: 'Need a Refresher?',
+				description: 'You can restart this tour anytime by clicking this button!'
 			}
 		}
 	]
