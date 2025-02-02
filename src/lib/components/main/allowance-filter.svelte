@@ -106,7 +106,11 @@
 						</div>
 					</div>
 
-					<div class="mt-3 flex flex-wrap gap-2" data-testid="regions-filter-list">
+					<div
+						class="mt-3 flex flex-wrap gap-2"
+						data-tour-id="regions-filter-list"
+						data-testid="regions-filter-list"
+					>
 						{#each allRegions as region}
 							{@const isSelected = selectedRegions.has(region)}
 							{@const isAvailable = isRegionAvailable(region)}

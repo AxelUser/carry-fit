@@ -8,7 +8,7 @@
 		type CookieConsent
 	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import preferences from '$lib/stores/preferences';
 	import versionStore from '$lib/stores/versionStore.svelte';
 	import { changes } from '$lib/changes';
@@ -29,6 +29,8 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
+	import { showTour } from '$lib/tours';
+	import { TOURS } from '$lib/tours/types';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -138,14 +140,24 @@
 		}
 	});
 
-	onDestroy(() => {
-		disposeAnalytics();
-	});
-
 	function handleConsent(consent: CookieConsent) {
 		cookieConsent.value = consent;
 		updateConsent(consent.analytics);
 	}
+
+	const isUserReadyForTour = $derived(
+		cookieConsent.isLoaded && cookieConsent.value.timestamp !== null
+	);
+
+	$effect(() => {
+		if (browser && isUserReadyForTour) {
+			showTour(TOURS.newUserV1);
+		}
+	});
+
+	onDestroy(() => {
+		disposeAnalytics();
+	});
 </script>
 
 <svelte:window bind:innerWidth />
@@ -182,10 +194,18 @@
 						>{allAirlines.length}</span
 					> airlines worldwide
 				</p>
-				<p class="mt-2 text-xs">
+				<div class="mt-4 flex justify-center gap-2">
+					<Button
+						data-tour-id="take-tour-button"
+						variant="link"
+						size="sm"
+						onclick={() => showTour(TOURS.newUserV1, true)}
+					>
+						Take a Tour
+					</Button>
 					<Button href={links.legal.privacy} variant="link" size="sm">Privacy Policy</Button>
 					<Button href={links.legal.terms} variant="link" size="sm">Terms of Use</Button>
-				</p>
+				</div>
 			</div>
 
 			<div class="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">

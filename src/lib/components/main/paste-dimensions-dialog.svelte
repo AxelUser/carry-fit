@@ -64,6 +64,7 @@
 </script>
 
 <button
+	data-tour-id="paste-dimensions"
 	class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
 	onclick={openDialog}
 >

@@ -38,6 +38,7 @@
 			<button
 				class="group flex items-center"
 				onclick={() => toggleFavorite(airline.airline)}
+				data-tour-id="favorite-button"
 				data-testid="favorite-button"
 				data-favorite={isFavorite}
 			>
@@ -79,7 +80,7 @@
 			N/A
 		{/if}
 	</Table.Cell>
-	<Table.Cell data-testid="policy-link">
+	<Table.Cell data-tour-id="policy-link" data-testid="policy-link">
 		{#if airline.link}
 			<a
 				class="text-primary hover:underline"

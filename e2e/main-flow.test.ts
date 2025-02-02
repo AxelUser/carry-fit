@@ -1,4 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+	// Set up local storage to skip tours before navigation
+	await page.addInitScript(() => {
+		window.localStorage.setItem(
+			'carryfit_tours',
+			JSON.stringify({
+				completedTours: ['newUserV1']
+			})
+		);
+	});
+});
 
 test.describe('Allowance table interaction', () => {
 	test.beforeEach(async ({ page }) => {
