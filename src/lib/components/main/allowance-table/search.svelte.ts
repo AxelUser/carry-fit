@@ -1,4 +1,4 @@
-import { fuzzySearch } from '$lib/utils/fuzzy-search';
+import { computeMatchScore } from '$lib/utils/matching';
 import type { AirlineInfo } from '$lib/types';
 
 class SearchState {
@@ -7,7 +7,15 @@ class SearchState {
 	filterAirlines<T extends AirlineInfo>(airlines: T[]): T[] {
 		if (!this.searchTerm) return airlines;
 
-		return airlines.filter((airline) => fuzzySearch(this.searchTerm, airline.airline));
+		return airlines
+			.map((airline) => ({
+				airline: airline,
+				score: computeMatchScore(this.searchTerm, airline.airline)
+			}))
+			.sort((a, b) => b.score - a.score)
+			.filter((airline) => airline.score > 0.15)
+			.slice(0, 10)
+			.map((airline) => airline.airline);
 	}
 
 	clearSearch() {
