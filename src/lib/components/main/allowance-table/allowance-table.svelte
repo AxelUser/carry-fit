@@ -6,7 +6,7 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { SearchX, RefreshCw } from 'lucide-svelte';
+	import { SearchX, RefreshCw, Search } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
 	import { debounce } from '$lib/utils/actions';
 	import Row from './row.svelte';
@@ -14,6 +14,9 @@
 	import ComplianceTable from './compliance-table.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import * as Table from '$lib/components/ui/table';
+	import SearchInput from './search-input.svelte';
+	import { searchState } from './search.svelte';
+	import EmptyState from './empty-state.svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -41,9 +44,13 @@
 
 	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
 
-	const sortedAirlines = $derived(sortAirlines(airlines));
-	const sortedCompliantAirlines = $derived(sortAirlines(compliantAirlines));
-	const sortedNonCompliantAirlines = $derived(sortAirlines(nonCompliantAirlines));
+	const sortedAirlines = $derived(sortAirlines(searchState.filterAirlines(airlines)));
+	const sortedCompliantAirlines = $derived(
+		sortAirlines(searchState.filterAirlines(compliantAirlines))
+	);
+	const sortedNonCompliantAirlines = $derived(
+		sortAirlines(searchState.filterAirlines(nonCompliantAirlines))
+	);
 
 	let isNonCompliantOpen = $state(false);
 	let isCompliantOpen = $state(false);
@@ -60,6 +67,13 @@
 
 	const tableLayout = $derived(
 		onlyCompliantSection || onlyNonCompliantSection ? 'single-column' : 'two-column'
+	);
+
+	const noSearchResults = $derived(
+		searchState.searchTerm !== '' &&
+			sortedAirlines.length === 0 &&
+			sortedCompliantAirlines.length === 0 &&
+			sortedNonCompliantAirlines.length === 0
 	);
 
 	function sortAirlines<T extends AirlineInfo>(airlines: T[]) {
@@ -150,31 +164,25 @@
 	<Card.Header>
 		<Card.Title>Airlines</Card.Title>
 	</Card.Header>
-	<Card.Content class="overflow-x-auto">
-		{#if airlines.length === 0 && !showComplianceResult}
-			<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
-				<div class="rounded-full bg-primary">
-					<div class="rounded-full bg-primary/50 p-3">
-						<SearchX class="h-8 w-8 text-primary-foreground" />
-					</div>
-				</div>
-				<p class="text-xl font-medium text-primary sm:text-2xl">Nothing to display</p>
-				<p class="text-center text-base text-primary sm:text-lg">
-					Try adjusting your filters to see available allowances
-				</p>
-			</div>
+	<Card.Content class="flex min-h-[300px] flex-col gap-4 overflow-x-auto">
+		<SearchInput />
+
+		{#if noSearchResults}
+			<EmptyState
+				title="No airlines found"
+				description={`No airlines match your search "${searchState.searchTerm}"`}
+			/>
+		{:else if airlines.length === 0 && !showComplianceResult}
+			<EmptyState
+				title="Nothing to display"
+				description="Try adjusting your filters to see available allowances"
+			/>
 		{:else if isLoading}
-			<div class="flex min-h-[300px] flex-col items-center justify-center gap-3 py-12">
-				<div class="rounded-full bg-primary">
-					<div class="rounded-full bg-primary/50 p-3">
-						<RefreshCw class="h-8 w-8 animate-spin text-primary-foreground" />
-					</div>
-				</div>
-				<p class="text-xl font-medium text-primary sm:text-2xl">Refreshing airlines</p>
-				<p class="text-center text-base text-primary sm:text-lg">
-					Please wait while we update the results
-				</p>
-			</div>
+			<EmptyState
+				variant="refreshing"
+				title="Refreshing airlines"
+				description="Please wait while we update the results"
+			/>
 		{:else}
 			{@render airlinesTable()}
 		{/if}
