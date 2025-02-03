@@ -5,10 +5,8 @@ export const TOURS = {
 	airlineSearch: 'airlineSearch'
 } as const;
 
-export type TourName = keyof typeof TOURS;
-
 export interface Tour {
-	name: TourName;
+	name: string;
 	steps: () => DriveStep[];
 	updatedAt: Date;
 }

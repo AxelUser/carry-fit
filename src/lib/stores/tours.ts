@@ -1,8 +1,7 @@
-import type { TourName } from '$lib/tours/types';
 import { createLocalStore } from '$lib/storage/local-store.svelte';
 
 interface TourState {
-	name: TourName;
+	name: string;
 	dateShown: string;
 }
 
@@ -31,7 +30,7 @@ export default {
 		return tourStore.value.completedTours;
 	},
 
-	markTourCompleted(tour: TourName) {
+	markTourCompleted(tour: string) {
 		tourStore.value = {
 			...tourStore.value,
 			completedTours: [
@@ -41,7 +40,7 @@ export default {
 		};
 	},
 
-	isTourCompleted(tour: TourName, tourUpdateDate: Date): boolean {
+	isTourCompleted(tour: string, tourUpdateDate: Date): boolean {
 		return (
 			this.completedTours.find(
 				(t) =>

@@ -2,10 +2,10 @@ import { driver, type DriveStep } from 'driver.js';
 import { metrics } from '$lib/analytics';
 import tourStore from '$lib/stores/tours';
 import 'driver.js/dist/driver.css';
-import type { Tour, TourName } from './types';
+import type { Tour } from './types';
 import { exists, getActiveTours, MAIN_TOUR } from './active-tours';
 
-function createDriver(name: TourName, steps: DriveStep[], onDestroyed?: () => void) {
+function createDriver(name: string, steps: DriveStep[], onDestroyed?: () => void) {
 	const driverObj = driver({
 		showProgress: true,
 		steps: steps,
@@ -50,7 +50,7 @@ interface PendingTour {
 	skipped: boolean;
 }
 
-function getPendingTours(): PendingTour[] {
+export function getPendingTours(): PendingTour[] {
 	const activeTours = getActiveTours();
 
 	return (
