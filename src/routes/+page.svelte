@@ -162,12 +162,14 @@
 
 <svelte:window bind:innerWidth />
 
-
-<div class="fixed bottom-4 z-50 w-full">
+<div class="fixed top-4 z-50 w-full">
 	<div class="mx-auto max-w-[1700px] px-4">
-		<ToggleTheme />
+		<div class="flex justify-end">
+			<ToggleTheme />
+		</div>
 	</div>
 </div>
+
 <CookieBanner
 	onAccept={handleConsent}
 	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}
