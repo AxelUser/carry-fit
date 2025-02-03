@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ModeWatcher } from "mode-watcher";
 	import { metrics } from '$lib/analytics';
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
@@ -18,6 +19,7 @@
 <svelte:window on:error={handleError} />
 
 <UltraWideJoke />
+<ModeWatcher />
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">
