@@ -1,12 +1,12 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
 	// Set up local storage to skip tours before navigation
 	await page.addInitScript(() => {
 		window.localStorage.setItem(
-			'carryfit_tours',
+			'tours',
 			JSON.stringify({
-				completedTours: ['newUserV1']
+				disabled: true
 			})
 		);
 	});

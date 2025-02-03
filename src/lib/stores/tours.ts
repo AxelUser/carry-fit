@@ -8,9 +8,10 @@ interface TourState {
 
 interface TourStates {
 	completedTours: TourState[];
+	disabled?: boolean;
 }
 
-const STORAGE_KEY = 'tour_states';
+const STORAGE_KEY = 'tours';
 
 const defaultStates: TourStates = {
 	completedTours: []
@@ -22,6 +23,10 @@ const tourStore = createLocalStore<TourStates>(STORAGE_KEY, defaultStates, (load
 }));
 
 export default {
+	get disabled() {
+		return tourStore.value.disabled ?? false;
+	},
+
 	get completedTours() {
 		return tourStore.value.completedTours;
 	},

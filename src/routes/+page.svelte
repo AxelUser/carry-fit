@@ -23,7 +23,7 @@
 		MeasurementSystemSelect
 	} from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
-	import { CookieBanner, Changelog } from '$lib/components/misc';
+	import { CookieBanner } from '$lib/components/misc';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';

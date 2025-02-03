@@ -21,10 +21,6 @@
 			false
 	);
 
-	function close() {
-		open = false;
-	}
-
 	function openChangelog() {
 		open = true;
 		if (currentVersion) {

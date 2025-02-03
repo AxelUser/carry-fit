@@ -1,6 +1,6 @@
 import { driver, type DriveStep } from 'driver.js';
 import { metrics } from '$lib/analytics';
-import tourProgress from '$lib/stores/tours';
+import tourStore from '$lib/stores/tours';
 import 'driver.js/dist/driver.css';
 import type { Tour, TourName } from './types';
 import { exists, getActiveTours, MAIN_TOUR } from './active-tours';
@@ -19,7 +19,7 @@ function createDriver(name: TourName, steps: DriveStep[], onDestroyed?: () => vo
 		onDestroyStarted: () => {
 			const completed = driverObj.isLastStep();
 			metrics.tourFinished(name, completed);
-			tourProgress.markTourCompleted(name);
+			tourStore.markTourCompleted(name);
 			driverObj.destroy();
 		},
 		onDestroyed: onDestroyed
@@ -33,12 +33,12 @@ function isFeatureTour(tour: Tour): boolean {
 }
 
 function mainTourPending(): boolean {
-	return !tourProgress.isTourCompleted(MAIN_TOUR.name, MAIN_TOUR.updatedAt);
+	return !tourStore.isTourCompleted(MAIN_TOUR.name, MAIN_TOUR.updatedAt);
 }
 
 function canRunTour(tour: Tour): boolean {
 	// Tour must exist and not be completed
-	if (!exists(tour.name) || tourProgress.isTourCompleted(tour.name, tour.updatedAt)) {
+	if (!exists(tour.name) || tourStore.isTourCompleted(tour.name, tour.updatedAt)) {
 		return false;
 	}
 
@@ -55,7 +55,7 @@ function getPendingTours(): PendingTour[] {
 
 	return (
 		activeTours
-			.filter((tour) => !tourProgress.isTourCompleted(tour.name, tour.updatedAt))
+			.filter((tour) => !tourStore.isTourCompleted(tour.name, tour.updatedAt))
 			// If the main tour is pending, we don't want to show any feature tours,
 			// because the main tour will cover all features
 			.map((tour) => ({ tour, skipped: isFeatureTour(tour) && mainTourPending() }))
@@ -78,10 +78,14 @@ export function runMainTour() {
 }
 
 export function runPendingTours() {
+	if (tourStore.disabled) {
+		return;
+	}
+
 	const pendingTours = getPendingTours().filter((tour) => {
 		if (tour.skipped) {
 			// Mark skipped tours as completed, so they don't show up again
-			tourProgress.markTourCompleted(tour.tour.name);
+			tourStore.markTourCompleted(tour.tour.name);
 			return false;
 		}
 		return true;
