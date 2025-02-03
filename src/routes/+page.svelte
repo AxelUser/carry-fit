@@ -8,7 +8,7 @@
 		type CookieConsent
 	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
 	import versionStore from '$lib/stores/versionStore.svelte';
 	import { changes } from '$lib/changes';
@@ -31,6 +31,9 @@
 	import { Button } from '$lib/components/ui/button';
 	import { showTour } from '$lib/tours';
 	import { TOURS } from '$lib/tours/types';
+	import { Moon, Sun } from 'lucide-svelte';
+	import { toggleMode } from 'mode-watcher';
+	import ToggleTheme from '$lib/components/misc/toggle-theme.svelte';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -162,14 +165,20 @@
 
 <svelte:window bind:innerWidth />
 
-<Changelog
-	{changes}
-	lastSeenVersion={versionStore.lastSeenVersion}
-	onOpen={(seenVersion, isNewVersion) => {
-		versionStore.lastSeenVersion = seenVersion;
-		metrics.changelogOpened(seenVersion, isNewVersion);
-	}}
-/>
+
+<div class="fixed bottom-4 z-50 w-full">
+	<div class="mx-auto max-w-[1700px] px-4">
+		<ToggleTheme />
+		<Changelog
+			{changes}
+			lastSeenVersion={versionStore.lastSeenVersion}
+			onOpen={(seenVersion, isNewVersion) => {
+				versionStore.lastSeenVersion = seenVersion;
+				metrics.changelogOpened(seenVersion, isNewVersion);
+			}}
+		/>
+	</div>
+</div>
 <CookieBanner
 	onAccept={handleConsent}
 	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}

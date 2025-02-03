@@ -41,38 +41,34 @@
 </script>
 
 {#if currentVersion}
-	<div class="fixed bottom-4 z-50 w-full">
-		<div class="mx-auto max-w-[1700px] px-4">
-			<div class="flex justify-end">
-				<Dialog.Root bind:open>
-					<Dialog.Trigger>
-						{#snippet child()}
-							<Button
-								size="sm"
-								variant={hasNewVersion ? 'default' : 'secondary'}
-								onclick={openChangelog}
-								class="gap-2"
-							>
-								<span>Latest Updates</span>
-								{#if hasNewVersion}
-									<div class="relative mr-1">
-										<div class="absolute -right-1.5 -top-1 h-2 w-2">
-											<div
-												class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
-											></div>
-											<div class="h-full w-full rounded-full bg-amber-400"></div>
-										</div>
-									</div>
-								{/if}
-							</Button>
-						{/snippet}
-					</Dialog.Trigger>
-					<Dialog.Content>
-						{@render changelogContent(currentVersion)}
-					</Dialog.Content>
-				</Dialog.Root>
-			</div>
-		</div>
+	<div class="flex justify-end">
+		<Dialog.Root bind:open>
+			<Dialog.Trigger>
+				{#snippet child()}
+					<Button
+						size="sm"
+						variant={hasNewVersion ? 'default' : 'secondary'}
+						onclick={openChangelog}
+						class="gap-2"
+					>
+						<span>Latest Updates</span>
+						{#if hasNewVersion}
+							<div class="relative mr-1">
+								<div class="absolute -right-1.5 -top-1 h-2 w-2">
+									<div
+										class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
+									></div>
+									<div class="h-full w-full rounded-full bg-amber-400"></div>
+								</div>
+							</div>
+						{/if}
+					</Button>
+				{/snippet}
+			</Dialog.Trigger>
+			<Dialog.Content>
+				{@render changelogContent(currentVersion)}
+			</Dialog.Content>
+		</Dialog.Root>
 	</div>
 {/if}
 
