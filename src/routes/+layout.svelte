@@ -46,7 +46,7 @@
 					</h1>
 				</div>
 
-				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-sky-100">
+				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-primary/10">
 					<div class="mb-6 flex items-start gap-4">
 						<div
 							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-destructive/10"
@@ -64,13 +64,13 @@
 						</div>
 					</div>
 
-					<div class="rounded-lg border border-sky-100 bg-sky-50 p-6">
-						<h3 class="mb-3 font-medium text-sky-900">Want to help catch this bug? Here's how:</h3>
-						<ul class="ml-2 space-y-2 text-sm text-sky-800">
+					<div class="rounded-lg border border-primary/10 bg-primary/10 p-6">
+						<h3 class="mb-3 font-medium text-primary">Want to help catch this bug? Here's how:</h3>
+						<ul class="ml-2 space-y-2 text-sm text-primary">
 							<li>
 								• File a bug report on <a
 									href="https://github.com/AxelUser/carry-fit"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
+									class="text-primary hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">GitHub</a
 								> (our bug collection gallery)
@@ -78,14 +78,13 @@
 							<li>
 								• Send a friendly email to <a
 									href="mailto:alexey.maltsev.work@gmail.com"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									>alexey.maltsev.work@gmail.com</a
+									class="text-primary hover:underline">alexey.maltsev.work@gmail.com</a
 								>
 							</li>
 							<li>
 								• Tweet at me on <a
 									href="https://x.com/axel_user"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
+									class="text-primary hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">X (Twitter)</a
 								> - I promise I don't byte! 🤓
