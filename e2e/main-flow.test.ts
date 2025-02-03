@@ -643,8 +643,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -669,8 +669,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input invalid text
-		await page.getByRole('textbox').fill('This is not a dimension string');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('This is not a dimension string');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Error should be visible
 		await expect(page.getByText(/No dimensions found/)).toBeVisible();
@@ -695,8 +695,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string but cancel
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('button', { name: 'Cancel' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -716,8 +716,11 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input dimensions with both units
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page
+			.getByRole('dialog')
+			.getByRole('textbox')
+			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -730,8 +733,11 @@ test.describe('Bag dimension parsing', () => {
 		// Switch back to metric and try another parse
 		await page.getByRole('button', { name: /Metric/i }).click();
 		await page.getByRole('button', { name: /Paste/i }).click();
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page
+			.getByRole('dialog')
+			.getByRole('textbox')
+			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Verify metric dimensions are set
 		await expect(page.getByLabel('Height')).toHaveValue('34');
