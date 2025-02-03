@@ -5,6 +5,7 @@
 	import { AlertTriangle } from 'lucide-svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
+	import { ToggleTheme } from '$lib/components/misc';
 	let { children } = $props();
 	let error = $state<Error | null>(null);
 
@@ -20,6 +21,13 @@
 
 <UltraWideJoke />
 <ModeWatcher />
+<div class="fixed top-4 z-50 w-full">
+	<div class="mx-auto max-w-[1700px] px-4">
+		<div class="flex justify-end">
+			<ToggleTheme />
+		</div>
+	</div>
+</div>
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">

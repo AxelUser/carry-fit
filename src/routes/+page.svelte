@@ -28,9 +28,6 @@
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
 	import { runMainTour, runPendingTours } from '$lib/tours';
-	import { Moon, Sun } from 'lucide-svelte';
-	import { toggleMode } from 'mode-watcher';
-	import ToggleTheme from '$lib/components/misc/toggle-theme.svelte';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -49,33 +46,31 @@
 
 	const { meta, allowances: allAirlines } = loadData();
 
-	let sharedBagInfo = $state.raw(
-		(() => {
-			if (!browser) {
-				return undefined;
-			}
+	let sharedBagInfo = (() => {
+		if (!browser) {
+			return undefined;
+		}
 
-			const urlHeight = Number(page.url.searchParams.get('height'));
-			const urlWidth = Number(page.url.searchParams.get('width'));
-			const urlDepth = Number(page.url.searchParams.get('depth'));
-			const urlMeasurementSystem = page.url.searchParams.get('units');
+		const urlHeight = Number(page.url.searchParams.get('height'));
+		const urlWidth = Number(page.url.searchParams.get('width'));
+		const urlDepth = Number(page.url.searchParams.get('depth'));
+		const urlMeasurementSystem = page.url.searchParams.get('units');
 
-			if (
-				urlDepth &&
-				urlWidth &&
-				urlHeight &&
-				urlMeasurementSystem &&
-				Object.values(MeasurementSystems).includes(urlMeasurementSystem as MeasurementSystem)
-			) {
-				return {
-					depth: urlDepth,
-					width: urlWidth,
-					height: urlHeight,
-					measurementSystem: urlMeasurementSystem as MeasurementSystem
-				};
-			}
-		})()
-	);
+		if (
+			urlDepth &&
+			urlWidth &&
+			urlHeight &&
+			urlMeasurementSystem &&
+			Object.values(MeasurementSystems).includes(urlMeasurementSystem as MeasurementSystem)
+		) {
+			return {
+				depth: urlDepth,
+				width: urlWidth,
+				height: urlHeight,
+				measurementSystem: urlMeasurementSystem as MeasurementSystem
+			};
+		}
+	})();
 
 	function clearSharedBagInfo() {
 		if (sharedBagInfo || page.url.searchParams.size > 0) {
@@ -161,14 +156,6 @@
 </script>
 
 <svelte:window bind:innerWidth />
-
-<div class="fixed top-4 z-50 w-full">
-	<div class="mx-auto max-w-[1700px] px-4">
-		<div class="flex justify-end">
-			<ToggleTheme />
-		</div>
-	</div>
-</div>
 
 <CookieBanner
 	onAccept={handleConsent}
