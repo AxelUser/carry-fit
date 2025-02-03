@@ -49,15 +49,15 @@
 				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-sky-100">
 					<div class="mb-6 flex items-start gap-4">
 						<div
-							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100"
+							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-destructive/10"
 						>
-							<AlertTriangle class="h-6 w-6 text-red-600" />
+							<AlertTriangle class="h-6 w-6 text-destructive" />
 						</div>
 						<div>
-							<h2 class="mb-2 text-xl font-semibold text-red-900">
+							<h2 class="mb-2 text-xl font-semibold text-destructive">
 								Oops! Our code took an unexpected vacation 🏖️
 							</h2>
-							<p class="mb-4 text-red-600">
+							<p class="mb-4 text-destructive">
 								{error?.message ||
 									"Looks like our pixels got a bit tangled. Don't worry, they're just having a bad hair day!"}
 							</p>
