@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ModeWatcher } from "mode-watcher";
+	import { ModeWatcher } from 'mode-watcher';
 	import { metrics } from '$lib/analytics';
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
