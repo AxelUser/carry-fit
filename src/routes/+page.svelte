@@ -29,8 +29,7 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
-	import { showTour } from '$lib/tours';
-	import { TOURS } from '$lib/tours/types';
+	import { runMainTour, runPendingTours } from '$lib/tours';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { toggleMode } from 'mode-watcher';
 	import ToggleTheme from '$lib/components/misc/toggle-theme.svelte';
@@ -154,7 +153,7 @@
 
 	$effect(() => {
 		if (browser && isUserReadyForTour) {
-			showTour(TOURS.newUserV1);
+			runPendingTours();
 		}
 	});
 
@@ -208,7 +207,7 @@
 						data-tour-id="take-tour-button"
 						variant="link"
 						size="sm"
-						onclick={() => showTour(TOURS.newUserV1, true)}
+						onclick={() => runMainTour()}
 					>
 						Take a Tour
 					</Button>

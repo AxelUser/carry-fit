@@ -1,15 +1,11 @@
 import { driver, type DriveStep } from 'driver.js';
-import { newUserTour } from './new-user.tour';
-import { TOURS, type Tour, type TourNames } from './types';
 import { metrics } from '$lib/analytics';
 import tourProgress from '$lib/stores/tours';
 import 'driver.js/dist/driver.css';
+import type { Tour, TourName } from './types';
+import { exists, getActiveTours, MAIN_TOUR } from './active-tours';
 
-const activeTours: Record<TourNames, Tour> = {
-	[TOURS.newUserV1]: newUserTour
-};
-
-function createDriver(name: TourNames, steps: DriveStep[]) {
+function createDriver(name: TourName, steps: DriveStep[], onDestroyed?: () => void) {
 	const driverObj = driver({
 		showProgress: true,
 		steps: steps,
@@ -25,24 +21,83 @@ function createDriver(name: TourNames, steps: DriveStep[]) {
 			metrics.tourFinished(name, completed);
 			tourProgress.markTourCompleted(name);
 			driverObj.destroy();
-		}
+		},
+		onDestroyed: onDestroyed
 	});
 
 	return driverObj;
 }
 
-function canRunTour(tour: TourNames): boolean {
-	return activeTours[tour] !== undefined && !tourProgress.isTourCompleted(tour);
+function isFeatureTour(tour: Tour): boolean {
+	return tour.name !== MAIN_TOUR.name;
 }
 
-export function showTour(tour: TourNames, force = false) {
+function mainTourPending(): boolean {
+	return !tourProgress.isTourCompleted(MAIN_TOUR.name, MAIN_TOUR.updatedAt);
+}
+
+function canRunTour(tour: Tour): boolean {
+	// Tour must exist and not be completed
+	if (!exists(tour.name) || tourProgress.isTourCompleted(tour.name, tour.updatedAt)) {
+		return false;
+	}
+
+	return true;
+}
+
+interface PendingTour {
+	tour: Tour;
+	skipped: boolean;
+}
+
+function getPendingTours(): PendingTour[] {
+	const activeTours = getActiveTours();
+
+	return (
+		activeTours
+			.filter((tour) => !tourProgress.isTourCompleted(tour.name, tour.updatedAt))
+			// If the main tour is pending, we don't want to show any feature tours,
+			// because the main tour will cover all features
+			.map((tour) => ({ tour, skipped: isFeatureTour(tour) && mainTourPending() }))
+	);
+}
+
+function showTour(tour: Tour, force = false, onDestroyed?: () => void) {
 	if (!canRunTour(tour) && !force) {
 		return;
 	}
 
-	const tourData = activeTours[tour];
-	const driver = createDriver(tour, tourData.steps());
+	const driver = createDriver(tour.name, tour.steps(), onDestroyed);
 	driver.drive();
 
-	metrics.tourShown(tour);
+	metrics.tourShown(tour.name);
+}
+
+export function runMainTour() {
+	showTour(MAIN_TOUR, true);
+}
+
+export function runPendingTours() {
+	const pendingTours = getPendingTours().filter((tour) => {
+		if (tour.skipped) {
+			// Mark skipped tours as completed, so they don't show up again
+			tourProgress.markTourCompleted(tour.tour.name);
+			return false;
+		}
+		return true;
+	});
+
+	if (pendingTours.length > 0) {
+		let currentIdx = 0;
+		function showNextTour() {
+			showTour(pendingTours[currentIdx].tour, false, () => {
+				if (currentIdx < pendingTours.length - 1) {
+					currentIdx++;
+					showNextTour();
+				}
+			});
+		}
+
+		showNextTour();
+	}
 }

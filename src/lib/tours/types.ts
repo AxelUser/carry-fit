@@ -1,11 +1,14 @@
 import type { DriveStep } from 'driver.js';
 
 export const TOURS = {
-	newUserV1: 'newUserV1'
+	onboarding: 'onboarding',
+	airlineSearch: 'airlineSearch'
 } as const;
 
-export type TourNames = (typeof TOURS)[keyof typeof TOURS];
+export type TourName = keyof typeof TOURS;
 
 export interface Tour {
+	name: TourName;
 	steps: () => DriveStep[];
+	updatedAt: Date;
 }
