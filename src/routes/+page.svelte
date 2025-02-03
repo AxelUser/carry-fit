@@ -10,8 +10,6 @@
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
-	import versionStore from '$lib/stores/versionStore.svelte';
-	import { changes } from '$lib/changes';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -168,14 +166,6 @@
 <div class="fixed bottom-4 z-50 w-full">
 	<div class="mx-auto max-w-[1700px] px-4">
 		<ToggleTheme />
-		<Changelog
-			{changes}
-			lastSeenVersion={versionStore.lastSeenVersion}
-			onOpen={(seenVersion, isNewVersion) => {
-				versionStore.lastSeenVersion = seenVersion;
-				metrics.changelogOpened(seenVersion, isNewVersion);
-			}}
-		/>
 	</div>
 </div>
 <CookieBanner
