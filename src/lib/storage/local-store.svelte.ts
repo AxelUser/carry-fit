@@ -48,10 +48,7 @@ export function createLocalStore<T>(
 			return isLoaded;
 		},
 		reset() {
-			value = initialValue;
-			if (browser) {
-				localStorage.removeItem(key);
-			}
+			this.value = initialValue;
 		}
 	};
 
