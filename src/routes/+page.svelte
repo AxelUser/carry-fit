@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { CarryFitIcon } from '$lib/components/icons';
 	import { loadData, groupAirlinesByCompliance } from '$lib/allowances';
-	import {
-		type UserDimensions,
-		type MeasurementSystem,
-		MeasurementSystems,
-		type CookieConsent
-	} from '$lib/types';
+	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
@@ -23,9 +18,7 @@
 		MeasurementSystemSelect
 	} from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
-	import { CookieBanner } from '$lib/components/misc';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
-	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
 	import { runMainTour, runPendingTours } from '$lib/tours';
 
@@ -135,11 +128,6 @@
 		}
 	});
 
-	function handleConsent(consent: CookieConsent) {
-		cookieConsent.value = consent;
-		updateConsent(consent.analytics);
-	}
-
 	const isUserReadyForTour = $derived(
 		cookieConsent.isLoaded && cookieConsent.value.timestamp !== null
 	);
@@ -156,11 +144,6 @@
 </script>
 
 <svelte:window bind:innerWidth />
-
-<CookieBanner
-	onAccept={handleConsent}
-	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}
-/>
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="min-h-screen">

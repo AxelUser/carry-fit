@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
-	import { metrics } from '$lib/analytics';
+	import { metrics, updateConsent } from '$lib/analytics';
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
-	import { ToggleTheme } from '$lib/components/misc';
+	import { CookieBanner, ToggleTheme } from '$lib/components/misc';
+	import type { CookieConsent } from '$lib/types';
+	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	let { children } = $props();
 	let error = $state<Error | null>(null);
 
@@ -14,6 +16,11 @@
 			error = e.error;
 		}
 		metrics.errorOccurred(error);
+	}
+
+	function handleConsent(consent: CookieConsent) {
+		cookieConsent.value = consent;
+		updateConsent(consent.analytics);
 	}
 </script>
 
@@ -30,6 +37,10 @@
 		</div>
 	</div>
 </div>
+<CookieBanner
+	onAccept={handleConsent}
+	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}
+/>
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">
