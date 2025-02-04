@@ -61,11 +61,6 @@ export type TestResult = {
 	lastTestFail?: string;
 };
 
-export interface UserPreferences {
-	favoriteAirlines: string[];
-	measurementSystem: MeasurementSystem;
-}
-
 export interface AirlinesByCompliance {
 	compliant: AirlineCompliance[];
 	nonCompliant: AirlineCompliance[];
