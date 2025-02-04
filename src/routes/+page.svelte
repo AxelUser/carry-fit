@@ -10,8 +10,6 @@
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
-	import versionStore from '$lib/stores/versionStore.svelte';
-	import { changes } from '$lib/changes';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -25,15 +23,11 @@
 		MeasurementSystemSelect
 	} from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
-	import { CookieBanner, Changelog } from '$lib/components/misc';
+	import { CookieBanner } from '$lib/components/misc';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { Button } from '$lib/components/ui/button';
-	import { showTour } from '$lib/tours';
-	import { TOURS } from '$lib/tours/types';
-	import { Moon, Sun } from 'lucide-svelte';
-	import { toggleMode } from 'mode-watcher';
-	import ToggleTheme from '$lib/components/misc/toggle-theme.svelte';
+	import { runMainTour, runPendingTours } from '$lib/tours';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -52,33 +46,31 @@
 
 	const { meta, allowances: allAirlines } = loadData();
 
-	let sharedBagInfo = $state.raw(
-		(() => {
-			if (!browser) {
-				return undefined;
-			}
+	let sharedBagInfo = (() => {
+		if (!browser) {
+			return undefined;
+		}
 
-			const urlHeight = Number(page.url.searchParams.get('height'));
-			const urlWidth = Number(page.url.searchParams.get('width'));
-			const urlDepth = Number(page.url.searchParams.get('depth'));
-			const urlMeasurementSystem = page.url.searchParams.get('units');
+		const urlHeight = Number(page.url.searchParams.get('height'));
+		const urlWidth = Number(page.url.searchParams.get('width'));
+		const urlDepth = Number(page.url.searchParams.get('depth'));
+		const urlMeasurementSystem = page.url.searchParams.get('units');
 
-			if (
-				urlDepth &&
-				urlWidth &&
-				urlHeight &&
-				urlMeasurementSystem &&
-				Object.values(MeasurementSystems).includes(urlMeasurementSystem as MeasurementSystem)
-			) {
-				return {
-					depth: urlDepth,
-					width: urlWidth,
-					height: urlHeight,
-					measurementSystem: urlMeasurementSystem as MeasurementSystem
-				};
-			}
-		})()
-	);
+		if (
+			urlDepth &&
+			urlWidth &&
+			urlHeight &&
+			urlMeasurementSystem &&
+			Object.values(MeasurementSystems).includes(urlMeasurementSystem as MeasurementSystem)
+		) {
+			return {
+				depth: urlDepth,
+				width: urlWidth,
+				height: urlHeight,
+				measurementSystem: urlMeasurementSystem as MeasurementSystem
+			};
+		}
+	})();
 
 	function clearSharedBagInfo() {
 		if (sharedBagInfo || page.url.searchParams.size > 0) {
@@ -154,7 +146,7 @@
 
 	$effect(() => {
 		if (browser && isUserReadyForTour) {
-			showTour(TOURS.newUserV1);
+			runPendingTours();
 		}
 	});
 
@@ -165,20 +157,6 @@
 
 <svelte:window bind:innerWidth />
 
-
-<div class="fixed bottom-4 z-50 w-full">
-	<div class="mx-auto max-w-[1700px] px-4">
-		<ToggleTheme />
-		<Changelog
-			{changes}
-			lastSeenVersion={versionStore.lastSeenVersion}
-			onOpen={(seenVersion, isNewVersion) => {
-				versionStore.lastSeenVersion = seenVersion;
-				metrics.changelogOpened(seenVersion, isNewVersion);
-			}}
-		/>
-	</div>
-</div>
 <CookieBanner
 	onAccept={handleConsent}
 	showBanner={cookieConsent.isLoaded && cookieConsent.value.timestamp === null}
@@ -208,7 +186,7 @@
 						data-tour-id="take-tour-button"
 						variant="link"
 						size="sm"
-						onclick={() => showTour(TOURS.newUserV1, true)}
+						onclick={() => runMainTour()}
 					>
 						Take a Tour
 					</Button>

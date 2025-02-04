@@ -1,1 +1,1 @@
-export { showTour } from './tour-runner.svelte';
+export { runMainTour, runPendingTours } from './tour-runner.svelte';

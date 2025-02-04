@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { ModeWatcher } from "mode-watcher";
+	import { ModeWatcher } from 'mode-watcher';
 	import { metrics } from '$lib/analytics';
 	import '../app.css';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
+	import { ToggleTheme } from '$lib/components/misc';
 	let { children } = $props();
 	let error = $state<Error | null>(null);
 
@@ -20,6 +21,13 @@
 
 <UltraWideJoke />
 <ModeWatcher />
+<div class="fixed top-4 z-50 w-full">
+	<div class="mx-auto max-w-[1700px] px-4">
+		<div class="flex justify-end">
+			<ToggleTheme />
+		</div>
+	</div>
+</div>
 
 {#if error}
 	<div class="min-h-screen px-2 py-8 sm:px-4">
@@ -38,31 +46,31 @@
 					</h1>
 				</div>
 
-				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-sky-100">
+				<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-primary/10">
 					<div class="mb-6 flex items-start gap-4">
 						<div
-							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100"
+							class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-destructive/10"
 						>
-							<AlertTriangle class="h-6 w-6 text-red-600" />
+							<AlertTriangle class="h-6 w-6 text-destructive" />
 						</div>
 						<div>
-							<h2 class="mb-2 text-xl font-semibold text-red-900">
+							<h2 class="mb-2 text-xl font-semibold text-destructive">
 								Oops! Our code took an unexpected vacation 🏖️
 							</h2>
-							<p class="mb-4 text-red-600">
+							<p class="mb-4 text-destructive">
 								{error?.message ||
 									"Looks like our pixels got a bit tangled. Don't worry, they're just having a bad hair day!"}
 							</p>
 						</div>
 					</div>
 
-					<div class="rounded-lg border border-sky-100 bg-sky-50 p-6">
-						<h3 class="mb-3 font-medium text-sky-900">Want to help catch this bug? Here's how:</h3>
-						<ul class="ml-2 space-y-2 text-sm text-sky-800">
+					<div class="rounded-lg border border-primary/10 bg-primary/10 p-6">
+						<h3 class="mb-3 font-medium text-primary">Want to help catch this bug? Here's how:</h3>
+						<ul class="ml-2 space-y-2 text-sm text-primary">
 							<li>
 								• File a bug report on <a
 									href="https://github.com/AxelUser/carry-fit"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
+									class="text-primary hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">GitHub</a
 								> (our bug collection gallery)
@@ -70,14 +78,13 @@
 							<li>
 								• Send a friendly email to <a
 									href="mailto:alexey.maltsev.work@gmail.com"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
-									>alexey.maltsev.work@gmail.com</a
+									class="text-primary hover:underline">alexey.maltsev.work@gmail.com</a
 								>
 							</li>
 							<li>
 								• Tweet at me on <a
 									href="https://x.com/axel_user"
-									class="text-blue-600 hover:text-blue-800 hover:underline"
+									class="text-primary hover:underline"
 									target="_blank"
 									rel="noopener noreferrer">X (Twitter)</a
 								> - I promise I don't byte! 🤓

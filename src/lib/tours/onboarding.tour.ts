@@ -1,6 +1,8 @@
 import type { Tour } from './types';
 
-export const newUserTour: Tour = {
+export const onboardingTour: Tour = {
+	name: 'onboarding',
+	updatedAt: new Date('2025-02-03T00:00:00Z'),
 	steps: () => [
 		{
 			popover: {
@@ -46,6 +48,13 @@ export const newUserTour: Tour = {
 			popover: {
 				title: 'Filter by Region',
 				description: 'Focus on specific regions to find relevant airlines.'
+			}
+		},
+		{
+			element: '[data-tour-id="search-input"]',
+			popover: {
+				title: 'Quick Airline Search',
+				description: 'Type airline name to quickly find it in the list.'
 			}
 		},
 		{

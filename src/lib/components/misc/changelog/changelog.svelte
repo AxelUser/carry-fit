@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { X } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
 	import { type Change } from '$lib/types';
 	import { Button } from '$lib/components/ui/button';
@@ -21,10 +20,6 @@
 		(currentVersion && lastSeenVersion && isNewerVersion(currentVersion.date, lastSeenVersion)) ??
 			false
 	);
-
-	function close() {
-		open = false;
-	}
 
 	function openChangelog() {
 		open = true;

@@ -1,12 +1,12 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
 	// Set up local storage to skip tours before navigation
 	await page.addInitScript(() => {
 		window.localStorage.setItem(
-			'carryfit_tours',
+			'tours',
 			JSON.stringify({
-				completedTours: ['newUserV1']
+				disabled: true
 			})
 		);
 	});
@@ -643,8 +643,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -669,8 +669,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input invalid text
-		await page.getByRole('textbox').fill('This is not a dimension string');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('This is not a dimension string');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Error should be visible
 		await expect(page.getByText(/No dimensions found/)).toBeVisible();
@@ -695,8 +695,8 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string but cancel
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('button', { name: 'Cancel' }).click();
+		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
+		await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -716,8 +716,11 @@ test.describe('Bag dimension parsing', () => {
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input dimensions with both units
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page
+			.getByRole('dialog')
+			.getByRole('textbox')
+			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Dialog should close
 		await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -730,12 +733,130 @@ test.describe('Bag dimension parsing', () => {
 		// Switch back to metric and try another parse
 		await page.getByRole('button', { name: /Metric/i }).click();
 		await page.getByRole('button', { name: /Paste/i }).click();
-		await page.getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('button', { name: 'Parse Dimensions' }).click();
+		await page
+			.getByRole('dialog')
+			.getByRole('textbox')
+			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
 
 		// Verify metric dimensions are set
 		await expect(page.getByLabel('Height')).toHaveValue('34');
 		await expect(page.getByLabel('Width')).toHaveValue('53');
 		await expect(page.getByLabel('Depth')).toHaveValue('19');
+	});
+});
+
+test.describe('Allowance table search functionality', () => {
+	const searchWaitTime = 300;
+
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+		await page.getByTestId('accept-all-cookies').click();
+		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await expect(page.getByRole('table')).toBeVisible();
+	});
+
+	test('should filter airlines by search term', async ({ page }) => {
+		// Get initial number of rows
+		const initialRows = await page.getByTestId('airline-name').count();
+		expect(initialRows).toBeGreaterThan(1); // Account for header row
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify filtered results
+		const filteredRows = await page.getByTestId('airline-name').count();
+		expect(filteredRows).toBe(1); // Finnair row
+
+		// Verify the visible airline is Finnair
+		await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+	});
+
+	test('should show empty state when no airlines match search', async ({ page }) => {
+		// Enter non-matching search term
+		await page.getByTestId('search-input').fill('NonexistentAirline');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify empty state is shown
+		await expect(page.getByText('No airlines found')).toBeVisible();
+		await expect(
+			page.getByText('No airlines match your search "NonexistentAirline"')
+		).toBeVisible();
+	});
+
+	test('should clear search when X button is clicked', async ({ page }) => {
+		// Get initial number of rows
+		const initialRows = await page.getByTestId('airline-name').count();
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for debounce
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify search filtered the results
+		const filteredRows = await page.getByTestId('airline-name').count();
+		expect(filteredRows).toBe(1);
+
+		// Click clear button
+		await page.getByTestId('search-clear-button').click();
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify original number of rows is restored
+		const finalRows = await page.getByTestId('airline-name').count();
+		expect(finalRows).toBe(initialRows);
+	});
+
+	test('should search in compliance tables when dimensions are set', async ({ page }) => {
+		// Enter bag dimensions to show compliance tables
+		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Width').fill('40');
+		await page.getByLabel('Depth').fill('25');
+
+		// Wait for tables to update
+		await expect(page.getByTestId('compliance-sections')).toBeVisible();
+
+		// Enter search term
+		await page.getByTestId('search-input').fill('Finnair');
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify search works in compliance tables
+		expect(await page.getByTestId('airline-name').count()).toBe(1);
+		await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+
+		// Clear search
+		await page.getByTestId('search-clear-button').click();
+
+		// Wait for search to complete
+		await page.waitForTimeout(searchWaitTime);
+
+		// Verify more airlines are visible after clearing search
+		expect(await page.getByTestId('airline-name').count()).toBeGreaterThan(1);
+	});
+
+	test('should handle case-insensitive search', async ({ page }) => {
+		// Try different case variations
+		const searchTerms = ['finnair', 'FINNAIR', 'FiNnAiR'];
+
+		for (const term of searchTerms) {
+			await page.getByTestId('search-input').fill(term);
+
+			// Wait for search to complete
+			await page.waitForTimeout(searchWaitTime);
+
+			// Verify Finnair is found regardless of case
+			expect(await page.getByTestId('airline-name').count()).toBe(1);
+			await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
+		}
 	});
 });

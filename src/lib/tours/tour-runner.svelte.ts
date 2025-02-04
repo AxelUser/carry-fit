@@ -1,48 +1,112 @@
 import { driver, type DriveStep } from 'driver.js';
-import { newUserTour } from './new-user.tour';
-import { TOURS, type Tour, type TourNames } from './types';
 import { metrics } from '$lib/analytics';
-import tourProgress from '$lib/stores/tours';
+import tourStore from '$lib/stores/tours';
 import 'driver.js/dist/driver.css';
+import type { Tour } from './types';
+import { exists, getActiveTours, MAIN_TOUR } from './active-tours';
 
-const activeTours: Record<TourNames, Tour> = {
-	[TOURS.newUserV1]: newUserTour
-};
+function createDriver(name: string, steps: DriveStep[], onDestroyed?: () => void) {
+	const isDark = document.documentElement.classList.contains('dark');
+	const overlayColor = isDark
+		? 'hsl(var(--background) / 0.8) brightness(150%)'
+		: 'hsl(var(--background) / 0.8) brightness(50%)';
 
-function createDriver(name: TourNames, steps: DriveStep[]) {
 	const driverObj = driver({
 		showProgress: true,
 		steps: steps,
 		nextBtnText: 'Next →',
 		prevBtnText: '← Previous',
 		doneBtnText: 'Done',
-		overlayColor: 'rgba(0, 0, 0, 0.5)',
+		overlayColor,
 		stagePadding: 5,
 		animate: true,
 		popoverClass: 'tour-popover',
 		onDestroyStarted: () => {
 			const completed = driverObj.isLastStep();
 			metrics.tourFinished(name, completed);
-			tourProgress.markTourCompleted(name);
+			tourStore.markTourCompleted(name);
 			driverObj.destroy();
-		}
+		},
+		onDestroyed: onDestroyed
 	});
 
 	return driverObj;
 }
 
-function canRunTour(tour: TourNames): boolean {
-	return activeTours[tour] !== undefined && !tourProgress.isTourCompleted(tour);
+function isFeatureTour(tour: Tour): boolean {
+	return tour.name !== MAIN_TOUR.name;
 }
 
-export function showTour(tour: TourNames, force = false) {
+function mainTourPending(): boolean {
+	return !tourStore.isTourCompleted(MAIN_TOUR.name, MAIN_TOUR.updatedAt);
+}
+
+function canRunTour(tour: Tour): boolean {
+	// Tour must exist and not be completed
+	if (!exists(tour.name) || tourStore.isTourCompleted(tour.name, tour.updatedAt)) {
+		return false;
+	}
+
+	return true;
+}
+
+interface PendingTour {
+	tour: Tour;
+	skipped: boolean;
+}
+
+export function getPendingTours(): PendingTour[] {
+	const activeTours = getActiveTours();
+
+	return (
+		activeTours
+			.filter((tour) => !tourStore.isTourCompleted(tour.name, tour.updatedAt))
+			// If the main tour is pending, we don't want to show any feature tours,
+			// because the main tour will cover all features
+			.map((tour) => ({ tour, skipped: isFeatureTour(tour) && mainTourPending() }))
+	);
+}
+
+function showTour(tour: Tour, force = false, onDestroyed?: () => void) {
 	if (!canRunTour(tour) && !force) {
 		return;
 	}
 
-	const tourData = activeTours[tour];
-	const driver = createDriver(tour, tourData.steps());
+	const driver = createDriver(tour.name, tour.steps(), onDestroyed);
 	driver.drive();
 
-	metrics.tourShown(tour);
+	metrics.tourShown(tour.name);
+}
+
+export function runMainTour() {
+	showTour(MAIN_TOUR, true);
+}
+
+export function runPendingTours() {
+	if (tourStore.disabled) {
+		return;
+	}
+
+	const pendingTours = getPendingTours().filter((tour) => {
+		if (tour.skipped) {
+			// Mark skipped tours as completed, so they don't show up again
+			tourStore.markTourCompleted(tour.tour.name);
+			return false;
+		}
+		return true;
+	});
+
+	if (pendingTours.length > 0) {
+		let currentIdx = 0;
+		function showNextTour() {
+			showTour(pendingTours[currentIdx].tour, false, () => {
+				if (currentIdx < pendingTours.length - 1) {
+					currentIdx++;
+					showNextTour();
+				}
+			});
+		}
+
+		showNextTour();
+	}
 }

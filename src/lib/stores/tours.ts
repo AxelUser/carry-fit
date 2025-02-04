@@ -1,11 +1,16 @@
-import type { TourNames } from '$lib/tours/types';
 import { createLocalStore } from '$lib/storage/local-store.svelte';
 
-interface TourStates {
-	completedTours: TourNames[];
+interface TourState {
+	name: string;
+	dateShown: string;
 }
 
-const STORAGE_KEY = 'carryfit_tours';
+interface TourStates {
+	completedTours: TourState[];
+	disabled?: boolean;
+}
+
+const STORAGE_KEY = 'tours';
 
 const defaultStates: TourStates = {
 	completedTours: []
@@ -17,21 +22,31 @@ const tourStore = createLocalStore<TourStates>(STORAGE_KEY, defaultStates, (load
 }));
 
 export default {
+	get disabled() {
+		return tourStore.value.disabled ?? false;
+	},
+
 	get completedTours() {
 		return tourStore.value.completedTours;
 	},
 
-	markTourCompleted(tour: TourNames) {
-		if (!this.completedTours.includes(tour)) {
-			tourStore.value = {
-				...tourStore.value,
-				completedTours: [...tourStore.value.completedTours, tour]
-			};
-		}
+	markTourCompleted(tour: string) {
+		tourStore.value = {
+			...tourStore.value,
+			completedTours: [
+				...tourStore.value.completedTours.filter((t) => t.name !== tour),
+				{ name: tour, dateShown: new Date().toISOString() }
+			]
+		};
 	},
 
-	isTourCompleted(tour: TourNames): boolean {
-		return this.completedTours.includes(tour);
+	isTourCompleted(tour: string, tourUpdateDate: Date): boolean {
+		return (
+			this.completedTours.find(
+				(t) =>
+					t.name === tour && t.dateShown !== undefined && new Date(t.dateShown) >= tourUpdateDate
+			) !== undefined
+		);
 	},
 
 	resetTours() {

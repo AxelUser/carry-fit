@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
-	import { cn } from "$lib/utils/styling.js";
+	import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
+	import { cn } from '$lib/utils/styling.js';
 
 	let {
 		ref = $bindable(null),
@@ -11,6 +11,6 @@
 
 <AlertDialogPrimitive.Description
 	bind:ref
-	class={cn("text-muted-foreground text-sm", className)}
+	class={cn('text-sm text-muted-foreground', className)}
 	{...restProps}
 />
