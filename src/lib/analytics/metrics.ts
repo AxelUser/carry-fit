@@ -79,4 +79,15 @@ export class Metrics {
 	tourFinished(tour: string, completed: boolean) {
 		this.provider.trackEvent('tour_finished', { tour_name: tour, tour_completed: completed });
 	}
+
+	airlineSearchPerformed(query: string) {
+		if (query.length > 0) {
+			const croppedQuery = query.slice(0, 30);
+			this.provider.trackEventDebounced(
+				'airline_search_performed',
+				{ airline_search_query: croppedQuery },
+				3000
+			);
+		}
+	}
 }

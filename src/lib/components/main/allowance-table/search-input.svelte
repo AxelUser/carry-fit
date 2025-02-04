@@ -2,6 +2,7 @@
 	import { X } from 'lucide-svelte';
 	import { searchState } from './search.svelte';
 	import { Input } from '$lib/components/ui/input';
+	import { metrics } from '$lib/analytics';
 </script>
 
 <div class="relative max-w-60 text-sm font-normal">
@@ -12,6 +13,7 @@
 		placeholder="Search airlines..."
 		bind:value={searchState.searchTerm}
 		class="pr-8"
+		oninput={() => metrics.airlineSearchPerformed(searchState.searchTerm)}
 	/>
 	{#if searchState.searchTerm}
 		<button
