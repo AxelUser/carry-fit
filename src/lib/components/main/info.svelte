@@ -4,13 +4,43 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import { SupportSection } from '$lib/components/misc';
+	import * as Avatar from '$lib/components/ui/avatar';
 
 	interface Props {
 		coveredByTest: number;
 		lastTestRun: Date;
 	}
 
+	interface Contributor {
+		login: string;
+		avatar_url: string;
+		html_url: string;
+		contributions: number;
+	}
+
 	let { coveredByTest, lastTestRun }: Props = $props();
+
+	// Fetch contributors data
+	const fetchContributors = async () => {
+		try {
+			const response = await fetch('https://api.github.com/repos/AxelUser/carry-fit/contributors');
+			if (!response.ok) throw new Error('Failed to fetch contributors');
+			return await response.json();
+		} catch (error) {
+			console.error('Error fetching contributors:', error);
+			return [];
+		}
+	};
+
+	let contributors = $state<Contributor[]>([]);
+	let isLoading = $state(true);
+
+	$effect(() => {
+		fetchContributors().then((data) => {
+			contributors = data;
+			isLoading = false;
+		});
+	});
 </script>
 
 <div class="mx-auto flex w-full max-w-2xl flex-col">
@@ -39,6 +69,8 @@
 					</Accordion.Content>
 				</Accordion.Item>
 			</Accordion.Root>
+			{@render contributorsSection(contributors)}
+			<Separator />
 			<SupportSection />
 		</Card.Content>
 	</Card.Root>
@@ -116,4 +148,34 @@
 		However, airline policies can change at any time. Always verify the current requirements on your
 		airline's website before traveling, especially for unmarked airlines that aren't monitored.
 	</p>
+{/snippet}
+
+{#snippet contributorsSection(contributors: Contributor[])}
+	<div class="flex flex-col gap-4">
+		<h3 class="font-semibold">Contributors</h3>
+		<div class="flex flex-wrap gap-1.5">
+			{#if isLoading}
+				{#each Array(5) as _}
+					<div
+						class="h-10 w-10 animate-pulse rounded-full bg-gradient-to-r from-muted to-muted/50"
+					></div>
+				{/each}
+			{:else}
+				{#each [...contributors].sort((a, b) => b.contributions - a.contributions) as contributor (contributor.login)}
+					<a
+						href={contributor.html_url}
+						class="group transition-transform hover:scale-110"
+						target="_blank"
+						rel="noopener noreferrer"
+						title={`${contributor.login} (${contributor.contributions} contributions)`}
+					>
+						<Avatar.Root>
+							<Avatar.Image src={contributor.avatar_url} alt={contributor.login} />
+							<Avatar.Fallback>{contributor.login.slice(0, 2).toUpperCase()}</Avatar.Fallback>
+						</Avatar.Root>
+					</a>
+				{/each}
+			{/if}
+		</div>
+	</div>
 {/snippet}
