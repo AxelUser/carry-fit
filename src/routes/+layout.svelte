@@ -21,10 +21,12 @@
 
 <UltraWideJoke />
 <ModeWatcher />
-<div class="fixed top-4 z-50 w-full">
+<div class="pointer-events-none fixed top-4 z-50 w-full">
 	<div class="mx-auto max-w-[1700px] px-4">
 		<div class="flex justify-end">
-			<ToggleTheme />
+			<div class="pointer-events-auto">
+				<ToggleTheme />
+			</div>
 		</div>
 	</div>
 </div>
