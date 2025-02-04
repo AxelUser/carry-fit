@@ -6,13 +6,18 @@ import type { Tour } from './types';
 import { exists, getActiveTours, MAIN_TOUR } from './active-tours';
 
 function createDriver(name: string, steps: DriveStep[], onDestroyed?: () => void) {
+	const isDark = document.documentElement.classList.contains('dark');
+	const overlayColor = isDark
+		? 'hsl(var(--background) / 0.8) brightness(150%)'
+		: 'hsl(var(--background) / 0.8) brightness(50%)';
+
 	const driverObj = driver({
 		showProgress: true,
 		steps: steps,
 		nextBtnText: 'Next →',
 		prevBtnText: '← Previous',
 		doneBtnText: 'Done',
-		overlayColor: 'rgba(0, 0, 0, 0.5)',
+		overlayColor,
 		stagePadding: 5,
 		animate: true,
 		popoverClass: 'tour-popover',
