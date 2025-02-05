@@ -112,10 +112,11 @@
 				</h4>
 				<div class="h-[200px] rounded-md border border-muted p-2">
 					{#if favoriteAirlines.length > 0}
-						<ScrollArea class="h-[200px]">
+						<ScrollArea class="h-full">
 							<div class="space-y-2">
-								{#each favoriteAirlines as airlineCode}
-									{@const airline = airlines.find((a) => a.airline === airlineCode)}
+								{#each favoriteAirlines as airlineName}
+									{@const airline = airlines.find((a) => a.airline === airlineName)}
+
 									{#if airline}
 										<div class="flex items-center justify-between gap-2">
 											<div class="flex items-center gap-2">
@@ -127,8 +128,8 @@
 											<Button
 												variant="ghost"
 												size="sm"
-												class="h-8 w-8 p-0"
-												onclick={() => removeFavorite(airlineCode)}
+												class="mr-1.5 h-8 w-8 p-0"
+												onclick={() => removeFavorite(airlineName)}
 											>
 												<X class="h-4 w-4" />
 												<span class="sr-only">Remove {airline.airline}</span>
