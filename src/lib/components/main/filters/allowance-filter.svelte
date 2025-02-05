@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
-	import { Check, Plus } from 'lucide-svelte';
+	import { Check, Pencil } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+
 	import { Label } from '$lib/components/ui/label';
 	import { badgeVariants } from '$lib/components/ui/badge';
 
 	import { cn } from '$lib/utils/styling';
-	import FavoriteAirlinesDialog from './favorite-airlines-dialog.svelte';
+	import FavoriteAirlines from './favorite-airlines.svelte';
 
 	interface Props {
 		airlines: AirlineInfo[];
@@ -17,7 +18,11 @@
 		filteredAirlines: AirlineInfo[];
 	}
 
-	let { airlines, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
+	let {
+		airlines,
+		favoriteAirlines = $bindable(),
+		filteredAirlines = $bindable()
+	}: Props = $props();
 
 	let showFavoritesOnly = $state(false);
 	let showFavoriteAirlinesDialog = $state(false);
@@ -147,7 +152,7 @@
 								class="h-8 w-8"
 								onclick={() => (showFavoriteAirlinesDialog = true)}
 							>
-								<Plus class="h-4 w-4" />
+								<Pencil class="h-4 w-4" />
 								<span class="sr-only">Manage favorite airlines</span>
 							</Button>
 						</div>
@@ -168,7 +173,7 @@
 	</Card.Content>
 </Card.Root>
 
-<FavoriteAirlinesDialog bind:open={showFavoriteAirlinesDialog} {airlines} bind:favoriteAirlines />
+<FavoriteAirlines bind:open={showFavoriteAirlinesDialog} {airlines} bind:favoriteAirlines />
 
 <style>
 	@keyframes bounce {

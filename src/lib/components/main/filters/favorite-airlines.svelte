@@ -8,7 +8,6 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/styling';
-	import { computeMatchScore } from '$lib/utils/matching';
 	import type { AirlineInfo } from '$lib/types';
 
 	interface Props {
