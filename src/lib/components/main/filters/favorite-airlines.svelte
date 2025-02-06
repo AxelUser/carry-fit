@@ -9,6 +9,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/styling';
 	import type { AirlineInfo } from '$lib/types';
+	import { computeMatchScore } from '$lib/utils/matching';
 
 	interface Props {
 		open?: boolean;
@@ -23,6 +24,14 @@
 	let triggerRef = $state<HTMLButtonElement>(null!);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
+
+	function customFilter(value: string, search: string): number {
+		const score = computeMatchScore(search, value);
+		if (score > 0.5) {
+			return score;
+		}
+		return 0;
+	}
 
 	function toggleFavorite(airlineCode: string) {
 		if (favoriteAirlinesSet.has(airlineCode)) {
@@ -72,7 +81,7 @@
 					{/snippet}
 				</Popover.Trigger>
 				<Popover.Content avoidCollisions={false} class="w-[300px] p-0">
-					<Command.Root>
+					<Command.Root filter={customFilter}>
 						<Command.Input
 							placeholder="Search airlines..."
 							bind:value={searchTerm}
