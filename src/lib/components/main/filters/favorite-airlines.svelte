@@ -71,7 +71,7 @@
 						</Button>
 					{/snippet}
 				</Popover.Trigger>
-				<Popover.Content class="w-[300px] p-0">
+				<Popover.Content avoidCollisions={false} class="w-[300px] p-0">
 					<Command.Root>
 						<Command.Input
 							placeholder="Search airlines..."
