@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { VirtualList } from 'svelte-virtuallists';
-	import { ChevronsUpDown, Check } from 'lucide-svelte';
+	import { ChevronsUpDown, Check, Search } from 'lucide-svelte';
 	import { clickOutside } from '$lib/actions/click-outside';
 	import { cn } from '$lib/utils/styling';
 	import { computeMatchScore } from '$lib/utils/matching';
@@ -47,7 +47,8 @@
 	data-testid="combobox-content"
 	class="w-full rounded-md border bg-popover text-popover-foreground shadow-md"
 >
-	<div class="flex items-center border-b px-3">
+	<div class="flex items-center border-b px-3 py-1">
+		<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 		<Input
 			class="h-9 w-full border-0 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
 			bind:value={searchTerm}
@@ -55,7 +56,7 @@
 		/>
 	</div>
 
-	<div class="relative h-[300px] w-full">
+	<div class="relative h-[200px] w-full">
 		{#if filteredItems.length > 0}
 			<VirtualList class="virtual-list-viewport h-full w-full" items={filteredItems}>
 				{#snippet vl_slot({ index, item })}
