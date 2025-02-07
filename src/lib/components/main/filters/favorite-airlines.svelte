@@ -44,14 +44,6 @@
 	function removeFavorite(airlineCode: string) {
 		favoriteAirlines = favoriteAirlines.filter((code) => code !== airlineCode);
 	}
-
-	// Close popover and refocus trigger
-	function closeAndFocusTrigger() {
-		popoverOpen = false;
-		tick().then(() => {
-			triggerRef?.focus();
-		});
-	}
 </script>
 
 <Dialog.Root bind:open>
@@ -103,7 +95,6 @@
 											value={airline.airline}
 											onSelect={() => {
 												toggleFavorite(airline.airline);
-												closeAndFocusTrigger();
 											}}
 										>
 											<div class="flex items-center gap-2">
