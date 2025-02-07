@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Locator, Page } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
 	// Set up local storage to skip tours before navigation
@@ -12,13 +12,24 @@ test.beforeEach(async ({ page }) => {
 	});
 });
 
+async function pageIsReady(page: Page) {
+	await page.waitForLoadState('networkidle');
+	await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+}
+
+async function preparePage(page: Page, showTable = false) {
+	await page.goto('/', { waitUntil: 'networkidle' });
+	await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	await page.getByTestId('accept-all-cookies').click();
+	await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+	if (showTable) {
+		await expect(page.getByRole('table')).toBeVisible();
+	}
+}
+
 test.describe('Allowance table interaction', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-		await expect(page.getByRole('table')).toBeVisible();
+		await preparePage(page, true);
 	});
 
 	test('should display airline allowances table by default', async ({ page }) => {
@@ -82,10 +93,7 @@ test.describe('Allowance table interaction', () => {
 
 test.describe('Bag compliance scoring calculation', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should only show compliance score when dimensions are entered', async ({ page }) => {
@@ -137,11 +145,7 @@ test.describe('Bag compliance scoring calculation', () => {
 
 test.describe('Favorites functionality', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-		await expect(page.getByRole('table')).toBeVisible();
+		await preparePage(page, true);
 	});
 
 	test('should add and remove airlines from favorites', async ({ page }) => {
@@ -304,10 +308,7 @@ test.describe('Favorites functionality', () => {
 
 test.describe('Measurement system updates', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should update units in table when measurement system changes', async ({ page }) => {
@@ -368,10 +369,7 @@ test.describe('Measurement system updates', () => {
 
 test.describe('Bag sharing functionality', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should copy bag dimensions link to clipboard', async ({ page, context }) => {
@@ -473,10 +471,7 @@ test.describe('Large screen table layout', () => {
 	test.beforeEach(async ({ page }) => {
 		// Set viewport to a large screen size (larger than xl breakpoint of 1280px)
 		await page.setViewportSize({ width: 1440, height: 900 });
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should display compliant and non-compliant tables side by side when dimensions are set', async ({
@@ -544,10 +539,7 @@ test.describe('Mobile screen table layout', () => {
 	test.beforeEach(async ({ page }) => {
 		// Set viewport to a mobile screen size
 		await page.setViewportSize({ width: 375, height: 667 });
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should display sections in single column and allow toggling', async ({ page }) => {
@@ -631,10 +623,7 @@ test.describe('Mobile screen table layout', () => {
 
 test.describe('Bag dimension parsing', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
+		await preparePage(page);
 	});
 
 	test('should parse valid dimensions string and set bag dimensions', async ({ page }) => {
@@ -750,11 +739,7 @@ test.describe('Allowance table search functionality', () => {
 	const searchWaitTime = 300;
 
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
-		await page.getByTestId('accept-all-cookies').click();
-		await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-		await expect(page.getByRole('table')).toBeVisible();
+		await preparePage(page, true);
 	});
 
 	test('should filter airlines by search term', async ({ page }) => {
@@ -858,5 +843,176 @@ test.describe('Allowance table search functionality', () => {
 			expect(await page.getByTestId('airline-name').count()).toBe(1);
 			await expect(page.getByTestId('airline-name')).toHaveText('Finnair');
 		}
+	});
+});
+
+test.describe('Favorite Airlines Dialog', () => {
+	function getPopover(page: Page) {
+		return page.getByTestId('favorite-airlines-search-popover');
+	}
+
+	function getOptions(page: Page) {
+		return getPopover(page).getByRole('option');
+	}
+
+	function getAirlineOption(page: Page, airline: string) {
+		return getOptions(page).filter({ hasText: airline });
+	}
+
+	function getRemoveButton(page: Page, airline: string) {
+		return page.getByRole('button').filter({ hasText: `Remove ${airline}` });
+	}
+
+	async function openSearchPopover(page: Page) {
+		await page.getByTestId('favorite-airlines-search-button').click();
+	}
+
+	async function openFavoriteAirlinesDialog(page: Page) {
+		await page.getByRole('button', { name: /Manage favorite airlines/i }).click();
+		await expect(page.getByTestId('favorite-airlines-dialog')).toBeVisible();
+	}
+
+	async function closeFavoriteAirlinesDialog(page: Page) {
+		await page.getByTestId('favorite-airlines-dialog-close-button').click();
+		await expect(page.getByTestId('favorite-airlines-dialog')).not.toBeVisible();
+	}
+
+	async function fillSearchQuery(page: Page, query: string) {
+		await getPopover(page).getByPlaceholder('Search airlines...').fill(query);
+	}
+
+	test.beforeEach(async ({ page }) => {
+		await preparePage(page, true);
+		await openFavoriteAirlinesDialog(page);
+	});
+
+	test('should search and filter airlines in dialog', async ({ page }) => {
+		await openSearchPopover(page);
+
+		// Get initial number of airlines
+		await expect(getOptions(page).first()).toBeVisible();
+		const initialAirlines = await getOptions(page).count();
+		expect(initialAirlines).toBeGreaterThan(0);
+
+		// Search for a specific airline
+		await fillSearchQuery(page, 'Finnair');
+
+		// Verify filtered results
+		const filteredAirlines = await getOptions(page).count();
+		expect(filteredAirlines).toBe(1);
+
+		await expect(getOptions(page)).toContainText('Finnair');
+
+		// Clear search
+		await fillSearchQuery(page, '');
+
+		// Verify original list is restored
+		const finalAirlines = await getOptions(page).count();
+		expect(finalAirlines).toBe(initialAirlines);
+	});
+
+	test('should add and remove airlines from favorites in dialog', async ({ page }) => {
+		// Initially no airlines should be selected
+		await expect(page.getByText('No favorite airlines selected')).toBeVisible();
+
+		// Select an airline
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Finnair').click();
+
+		// Verify airline appears in selected list
+		await expect(page.getByText('Selected Airlines (1)')).toBeVisible();
+		await expect(getRemoveButton(page, 'Finnair')).toBeVisible();
+
+		// Add another airline
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Lufthansa').click();
+
+		// Verify both airlines are in list
+		await expect(page.getByText('Selected Airlines (2)')).toBeVisible();
+		await expect(getRemoveButton(page, 'Finnair')).toBeVisible();
+		await expect(getRemoveButton(page, 'Lufthansa')).toBeVisible();
+
+		// Remove one airline
+		await getRemoveButton(page, 'Finnair').click();
+
+		// Verify count updated and airline removed
+		await expect(page.getByText('Selected Airlines (1)')).toBeVisible();
+		await expect(getRemoveButton(page, 'Finnair')).not.toBeVisible();
+		await expect(getRemoveButton(page, 'Lufthansa')).toBeVisible();
+	});
+
+	test('should persist favorites after dialog is closed and reopened', async ({ page }) => {
+		// Add some airlines to favorites
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Finnair').click();
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Lufthansa').click();
+
+		// Close dialog
+		await closeFavoriteAirlinesDialog(page);
+
+		// Reopen dialog
+		await openFavoriteAirlinesDialog(page);
+
+		// Verify favorites are still there
+		await expect(page.getByText('Selected Airlines (2)')).toBeVisible();
+		await expect(getRemoveButton(page, 'Finnair')).toBeVisible();
+		await expect(getRemoveButton(page, 'Lufthansa')).toBeVisible();
+	});
+
+	test('should persist favorites after page refresh', async ({ page }) => {
+		// Add airlines to favorites
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Finnair').click();
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Lufthansa').click();
+
+		// Close dialog
+		await closeFavoriteAirlinesDialog(page);
+
+		// Refresh page
+		await page.reload();
+		await pageIsReady(page);
+
+		// Reopen dialog
+		await openFavoriteAirlinesDialog(page);
+
+		// Verify favorites persisted
+		await expect(page.getByText('Selected Airlines (2)')).toBeVisible();
+		await expect(getRemoveButton(page, 'Finnair')).toBeVisible();
+		await expect(getRemoveButton(page, 'Lufthansa')).toBeVisible();
+	});
+
+	test('should show checkmarks next to selected airlines in search list', async ({ page }) => {
+		// Add an airline to favorites
+		await openSearchPopover(page);
+		await getAirlineOption(page, 'Finnair').click();
+
+		await openSearchPopover(page);
+
+		// Verify checkmark is visible
+		const option = getAirlineOption(page, 'Finnair');
+		await expect(option.getByTestId('favorite-airline-check-icon')).toHaveClass(/opacity-100/);
+
+		// Verify no checkmark is visible
+		const otherOption = getAirlineOption(page, 'Lufthansa');
+		await expect(otherOption.getByTestId('favorite-airline-check-icon')).toHaveClass(/opacity-0/);
+	});
+
+	test('should handle fuzzy search matching', async ({ page }) => {
+		// Try partial and fuzzy matches
+		const searchTerms = ['fin', 'fn', 'fair'];
+		await openSearchPopover(page);
+
+		for (const term of searchTerms) {
+			await fillSearchQuery(page, term);
+
+			// Verify Finnair is found with fuzzy search
+			await expect(getAirlineOption(page, 'Finnair')).toBeVisible();
+		}
+
+		// Try a non-matching term
+		await fillSearchQuery(page, 'xyz123');
+		await expect(page.getByText('No airlines found.')).toBeVisible();
 	});
 });

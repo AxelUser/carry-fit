@@ -5,7 +5,7 @@
 	import * as Command from '$lib/components/ui/command';
 	import * as Popover from '$lib/components/ui/popover';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/styling';
 	import type { AirlineInfo } from '$lib/types';
@@ -55,7 +55,7 @@
 </script>
 
 <Dialog.Root bind:open>
-	<Dialog.Content class="max-w-lg">
+	<Dialog.Content data-testid="favorite-airlines-dialog" class="max-w-lg">
 		<Dialog.Header>
 			<Dialog.Title>Manage Favorite Airlines</Dialog.Title>
 			<Dialog.Description>
@@ -69,6 +69,7 @@
 				<Popover.Trigger bind:ref={triggerRef}>
 					{#snippet child({ props })}
 						<Button
+							data-testid="favorite-airlines-search-button"
 							variant="outline"
 							role="combobox"
 							aria-expanded={popoverOpen}
@@ -80,7 +81,11 @@
 						</Button>
 					{/snippet}
 				</Popover.Trigger>
-				<Popover.Content avoidCollisions={false} class="w-[300px] p-0">
+				<Popover.Content
+					data-testid="favorite-airlines-search-popover"
+					avoidCollisions={false}
+					class="w-[300px] p-0"
+				>
 					<Command.Root filter={customFilter}>
 						<Command.Input
 							placeholder="Search airlines..."
@@ -102,7 +107,10 @@
 											}}
 										>
 											<div class="flex items-center gap-2">
-												<Check class={cn('h-4 w-4', isFavorite ? 'opacity-100' : 'opacity-0')} />
+												<Check
+													data-testid="favorite-airline-check-icon"
+													class={cn('h-4 w-4', isFavorite ? 'opacity-100' : 'opacity-0')}
+												/>
 												<span>{airline.airline}</span>
 												<span class="text-muted-foreground">({airline.region})</span>
 											</div>
@@ -159,8 +167,11 @@
 		</div>
 
 		<Dialog.Footer>
-			<Dialog.Close>
-				<Button variant="outline">Close</Button>
+			<Dialog.Close
+				data-testid="favorite-airlines-dialog-close-button"
+				class={buttonVariants({ variant: 'outline' })}
+			>
+				Close
 			</Dialog.Close>
 		</Dialog.Footer>
 	</Dialog.Content>
