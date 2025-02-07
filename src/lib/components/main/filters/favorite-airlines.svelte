@@ -87,13 +87,13 @@
 					>
 						{#snippet element({ item })}
 							{@const isFavorite = favoriteAirlinesSet.has(item.airline)}
-							<div class="flex items-center gap-2">
+							<div class="flex min-w-0 items-center gap-2">
 								<Check
 									data-testid="favorite-airline-check-icon"
-									class={cn('h-4 w-4', isFavorite ? 'opacity-100' : 'opacity-0')}
+									class={cn('h-4 w-4 flex-shrink-0', isFavorite ? 'opacity-100' : 'opacity-0')}
 								/>
-								<span>{item.airline}</span>
-								<span class="text-muted-foreground">({item.region})</span>
+								<span class="truncate">{item.airline}</span>
+								<span class="flex-shrink-0 text-muted-foreground">({item.region})</span>
 							</div>
 						{/snippet}
 					</Combobox>

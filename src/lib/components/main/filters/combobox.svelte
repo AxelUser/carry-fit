@@ -44,22 +44,60 @@
 </script>
 
 <div
-	class="absolute z-50 w-full min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md"
 	data-testid="combobox-content"
+	class="w-full rounded-md border bg-popover text-popover-foreground shadow-md"
 >
 	<div class="flex items-center border-b px-3">
-		<Input class="border-0 ring-0 focus:ring-0" bind:value={searchTerm} {placeholder} />
+		<Input
+			class="h-9 w-full border-0 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+			bind:value={searchTerm}
+			{placeholder}
+		/>
 	</div>
 
-	<VirtualList class={cn(`h-[${maxHeight}px] w-full`)} items={filteredItems}>
-		{#snippet vl_slot({ index, item })}
-			{@render element({ item: item.airline })}
-		{/snippet}
-	</VirtualList>
-
-	<div style="height: {maxHeight}"></div>
-
-	{#if filteredItems.length === 0}
-		<div class="py-6 text-center text-sm text-muted-foreground">No results found.</div>
-	{/if}
+	<div class="relative h-[300px] w-full">
+		{#if filteredItems.length > 0}
+			<VirtualList class="virtual-list-viewport h-full w-full" items={filteredItems}>
+				{#snippet vl_slot({ index, item })}
+					<button
+						class="relative flex w-full min-w-0 cursor-pointer select-none items-start rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+						role="option"
+						onclick={() => onSelect(item.airline)}
+					>
+						<div class="flex min-w-0 flex-1">
+							{@render element({ item: item.airline })}
+						</div>
+					</button>
+				{/snippet}
+			</VirtualList>
+		{:else}
+			<div class="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+				No results found.
+			</div>
+		{/if}
+	</div>
 </div>
+
+<style>
+	:global(.virtual-list-viewport) {
+		scrollbar-width: thin;
+		scrollbar-color: hsl(var(--muted-foreground)) transparent;
+	}
+
+	:global(.virtual-list-viewport::-webkit-scrollbar) {
+		width: 6px;
+	}
+
+	:global(.virtual-list-viewport::-webkit-scrollbar-track) {
+		background-color: transparent;
+	}
+
+	:global(.virtual-list-viewport::-webkit-scrollbar-thumb) {
+		background-color: hsl(var(--muted-foreground) / 0.3);
+		border-radius: 3px;
+	}
+
+	:global(.virtual-list-viewport::-webkit-scrollbar-thumb:hover) {
+		background-color: hsl(var(--muted-foreground) / 0.5);
+	}
+</style>
