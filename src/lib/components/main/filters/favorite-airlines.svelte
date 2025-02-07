@@ -10,6 +10,7 @@
 	import { cn } from '$lib/utils/styling';
 	import type { AirlineInfo } from '$lib/types';
 	import { computeMatchScore } from '$lib/utils/matching';
+	import Combobox from './combobox.svelte';
 
 	interface Props {
 		open?: boolean;
@@ -33,11 +34,11 @@
 		return 0;
 	}
 
-	function toggleFavorite(airlineCode: string) {
-		if (favoriteAirlinesSet.has(airlineCode)) {
-			favoriteAirlines = favoriteAirlines.filter((code) => code !== airlineCode);
+	function toggleFavorite(airline: AirlineInfo) {
+		if (favoriteAirlinesSet.has(airline.airline)) {
+			favoriteAirlines = favoriteAirlines.filter((code) => code !== airline.airline);
 		} else {
-			favoriteAirlines = [...favoriteAirlines, airlineCode];
+			favoriteAirlines = [...favoriteAirlines, airline.airline];
 		}
 	}
 
@@ -78,39 +79,24 @@
 					avoidCollisions={false}
 					class="w-[300px] p-0"
 				>
-					<Command.Root filter={customFilter}>
-						<Command.Input
-							placeholder="Search airlines..."
-							bind:value={searchTerm}
-							class="border-0 ring-0 focus:ring-0"
-						/>
-						<Command.List>
-							<Command.Empty>No airlines found.</Command.Empty>
-							<Command.Group>
-								<ScrollArea class="h-72">
-									{#each airlines as airline}
-										{@const isFavorite = favoriteAirlinesSet.has(airline.airline)}
-
-										<Command.Item
-											value={airline.airline}
-											onSelect={() => {
-												toggleFavorite(airline.airline);
-											}}
-										>
-											<div class="flex items-center gap-2">
-												<Check
-													data-testid="favorite-airline-check-icon"
-													class={cn('h-4 w-4', isFavorite ? 'opacity-100' : 'opacity-0')}
-												/>
-												<span>{airline.airline}</span>
-												<span class="text-muted-foreground">({airline.region})</span>
-											</div>
-										</Command.Item>
-									{/each}
-								</ScrollArea>
-							</Command.Group>
-						</Command.List>
-					</Command.Root>
+					<Combobox
+						items={airlines}
+						onSelect={toggleFavorite}
+						placeholder="Search airlines..."
+						maxHeight={300}
+					>
+						{#snippet element({ item })}
+							{@const isFavorite = favoriteAirlinesSet.has(item.airline)}
+							<div class="flex items-center gap-2">
+								<Check
+									data-testid="favorite-airline-check-icon"
+									class={cn('h-4 w-4', isFavorite ? 'opacity-100' : 'opacity-0')}
+								/>
+								<span>{item.airline}</span>
+								<span class="text-muted-foreground">({item.region})</span>
+							</div>
+						{/snippet}
+					</Combobox>
 				</Popover.Content>
 			</Popover.Root>
 

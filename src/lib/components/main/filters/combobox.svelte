@@ -48,16 +48,16 @@
 	data-testid="combobox-content"
 >
 	<div class="flex items-center border-b px-3">
-		<Input bind:value={searchTerm} placeholder="Search..." />
+		<Input class="border-0 ring-0 focus:ring-0" bind:value={searchTerm} {placeholder} />
 	</div>
 
-	<div style="height: {maxHeight}px;">
-		<VirtualList items={filteredItems}>
-			{#snippet vl_slot({ index, item })}
-				{@render element({ item: item.airline })}
-			{/snippet}
-		</VirtualList>
-	</div>
+	<VirtualList class={cn(`h-[${maxHeight}px] w-full`)} items={filteredItems}>
+		{#snippet vl_slot({ index, item })}
+			{@render element({ item: item.airline })}
+		{/snippet}
+	</VirtualList>
+
+	<div style="height: {maxHeight}"></div>
 
 	{#if filteredItems.length === 0}
 		<div class="py-6 text-center text-sm text-muted-foreground">No results found.</div>
