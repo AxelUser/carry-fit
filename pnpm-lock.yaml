@@ -23,6 +23,9 @@ importers:
       posthog-js:
         specifier: ^1.205.0
         version: 1.205.0
+      svelte-virtuallists:
+        specifier: ^1.4.0
+        version: 1.4.0(clsx@2.1.1)(svelte@5.14.3)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: 3.2.4
@@ -2610,6 +2613,12 @@ packages:
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0
+
+  svelte-virtuallists@1.4.0:
+    resolution: {integrity: sha512-aN5t/bqaFamq4V8K4TPrV+gbexDH3BkZJaC76FPGJsjggZre3MowcmoOaL6jaOTdUngrUUpeL9a74yXdldis0g==}
+    peerDependencies:
+      clsx: ^2.1.1
+      svelte: ^5.1.0
 
   svelte2tsx@0.7.34:
     resolution: {integrity: sha512-WTMhpNhFf8/h3SMtR5dkdSy2qfveomkhYei/QW9gSPccb0/b82tjHvLop6vT303ZkGswU/da1s6XvrLgthQPCw==}
@@ -5402,6 +5411,11 @@ snapshots:
       clsx: 2.1.1
       runed: 0.23.2(svelte@5.14.3)
       style-to-object: 1.0.8
+      svelte: 5.14.3
+
+  svelte-virtuallists@1.4.0(clsx@2.1.1)(svelte@5.14.3):
+    dependencies:
+      clsx: 2.1.1
       svelte: 5.14.3
 
   svelte2tsx@0.7.34(svelte@5.14.3)(typescript@5.7.2):
