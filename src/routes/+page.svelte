@@ -217,7 +217,7 @@
 			<div class="flex flex-col gap-4">
 				<AllowanceFilter
 					airlines={allAirlines}
-					favoriteAirlines={preferences.favoriteAirlines}
+					bind:favoriteAirlines={preferences.favoriteAirlines}
 					bind:filteredAirlines
 				/>
 				<AllowanceTable

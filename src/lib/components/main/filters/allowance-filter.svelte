@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
-	import { Check, X } from 'lucide-svelte';
+	import { Check, Pencil } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import { Separator } from '../ui/separator';
-	import { Checkbox } from '../ui/checkbox';
-	import { Label } from '../ui/label';
-	import { badgeVariants } from '../ui/badge';
+	import { Separator } from '$lib/components/ui/separator';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import { Label } from '$lib/components/ui/label';
+	import { badgeVariants } from '$lib/components/ui/badge';
+
 	import { cn } from '$lib/utils/styling';
+	import FavoriteAirlines from './favorite-airlines.svelte';
 
 	interface Props {
 		airlines: AirlineInfo[];
@@ -15,9 +18,14 @@
 		filteredAirlines: AirlineInfo[];
 	}
 
-	let { airlines, favoriteAirlines, filteredAirlines = $bindable() }: Props = $props();
+	let {
+		airlines,
+		favoriteAirlines = $bindable(),
+		filteredAirlines = $bindable()
+	}: Props = $props();
 
 	let showFavoritesOnly = $state(false);
+	let showFavoriteAirlinesDialog = $state(false);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
 
@@ -138,6 +146,16 @@
 					<div class="flex items-center justify-between">
 						<div class="flex items-center gap-2">
 							<h3 class="font-medium">Favorites</h3>
+							<Button
+								data-tour-id="favorite-airlines-manage-button"
+								variant="ghost"
+								size="icon"
+								class="h-8 w-8"
+								onclick={() => (showFavoriteAirlinesDialog = true)}
+							>
+								<Pencil class="h-4 w-4" />
+								<span class="sr-only">Manage favorite airlines</span>
+							</Button>
 						</div>
 						{#if favoriteAirlines.length > 0}
 							<span data-testid="favorites-count" class="text-sm text-primary">
@@ -146,7 +164,7 @@
 							</span>
 						{/if}
 					</div>
-					<label class="mt-2 flex items-center gap-2">
+					<label data-tour-id="favorites-only-filter" class="mt-2 flex items-center gap-2">
 						<Checkbox id="favorites-only-filter" bind:checked={showFavoritesOnly} />
 						<Label for="favorites-only-filter">Favorites only</Label>
 					</label>
@@ -155,6 +173,8 @@
 		</div>
 	</Card.Content>
 </Card.Root>
+
+<FavoriteAirlines bind:open={showFavoriteAirlinesDialog} {airlines} bind:favoriteAirlines />
 
 <style>
 	@keyframes bounce {

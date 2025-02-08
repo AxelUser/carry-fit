@@ -14,7 +14,8 @@ export default defineConfig({
 	reporter: [['html'], [isCI ? 'github' : 'list']],
 	use: {
 		baseURL: `http://localhost:${PORT}`,
-		screenshot: 'only-on-failure'
+		screenshot: 'only-on-failure',
+		trace: 'retain-on-failure'
 	},
 	retries: 1,
 	webServer: isManualTest

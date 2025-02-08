@@ -70,7 +70,7 @@
 	</div>
 
 	<div class="mb-4 flex items-center justify-between gap-2 text-sm text-muted-foreground">
-		<p>Enter dimensions manually or <b>copy-paste from a website</b></p>
+		<p>Enter dimensions manually or <b>parse from a website</b></p>
 	</div>
 
 	<div data-tour-id="bag-input" class="grid grid-cols-3 gap-x-4 gap-y-2">
