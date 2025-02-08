@@ -880,8 +880,9 @@ test.describe('Favorite Airlines Dialog', () => {
 	async function fillSearchQuery(page: Page, query: string) {
 		const input = getPopover(page).getByPlaceholder('Search airlines...');
 		await input.fill('');
-		await page.waitForTimeout(100);
+		await expect(input).toHaveValue('');
 		await input.fill(query);
+		await expect(input).toHaveValue(query);
 	}
 
 	test.beforeEach(async ({ page }) => {
