@@ -147,6 +147,7 @@
 						<div class="flex items-center gap-2">
 							<h3 class="font-medium">Favorites</h3>
 							<Button
+								data-tour-id="favorite-airlines-manage-button"
 								variant="ghost"
 								size="icon"
 								class="h-8 w-8"
@@ -163,7 +164,7 @@
 							</span>
 						{/if}
 					</div>
-					<label class="mt-2 flex items-center gap-2">
+					<label data-tour-id="favorites-only-filter" class="mt-2 flex items-center gap-2">
 						<Checkbox id="favorites-only-filter" bind:checked={showFavoritesOnly} />
 						<Label for="favorites-only-filter">Favorites only</Label>
 					</label>

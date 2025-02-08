@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { VirtualList } from 'svelte-virtuallists';
-	import { ChevronsUpDown, Check, Search } from 'lucide-svelte';
-	import { clickOutside } from '$lib/actions/click-outside';
-	import { cn } from '$lib/utils/styling';
+	import { Search } from 'lucide-svelte';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { Input } from '$lib/components/ui/input';
 	import type { Snippet } from 'svelte';
@@ -12,18 +10,10 @@
 		items: AirlineInfo[];
 		onSelect: (item: AirlineInfo) => void;
 		placeholder: string;
-		maxHeight: number;
-		class?: string;
 		element: Snippet<[{ item: AirlineInfo }]>;
 	}
 
-	let {
-		items = [],
-		onSelect,
-		placeholder = 'Select items...',
-		maxHeight = 300,
-		element
-	}: Props = $props();
+	let { items = [], onSelect, placeholder = 'Select items...', element }: Props = $props();
 
 	let searchTerm = $state('');
 

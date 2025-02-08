@@ -65,6 +65,13 @@ export const onboardingTour: Tour = {
 			}
 		},
 		{
+			element: '[data-tour-id="favorite-airlines-manage-button"]',
+			popover: {
+				title: 'Manage Favorite Airlines',
+				description: 'You can also edit your favorite airlines list here.'
+			}
+		},
+		{
 			element: '[data-tour-id="policy-link"]',
 			popover: {
 				title: 'Verify Policies',

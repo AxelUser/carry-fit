@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { Check, ChevronsUpDown, X } from 'lucide-svelte';
-	import { tick } from 'svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import * as Command from '$lib/components/ui/command';
 	import * as Popover from '$lib/components/ui/popover';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
+
 	import { Badge } from '$lib/components/ui/badge';
 	import { cn } from '$lib/utils/styling';
 	import type { AirlineInfo } from '$lib/types';
-	import { computeMatchScore } from '$lib/utils/matching';
 	import Combobox from './combobox.svelte';
 
 	interface Props {
@@ -20,19 +18,10 @@
 
 	let { open = $bindable(false), airlines, favoriteAirlines = $bindable() }: Props = $props();
 
-	let searchTerm = $state('');
 	let popoverOpen = $state(false);
 	let triggerRef = $state<HTMLButtonElement>(null!);
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
-
-	function customFilter(value: string, search: string): number {
-		const score = computeMatchScore(search, value);
-		if (score > 0.5) {
-			return score;
-		}
-		return 0;
-	}
 
 	function toggleFavorite(airline: AirlineInfo) {
 		if (favoriteAirlinesSet.has(airline.airline)) {
@@ -79,14 +68,10 @@
 					avoidCollisions={false}
 					class="w-[300px] p-0"
 				>
-					<Combobox
-						items={airlines}
-						onSelect={toggleFavorite}
-						placeholder="Search airlines..."
-						maxHeight={300}
-					>
+					<Combobox items={airlines} onSelect={toggleFavorite} placeholder="Search airlines...">
 						{#snippet element({ item })}
 							{@const isFavorite = favoriteAirlinesSet.has(item.airline)}
+
 							<div class="flex min-w-0 items-center gap-2">
 								<Check
 									data-testid="favorite-airline-check-icon"

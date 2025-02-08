@@ -2,7 +2,8 @@ import type { DriveStep } from 'driver.js';
 
 export const TOURS = {
 	onboarding: 'onboarding',
-	airlineSearch: 'airlineSearch'
+	airlineSearch: 'airlineSearch',
+	manageFavorites: 'manageFavorites'
 } as const;
 
 export interface Tour {
