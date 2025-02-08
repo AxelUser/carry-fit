@@ -878,7 +878,9 @@ test.describe('Favorite Airlines Dialog', () => {
 	}
 
 	async function fillSearchQuery(page: Page, query: string) {
-		await getPopover(page).getByPlaceholder('Search airlines...').fill(query);
+		const input = getPopover(page).getByPlaceholder('Search airlines...');
+		await input.fill('');
+		await input.fill(query);
 	}
 
 	test.beforeEach(async ({ page }) => {
@@ -917,6 +919,7 @@ test.describe('Favorite Airlines Dialog', () => {
 
 		// Select an airline
 		await clickSearchPopover(page);
+		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
 		await clickSearchPopover(page);
 
@@ -926,6 +929,7 @@ test.describe('Favorite Airlines Dialog', () => {
 
 		// Add another airline
 		await clickSearchPopover(page);
+		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
 		await clickSearchPopover(page);
 
@@ -946,7 +950,9 @@ test.describe('Favorite Airlines Dialog', () => {
 	test('should persist favorites after dialog is closed and reopened', async ({ page }) => {
 		// Add some airlines to favorites
 		await clickSearchPopover(page);
+		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
+		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
 		await clickSearchPopover(page);
 
@@ -965,7 +971,9 @@ test.describe('Favorite Airlines Dialog', () => {
 	test('should persist favorites after page refresh', async ({ page }) => {
 		// Add airlines to favorites
 		await clickSearchPopover(page);
+		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
+		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
 		await clickSearchPopover(page);
 
@@ -988,6 +996,7 @@ test.describe('Favorite Airlines Dialog', () => {
 	test('should show checkmarks next to selected airlines in search list', async ({ page }) => {
 		// Add an airline to favorites
 		await clickSearchPopover(page);
+		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
 
 		// Verify checkmark is visible
@@ -995,6 +1004,7 @@ test.describe('Favorite Airlines Dialog', () => {
 		await expect(option.getByTestId('favorite-airline-check-icon')).toHaveClass(/opacity-100/);
 
 		// Verify no checkmark is visible
+		await fillSearchQuery(page, 'Lufthansa');
 		const otherOption = getAirlineOption(page, 'Lufthansa');
 		await expect(otherOption.getByTestId('favorite-airline-check-icon')).toHaveClass(/opacity-0/);
 	});

@@ -73,7 +73,7 @@
 			</VirtualList>
 		{:else}
 			<div class="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
-				No results found.
+				No airlines found.
 			</div>
 		{/if}
 	</div>
