@@ -69,7 +69,7 @@
 	onclick={openDialog}
 >
 	<ClipboardPaste class="mr-1 size-3" />
-	<span>Paste</span>
+	<span>Parse</span>
 </button>
 
 <Dialog bind:open>

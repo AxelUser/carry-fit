@@ -628,7 +628,7 @@ test.describe('Bag dimension parsing', () => {
 
 	test('should parse valid dimensions string and set bag dimensions', async ({ page }) => {
 		// Open the paste dialog
-		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('button', { name: /Parse/i }).click();
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string
@@ -654,7 +654,7 @@ test.describe('Bag dimension parsing', () => {
 		const initialDepth = await page.getByLabel('Depth').inputValue();
 
 		// Open the paste dialog
-		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('button', { name: /Parse/i }).click();
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input invalid text
@@ -680,7 +680,7 @@ test.describe('Bag dimension parsing', () => {
 		await page.getByLabel('Depth').fill('25');
 
 		// Open the paste dialog
-		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('button', { name: /Parse/i }).click();
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input valid dimensions string but cancel
@@ -701,7 +701,7 @@ test.describe('Bag dimension parsing', () => {
 		await page.getByRole('button', { name: /Imperial/i }).click();
 
 		// Open the paste dialog
-		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('button', { name: /Parse/i }).click();
 		await expect(page.getByRole('dialog')).toBeVisible();
 
 		// Input dimensions with both units
@@ -721,7 +721,7 @@ test.describe('Bag dimension parsing', () => {
 
 		// Switch back to metric and try another parse
 		await page.getByRole('button', { name: /Metric/i }).click();
-		await page.getByRole('button', { name: /Paste/i }).click();
+		await page.getByRole('button', { name: /Parse/i }).click();
 		await page
 			.getByRole('dialog')
 			.getByRole('textbox')
@@ -880,6 +880,7 @@ test.describe('Favorite Airlines Dialog', () => {
 	async function fillSearchQuery(page: Page, query: string) {
 		const input = getPopover(page).getByPlaceholder('Search airlines...');
 		await input.fill('');
+		await page.waitForTimeout(100);
 		await input.fill(query);
 	}
 
