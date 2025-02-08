@@ -867,8 +867,14 @@ test.describe('Favorite Airlines Dialog', () => {
 		return page.getByRole('button').filter({ hasText: `Remove ${airline}` });
 	}
 
-	async function clickSearchPopover(page: Page) {
+	async function openSearchPopover(page: Page) {
 		await page.getByTestId('favorite-airlines-search-button').click();
+		await expect(getPopover(page)).toBeVisible();
+	}
+
+	async function closeSearchPopover(page: Page) {
+		await page.getByTestId('favorite-airlines-search-button').click();
+		await expect(getPopover(page)).not.toBeVisible();
 	}
 
 	async function openFavoriteAirlinesDialog(page: Page) {
@@ -895,7 +901,7 @@ test.describe('Favorite Airlines Dialog', () => {
 	});
 
 	test('should search and filter airlines in dialog', async ({ page }) => {
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 
 		// Get initial number of airlines
 		await expect(getOptions(page).first()).toBeVisible();
@@ -924,20 +930,20 @@ test.describe('Favorite Airlines Dialog', () => {
 		await expect(page.getByText('No favorite airlines selected')).toBeVisible();
 
 		// Select an airline
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
-		await clickSearchPopover(page);
+		await closeSearchPopover(page);
 
 		// Verify airline appears in selected list
 		await expect(page.getByText('Selected Airlines (1)')).toBeVisible();
 		await expect(getRemoveButton(page, 'Finnair')).toBeVisible();
 
 		// Add another airline
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
-		await clickSearchPopover(page);
+		await closeSearchPopover(page);
 
 		// Verify both airlines are in list
 		await expect(page.getByText('Selected Airlines (2)')).toBeVisible();
@@ -955,12 +961,12 @@ test.describe('Favorite Airlines Dialog', () => {
 
 	test('should persist favorites after dialog is closed and reopened', async ({ page }) => {
 		// Add some airlines to favorites
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
 		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
-		await clickSearchPopover(page);
+		await closeSearchPopover(page);
 
 		// Close dialog
 		await closeFavoriteAirlinesDialog(page);
@@ -976,12 +982,12 @@ test.describe('Favorite Airlines Dialog', () => {
 
 	test('should persist favorites after page refresh', async ({ page }) => {
 		// Add airlines to favorites
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
 		await fillSearchQuery(page, 'Lufthansa');
 		await getAirlineOption(page, 'Lufthansa').click();
-		await clickSearchPopover(page);
+		await closeSearchPopover(page);
 
 		// Close dialog
 		await closeFavoriteAirlinesDialog(page);
@@ -1001,7 +1007,7 @@ test.describe('Favorite Airlines Dialog', () => {
 
 	test('should show checkmarks next to selected airlines in search list', async ({ page }) => {
 		// Add an airline to favorites
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 		await fillSearchQuery(page, 'Finnair');
 		await getAirlineOption(page, 'Finnair').click();
 
@@ -1018,7 +1024,7 @@ test.describe('Favorite Airlines Dialog', () => {
 	test('should handle fuzzy search matching', async ({ page }) => {
 		// Try partial and fuzzy matches
 		const searchTerms = ['fin', 'fn', 'fair'];
-		await clickSearchPopover(page);
+		await openSearchPopover(page);
 
 		for (const term of searchTerms) {
 			await fillSearchQuery(page, term);
