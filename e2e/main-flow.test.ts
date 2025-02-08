@@ -392,7 +392,7 @@ test.describe('Bag sharing functionality', () => {
 	test('should load bag dimensions from URL parameters', async ({ page }) => {
 		// Navigate to page with dimensions in URL
 		await page.goto('/?height=45&width=35&depth=20&units=imperial', { waitUntil: 'networkidle' });
-
+		await pageIsReady(page);
 		// Verify input values are set correctly
 		await expect(page.getByLabel('Height')).toHaveValue('45');
 		await expect(page.getByLabel('Width')).toHaveValue('35');
@@ -405,6 +405,7 @@ test.describe('Bag sharing functionality', () => {
 	test('should start with empty values if URL parameters are incomplete', async ({ page }) => {
 		// Test with missing parameters
 		await page.goto('/?height=45&width=35', { waitUntil: 'networkidle' });
+		await pageIsReady(page);
 
 		// Verify all inputs are empty/zero
 		await expect(page.getByLabel('Height')).toHaveValue('0');
@@ -415,12 +416,13 @@ test.describe('Bag sharing functionality', () => {
 	test('should clear URL parameters when dimensions are changed', async ({ page }) => {
 		// Start with shared dimensions
 		await page.goto('/?height=45&width=35&depth=20&units=metric', { waitUntil: 'networkidle' });
+		await pageIsReady(page);
 
 		// Verify initial URL has parameters
 		expect(page.url()).toMatch(/\?height=45&width=35&depth=20&units=metric$/);
 
 		// Change a dimension
-		await page.getByLabel('Height').fill('50');
+		await page.getByLabel('Height').fill('50', { timeout: 5000 });
 
 		// Verify URL parameters are cleared
 		expect(page.url()).not.toContain('height=');
@@ -432,6 +434,7 @@ test.describe('Bag sharing functionality', () => {
 	test('should clear URL parameters when measurement system is changed', async ({ page }) => {
 		// Start with shared dimensions
 		await page.goto('/?height=45&width=35&depth=20&units=metric', { waitUntil: 'networkidle' });
+		await pageIsReady(page);
 
 		// Change measurement system
 		await page.getByRole('button', { name: /Imperial/i }).click();
@@ -446,6 +449,7 @@ test.describe('Bag sharing functionality', () => {
 	test('should handle invalid measurement system in URL', async ({ page }) => {
 		// Navigate with invalid measurement system
 		await page.goto('/?height=45&width=35&depth=20&units=invalid', { waitUntil: 'networkidle' });
+		await pageIsReady(page);
 
 		// Verify dimensions are not set
 		await expect(page.getByLabel('Height')).toHaveValue('0');
@@ -879,9 +883,9 @@ test.describe('Favorite Airlines Dialog', () => {
 
 	async function fillSearchQuery(page: Page, query: string) {
 		const input = getPopover(page).getByPlaceholder('Search airlines...');
-		await input.fill('');
+		await input.fill('', { timeout: 5000 });
 		await expect(input).toHaveValue('');
-		await input.fill(query);
+		await input.fill(query, { timeout: 5000 });
 		await expect(input).toHaveValue(query);
 	}
 
