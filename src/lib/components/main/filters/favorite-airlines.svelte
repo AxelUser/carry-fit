@@ -9,6 +9,7 @@
 	import { cn } from '$lib/utils/styling';
 	import type { AirlineInfo } from '$lib/types';
 	import Combobox from './combobox.svelte';
+	import { metrics } from '$lib/analytics';
 
 	interface Props {
 		open?: boolean;
@@ -17,6 +18,12 @@
 	}
 
 	let { open = $bindable(false), airlines, favoriteAirlines = $bindable() }: Props = $props();
+
+	$effect(() => {
+		if (open) {
+			metrics.favoriteAirlinesDialogOpened();
+		}
+	});
 
 	let popoverOpen = $state(false);
 	let triggerRef = $state<HTMLButtonElement>(null!);

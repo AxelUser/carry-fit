@@ -90,4 +90,8 @@ export class Metrics {
 			);
 		}
 	}
+
+	favoriteAirlinesDialogOpened() {
+		this.provider.trackEvent('favorite_airlines_dialog_opened');
+	}
 }
