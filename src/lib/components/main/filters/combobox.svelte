@@ -3,7 +3,7 @@
 	import { Search } from 'lucide-svelte';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { Input } from '$lib/components/ui/input';
-	import type { Snippet } from 'svelte';
+	import { onDestroy, type Snippet } from 'svelte';
 	import type { AirlineInfo } from '$lib/types';
 
 	interface Props {
@@ -31,6 +31,10 @@
 				return b.score - a.score;
 			})
 	);
+
+	onDestroy(() => {
+		searchTerm = '';
+	});
 </script>
 
 <div
