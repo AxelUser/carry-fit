@@ -219,6 +219,7 @@
 					airlines={allAirlines}
 					bind:favoriteAirlines={preferences.favoriteAirlines}
 					bind:filteredAirlines
+					bind:filterRegions={preferences.filterRegions}
 				/>
 				<AllowanceTable
 					measurementSystem={preferences.measurementSystem}

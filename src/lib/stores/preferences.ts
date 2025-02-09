@@ -23,6 +23,17 @@ let favoriteAirlinesStore = createLocalStore<string[]>(
 	}
 );
 
+let filterResgionsStore = createLocalStore<string[]>(
+	'carryfit_user_filter_regions',
+	[],
+	(loaded, initial) => {
+		if (Array.isArray(loaded)) {
+			return loaded;
+		}
+		return initial;
+	}
+);
+
 export default {
 	get measurementSystem() {
 		return measurementSystemStore.value;
@@ -36,5 +47,12 @@ export default {
 	},
 	set favoriteAirlines(airlines: string[]) {
 		favoriteAirlinesStore.value = airlines;
+	},
+
+	get filterRegions() {
+		return filterResgionsStore.value;
+	},
+	set filterRegions(regions: string[]) {
+		filterResgionsStore.value = regions;
 	}
 };
