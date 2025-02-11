@@ -131,6 +131,7 @@
 								variant={isSelected ? 'default' : 'outline'}
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
+								data-selected={isSelected}
 							>
 								<span>{region}</span>
 								{#if isSelected && isAvailable}

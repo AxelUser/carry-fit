@@ -1052,12 +1052,17 @@ test.describe('Filter Regions', () => {
 
 		// Reload page
 		await page.reload();
+		await pageIsReady(page);
 
 		// Verify Europe region is still selected
-		const selectedRegions = await page.evaluate(() => {
-			const regions = localStorage.getItem('carryfit_user_filter_regions');
-			return regions ? JSON.parse(regions) : [];
-		});
-		expect(selectedRegions).toContain('Europe');
+		await expect(europeButton).toHaveAttribute('data-active', 'true');
+		const otherRegionButtons = await page
+			.getByTestId('regions-filter-list')
+			.getByRole('button')
+			.filter({ hasNotText: 'Europe' })
+			.all();
+		for (const button of otherRegionButtons) {
+			await expect(button).not.toHaveAttribute('data-active', 'true');
+		}
 	});
 });
