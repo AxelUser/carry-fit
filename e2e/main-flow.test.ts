@@ -1055,14 +1055,14 @@ test.describe('Filter Regions', () => {
 		await pageIsReady(page);
 
 		// Verify Europe region is still selected
-		await expect(europeButton).toHaveAttribute('data-active', 'true');
+		await expect(europeButton).toHaveAttribute('data-selected', 'true');
 		const otherRegionButtons = await page
 			.getByTestId('regions-filter-list')
 			.getByRole('button')
 			.filter({ hasNotText: 'Europe' })
 			.all();
 		for (const button of otherRegionButtons) {
-			await expect(button).not.toHaveAttribute('data-active', 'true');
+			await expect(button).not.toHaveAttribute('data-selected', 'true');
 		}
 	});
 });
