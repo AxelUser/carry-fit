@@ -16,12 +16,14 @@
 		airlines: AirlineInfo[];
 		favoriteAirlines: string[];
 		filteredAirlines: AirlineInfo[];
+		filterRegions: string[];
 	}
 
 	let {
 		airlines,
 		favoriteAirlines = $bindable(),
-		filteredAirlines = $bindable()
+		filteredAirlines = $bindable(),
+		filterRegions = $bindable()
 	}: Props = $props();
 
 	let showFavoritesOnly = $state(false);
@@ -31,7 +33,7 @@
 
 	const allRegions = [...new Set(airlines.map((airline) => airline.region))].sort();
 
-	let selectedRegions = $state(new Set(allRegions));
+	let selectedRegions = $state(new Set(filterRegions.length ? filterRegions : allRegions));
 
 	const availableSelectedRegions = $derived(
 		allRegions.filter((region) => selectedRegions.has(region) && isRegionAvailable(region))
@@ -41,6 +43,7 @@
 		filteredAirlines = airlines
 			.filter((airline) => selectedRegions.has(airline.region))
 			.filter((airline) => !showFavoritesOnly || favoriteAirlinesSet.has(airline.airline));
+		filterRegions = Array.from(selectedRegions);
 	});
 
 	function isRegionAvailable(region: string): boolean {
@@ -128,6 +131,7 @@
 								variant={isSelected ? 'default' : 'outline'}
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
+								data-selected={isSelected}
 							>
 								<span>{region}</span>
 								{#if isSelected && isAvailable}
