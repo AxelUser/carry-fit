@@ -16,14 +16,14 @@
 		airlines: AirlineInfo[];
 		favoriteAirlines: string[];
 		filteredAirlines: AirlineInfo[];
-    filterRegions: string[];
+		filterRegions: string[];
 	}
 
 	let {
 		airlines,
 		favoriteAirlines = $bindable(),
 		filteredAirlines = $bindable(),
-    filterRegions = $bindable()
+		filterRegions = $bindable()
 	}: Props = $props();
 
 	let showFavoritesOnly = $state(false);
@@ -40,11 +40,11 @@
 	);
 
 	$effect(() => {
-    filteredAirlines = airlines
-      .filter((airline) => selectedRegions.has(airline.region))
-      .filter((airline) => !showFavoritesOnly || favoriteAirlinesSet.has(airline.airline));
-    filterRegions = Array.from(selectedRegions);
-  });
+		filteredAirlines = airlines
+			.filter((airline) => selectedRegions.has(airline.region))
+			.filter((airline) => !showFavoritesOnly || favoriteAirlinesSet.has(airline.airline));
+		filterRegions = Array.from(selectedRegions);
+	});
 
 	function isRegionAvailable(region: string): boolean {
 		return (
