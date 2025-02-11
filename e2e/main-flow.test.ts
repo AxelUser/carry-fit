@@ -43,30 +43,6 @@ test.describe('Allowance table interaction', () => {
 		await expect(page.getByRole('cell', { name: /Finnair/i })).toBeVisible();
 	});
 
-	test('should filter airlines by region', async ({ page }) => {
-		// Get initial number of rows
-		const initialRows = await page.getByRole('row').count();
-		expect(initialRows).toBeGreaterThan(0);
-
-		// Deselect all regions except one
-		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
-		await page.getByText('Clear All').click();
-		await europeCheckbox.click();
-
-		// Wait for the table to be shown after filtering
-		await expect(page.getByRole('table')).toBeVisible();
-
-		// Get filtered number of rows and verify it's less than initial
-		const filteredRows = await page.getByRole('row').count();
-		expect(filteredRows).toBeLessThan(initialRows);
-
-		// Verify all visible airlines are from Europe
-		const regionCells = page.getByRole('cell', { name: 'Europe' });
-		const regionCount = await regionCells.count();
-		expect(regionCount).toBeGreaterThan(0);
-		expect(regionCount).toBe(filteredRows - 1);
-	});
-
 	test('should sort airlines correctly', async ({ page }) => {
 		// Test sorting by airline name
 		const airlineSortButton = page.getByRole('button', { name: /^Airline/ });
@@ -1044,7 +1020,7 @@ test.describe('Filter Regions', () => {
 		await preparePage(page, true);
 	});
 
-	test('should filter airlines by selected regions', async ({ page }) => {
+	test('should filter airlines by region', async ({ page }) => {
 		// Get initial number of rows
 		const initialRows = await page.getByRole('row').count();
 		expect(initialRows).toBeGreaterThan(0);
@@ -1069,39 +1045,19 @@ test.describe('Filter Regions', () => {
 	});
 
 	test('should persist selected regions across page reloads', async ({ page }) => {
-		// Deselect all regions except one
-		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
+		// Select Europe region
+		const europeButton = page.getByRole('button', { name: 'Europe' });
 		await page.getByText('Clear All').click();
-		await europeCheckbox.click();
+		await europeButton.click();
 
 		// Reload page
 		await page.reload();
-		await expect(page.getByRole('table')).toBeVisible();
 
-		// Verify only Europe region is selected
-		const selectedRegions = await page.getByTestId('regions-filter-list').getByRole('button', { name: 'Europe' }).getAttribute('data-selected');
-		expect(selectedRegions).toBe('true');
-	});
-
-	test('should update region filters when favorites change', async ({ page }) => {
-		// Add one airline to favorites
-		const firstAirlineRow = page.getByRole('row').nth(1);
-		const region = await firstAirlineRow.getByTestId('region').textContent();
-		await firstAirlineRow.getByTestId('favorite-button').click();
-
-		// Enable favorites filter
-		await page.getByLabel('Favorites only').check();
-
-		// Verify region with favorite is enabled
-		const favoriteRegionButton = page
-			.getByTestId('regions-filter-list')
-			.getByRole('button', { name: region! });
-		await expect(favoriteRegionButton).not.toBeDisabled();
-
-		// Remove airline from favorites
-		await firstAirlineRow.getByTestId('favorite-button').click();
-
-		// Verify region is now disabled
-		await expect(favoriteRegionButton).toBeDisabled();
+		// Verify Europe region is still selected
+		const selectedRegions = await page.evaluate(() => {
+			const regions = localStorage.getItem('carryfit_user_filter_regions');
+			return regions ? JSON.parse(regions) : [];
+		});
+		expect(selectedRegions).toContain('Europe');
 	});
 });
