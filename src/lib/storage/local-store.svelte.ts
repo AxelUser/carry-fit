@@ -84,7 +84,16 @@ export function createLocalStore<T>(
 		set value(newValue: T) {
 			value = newValue;
 			if (browser) {
-				db.data.put({ key, value: newValue }).catch(console.error);
+				db.data
+					.put({
+						key,
+						value: typeof newValue !== 'object' ? newValue : JSON.parse(JSON.stringify(newValue))
+					})
+					.catch('DataCloneError', (e) => {
+						// Failed with DataCloneError
+						console.error('DataClone error: ' + e.message);
+					})
+					.catch(console.error);
 			}
 		},
 		get isLoaded() {

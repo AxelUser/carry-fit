@@ -3,7 +3,7 @@ import type { Tour } from './types';
 export const airlineSearchTour: Tour = {
 	name: 'airlineSearch',
 	updatedAt: new Date('2025-02-03T00:00:00Z'),
-	steps: () => [
+	steps: [
 		{
 			popover: {
 				title: 'Quick Airline Search 🔍',

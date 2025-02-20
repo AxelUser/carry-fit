@@ -3,7 +3,7 @@ import type { Tour } from './types';
 export const onboardingTour: Tour = {
 	name: 'onboarding',
 	updatedAt: new Date('2025-02-03T00:00:00Z'),
-	steps: () => [
+	steps: [
 		{
 			popover: {
 				title: 'Welcome to CarryFit! 🎉',

@@ -3,7 +3,7 @@ import type { Tour } from './types';
 export const manageFavoritesTour: Tour = {
 	name: 'manageFavorites',
 	updatedAt: new Date('2025-02-07T00:00:00Z'),
-	steps: () => [
+	steps: [
 		{
 			popover: {
 				title: 'Favorite Airlines ⭐',

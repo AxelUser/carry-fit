@@ -8,6 +8,6 @@ export const TOURS = {
 
 export interface Tour {
 	name: string;
-	steps: () => DriveStep[];
+	steps: DriveStep[];
 	updatedAt: Date;
 }

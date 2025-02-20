@@ -72,7 +72,7 @@ function showTour(tour: Tour, force = false, onDestroyed?: () => void) {
 		return;
 	}
 
-	const driver = createDriver(tour.name, tour.steps(), onDestroyed);
+	const driver = createDriver(tour.name, tour.steps, onDestroyed);
 	driver.drive();
 
 	metrics.tourShown(tour.name);

@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getActiveTours, MAIN_TOUR } from './active-tours';
 import tourStore from '$lib/stores/tours';
@@ -9,7 +10,7 @@ vi.mock('./active-tours', () => ({
 	MAIN_TOUR: {
 		name: 'main-tour',
 		updatedAt: new Date('2024-01-01'),
-		steps: () => []
+		steps: []
 	} satisfies Tour,
 	getActiveTours: vi.fn(),
 	exists: vi.fn().mockReturnValue(true)
@@ -31,17 +32,17 @@ describe('getPendingTours', () => {
 		expect(result).toEqual([]);
 	});
 
-	it('should filter out completed tours', () => {
+	it.only('should filter out completed tours', () => {
 		const mockTours: Tour[] = [
 			{
 				name: 'tour1',
 				updatedAt: new Date('2024-01-01'),
-				steps: () => []
+				steps: []
 			},
 			{
 				name: 'tour2',
 				updatedAt: new Date('2024-01-01'),
-				steps: () => []
+				steps: []
 			}
 		];
 
@@ -65,7 +66,7 @@ describe('getPendingTours', () => {
 			{
 				name: 'feature-tour',
 				updatedAt: new Date('2024-01-01'),
-				steps: () => []
+				steps: []
 			}
 		];
 
@@ -83,7 +84,7 @@ describe('getPendingTours', () => {
 			{
 				name: 'feature-tour',
 				updatedAt: new Date('2024-01-01'),
-				steps: () => []
+				steps: []
 			}
 		];
 

@@ -41,6 +41,8 @@ export default {
 	},
 
 	isTourCompleted(tour: string, tourUpdateDate: Date): boolean {
+		if (!tourStore.isLoaded) return true
+
 		return (
 			this.completedTours.find(
 				(t) =>
