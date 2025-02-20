@@ -32,7 +32,7 @@ describe('getPendingTours', () => {
 		expect(result).toEqual([]);
 	});
 
-	it.only('should filter out completed tours', () => {
+	it('should filter out completed tours', () => {
 		const mockTours: Tour[] = [
 			{
 				name: 'tour1',
