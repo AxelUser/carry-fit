@@ -1,25 +1,12 @@
 import { browser } from '$app/environment';
-import Dexie from 'dexie';
+import { AppDatabase } from './app-database';
 
 export interface LocalStore<T> {
 	value: T;
 	readonly isLoaded: boolean;
-	readonly db: AppDatabase;
+	closeDB(): void;
+	dbVersion: number;
 	reset(): void;
-}
-
-class AppDatabase extends Dexie {
-	data: Dexie.Table<{ key: string; value: any }, string>;
-
-	constructor() {
-		super('AppDatabase');
-
-		this.version(1).stores({
-			data: '&key' // Unique key index
-		});
-
-		this.data = this.table('data');
-	}
 }
 
 const db = new AppDatabase();
@@ -39,43 +26,55 @@ export function createLocalStore<T>(
 	let value = $state<T>(initialValue);
 	let isLoaded = $state(false);
 
-	async function loadDatabase() {
+	async function loadInitialValue() {
 		if (!browser) return;
 
 		try {
-			// Step 1: Check for existing data in IndexedDB
-			const stored = await db.data.get(key);
+			await db.open();
 
-			if (stored && stored.value) {
-				value = patchLoadedValue ? patchLoadedValue(stored.value, initialValue) : stored.value;
+			const table = db.registerTable<T>(key);
+
+			const localStorageValue = localStorage.getItem(key);
+
+			if (localStorageValue !== null) {
+				let parsedValue;
+				try {
+					parsedValue = JSON.parse(localStorageValue);
+				} catch {
+					parsedValue = localStorageValue;
+				}
+
+				value = patchLoadedValue
+					? patchLoadedValue(parsedValue as T, initialValue)
+					: (parsedValue as T);
 			} else {
-				// Step 2: Check localStorage for migration
-				const localStored = localStorage.getItem(key);
+				const stored = await table.get('data');
 
-				if (localStored) {
-					try {
-						const parsedValue = JSON.parse(localStored);
-						value = patchLoadedValue ? patchLoadedValue(parsedValue, initialValue) : parsedValue;
+				if (stored) {
+					const loadedValue = { ...stored };
 
-						// Migrate the data to IndexedDB
-						await db.data.put({ key, value });
-
-						// Remove from localStorage after migration
-						localStorage.removeItem(key);
-					} catch {
-						value = initialValue;
+					if (loadedValue.hasOwnProperty('value')) {
+						const finalValue = (loadedValue as unknown as { value: T }).value as T;
+						value = patchLoadedValue ? patchLoadedValue(finalValue, initialValue) : finalValue;
+					} else {
+						value = patchLoadedValue
+							? patchLoadedValue(loadedValue as T, initialValue)
+							: (loadedValue as T);
 					}
 				}
 			}
-		} catch (error) {
-			console.error('Error loading data:', error);
+
+			isLoaded = true;
+		} catch (e) {
+			console.error(`Error loading ${key} from IndexedDB:`, e);
 			value = initialValue;
-		} finally {
 			isLoaded = true;
 		}
 	}
-
-	loadDatabase(); // Trigger the initial load asynchronously
+	// Load initial value when in browser
+	if (browser) {
+		loadInitialValue();
+	}
 
 	const store = {
 		get value() {
@@ -83,28 +82,35 @@ export function createLocalStore<T>(
 		},
 		set value(newValue: T) {
 			value = newValue;
+
 			if (browser) {
-				db.data
-					.put({
-						key,
-						value: typeof newValue !== 'object' ? newValue : JSON.parse(JSON.stringify(newValue))
-					})
-					.catch('DataCloneError', (e) => {
-						// Failed with DataCloneError
-						console.error('DataClone error: ' + e.message);
-					})
-					.catch(console.error);
+				value = newValue;
+				if (browser && db.getTable(key)) {
+					db.getTable(key)
+						.put({ id: 'data', ...newValue })
+						.catch((e) => {
+							console.error(`Error saving ${key} to IndexedDB:`, e);
+						});
+				}
 			}
 		},
 		get isLoaded() {
 			return isLoaded;
 		},
-		get db() {
-			return db;
+		closeDB() {
+			db.close();
 		},
 		reset() {
 			this.value = initialValue;
-		}
+			if (browser && db.getTable(key)) {
+				db.getTable(key)
+					.put({ id: 'data', ...initialValue })
+					.catch((e) => {
+						console.error(`Error resetting ${key} in IndexedDB:`, e);
+					});
+			}
+		},
+		dbVersion: db.verno
 	};
 
 	return store;

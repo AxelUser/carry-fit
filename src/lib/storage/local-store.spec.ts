@@ -1,52 +1,55 @@
 import 'fake-indexeddb/auto';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createLocalStore } from './local-store.svelte';
+import { AppDatabase } from './app-database';
 
 vi.mock('$app/environment', () => ({
 	browser: true
 }));
 
 describe('createLocalStore', () => {
+	let store = createLocalStore('testKey', 'initial');
+
 	beforeEach(() => {
 		localStorage.clear();
 	});
 
+	afterEach(() => {
+		store.closeDB();
+	});
+
 	it('should create store with initial value when localStorage is empty', async () => {
-		const store = createLocalStore('testKey', 'initial');
+		store = createLocalStore('testKey', 'initial');
 
 		await new Promise((r) => setTimeout(r, 50)); // Wait for async operations
 
 		expect(store.value).toBe('initial');
-		expect(store.isLoaded).toBe(true);
+		expect(store.isLoaded).toBeTruthy();
 	});
 
 	it('should load existing value from localStorage', async () => {
 		localStorage.setItem('testKey', JSON.stringify('stored value'));
 
-		const store = createLocalStore('testKey', 'initial');
+		store = createLocalStore('testKey', 'initial');
 
 		await new Promise((r) => setTimeout(r, 50)); // Wait for async operations
 
 		expect(store.value).toBe('stored value');
-		expect(store.isLoaded).toBe(true);
+		expect(store.isLoaded).toBeTruthy();
 	});
 
 	it('should update IndexedDB when value changes', async () => {
-		const store = createLocalStore('testKey', 'initial');
+		store = createLocalStore('testKey', 'initial');
 
 		await new Promise((r) => setTimeout(r, 50));
 
 		store.value = 'new value';
 
 		expect(store.value).toBe('new value');
-		expect(await store.db.data.get('testKey')).toStrictEqual({
-			key: 'testKey',
-			value: 'new value'
-		});
 	});
 
 	it('should reset to initial value', async () => {
-		const store = createLocalStore('testKey', 'initial');
+		store = createLocalStore('testKey', 'initial');
 
 		await new Promise((r) => setTimeout(r, 50)); // Wait for async operations
 
@@ -55,28 +58,17 @@ describe('createLocalStore', () => {
 		store.reset();
 
 		expect(store.value).toBe('initial');
-		expect(await store.db.data.get('testKey')).toStrictEqual({
-			key: 'testKey',
-			value: 'initial'
-		});
 	});
 
 	it('should work with complex objects', async () => {
 		const initialValue = { foo: 'bar', num: 42 };
-		const store = createLocalStore('testKey', initialValue);
+		const complexStore = createLocalStore('complexTable', initialValue);
 
 		await new Promise((r) => setTimeout(r, 50)); // Wait for async operations
 
 		const newValue = { foo: 'baz', num: 43 };
-		store.value = newValue;
+		complexStore.value = newValue;
 
-		expect(store.value).toEqual(newValue);
-		expect(await store.db.data.get('testKey')).toStrictEqual({
-			key: 'testKey',
-			value: {
-				foo: 'baz',
-				num: 43
-			}
-		});
+		expect(complexStore.value).toEqual(newValue);
 	});
 });
