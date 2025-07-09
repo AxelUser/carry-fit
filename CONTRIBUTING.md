@@ -80,5 +80,5 @@ Storybook is used for developing and testing UI components in isolation. Moreove
 
 Feel free to reach out to the maintainer:
 
-- Email: [alexey.maltsev.work@gmail.com](mailto:alexey.maltsev.work@gmail.com)
+- Email: [aleksey@maltsev.space](mailto:aleksey@maltsev.space)
 - Twitter: [@axel_user](https://x.com/axel_user)

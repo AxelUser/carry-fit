@@ -90,8 +90,8 @@
 							</li>
 							<li>
 								• Send a friendly email to <a
-									href="mailto:alexey.maltsev.work@gmail.com"
-									class="text-primary hover:underline">alexey.maltsev.work@gmail.com</a
+									href="mailto:aleksey@maltsev.space"
+									class="text-primary hover:underline">aleksey@maltsev.space</a
 								>
 							</li>
 							<li>

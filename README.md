@@ -60,4 +60,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Author
 
-Created by [Aleksey Maltsev](https://www.maltsev.space/)
+Created by [Aleksey Maltsev](https://maltsev.space)

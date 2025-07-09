@@ -88,7 +88,7 @@
 		<div class="flex flex-col gap-2">
 			<p>
 				Created by <a
-					href="https://www.maltsev.space/"
+					href="https://maltsev.space"
 					class="text-primary hover:underline"
 					target="_blank"
 					rel="noopener noreferrer">Aleksey Maltsev</a
@@ -106,9 +106,8 @@
 						>
 					</li>
 					<li>
-						Email me at <a
-							href="mailto:alexey.maltsev.work@gmail.com"
-							class="text-primary hover:underline">alexey.maltsev.work@gmail.com</a
+						Email me at <a href="mailto:aleksey@maltsev.space" class="text-primary hover:underline"
+							>aleksey@maltsev.space</a
 						>
 					</li>
 					<li>

@@ -22,7 +22,7 @@
 	</p>
 	<div class="rounded-lg bg-primary p-4 text-primary-foreground">
 		<p class="mb-2 font-medium">MIT License</p>
-		<p class="text-sm">Copyright (c) 2025 Alexey Maltsev</p>
+		<p class="text-sm">Copyright (c) 2025 Aleksey Maltsev</p>
 		<p class="mt-2 text-sm">
 			Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 			and associated documentation files (the "Software"), to deal in the Software without
@@ -83,8 +83,8 @@
 	<h2 class="text-xl font-semibold sm:text-2xl">Contact Us</h2>
 	<p>
 		If you have any questions about these Terms of Use, please contact us at <a
-			href="mailto:alexey.maltsev.work@gmail.com"
-			class="font-medium text-primary hover:underline">alexey.maltsev.work@gmail.com</a
+			href="mailto:aleksey@maltsev.space"
+			class="font-medium text-primary hover:underline">aleksey@maltsev.space</a
 		>.
 	</p>
 </div>

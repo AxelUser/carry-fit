@@ -93,8 +93,8 @@
 	<h2 class="text-xl font-semibold sm:text-2xl">Contact Us</h2>
 	<p>
 		If you have any questions about this Privacy Policy, please contact us at <a
-			href="mailto:alexey.maltsev.work@gmail.com"
-			class="font-medium text-primary hover:underline">alexey.maltsev.work@gmail.com</a
+			href="mailto:aleksey@maltsev.space"
+			class="font-medium text-primary hover:underline">aleksey@maltsev.space</a
 		>.
 	</p>
 </div>
