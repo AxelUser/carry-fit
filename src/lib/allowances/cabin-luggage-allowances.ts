@@ -2128,5 +2128,18 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			centimeters: [55, 40, 25]
 		}
+	},
+	{
+		id: 'air-peace',
+		airline: 'Air Peace',
+		region: 'Africa',
+		link: 'https://flyairpeace.com/terms-and-conditions/',
+		carryOn: {
+			centimeters: [45, 33, 20]
+		},
+		kilograms: 10,
+		test: {
+			matchText: ['size not exceeding 45x33x20 cm'],
+		}
 	}
 ];
