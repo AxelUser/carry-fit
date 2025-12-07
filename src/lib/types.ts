@@ -6,10 +6,19 @@ export interface Data {
 	allowances: AirlineInfo[];
 }
 
+export type Region =
+	| 'Europe'
+	| 'Russia'
+	| 'North America'
+	| 'South America'
+	| 'Asia'
+	| 'Oceania'
+	| 'Africa';
+
 export interface AirlineInfo {
 	airline: string;
-	region: string;
-	link?: string;
+	region: Region;
+	link: string;
 	carryon: BagAllowanceDimensions;
 	personalItem?: BagAllowanceDimensions;
 	pounds?: number;

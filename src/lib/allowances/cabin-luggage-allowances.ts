@@ -1,19 +1,38 @@
+import type { Region } from '$lib/types';
+
 export interface AirlineAllowance {
 	id: string;
 	airline: string;
-	region: string;
-	link?: string;
+	region: Region;
+	/**
+	 * The link to the airline's cabin baggage policy page.
+	 */
+	link: string;
+	/**
+	 * The carry-on bag allowance.
+	 * Sizes are provided as is on the website, without any conversion.
+	 */
 	carryOn: {
 		centimeters?: number | number[];
 		inches?: number | number[];
-		mayNotBeIncluded?: boolean;
+		/**
+		 * If true, the carry-on bag may be charged extra (e.g. only on more expensive plans).
+		 */
+		isExtra?: boolean;
 	};
+	/**
+	 * The personal item allowance (e.g. small handbag or laptop bag). Sizes may be missing.
+	 * Sizes are provided as is on the website, without any conversion.
+	 */
 	personalItem?: {
 		centimeters?: number | number[];
 		inches?: number | number[];
 	};
 	pounds?: number;
 	kilograms?: number;
+	/**
+	 * DEPRECATED: The test criteria for the airline's cabin baggage policy.
+	 */
 	test?: {
 		matchText?: (RegExp | string)[];
 		comment?: string;
@@ -67,7 +86,7 @@ export const allowances: AirlineAllowance[] = [
 		},
 		carryOn: {
 			centimeters: [55, 40, 23],
-			mayNotBeIncluded: true
+			isExtra: true
 		},
 		personalItem: {
 			centimeters: [40, 30, 20]
@@ -249,7 +268,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'aerolineas-argentinas',
 		airline: 'Aerolineas Argentinas',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.aerolineas.com.ar/en-us/baggage-allowance',
 		kilograms: 8,
 		carryOn: {
@@ -348,7 +367,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'avianca-airlines',
 		airline: 'Avianca Airlines',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://ayuda.avianca.com/hc/en-us/articles/13080259544219-What-is-carry-on-baggage-and-how-can-I-purchase-it',
 		pounds: 22,
 		kilograms: 10,
@@ -376,7 +395,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'gol-airlines',
 		airline: 'GOL Airlines',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.voegol.com.br/en/information/baggage',
 		kilograms: 10,
 		test: {
@@ -428,7 +447,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'latam-airlines',
 		airline: 'LATAM Airlines',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on',
 		kilograms: 12,
 		test: {
@@ -597,7 +616,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'azul',
 		airline: 'Azul',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.voeazul.com.br/fr/en/your-trip/plan/luggage/carry-on-and-personal-luggage',
 		kilograms: 10,
 		test: {
@@ -1203,7 +1222,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'aeromexico',
 		airline: 'Aeroméxico',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://aeromexico.com/en-us/travel-information/baggage/carry-on-baggage',
 		pounds: 22,
 		kilograms: 10,
@@ -1297,7 +1316,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'air-asia',
 		airline: 'Air Asia',
-		region: 'Asia-Pacific',
+		region: 'Asia',
 		link: 'https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB',
 		kilograms: 7,
 		test: {
@@ -1402,7 +1421,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'caribbean-airlines',
 		airline: 'Caribbean Airlines',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.caribbean-airlines.com/#/baggage/carry-on',
 		pounds: 22,
 		kilograms: 10,
@@ -1588,19 +1607,6 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			centimeters: [60, 30, 18],
 			inches: [24, 12, 7]
-		}
-	},
-	{
-		id: 'mango-airlines',
-		airline: 'Mango Airlines',
-		region: 'South Africa',
-		kilograms: 7,
-		test: {
-			comment:
-				'Carry-on bag limits are not statically available on the website, got size limits from another source'
-		},
-		carryOn: {
-			centimeters: [56, 36, 23]
 		}
 	},
 	{
@@ -1849,7 +1855,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'copa-airlines',
 		airline: 'Copa Airlines',
-		region: 'Latin America',
+		region: 'South America',
 		link: 'https://www.copaair.com/en/web/gs/carry-on-luggage',
 		pounds: 22,
 		kilograms: 10,
@@ -1879,7 +1885,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'air-astana',
 		airline: 'Air Astana',
-		region: 'Central Asia',
+		region: 'Asia',
 		link: 'https://airastana.com/global-en/information/carry-on-baggage',
 		kilograms: 8,
 		test: {
