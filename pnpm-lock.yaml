@@ -21,8 +21,8 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1(svelte@5.14.3)
       posthog-js:
-        specifier: ^1.205.0
-        version: 1.205.0
+        specifier: ^1.302.2
+        version: 1.302.2
       svelte-virtuallists:
         specifier: ^1.4.0
         version: 1.4.0(clsx@2.1.1)(svelte@5.14.3)
@@ -634,6 +634,9 @@ packages:
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
+
+  '@posthog/core@1.7.1':
+    resolution: {integrity: sha512-kjK0eFMIpKo9GXIbts8VtAknsoZ18oZorANdtuTj1CbgS28t4ZVq//HAWhnxEuXRTrtkd+SUJ6Ux3j2Af8NCuA==}
 
   '@rollup/rollup-android-arm-eabi@4.28.1':
     resolution: {integrity: sha512-2aZp8AES04KI2dy3Ss6/MDjXbwBzj+i0GqKtWXgw2/Ma6E4jJvujryO6gJAghIRVz7Vwr9Gtl/8na3nDUKpraQ==}
@@ -2248,8 +2251,8 @@ packages:
     resolution: {integrity: sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.205.0:
-    resolution: {integrity: sha512-zP4SQ9Dg9JwqkEteoAOviAAAMdT/nJ4vk1jqfE6fVudziEa3szkQWd7czk5ehlEdrKFUE85MonCKW4L/uwtybA==}
+  posthog-js@1.302.2:
+    resolution: {integrity: sha512-4voih22zQe7yHA7DynlQ3B7kgzJOaKIjzV7K3jJ2Qf+UDXd1ZgO7xYmLWYVtuKEvD1OXHbKk/fPhUTZeHEWpBw==}
 
   preact@10.25.4:
     resolution: {integrity: sha512-jLdZDb+Q+odkHJ+MpW/9U5cODzqnB+fy2EiHSZES7ldV5LK7yjlVzTp7R8Xy6W6y75kfK8iWYtFVH7lvjwrCMA==}
@@ -3351,6 +3354,10 @@ snapshots:
       playwright: 1.49.1
 
   '@polka/url@1.0.0-next.28': {}
+
+  '@posthog/core@1.7.1':
+    dependencies:
+      cross-spawn: 7.0.6
 
   '@rollup/rollup-android-arm-eabi@4.28.1':
     optional: true
@@ -5100,8 +5107,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.205.0:
+  posthog-js@1.302.2:
     dependencies:
+      '@posthog/core': 1.7.1
       core-js: 3.40.0
       fflate: 0.4.8
       preact: 10.25.4
