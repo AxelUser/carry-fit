@@ -11,6 +11,7 @@ export interface AirlineInfo {
 	region: string;
 	link?: string;
 	carryon: BagAllowanceDimensions;
+	personalItem?: BagAllowanceDimensions;
 	pounds?: number;
 	kilograms?: number;
 	testResult?: {

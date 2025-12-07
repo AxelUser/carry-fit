@@ -23,6 +23,11 @@ export function loadData(): Data {
 function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn);
 
+	let personalItem: BagAllowanceDimensions | undefined;
+	if (allowance.personalItem) {
+		personalItem = getCarryOnDimensions(allowance.airline, allowance.personalItem);
+	}
+
 	let pounds = allowance.pounds ?? undefined;
 	let kilograms = allowance.kilograms ?? undefined;
 
@@ -45,6 +50,7 @@ function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 		region: allowance.region,
 		link: allowance.link,
 		carryon: carryOnDimensions,
+		personalItem,
 		pounds,
 		kilograms,
 		testResult: parsedTestResult

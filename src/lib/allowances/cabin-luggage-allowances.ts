@@ -6,8 +6,9 @@ export interface AirlineAllowance {
 	carryOn: {
 		centimeters?: number | number[];
 		inches?: number | number[];
+		mayNotBeIncluded?: boolean;
 	};
-	smallBag?: {
+	personalItem?: {
 		centimeters?: number | number[];
 		inches?: number | number[];
 	};
@@ -36,9 +37,9 @@ export const allowances: AirlineAllowance[] = [
 			centimeters: [55, 40, 23],
 			inches: [22, 16, 9]
 		},
-		smallBag: {
+		personalItem: {
 			centimeters: [40, 30, 15],
-			inches: [16, 12, 6]
+			inches: [15.7, 11.8, 5.9]
 		}
 	},
 	{
@@ -52,7 +53,7 @@ export const allowances: AirlineAllowance[] = [
 		},
 		carryOn: {
 			centimeters: [40, 30, 20],
-			inches: [16, 12, 8]
+			inches: [15.7, 11.8, 7.9]
 		}
 	},
 	{
@@ -65,49 +66,63 @@ export const allowances: AirlineAllowance[] = [
 			matchText: ['Maximum size: 40 x 30 x 20 cm, 10kg']
 		},
 		carryOn: {
-			centimeters: [40, 30, 20],
-			inches: [16, 12, 8]
+			centimeters: [55, 40, 23],
+			mayNotBeIncluded: true
+		},
+		personalItem: {
+			centimeters: [40, 30, 20]
 		}
 	},
 	{
 		id: 'loganair',
 		airline: 'Loganair',
 		region: 'Europe',
-		link: 'https://www.loganair.co.uk/travel-help/luggage/',
+		link: 'https://www.loganair.co.uk/get-ready-to-fly/luggage-guidance/',
 		pounds: 13,
 		kilograms: 6,
 		test: {
 			matchText: ['not exceed dimensions of 40cm x 35cm x 18cm']
 		},
 		carryOn: {
-			centimeters: [40, 35, 18],
-			inches: [16, 14, 7]
+			centimeters: [40, 35, 18]
+		}
+	},
+	{
+		id: 'aer-lingus',
+		airline: 'Aer Lingus',
+		region: 'Europe',
+		link: 'https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/',
+		pounds: 22,
+		kilograms: 10,
+		test: {
+			matchText: ['Height: 48cm (18.5") Width: 33cm (13") and Depth: 20cm (8")']
+		},
+		carryOn: {
+			centimeters: [55, 40, 24],
+			inches: [21.5, 15.5, 9.5]
+		},
+		personalItem: {
+			centimeters: [40, 30, 20],
+			inches: [15.5, 11.5, 8]
 		}
 	},
 	{
 		id: 'aer-lingus-regional',
-		airline: 'Aer Lingus Regional ',
+		airline: 'Aer Lingus Regional',
 		region: 'Europe',
 		link: 'https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/',
+		pounds: 15,
 		kilograms: 7,
 		test: {
 			matchText: ['Height: 48cm (18.5") Width: 33cm (13") and Depth: 20cm (8")']
 		},
 		carryOn: {
 			centimeters: [48, 33, 20],
-			inches: [19, 13, 8]
-		}
-	},
-	{
-		id: 'air-vanuatu',
-		airline: 'Air Vanuatu',
-		region: 'Oceania',
-		link: 'https://www.airvanuatu.com/travel-info/baggage',
-		pounds: 15,
-		kilograms: 7,
-		carryOn: {
-			centimeters: [48, 34, 23],
-			inches: [19, 13, 9]
+			inches: [18.5, 13, 8]
+		},
+		personalItem: {
+			centimeters: [40, 30, 20],
+			inches: [15.5, 11.5, 8]
 		}
 	},
 	{
@@ -115,39 +130,22 @@ export const allowances: AirlineAllowance[] = [
 		airline: 'REX Regional Express Airlines',
 		region: 'Oceania',
 		link: 'https://www.rex.com.au/FlightInfo/BaggageAllowance.aspx',
-		pounds: 15.4,
 		kilograms: 7,
 		carryOn: {
-			centimeters: [48, 34, 23],
-			inches: [19, 13, 9]
+			centimeters: [48, 34, 23]
 		}
 	},
 	{
 		id: 'virgin-australia',
 		airline: 'Virgin Australia',
 		region: 'Oceania',
-		link: 'https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html',
-		pounds: 15.4,
+		link: 'https://www.virginaustralia.com/au/en/travel-info/baggage/carry-on-baggage/',
 		kilograms: 7,
 		test: {
 			matchText: ["maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)"]
 		},
 		carryOn: {
-			centimeters: [56, 36, 23],
-			inches: [22, 14, 9]
-		}
-	},
-	{
-		id: 'astra-airlines',
-		airline: 'Astra Airlines',
-		region: 'Europe',
-		//link: 'https://www.astra-airlines.gr/pages.php?cat=6&s=1',
-		kilograms: 7,
-		test: {
-			comment: 'Website is not working'
-		},
-		carryOn: {
-			centimeters: [50, 30, 20]
+			centimeters: [56, 36, 23]
 		}
 	},
 	{
@@ -188,14 +186,14 @@ export const allowances: AirlineAllowance[] = [
 			matchText: ['Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag']
 		},
 		carryOn: {
-			centimeters: [50, 40, 25]
+			centimeters: [55, 40, 25]
 		}
 	},
 	{
 		id: 'etihad-airways',
 		airline: 'Etihad Airways',
 		region: 'Africa',
-		link: 'https://www.etihad.com/en-us/fly-etihad/baggage/cabin-bags',
+		link: 'https://www.etihad.com/content/eag/etihadairways/etihadcom/global/en/fly-etihad/baggage/cabin-bags.html',
 		kilograms: 7,
 		test: {
 			matchText: [
@@ -203,7 +201,10 @@ export const allowances: AirlineAllowance[] = [
 			]
 		},
 		carryOn: {
-			centimeters: [56, 35, 23]
+			centimeters: [56, 36, 23]
+		},
+		personalItem: {
+			centimeters: [39, 23, 19]
 		}
 	},
 	{
@@ -215,19 +216,22 @@ export const allowances: AirlineAllowance[] = [
 			matchText: ['40 cm in length, 23 cm in width and 55 cm in height']
 		},
 		carryOn: {
-			centimeters: [55, 23, 40]
+			centimeters: [55, 40, 23]
+		},
+		personalItem: {
+			centimeters: [43, 31, 13]
 		}
 	},
 	{
 		id: 'sunwing-airlines',
 		airline: 'Sunwing Airlines',
 		region: 'North America',
-		link: 'https://www.sunwing.ca/en/sunwing-airlines/baggage-info',
-		pounds: 11,
-		kilograms: 5,
+		link: 'https://www.sunwing.ca/en/westjet-airlines/baggage-and-seat-selection',
 		carryOn: {
-			centimeters: [51, 40, 23],
-			inches: [20, 16, 9]
+			inches: [22, 14, 9]
+		},
+		personalItem: {
+			inches: [16, 13, 6]
 		}
 	},
 	{
@@ -1390,7 +1394,7 @@ export const allowances: AirlineAllowance[] = [
 			centimeters: [56, 36, 23],
 			inches: [22, 11, 9]
 		},
-		smallBag: {
+		personalItem: {
 			centimeters: [30, 20, 10],
 			inches: [12, 7.9, 3.9]
 		}
@@ -1913,7 +1917,7 @@ export const allowances: AirlineAllowance[] = [
 				'Maximum size 45 x 36 x 20cm (including any handles or wheels)'
 			]
 		},
-		smallBag: {
+		personalItem: {
 			centimeters: [45, 36, 20]
 		},
 		carryOn: {
@@ -2139,7 +2143,7 @@ export const allowances: AirlineAllowance[] = [
 		},
 		kilograms: 10,
 		test: {
-			matchText: ['size not exceeding 45x33x20 cm'],
+			matchText: ['size not exceeding 45x33x20 cm']
 		}
 	}
 ];
