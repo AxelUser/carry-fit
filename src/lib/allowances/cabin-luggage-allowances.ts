@@ -262,7 +262,12 @@ export const allowances: AirlineAllowance[] = [
 			matchText: ['53 cm x 23 cm x 38 cm']
 		},
 		carryOn: {
-			centimeters: [53, 38, 23]
+			centimeters: [56, 36, 23],
+			inches: [22, 14, 9]
+		},
+		personalItem: {
+			centimeters: [41, 33, 14],
+			inches: [16, 13, 6]
 		}
 	},
 	{
@@ -273,6 +278,9 @@ export const allowances: AirlineAllowance[] = [
 		kilograms: 8,
 		carryOn: {
 			centimeters: [55, 35, 25]
+		},
+		personalItem: {
+			centimeters: [40, 30, 15]
 		}
 	},
 	{
@@ -282,9 +290,6 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.aircorsica.com/flights/cabin-hold-baggage.html',
 		pounds: 17.6,
 		kilograms: 8,
-		test: {
-			matchText: ['x 35 cm in width x 25 cm in depth']
-		},
 		carryOn: {
 			centimeters: [55, 35, 25]
 		}
@@ -296,11 +301,11 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.aireuropa.com/ot/en/aea/travel-information/baggage/carry-on-luggage.html',
 		pounds: 22,
 		kilograms: 10,
-		test: {
-			matchText: ['Its maximum dimensions are height x width x length: 55 x 35 x 25 cm']
-		},
 		carryOn: {
 			centimeters: [55, 35, 25]
+		},
+		personalItem: {
+			centimeters: [40, 30, 15]
 		}
 	},
 	{
@@ -310,14 +315,13 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://wwws.airfrance.us/information/bagages/bagage-cabine-soute',
 		pounds: 26,
 		kilograms: 12,
-		test: {
-			matchText: [
-				'The maximum dimensions of your hand baggage are: 55 x 35 x 25 cm/21.7 x 13.8 x 9.9 in.'
-			]
-		},
 		carryOn: {
 			centimeters: [55, 35, 25],
 			inches: [21.7, 13.8, 9.9]
+		},
+		personalItem: {
+			centimeters: [40, 30, 15],
+			inches: [16, 12, 6]
 		}
 	},
 	{
@@ -325,14 +329,15 @@ export const allowances: AirlineAllowance[] = [
 		airline: 'Air India',
 		region: 'Asia',
 		link: 'https://www.airindia.in/hand-luggage.htm',
-		pounds: 17.6,
-		kilograms: 8,
-		test: {
-			matchText: ['55 cm', '(21.6 in)', '40 cm', '(15.7 in)', '20 cm', '(7.8 in)']
-		},
+		pounds: 15,
+		kilograms: 7,
 		carryOn: {
 			centimeters: [55, 40, 20],
-			inches: [21.6, 15.7, 7.8]
+			inches: [21, 15, 7]
+		},
+		personalItem: {
+			centimeters: [40, 30, 20],
+			inches: [15, 11, 7]
 		}
 	},
 	{
@@ -340,13 +345,10 @@ export const allowances: AirlineAllowance[] = [
 		airline: 'Air Mauritius',
 		region: 'Africa',
 		link: 'https://www.airmauritius.com/baggage/carry-on',
-		pounds: 15,
 		kilograms: 7,
-		test: {
-			matchText: ['hand baggage with dimensions 35 x 55 x 25 cm']
-		},
 		carryOn: {
-			centimeters: [55, 35, 25]
+			centimeters: [55, 35, 25],
+			inches: [21.7, 13.8, 9.9]
 		}
 	},
 	{
@@ -363,6 +365,7 @@ export const allowances: AirlineAllowance[] = [
 			centimeters: [55, 35, 25],
 			inches: [21.7, 13.8, 9.9]
 		}
+		// TODO: All of your belongings (cabin baggage + accessories) must be contained in the dimensions and weight listed above.
 	},
 	{
 		id: 'avianca-airlines',
@@ -371,11 +374,13 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://ayuda.avianca.com/hc/en-us/articles/13080259544219-What-is-carry-on-baggage-and-how-can-I-purchase-it',
 		pounds: 22,
 		kilograms: 10,
-		test: {
-			matchText: ['not exceeding 22 x 14 x 10 in. (height, length, width)']
-		},
 		carryOn: {
+			centimeters: [55, 35, 25],
 			inches: [22, 14, 10]
+		},
+		personalItem: {
+			centimeters: [45, 35, 20],
+			inches: [18, 14, 8]
 		}
 	},
 	{
@@ -383,11 +388,7 @@ export const allowances: AirlineAllowance[] = [
 		airline: 'Georgian Airways',
 		region: 'Europe',
 		link: 'https://georgian-airways.com/en/service/baggage-information',
-		pounds: 17.6,
 		kilograms: 8,
-		test: {
-			matchText: ['not more than 8 kg (115 cm by the sum of 3 dimensions)']
-		},
 		carryOn: {
 			centimeters: 115
 		}
@@ -396,6 +397,7 @@ export const allowances: AirlineAllowance[] = [
 		id: 'gol-airlines',
 		airline: 'GOL Airlines',
 		region: 'South America',
+		// sometimes website is not accessible
 		link: 'https://www.voegol.com.br/en/information/baggage',
 		kilograms: 10,
 		test: {
