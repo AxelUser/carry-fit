@@ -6,17 +6,15 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { SearchX, RefreshCw, Search } from 'lucide-svelte';
 	import { metrics } from '$lib/analytics';
 	import { debounce } from '$lib/utils/actions';
-	import Row from './row.svelte';
-	import Header from './header.svelte';
-	import ComplianceTable from './compliance-table.svelte';
+	import AirlineCard from './airline-card.svelte';
+	import ComplianceCards from './compliance-cards.svelte';
 	import * as Card from '$lib/components/ui/card';
-	import * as Table from '$lib/components/ui/table';
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
+	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -81,6 +79,13 @@
 			const direction = sortDirection === SortDirections.Ascending ? 1 : -1;
 			return a.airline.localeCompare(b.airline) * direction;
 		});
+	}
+
+	function toggleSortDirection() {
+		sortDirection =
+			sortDirection === SortDirections.Ascending
+				? SortDirections.Descending
+				: SortDirections.Ascending;
 	}
 
 	// Mutual exclusivity of compliance and non-compliance sections
@@ -184,16 +189,31 @@
 				description="Please wait while we update the results"
 			/>
 		{:else}
-			{@render airlinesTable()}
+			{@render airlinesGrid()}
 		{/if}
 	</Card.Content>
 </Card.Root>
 
-{#snippet airlinesTable()}
+{#snippet sortButton()}
+	<button
+		class="flex items-center gap-2 rounded-lg border bg-background px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+		onclick={toggleSortDirection}
+		aria-label="Sort airlines"
+	>
+		Sort
+		{#if sortDirection === SortDirections.Ascending}
+			<ArrowDownAZ class="size-4" />
+		{:else}
+			<ArrowUpAZ class="size-4" />
+		{/if}
+	</button>
+{/snippet}
+
+{#snippet airlinesGrid()}
 	{#if showComplianceResult}
 		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
 			{#if hasNonCompliantAirlines}
-				<ComplianceTable
+				<ComplianceCards
 					variant="nonCompliant"
 					airlines={sortedNonCompliantAirlines}
 					{measurementSystem}
@@ -208,7 +228,7 @@
 			{/if}
 
 			{#if hasCompliantAirlines}
-				<ComplianceTable
+				<ComplianceCards
 					variant="compliant"
 					airlines={sortedCompliantAirlines}
 					{measurementSystem}
@@ -223,20 +243,23 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="overflow-x-auto">
-			<Table.Root>
-				<Header {measurementSystem} bind:sortDirection />
-				<Table.Body>
-					{#each sortedAirlines as airline}
-						<Row
-							{airline}
-							{measurementSystem}
-							isFavorite={favoriteAirlinesSet.has(airline.airline)}
-							{toggleFavorite}
-						/>
-					{/each}
-				</Table.Body>
-			</Table.Root>
+		<div class="flex flex-col gap-4">
+			<div class="flex justify-end">
+				{@render sortButton()}
+			</div>
+			<div
+				class="grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3"
+				style="contain: layout style;"
+			>
+				{#each sortedAirlines as airline, i (airline.airline + i)}
+					<AirlineCard
+						{airline}
+						{measurementSystem}
+						isFavorite={favoriteAirlinesSet.has(airline.airline)}
+						{toggleFavorite}
+					/>
+				{/each}
+			</div>
 		</div>
 	{/if}
 {/snippet}
