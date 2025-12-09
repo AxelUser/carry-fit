@@ -413,11 +413,8 @@ export const allowances: AirlineAllowance[] = [
 		region: 'Asia',
 		link: 'https://www.goindigo.in/baggage/baggage-allowance.html',
 		kilograms: 7,
-		test: {
-			matchText: ['One handbag up to 7 kgs and 115 cms (L+W+H) allowed per passenger']
-		},
 		carryOn: {
-			centimeters: 115
+			centimeters: [55, 35, 25]
 		}
 	},
 	{
@@ -425,12 +422,12 @@ export const allowances: AirlineAllowance[] = [
 		airline: 'Kenya Airways',
 		region: 'Africa',
 		link: 'https://www.kenya-airways.com/en/plan/baggage-information/hand-baggage/',
-		kilograms: 12,
-		test: {
-			matchText: ['(max L55xW25xH35cm each)']
-		},
+		kilograms: 10,
 		carryOn: {
 			centimeters: [55, 35, 25]
+		},
+		personalItem: {
+			centimeters: [40, 30, 15]
 		}
 	},
 	{
@@ -439,11 +436,11 @@ export const allowances: AirlineAllowance[] = [
 		region: 'Europe',
 		link: 'https://www.klm.hr/information/baggage/hand-baggage-allowance',
 		kilograms: 12,
-		test: {
-			matchText: ['maximum size of 55 x 35 x 25 cm']
-		},
 		carryOn: {
 			centimeters: [55, 35, 25]
+		},
+		personalItem: {
+			centimeters: [40, 30, 15]
 		}
 	},
 	{
@@ -452,11 +449,15 @@ export const allowances: AirlineAllowance[] = [
 		region: 'South America',
 		link: 'https://www.latamairlines.com/us/en/experience/prepare-your-trip/baggage/carry-on',
 		kilograms: 12,
-		test: {
-			matchText: ['(17.8 x 13.8 x 7.9 in)']
-		},
+		pounds: 26,
 		carryOn: {
-			centimeters: [55, 35, 25]
+			centimeters: [55, 35, 25],
+			inches: [21.7, 13.8, 9.8],
+			isExtra: true
+		},
+		personalItem: {
+			centimeters: [45, 35, 20],
+			inches: [17.8, 13.8, 7.9]
 		}
 	},
 	{
@@ -465,11 +466,6 @@ export const allowances: AirlineAllowance[] = [
 		region: 'Asia',
 		link: 'https://corporate.spicejet.com/AirTravelBaggageFaq.aspx',
 		kilograms: 7,
-		test: {
-			matchText: [
-				'Hand baggage size must be within the dimensions of: 55 cm + 35 cm + 25 cm (L+W+H; total 115 cm) on Boeing flights and 50 cm + 35 cm + 23 cm (L+W+H; total 108 cm or 42.5 inches) on Q400'
-			]
-		},
 		carryOn: {
 			centimeters: [55, 35, 25]
 		}
@@ -480,11 +476,12 @@ export const allowances: AirlineAllowance[] = [
 		region: 'Europe',
 		link: 'https://www.transavia.com/help/en-eu/luggage/cabin-luggage/cabin-bag',
 		kilograms: 10,
-		test: {
-			matchText: ['cabin bag (55 x 35 x 25 cm*)']
-		},
 		carryOn: {
-			centimeters: [55, 35, 25]
+			centimeters: [55, 40, 25],
+			isExtra: true
+		},
+		personalItem: {
+			centimeters: [40, 30, 20]
 		}
 	},
 	{
