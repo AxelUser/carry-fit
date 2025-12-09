@@ -28,7 +28,7 @@
 			carryon: { inches: 40, centimeters: 100 },
 			region: 'Europe',
 			link: 'https://www.sampleairline.com',
-			complianceResults: [true, true, true],
+			complianceResults: [{ passed: true, diff: 0 }],
 			pounds: 10,
 			kilograms: 4.5
 		},
@@ -37,7 +37,11 @@
 			carryon: { inches: [45, 50, 25], centimeters: [110, 125, 65] },
 			region: 'Asia',
 			link: 'https://www.sampleairline.com',
-			complianceResults: [true, true, true],
+			complianceResults: [
+				{ passed: true, diff: 0 },
+				{ passed: true, diff: 0 },
+				{ passed: true, diff: 0 }
+			],
 			pounds: 12,
 			kilograms: 5.4
 		}
@@ -49,7 +53,11 @@
 			carryon: { inches: [60, 70, 30], centimeters: [150, 175, 75] },
 			region: 'South America',
 			link: 'https://www.sampleairline.com',
-			complianceResults: [false, true, false],
+			complianceResults: [
+				{ passed: false, diff: 5 },
+				{ passed: true, diff: 0 },
+				{ passed: false, diff: 3 }
+			],
 			pounds: 15,
 			kilograms: 6.8
 		}

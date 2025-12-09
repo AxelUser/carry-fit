@@ -3,7 +3,8 @@ import type {
 	MeasurementSystem,
 	AirlinesByCompliance,
 	AirlineInfo,
-	AirlineCompliance
+	AirlineCompliance,
+	DimensionCompliance
 } from '$lib/types';
 import { getAirlineDimensions } from '$lib/utils/mapping';
 
@@ -13,18 +14,20 @@ import { getAirlineDimensions } from '$lib/utils/mapping';
  * @param airlineDimensions - The airline's carry-on limits. Can be size per dimension or total size.
  * @param userDimensions - The user's bag dimensions.
  * @param flexibility - Amount of flexibility in the same unit as dimensions
- * @returns An object containing the compliance status for each dimension, or a boolean if the airline has a total size limit. If user dimensions contain 0, returns null.
+ * @returns An array of compliance results with pass/fail status and diff for each dimension. Returns null if dimensions are empty.
  */
 export function checkCompliance(
 	airlineDimensions: number[],
 	userDimensions: number[],
 	flexibility: number = 0
-): boolean[] | null {
+): DimensionCompliance[] | null {
 	if (airlineDimensions.length === 0 || userDimensions.length === 0) return null;
 
 	if (airlineDimensions.length === 1) {
 		const bagSum = userDimensions.reduce((acc, curr) => acc + curr, 0);
-		return [bagSum <= airlineDimensions[0] + flexibility];
+		const diff = bagSum - airlineDimensions[0];
+		const passed = diff <= flexibility;
+		return [{ passed, diff: passed ? 0 : diff }];
 	}
 
 	// Sort dimensions from largest to smallest for both airline and bag
@@ -38,15 +41,17 @@ export function checkCompliance(
 		const excess = bagDim - airlineDim;
 
 		// If dimension fits or we have no excess, it's compliant
-		if (excess <= 0) return true;
+		if (excess <= 0) {
+			return { passed: true, diff: 0 };
+		}
 
 		// If we have enough flexibility to accommodate the excess
 		if (excess <= remainingFlexibility) {
 			remainingFlexibility -= excess;
-			return true;
+			return { passed: true, diff: 0 };
 		}
 
-		return false;
+		return { passed: false, diff: excess };
 	});
 }
 
@@ -74,7 +79,7 @@ export function groupAirlinesByCompliance(
 				flexibility
 			);
 
-			if (compliance?.every(Boolean)) {
+			if (compliance?.every((c) => c.passed)) {
 				acc.compliant.push({ ...airline, complianceResults: compliance });
 			} else if (compliance) {
 				acc.nonCompliant.push({ ...airline, complianceResults: compliance });

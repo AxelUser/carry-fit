@@ -29,8 +29,13 @@ export interface AirlineInfo {
 	};
 }
 
+export interface DimensionCompliance {
+	passed: boolean;
+	diff: number;
+}
+
 export interface AirlineCompliance extends AirlineInfo {
-	complianceResults: boolean[];
+	complianceResults: DimensionCompliance[];
 }
 
 export interface BagAllowanceDimensions {
