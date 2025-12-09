@@ -1,9 +1,11 @@
 import {
 	MeasurementSystems,
 	type AirlineInfo,
+	type BagAllowance,
 	type BagAllowanceDimensions,
 	type Data,
-	type TestResult
+	type TestResult,
+	type Weight
 } from '$lib/types';
 import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
@@ -21,23 +23,37 @@ export function loadData(): Data {
 }
 
 function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
-	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn);
+	if (!allowance.carryOn.dimensions) {
+		throw new Error(`No dimensions for ${allowance.airline}`);
+	}
 
-	let personalItem: BagAllowanceDimensions | undefined;
+	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn.dimensions);
+
+	const carryOnWeight = getWeight(allowance.carryOn.weight);
+
+	const carryon: BagAllowance = {
+		...carryOnDimensions,
+		...(carryOnWeight && { weight: carryOnWeight })
+	};
+
+	let personalItem: BagAllowance | undefined;
 	if (allowance.personalItem) {
-		personalItem = getCarryOnDimensions(allowance.airline, allowance.personalItem);
+		if (!allowance.personalItem.dimensions) {
+			throw new Error(`No dimensions for personal item of ${allowance.airline}`);
+		}
+		const personalItemDimensions = getCarryOnDimensions(
+			allowance.airline,
+			allowance.personalItem.dimensions
+		);
+		const personalItemWeight = getWeight(allowance.personalItem.weight);
+
+		personalItem = {
+			...personalItemDimensions,
+			...(personalItemWeight && { weight: personalItemWeight })
+		};
 	}
 
-	let pounds = allowance.pounds ?? undefined;
-	let kilograms = allowance.kilograms ?? undefined;
-
-	if (!kilograms && typeof pounds === 'number') {
-		kilograms = convertWeight(pounds, MeasurementSystems.Metric);
-	}
-
-	if (!pounds && typeof kilograms === 'number') {
-		pounds = convertWeight(kilograms, MeasurementSystems.Imperial);
-	}
+	const totalWeight = getWeight(allowance.totalWeight);
 
 	const parsedTestResult = getLastTestOfAirline(
 		allowanceConsistencyResults.results[
@@ -49,10 +65,9 @@ function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 		airline: allowance.airline,
 		region: allowance.region,
 		link: allowance.link,
-		carryon: carryOnDimensions,
+		carryon,
 		personalItem,
-		pounds,
-		kilograms,
+		...(totalWeight && { totalWeight }),
 		testResult: parsedTestResult
 	};
 }
@@ -105,4 +120,30 @@ function getDimensions(dimensions: number | number[]): number | number[] {
 		return dimensions;
 	}
 	return dimensions.sort((a, b) => b - a);
+}
+
+function getWeight(weight?: { kilograms?: number; pounds?: number }): Weight | undefined {
+	if (!weight) {
+		return undefined;
+	}
+
+	let kilograms = weight.kilograms;
+	let pounds = weight.pounds;
+
+	if (!kilograms && !pounds) {
+		return undefined;
+	}
+
+	if (!kilograms && typeof pounds === 'number') {
+		kilograms = convertWeight(pounds, MeasurementSystems.Metric);
+	}
+
+	if (!pounds && typeof kilograms === 'number') {
+		pounds = convertWeight(kilograms, MeasurementSystems.Imperial);
+	}
+
+	return {
+		...(kilograms !== undefined && { kilograms }),
+		...(pounds !== undefined && { pounds })
+	};
 }

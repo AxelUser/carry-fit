@@ -19,10 +19,9 @@ export interface AirlineInfo {
 	airline: string;
 	region: Region;
 	link: string;
-	carryon: BagAllowanceDimensions;
-	personalItem?: BagAllowanceDimensions;
-	pounds?: number;
-	kilograms?: number;
+	carryon: BagAllowance;
+	personalItem?: BagAllowance;
+	totalWeight?: Weight;
 	testResult?: {
 		lastTest: Date;
 		success: boolean;
@@ -38,9 +37,18 @@ export interface AirlineCompliance extends AirlineInfo {
 	complianceResults: DimensionCompliance[];
 }
 
+export interface Weight {
+	kilograms?: number;
+	pounds?: number;
+}
+
 export interface BagAllowanceDimensions {
 	inches: number | number[];
 	centimeters: number | number[];
+}
+
+export interface BagAllowance extends BagAllowanceDimensions {
+	weight?: Weight;
 }
 
 export const MeasurementSystems = {

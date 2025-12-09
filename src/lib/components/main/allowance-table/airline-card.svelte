@@ -30,7 +30,23 @@
 	);
 	const unit = $derived(isMetric ? 'cm' : 'in');
 	const weightUnit = $derived(isMetric ? 'kg' : 'lb');
-	const weight = $derived(isMetric ? airline.kilograms : airline.pounds);
+	const carryOnWeight = $derived(
+		isMetric ? airline.carryon.weight?.kilograms : airline.carryon.weight?.pounds
+	);
+	const personalItemWeight = $derived(
+		airline.personalItem?.weight
+			? isMetric
+				? airline.personalItem.weight.kilograms
+				: airline.personalItem.weight.pounds
+			: undefined
+	);
+	const totalWeight = $derived(
+		airline.totalWeight
+			? isMetric
+				? airline.totalWeight.kilograms
+				: airline.totalWeight.pounds
+			: undefined
+	);
 
 	const dim0 = $derived(complianceResults?.[0]);
 	const dim1 = $derived(complianceResults?.[1]);
@@ -90,7 +106,8 @@
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[0])} {unit}
+							{formatDimension(sortedCarryOnDimensions[0])}
+							{unit}
 						</dd>
 					</div>
 				{:else}
@@ -104,7 +121,8 @@
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[0])} {unit}
+							{formatDimension(sortedCarryOnDimensions[0])}
+							{unit}
 						</dd>
 					</div>
 					<div class="flex justify-between">
@@ -113,7 +131,8 @@
 							{#if dim1 && !dim1.passed && dim1.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim1.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[1])} {unit}
+							{formatDimension(sortedCarryOnDimensions[1])}
+							{unit}
 						</dd>
 					</div>
 					<div class="flex justify-between">
@@ -122,20 +141,20 @@
 							{#if dim2 && !dim2.passed && dim2.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim2.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[2])} {unit}
+							{formatDimension(sortedCarryOnDimensions[2])}
+							{unit}
 						</dd>
 					</div>
 				{/if}
-				<div class="flex justify-between border-t border-border/50 pt-1">
-					<dt class="text-muted-foreground">Weight</dt>
-					<dd class="font-medium" data-testid="weight-limit">
-						{#if weight}
-							{weight} {weightUnit}
-						{:else}
-							<span class="text-muted-foreground">N/A</span>
-						{/if}
-					</dd>
-				</div>
+				{#if carryOnWeight}
+					<div class="flex justify-between border-t border-border/50 pt-1">
+						<dt class="text-muted-foreground">Weight</dt>
+						<dd class="font-medium" data-testid="weight-limit">
+							{carryOnWeight}
+							{weightUnit}
+						</dd>
+					</div>
+				{/if}
 			</dl>
 		</div>
 
@@ -165,12 +184,27 @@
 							<dd class="font-medium">{formatDimension(personalItemDimensions[2])} {unit}</dd>
 						</div>
 					{/if}
+					{#if personalItemWeight}
+						<div class="flex justify-between border-t border-border/50 pt-1">
+							<dt class="text-muted-foreground">Weight</dt>
+							<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
+						</div>
+					{/if}
 				</dl>
 			{:else}
 				<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
 			{/if}
 		</div>
 	</div>
+
+	{#if totalWeight}
+		<div class="border-t px-4 py-2">
+			<div class="flex justify-between text-sm">
+				<dt class="text-muted-foreground">Total Weight</dt>
+				<dd class="font-medium">{totalWeight} {weightUnit}</dd>
+			</div>
+		</div>
+	{/if}
 
 	<footer class="mt-auto border-t px-4 py-2" data-tour-id="policy-link">
 		{#if airline.link}
