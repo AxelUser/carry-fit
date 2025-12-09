@@ -10,7 +10,7 @@ export interface AirlineAllowance {
 	link: string;
 	/**
 	 * The carry-on bag allowance.
-	 * Sizes are provided as is on the website, without any conversion.
+	 * Sizes and weights are provided as is on the website, without any conversion.
 	 */
 	carryOn: {
 		dimensions?: {
@@ -28,7 +28,7 @@ export interface AirlineAllowance {
 	};
 	/**
 	 * The personal item allowance (e.g. small handbag or laptop bag). Sizes may be missing.
-	 * Sizes are provided as is on the website, without any conversion.
+	 * Sizes and weights are provided as is on the website, without any conversion.
 	 */
 	personalItem?: {
 		dimensions?: {
@@ -41,18 +41,11 @@ export interface AirlineAllowance {
 		};
 	};
 	/**
-	 * Combined weight limit for carry-on and personal item together.
+	 * Combined weight limit for carry-on and personal item together in case of restrictions for total weight of both bags.
 	 */
 	totalWeight?: {
 		kilograms?: number;
 		pounds?: number;
-	};
-	/**
-	 * DEPRECATED: The test criteria for the airline's cabin baggage policy.
-	 */
-	test?: {
-		matchText?: (RegExp | string)[];
-		comment?: string;
 	};
 }
 
@@ -76,12 +69,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [40, 30, 15],
 				inches: [15.7, 11.8, 5.9]
 			}
-		},
-		test: {
-			matchText: [
-				'Carry-on bag maximum dimensions (length x width x height) 55cm x 40cm x 23cm (22in x 16in x 9in)',
-				'Small bag a small bag such as a small handbag, a small laptop bag or a small backpackmaximum dimensions (length x width x height) 40cm x 30cm x 15cm (16in x 12in x 6in)'
-			]
 		}
 	},
 	{
@@ -97,9 +84,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['not exceed 30 x 40 x 20 cm']
 		}
 	},
 	{
@@ -120,9 +104,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [40, 30, 20]
 			}
-		},
-		test: {
-			matchText: ['Maximum size: 40 x 30 x 20 cm, 10kg']
 		}
 	},
 	{
@@ -138,9 +119,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 6,
 				pounds: 13
 			}
-		},
-		test: {
-			matchText: ['not exceed dimensions of 40cm x 35cm x 18cm']
 		}
 	},
 	{
@@ -163,9 +141,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [40, 30, 20],
 				inches: [15.5, 11.5, 8]
 			}
-		},
-		test: {
-			matchText: ['Height: 48cm (18.5") Width: 33cm (13") and Depth: 20cm (8")']
 		}
 	},
 	{
@@ -188,9 +163,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [40, 30, 20],
 				inches: [15.5, 11.5, 8]
 			}
-		},
-		test: {
-			matchText: ['Height: 48cm (18.5") Width: 33cm (13") and Depth: 20cm (8")']
 		}
 	},
 	{
@@ -219,9 +191,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ["maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)"]
 		}
 	},
 	{
@@ -238,9 +207,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: ['Maximum dimensions for each piece of hand baggage are 50x37x25cm (20x15x10in)']
 		}
 	},
 	{
@@ -255,9 +221,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['maximum total size of 115 cm (50 x 40 x 25 cm)']
 		}
 	},
 	{
@@ -272,9 +235,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Maximum measurement: (55x40x25cm) Weight: 8 kg + laptop bag']
 		}
 	},
 	{
@@ -294,11 +254,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [39, 23, 19]
 			}
-		},
-		test: {
-			matchText: [
-				'You can carry one cabin bag weighing up to 7kg. It cannot be bigger than 56cm x 36cm x 23cm.'
-			]
 		}
 	},
 	{
@@ -315,9 +270,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [43, 31, 13]
 			}
-		},
-		test: {
-			matchText: ['40 cm in length, 23 cm in width and 55 cm in height']
 		}
 	},
 	{
@@ -352,9 +304,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [41, 33, 14],
 				inches: [16, 13, 6]
 			}
-		},
-		test: {
-			matchText: ['53 cm x 23 cm x 38 cm']
 		}
 	},
 	{
@@ -484,9 +433,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 5,
 				pounds: 11
 			}
-		},
-		test: {
-			matchText: ['Maximum total dimensions: 55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in)']
 		}
 	},
 	{
@@ -537,9 +483,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['35 cm wide, 55 cm high and 25 cm deep']
 		}
 	},
 	{
@@ -663,9 +606,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['One piece with maximum dimensions of 55x36x20cm']
 		}
 	},
 	{
@@ -680,9 +620,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Carry-on dimensions should not exceed 55 x 38 x 22cm']
 		}
 	},
 	{
@@ -698,9 +635,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['1 Bag 55 x 38 x 20 cms']
 		}
 	},
 	{
@@ -715,9 +649,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 12
 			}
-		},
-		test: {
-			matchText: ['55x35x25 cm ( pockets, wheels and handles included )']
 		}
 	},
 	{
@@ -734,11 +665,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 5,
 				pounds: 11
 			}
-		},
-		test: {
-			matchText: [
-				'Each carry-on must not be more than 55cm (22”) in length,\n  40cm (16”) in width and 20cm (8”) in height'
-			]
 		}
 	},
 	{
@@ -754,11 +680,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: [
-				'All cabin baggage must be less than or equal to 115 cm / 45 inches (sum of the 3 dimensions A + B + C).'
-			]
 		}
 	},
 	{
@@ -773,9 +694,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['dimensions do not exceed 55x40x20 cm']
 		}
 	},
 	{
@@ -790,11 +708,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'the maximum dimension of each side is A (height) 55 cm x B (depth) 20 cm X C (width) 40 cm'
-			]
 		}
 	},
 	{
@@ -810,9 +723,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 8,
 				pounds: 17
 			}
-		},
-		test: {
-			matchText: ['55x40x20 cm']
 		}
 	},
 	{
@@ -827,11 +737,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'The maximum limit for this type of luggage is up to 115 cm (adding up all sides of the suitcase, including pockets, wheels, and handles) and up to 10kg.'
-			]
 		}
 	},
 	{
@@ -847,11 +752,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 5,
 				pounds: 11
 			}
-		},
-		test: {
-			matchText: [
-				'that may not exceed 5 kg in weight and dimensions may not exceed 55cm x 40cm x 20cm'
-			]
 		}
 	},
 	{
@@ -867,11 +767,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 5
 			}
-		},
-		test: {
-			matchText: [
-				'The length, width and height of each carry-on shall not exceed ：55 * 40 * 20 cm (or 22 * 16 * 8 inches)'
-			]
 		}
 	},
 	{
@@ -886,9 +781,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Max. size: 55 x 40 x 20 cm']
 		}
 	},
 	{
@@ -903,9 +795,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 12
 			}
-		},
-		test: {
-			matchText: ['55 x 40 x 20 cm']
 		}
 	},
 	{
@@ -920,9 +809,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['max 115 cm (55x40x20 cm)']
 		}
 	},
 	{
@@ -939,9 +825,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['No more than 55cm (22in) X 40cm (16in) X 20cm (8in) (length, width, and height)']
 		}
 	},
 	{
@@ -956,9 +839,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['(dimensions 55x40x20 cm)']
 		}
 	},
 	{
@@ -975,11 +855,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: [
-				'Maximum size (including handles and wheels): 21.6x15.7x7.8 inches (55x40x20 cm).'
-			]
 		}
 	},
 	{
@@ -994,9 +869,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 5
 			}
-		},
-		test: {
-			matchText: [/Max\. 5 kg\s+-\s+55 x 40 x 20 cm/]
 		}
 	},
 	{
@@ -1011,11 +883,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'Within 115 cm (45 in) in total length x width x height (including handles and wheels)'
-			]
 		}
 	},
 	{
@@ -1030,9 +897,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Dimensions cannot exceed 115сm /55(A)x40(C)x20(B) cm']
 		}
 	},
 	{
@@ -1062,9 +926,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['55x40x20 cm']
 		}
 	},
 	{
@@ -1079,11 +940,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'large piece of Cabin Baggage, weighing up to 10kg with maximum dimensions of 55cm x 40cm x 20cm'
-			]
 		}
 	},
 	{
@@ -1098,9 +954,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['L: 30cm W: 20cm  H: 40cm']
 		}
 	},
 	{
@@ -1116,9 +969,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['Maximum dimensions: 55 x 40 x 25 cm / 22 x 16 x 10 in (height x length x width)']
 		}
 	},
 	{
@@ -1133,9 +983,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['in the cabin one hand baggage sized maximum 55x 40x 20cm']
 		}
 	},
 	{
@@ -1150,9 +997,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['55 x 40 x 20 cm']
 		}
 	},
 	{
@@ -1169,11 +1013,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: [
-				'For Light, Extra, and Smart, your carry-on bag can be 16in long x 10in wide x 22in high (40 cm long, 25cm wide, and 55 cm high).'
-			]
 		}
 	},
 	{
@@ -1188,9 +1027,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['10 kg (55x40x20 cm.)']
 		}
 	},
 	{
@@ -1205,9 +1041,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['cabin bag (55 x 40 x 23 cm)']
 		}
 	},
 	{
@@ -1220,11 +1053,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 40, 23],
 				inches: [21.5, 15.5, 9]
 			}
-		},
-		test: {
-			matchText: [
-				'measures 55 cm (21.5 in) in height, 23 cm (9 in) in depth, and 40 cm (15.5 in) in width'
-			]
 		}
 	},
 	{
@@ -1240,9 +1068,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: ['The total can be up to 118cm (46.5 inches)']
 		}
 	},
 	{
@@ -1257,9 +1082,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['40 x 23 x 55 cm']
 		}
 	},
 	{
@@ -1274,9 +1096,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['max. 55 x 40 x 23 cm']
 		}
 	},
 	{
@@ -1291,11 +1110,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'up to 10 kg (one piece) and the size of in three dimension must not exceeds 118 cm (55 * 40 * 23 cm)'
-			]
 		}
 	},
 	{
@@ -1310,9 +1124,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['max. 55 x 40 x 23 cm']
 		}
 	},
 	{
@@ -1327,9 +1138,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['hand bag up to 10 kg and sizes 55х40х23 cm total length up to 118 cm)']
 		}
 	},
 	{
@@ -1344,9 +1152,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['55 x 40 x 23 cm']
 		}
 	},
 	{
@@ -1361,9 +1166,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Maximum dimensions 118 Cm ( 55 + 40 + 23 )']
 		}
 	},
 	{
@@ -1378,11 +1180,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'hand luggage with a maximum weight of 7 kg and a maximum  dimensions equal to 23 x 40 x 55 (cm)'
-			]
 		}
 	},
 	{
@@ -1399,9 +1196,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: ['Total dimensions* of 1 piece should not exceed 118cm (46in) for economy class']
 		}
 	},
 	{
@@ -1416,9 +1210,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['max. 55 x 40 x 23 cm']
 		}
 	},
 	{
@@ -1433,9 +1224,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['55x40x23 cm']
 		}
 	},
 	{
@@ -1450,9 +1238,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['(55x40x23cm)']
 		}
 	},
 	{
@@ -1467,11 +1252,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: [
-				'carry-on bag that must, not exceed 55cmX40cmX23cm in dimension (including handles, pockets and wheels) and 8kg in weight and fit in the overhead bin'
-			]
 		}
 	},
 	{
@@ -1486,9 +1266,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['для ручной клади габариты не более 55×40×23 см']
 		}
 	},
 	{
@@ -1503,9 +1280,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Maximum size: 55 cm x 40 cm x 23 cm (length x width x depth)']
 		}
 	},
 	{
@@ -1520,9 +1294,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['The dimensions may not exceed 55 x 40 x 23 cm.']
 		}
 	},
 	{
@@ -1537,9 +1308,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['Max. dimensions 55 x 40 x 23 cm']
 		}
 	},
 	{
@@ -1554,9 +1322,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['maximum dimensions of 23x40x55 cm and a maximum weight of 8 kg']
 		}
 	},
 	{
@@ -1573,9 +1338,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['55cm', '(21.5")', '40cm', '(15.5")', '24cm', '(9.5")']
 		}
 	},
 	{
@@ -1590,9 +1352,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['L=55 cm, W=40 cm, H=25 cm']
 		}
 	},
 	{
@@ -1609,9 +1368,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['not exceeding 55 cm x 40 cm x 25 cm. (21.5 x 15.7 x 10 inches).']
 		}
 	},
 	{
@@ -1628,11 +1384,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: [
-				'Total linear dimensions (length, width, height) of no more than 115 cm\nwith a length of each side not exceeding\n55 cm x 40 cm x 25 cm'
-			]
 		}
 	},
 	{
@@ -1647,9 +1398,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['Must not exceed the size of 55x40x25 cm']
 		}
 	},
 	{
@@ -1678,9 +1426,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				pounds: 33
 			}
-		},
-		test: {
-			matchText: ['1 carry-on bag that measures 22 x 16 x 10 in (length x width x height)']
 		}
 	},
 	{
@@ -1695,9 +1440,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['with max. dimensions of 55x40x23 cm and weight of up to 8 kg']
 		}
 	},
 	{
@@ -1712,9 +1454,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 12
 			}
-		},
-		test: {
-			matchText: ['55x45x25cm']
 		}
 	},
 	{
@@ -1729,9 +1468,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['must not exceed 56cm x 36cm x 23cm']
 		}
 	},
 	{
@@ -1743,11 +1479,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				inches: [22, 14, 9]
 			}
-		},
-		test: {
-			matchText: [
-				'maximum dimension 22" x 14" x 9" or 45 linear inches, including wheels and handle'
-			]
 		}
 	},
 	{
@@ -1760,9 +1491,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 40, 25],
 				inches: [22, 16, 10]
 			}
-		},
-		test: {
-			comment: "Can't access the website for automated testing, got size limits from Google preview"
 		}
 	},
 	{
@@ -1775,11 +1503,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 36, 23],
 				inches: [22, 14, 9]
 			}
-		},
-		test: {
-			matchText: [
-				'The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches'
-			]
 		}
 	},
 	{
@@ -1796,9 +1519,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 9,
 				pounds: 20
 			}
-		},
-		test: {
-			matchText: ['Maximum size: 22″ x 14″ x 9″ & 20 lbs (9.07 kg) FREE']
 		}
 	},
 	{
@@ -1813,9 +1533,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['50 x 36 x 23 centimeter']
 		}
 	},
 	{
@@ -1838,12 +1555,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [30, 20, 10],
 				inches: [12, 7.9, 3.9]
 			}
-		},
-		test: {
-			matchText: [
-				/Hand baggage.*115 cm \(56cm x 36cm x 23cm\) or- 45 inch \(22’’x 11’’x 9’’\)/gm,
-				"Lady hand bag or book, magazine, camera, children's food kit, duty-free bag, etc... with dimensions not to exceed (H x W x D) 30cm × 20cm × 10 cm / 12’’ x 7,9” x 3,9”"
-			]
 		}
 	},
 	{
@@ -1860,9 +1571,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['Max. Size -: L 22”x W 14” x H 9” (56cm x 35cm x 23cm)']
 		}
 	},
 	{
@@ -1879,10 +1587,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			comment:
-				'Carry-on bag is not statically available on the website, got size limits from another source'
 		}
 	},
 	{
@@ -1897,9 +1601,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			comment: 'Blocked by website'
 		}
 	},
 	{
@@ -1916,9 +1617,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: ['56x36x23 CM (22x14x9 IN)']
 		}
 	},
 	{
@@ -1931,9 +1629,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [56, 35, 23],
 				inches: [22, 14, 9]
 			}
-		},
-		test: {
-			matchText: ['measurements may not exceed 22” x 14” x 9” (56 cm x 35 cm x 23 cm)']
 		}
 	},
 	{
@@ -1948,9 +1643,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			comment: 'Elements are not loaded, should involve interactive testing'
 		}
 	},
 	{
@@ -1966,9 +1658,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 11,
 				pounds: 25
 			}
-		},
-		test: {
-			matchText: ['22 inches x 14 inches x 9 inches']
 		}
 	},
 	{
@@ -1984,9 +1673,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Cannot exceed 56 (L) x 36 (W) x 23 (H) cm (22” x 14” x 9”)']
 		}
 	},
 	{
@@ -2003,11 +1689,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: [
-				'piece of cabin baggage, which must not exceed 45 inches ( 22" x 14" x 9" or 56cm x 36cm x 23cm) in size and 7kg/15Ibs in weight.'
-			]
 		}
 	},
 	{
@@ -2024,9 +1705,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['W: within 55cm×H: within 40cm×D: within 25cm']
 		}
 	},
 	{
@@ -2039,11 +1717,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [57, 35.5, 23],
 				inches: [22, 14, 9]
 			}
-		},
-		test: {
-			matchText: [
-				'carry-on bags must not exceed 22" L (55.88 cm) x 14" W (35.56 cm) x 9" H (22.86 cm).'
-			]
 		}
 	},
 	{
@@ -2058,11 +1731,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'not exceed 56cm (height) x 36cm (width) x 23cm (depth) including wheels and handles.'
-			]
 		}
 	},
 	{
@@ -2078,11 +1746,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'maximum weight of 7kg and the sum of the three dimensions shall not exceed 115 cm (30 cm x 60 cm x 18 cm) or (12 x 24 x 7 inches)'
-			]
 		}
 	},
 	{
@@ -2097,11 +1760,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'not exceed the dimensions of 56cm X 36cm X 23cm and provided that it does not weigh more than 7kg'
-			]
 		}
 	},
 	{
@@ -2117,9 +1775,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Hand baggage per guest of 7kg and a maximum dimension of linear 115 cm (45 in).']
 		}
 	},
 	{
@@ -2134,9 +1789,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Sum of the three dimensions should be less than 115 cm']
 		}
 	},
 	{
@@ -2153,11 +1805,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: [
-				'maximum total dimension of 56cm x 36cm x 23cm (22in x 14in x 9in) and maximum weight of 7 kgs. (15 lbs).'
-			]
 		}
 	},
 	{
@@ -2170,9 +1817,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 40, 23],
 				inches: [21.5, 15.5, 9]
 			}
-		},
-		test: {
-			matchText: ['55 x 40 x 23 cm (21.5 x 15.5 x 9 in)']
 		}
 	},
 	{
@@ -2187,9 +1831,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Bag size: 56cm long x 36cm wide x 23cm deep']
 		}
 	},
 	{
@@ -2204,11 +1845,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'Length + width + height which does not exceed 115 cm (length: 55cm, width: 40cm, height: 20cm)'
-			]
 		}
 	},
 	{
@@ -2224,9 +1860,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['maximum dimensions of (9X16X20in) or (23X41X51cm) however']
 		}
 	},
 	{
@@ -2242,11 +1875,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'Hand bag (the size of the piece not to exceed 56 X 45 X 25 (Cm) (22 X 18 X 10) (In))'
-			]
 		}
 	},
 	{
@@ -2261,12 +1889,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: [
-				'must fit within the dimensions of 54cm x 38cm x 23cm (total linear dimensions cannot exceed 115cm) to fit in the overhead compartment in the aircraft'
-			],
-			comment: 'Can block requests during testing'
 		}
 	},
 	{
@@ -2281,9 +1903,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['Sum of length, width and height of each piece should not exceed 115cm.']
 		}
 	},
 	{
@@ -2298,9 +1917,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['56cm (l) 36cm (w) 23cm (h)']
 		}
 	},
 	{
@@ -2315,11 +1931,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'Each piece of hand baggage must weigh no more than 7 kg and measure no more than a total of 115cm (l+h+w)'
-			]
 		}
 	},
 	{
@@ -2332,9 +1943,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [56, 35, 23],
 				inches: [22, 14, 9]
 			}
-		},
-		test: {
-			matchText: ['it must be 9 in x 14 in x 22 in (23 cm x 35 cm x 56 cm)']
 		}
 	},
 	{
@@ -2349,9 +1957,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['piece of baggage: 56cm x 36cm x 23cm']
 		}
 	},
 	{
@@ -2368,9 +1973,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ["maximum of 23 x 36 x 56cm (that's around 9 x 14 x 22 inches)."]
 		}
 	},
 	{
@@ -2387,9 +1989,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 5,
 				pounds: 11
 			}
-		},
-		test: {
-			matchText: ['No more than 115 cm (45 inches)']
 		}
 	},
 	{
@@ -2406,11 +2005,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: [
-				"up to 46 linear inches (118 cm): 22'' high x 14'' long x 10'' wide (56 cm high x 36 cm long x 26 cm wide)"
-			]
 		}
 	},
 	{
@@ -2425,9 +2019,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['carry-on bag up to 8kg and dimensions up to 56cm X 45cm X 25cm']
 		}
 	},
 	{
@@ -2442,10 +2033,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['must be no larger than 56 x 45 x 25cm, with a maximum weight of 8kg'],
-			comment: 'Can block requests during testing'
 		}
 	},
 	{
@@ -2462,9 +2049,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 23,
 				pounds: 51
 			}
-		},
-		test: {
-			matchText: ['Up to 56 x 45 x 25cm (22 x 18 x 10in) - includes wheels and handles']
 		}
 	},
 	{
@@ -2484,12 +2068,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [45, 36, 20]
 			}
-		},
-		test: {
-			matchText: [
-				'Maximum size 56 x 45 x 25 cm (including any handles or wheels)',
-				'Maximum size 45 x 36 x 20cm (including any handles or wheels)'
-			]
 		}
 	},
 	{
@@ -2504,11 +2082,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: [
-				'up to 56 cm (length), 45 cm (width), and 25 cm (depth), not exceeding a total dimension of 115 cm'
-			]
 		}
 	},
 	{
@@ -2523,9 +2096,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['cabin bag\n56x40x25cm/10kg']
 		}
 	},
 	{
@@ -2540,9 +2110,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['Hand luggage must be no more than 10kg and no larger than 56cm x 45cm x 25cm.']
 		}
 	},
 	{
@@ -2557,9 +2124,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
-		},
-		test: {
-			matchText: ['with max. dimensions of 55x40x23 cm and weight of up to 8 kg']
 		}
 	},
 	{
@@ -2576,12 +2140,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: [
-				'carry one baggage at maximum length 56 cm (22 inches), width 45 cm (18 inches) and thickness 25 cm (10 inches)'
-			],
-			comment: 'Can block requests during testing'
 		}
 	},
 	{
@@ -2597,9 +2155,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: ['56 X 46 X 25 cm']
 		}
 	},
 	{
@@ -2616,9 +2171,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
-		},
-		test: {
-			matchText: ['56cm\n(22in)\n\n36cm\n(14in)\n\n23cm\n(09in)\n\n115cm\n(45in)']
 		}
 	},
 	{
@@ -2635,9 +2187,6 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
-		},
-		test: {
-			matchText: ['Carry-on, Economy cabin  (10kg / 22lbs) 56 x 45 x 25 cm (22 x 18 x 10 in)']
 		}
 	},
 	{
@@ -2650,9 +2199,6 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [56, 46, 25],
 				inches: [22, 18, 10]
 			}
-		},
-		test: {
-			matchText: ['Maximum of 22 x 18  x 10  inches (56 x 46 x 25 cm)']
 		}
 	},
 	{
@@ -2667,9 +2213,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				pounds: 35
 			}
-		},
-		test: {
-			matchText: ['Size: 24"H X 16"W X 10"D']
 		}
 	},
 	{
@@ -2681,9 +2224,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				inches: [24, 16, 11]
 			}
-		},
-		test: {
-			matchText: ['51 inches (11” x 16” x 24”)']
 		}
 	},
 	{
@@ -2695,9 +2235,6 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				inches: [24, 16, 10]
 			}
-		},
-		test: {
-			matchText: ['Size limits: 24” (L) + 16” (W) + 10” (H)']
 		}
 	},
 	{
@@ -2712,11 +2249,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				pounds: 35
 			}
-		},
-		test: {
-			matchText: [
-				'must fit within current overhead size restrictions and may not exceed any of the following dimensions: 24” long x 16” wide x 11” tall'
-			]
 		}
 	},
 	{
@@ -2731,9 +2263,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['36x30x27 см']
 		}
 	},
 	{
@@ -2748,11 +2277,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		test: {
-			matchText: [
-				'(1st piece: 55 cm x 40 cm x 25 cm, 2nd piece: 35 cm x 45 cm x 25 cm). The total weight of all carry-on baggage must not exceed 7 kg.'
-			]
 		}
 	},
 	{
@@ -2767,9 +2291,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
-		},
-		test: {
-			matchText: ['size not exceeding 45x33x20 cm']
 		}
 	}
 ];
