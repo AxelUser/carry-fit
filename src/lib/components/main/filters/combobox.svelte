@@ -57,6 +57,7 @@
 					<button
 						class="relative flex w-full min-w-0 cursor-pointer select-none items-start rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 						role="option"
+						aria-selected="false"
 						onclick={() => onSelect(item.airline)}
 					>
 						<div class="flex min-w-0 flex-1">

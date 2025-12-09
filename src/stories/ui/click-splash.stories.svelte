@@ -49,7 +49,9 @@
 >
 	{#snippet children(args)}
 		<ClickSplash {...args}>
-			<Button slot="trigger">Click me!</Button>
+			{#snippet trigger()}
+				<Button>Click me!</Button>
+			{/snippet}
 		</ClickSplash>
 	{/snippet}
 </Story>
@@ -57,19 +59,27 @@
 <Story name="TextSizes">
 	<div class="flex gap-4">
 		<ClickSplash duration={1000} content="Clicked!" size="xs">
-			<Button slot="trigger" variant="outline" size="sm">Extra Small</Button>
+			{#snippet trigger()}
+				<Button variant="outline" size="sm">Extra Small</Button>
+			{/snippet}
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="Clicked!" size="sm">
-			<Button slot="trigger" variant="outline" size="sm">Small</Button>
+			{#snippet trigger()}
+				<Button variant="outline" size="sm">Small</Button>
+			{/snippet}
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="Clicked!" size="base">
-			<Button slot="trigger" variant="outline" size="default">Base</Button>
+			{#snippet trigger()}
+				<Button variant="outline" size="default">Base</Button>
+			{/snippet}
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="Clicked!" size="lg">
-			<Button slot="trigger" variant="outline" size="lg">Large</Button>
+			{#snippet trigger()}
+				<Button variant="outline" size="lg">Large</Button>
+			{/snippet}
 		</ClickSplash>
 	</div>
 </Story>
@@ -77,11 +87,15 @@
 <Story name="WithCustomContent">
 	<div class="flex gap-4">
 		<ClickSplash duration={1000} content="Copied!" size="base">
-			<Button slot="trigger" variant="outline">Copy text</Button>
+			{#snippet trigger()}
+				<Button variant="outline">Copy text</Button>
+			{/snippet}
 		</ClickSplash>
 
 		<ClickSplash duration={1000} content="+1" size="base">
-			<Button slot="trigger" variant="outline">Increment</Button>
+			{#snippet trigger()}
+				<Button variant="outline">Increment</Button>
+			{/snippet}
 		</ClickSplash>
 	</div>
 </Story>

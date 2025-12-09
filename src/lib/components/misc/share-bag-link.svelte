@@ -25,12 +25,13 @@
 </script>
 
 <ClickSplash onTrigger={copyShareLink} content="Copied!">
-	<button
-		slot="trigger"
-		class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
-		onclick={copyShareLink}
-	>
-		<Link class="mr-1 size-3" />
-		<span>Copy</span>
-	</button>
+	{#snippet trigger()}
+		<button
+			class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
+			onclick={copyShareLink}
+		>
+			<Link class="mr-1 size-3" />
+			<span>Copy</span>
+		</button>
+	{/snippet}
 </ClickSplash>
