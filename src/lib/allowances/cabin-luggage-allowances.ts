@@ -11,6 +11,7 @@ export interface AirlineAllowance {
 	/**
 	 * The carry-on bag allowance.
 	 * Sizes and weights are provided as is on the website, without any conversion.
+	 * Size can be a 3-element array of numbers for length, width, and height in centimeters or inches, or a single number for total sum of dimensions.
 	 */
 	carryOn: {
 		dimensions?: {
@@ -29,6 +30,7 @@ export interface AirlineAllowance {
 	/**
 	 * The personal item allowance (e.g. small handbag or laptop bag). Sizes may be missing.
 	 * Sizes and weights are provided as is on the website, without any conversion.
+	 * Size can be a 3-element array of numbers for length, width, and height in centimeters or inches, or a single number for total sum of dimensions.
 	 */
 	personalItem?: {
 		dimensions?: {
@@ -58,10 +60,7 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 23],
-				inches: [22, 16, 9]
-			},
-			weight: {
-				kilograms: 8
+				inches: [21.7, 15.7, 9.1]
 			}
 		},
 		personalItem: {
@@ -69,6 +68,10 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [40, 30, 15],
 				inches: [15.7, 11.8, 5.9]
 			}
+		},
+		totalWeight: {
+			kilograms: 8,
+			pounds: 17.6
 		}
 	},
 	{
@@ -78,8 +81,7 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.lionairthai.com/en/ThaiLionAir-Experience/Baggage-Allowance',
 		carryOn: {
 			dimensions: {
-				centimeters: [40, 30, 20],
-				inches: [15.7, 11.8, 7.9]
+				centimeters: [56, 36, 23]
 			},
 			weight: {
 				kilograms: 7
@@ -103,6 +105,9 @@ export const allowances: AirlineAllowance[] = [
 		personalItem: {
 			dimensions: {
 				centimeters: [40, 30, 20]
+			},
+			weight: {
+				kilograms: 10
 			}
 		}
 	},
@@ -114,11 +119,10 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [40, 35, 18]
-			},
-			weight: {
-				kilograms: 6,
-				pounds: 13
 			}
+		},
+		totalWeight: {
+			kilograms: 6
 		}
 	},
 	{
@@ -166,17 +170,17 @@ export const allowances: AirlineAllowance[] = [
 		}
 	},
 	{
-		id: 'rex-regional-express-airlines',
-		airline: 'REX Regional Express Airlines',
+		id: 'rex-airlines',
+		airline: 'REX Airlines',
 		region: 'Oceania',
 		link: 'https://www.rex.com.au/FlightInfo/BaggageAllowance.aspx',
 		carryOn: {
 			dimensions: {
-				centimeters: [48, 34, 23]
-			},
-			weight: {
-				kilograms: 7
+				centimeters: [48, 34, 25]
 			}
+		},
+		totalWeight: {
+			kilograms: 7
 		}
 	},
 	{
@@ -249,11 +253,6 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 7
 			}
-		},
-		personalItem: {
-			dimensions: {
-				centimeters: [39, 23, 19]
-			}
 		}
 	},
 	{
@@ -263,28 +262,12 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.airtransat.com/en-CA/Travel-information/Baggage/weight-dimensions',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 23]
+				centimeters: [40, 23, 55]
 			}
 		},
 		personalItem: {
 			dimensions: {
-				centimeters: [43, 31, 13]
-			}
-		}
-	},
-	{
-		id: 'sunwing-airlines',
-		airline: 'Sunwing Airlines',
-		region: 'North America',
-		link: 'https://www.sunwing.ca/en/westjet-airlines/baggage-and-seat-selection',
-		carryOn: {
-			dimensions: {
-				inches: [22, 14, 9]
-			}
-		},
-		personalItem: {
-			dimensions: {
-				inches: [16, 13, 6]
+				centimeters: [43, 13, 31]
 			}
 		}
 	},
@@ -295,14 +278,14 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.westjet.com/en-ca/baggage#baggage-carry-on',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 36, 23],
-				inches: [22, 14, 9]
+				centimeters: [56, 23, 36],
+				inches: [22, 9, 14]
 			}
 		},
 		personalItem: {
 			dimensions: {
-				centimeters: [41, 33, 14],
-				inches: [16, 13, 6]
+				centimeters: [41, 14, 33],
+				inches: [16, 6, 13]
 			}
 		}
 	},
@@ -316,12 +299,15 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 35, 25]
 			},
 			weight: {
-				kilograms: 8
+				kilograms: 10
 			}
 		},
 		personalItem: {
 			dimensions: {
-				centimeters: [40, 30, 15]
+				centimeters: [40, 30, 30]
+			},
+			weight: {
+				kilograms: 3
 			}
 		}
 	},
@@ -335,8 +321,7 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 35, 25]
 			},
 			weight: {
-				kilograms: 8,
-				pounds: 17.6
+				kilograms: 12
 			}
 		}
 	},
@@ -350,8 +335,7 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 35, 25]
 			},
 			weight: {
-				kilograms: 10,
-				pounds: 22
+				kilograms: 10
 			}
 		},
 		personalItem: {
@@ -370,16 +354,17 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [55, 35, 25],
 				inches: [21.7, 13.8, 9.9]
 			},
-			weight: {
-				kilograms: 12,
-				pounds: 26
-			}
+			isExtra: true
 		},
 		personalItem: {
 			dimensions: {
 				centimeters: [40, 30, 15],
 				inches: [16, 12, 6]
 			}
+		},
+		totalWeight: {
+			kilograms: 12,
+			pounds: 26.4
 		}
 	},
 	{
@@ -401,6 +386,10 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [40, 30, 20],
 				inches: [15, 11, 7]
+			},
+			weight: {
+				kilograms: 3,
+				pounds: 6
 			}
 		}
 	},
@@ -411,8 +400,7 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.airmauritius.com/baggage/carry-on',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 35, 25],
-				inches: [21.7, 13.8, 9.9]
+				centimeters: 115
 			},
 			weight: {
 				kilograms: 7
@@ -448,7 +436,8 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10,
 				pounds: 22
-			}
+			},
+			isExtra: true
 		},
 		personalItem: {
 			dimensions: {
