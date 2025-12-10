@@ -47,7 +47,7 @@ export interface BagAllowanceDimensions {
 	centimeters: number | number[];
 }
 
-export interface BagAllowance extends BagAllowanceDimensions {
+export interface BagAllowance extends Partial<BagAllowanceDimensions> {
 	weight?: Weight;
 }
 

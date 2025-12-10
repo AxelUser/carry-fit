@@ -38,19 +38,22 @@ function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 
 	let personalItem: BagAllowance | undefined;
 	if (allowance.personalItem) {
-		if (!allowance.personalItem.dimensions) {
-			throw new Error(`No dimensions for personal item of ${allowance.airline}`);
-		}
-		const personalItemDimensions = getCarryOnDimensions(
-			allowance.airline,
-			allowance.personalItem.dimensions
-		);
 		const personalItemWeight = getWeight(allowance.personalItem.weight);
 
-		personalItem = {
-			...personalItemDimensions,
-			...(personalItemWeight && { weight: personalItemWeight })
-		};
+		if (allowance.personalItem.dimensions) {
+			const personalItemDimensions = getCarryOnDimensions(
+				allowance.airline,
+				allowance.personalItem.dimensions
+			);
+			personalItem = {
+				...personalItemDimensions,
+				...(personalItemWeight && { weight: personalItemWeight })
+			};
+		} else {
+			personalItem = {
+				...(personalItemWeight && { weight: personalItemWeight })
+			};
+		}
 	}
 
 	const totalWeight = getWeight(allowance.totalWeight);

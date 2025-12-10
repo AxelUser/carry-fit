@@ -163,8 +163,8 @@
 				<span class="text-secondary-foreground">👜</span>
 				<span class="text-sm font-medium text-foreground">Personal Item</span>
 			</div>
-			{#if personalItemDimensions && personalItemDimensions.length > 0}
-				<dl class="space-y-1 text-sm">
+			<dl class="space-y-1 text-sm">
+				{#if personalItemDimensions && personalItemDimensions.length > 0}
 					{#if personalItemDimensions.length === 1}
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Total</dt>
@@ -184,16 +184,16 @@
 							<dd class="font-medium">{formatDimension(personalItemDimensions[2])} {unit}</dd>
 						</div>
 					{/if}
-					{#if personalItemWeight}
-						<div class="flex justify-between border-t border-border/50 pt-1">
-							<dt class="text-muted-foreground">Weight</dt>
-							<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
-						</div>
-					{/if}
-				</dl>
-			{:else}
-				<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
-			{/if}
+				{:else}
+					<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
+				{/if}
+				{#if personalItemWeight}
+					<div class="flex justify-between border-t border-border/50 pt-1">
+						<dt class="text-muted-foreground">Weight</dt>
+						<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
+					</div>
+				{/if}
+			</dl>
 		</div>
 	</div>
 

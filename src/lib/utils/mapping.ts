@@ -6,13 +6,16 @@ import {
 } from '$lib/types';
 
 export function getAirlineDimensions(
-	allowanceDims: BagAllowanceDimensions,
+	allowanceDims: Partial<BagAllowanceDimensions>,
 	measurementSystem: MeasurementSystem
 ): number[] {
 	const dims =
 		measurementSystem === MeasurementSystems.Metric
 			? allowanceDims.centimeters
 			: allowanceDims.inches;
+	if (dims === undefined) {
+		return [];
+	}
 	return Array.isArray(dims) ? dims : [dims];
 }
 
