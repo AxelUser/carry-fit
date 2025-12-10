@@ -89,12 +89,12 @@
 	</header>
 
 	<div class="grid flex-1 grid-cols-1 gap-3 p-4 sm:grid-cols-2">
-		<div class="rounded-lg bg-muted/50 p-3" data-testid="carryon-section">
+		<div class="flex h-full flex-col rounded-lg bg-muted/50 p-3" data-testid="carryon-section">
 			<div class="mb-2 flex items-center gap-2">
 				<span class="text-primary">💼</span>
 				<span class="text-sm font-medium text-foreground">Carry-on</span>
 			</div>
-			<dl class="space-y-1 text-sm">
+			<dl class="flex-1 space-y-1 text-sm">
 				{#if sortedCarryOnDimensions.length === 1}
 					<div class="flex justify-between">
 						<dt class="text-muted-foreground">Total</dt>
@@ -146,24 +146,27 @@
 						</dd>
 					</div>
 				{/if}
-				{#if carryOnWeight}
-					<div class="flex justify-between border-t border-border/50 pt-1">
-						<dt class="text-muted-foreground">Weight</dt>
-						<dd class="font-medium" data-testid="weight-limit">
-							{carryOnWeight}
-							{weightUnit}
-						</dd>
-					</div>
-				{/if}
 			</dl>
+			{#if carryOnWeight}
+				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
+					<dt class="text-muted-foreground">Weight</dt>
+					<dd class="font-medium" data-testid="weight-limit">
+						{carryOnWeight}
+						{weightUnit}
+					</dd>
+				</div>
+			{/if}
 		</div>
 
-		<div class="rounded-lg bg-muted/50 p-3" data-testid="personal-item-section">
+		<div
+			class="flex h-full flex-col rounded-lg bg-muted/50 p-3"
+			data-testid="personal-item-section"
+		>
 			<div class="mb-2 flex items-center gap-2">
 				<span class="text-secondary-foreground">👜</span>
 				<span class="text-sm font-medium text-foreground">Personal Item</span>
 			</div>
-			<dl class="space-y-1 text-sm">
+			<dl class="flex-1 space-y-1 text-sm">
 				{#if personalItemDimensions && personalItemDimensions.length > 0}
 					{#if personalItemDimensions.length === 1}
 						<div class="flex justify-between">
@@ -187,24 +190,24 @@
 				{:else}
 					<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
 				{/if}
-				{#if personalItemWeight}
-					<div class="flex justify-between border-t border-border/50 pt-1">
-						<dt class="text-muted-foreground">Weight</dt>
-						<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
-					</div>
-				{/if}
 			</dl>
+			{#if personalItemWeight}
+				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
+					<dt class="text-muted-foreground">Weight</dt>
+					<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
+				</div>
+			{/if}
 		</div>
-	</div>
 
-	{#if totalWeight}
-		<div class="border-t px-4 py-2">
-			<div class="flex justify-between text-sm">
-				<dt class="text-muted-foreground">Total Weight</dt>
-				<dd class="font-medium">{totalWeight} {weightUnit}</dd>
+		{#if totalWeight}
+			<div class="col-span-1 rounded-lg bg-muted/50 p-3 sm:col-span-2">
+				<div class="flex justify-between text-sm">
+					<dt class="text-muted-foreground">Total Weight</dt>
+					<dd class="font-medium">{totalWeight} {weightUnit}</dd>
+				</div>
 			</div>
-		</div>
-	{/if}
+		{/if}
+	</div>
 
 	<footer class="mt-auto border-t px-4 py-2" data-tour-id="policy-link">
 		{#if airline.link}
