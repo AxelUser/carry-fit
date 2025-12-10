@@ -35,6 +35,7 @@ export interface DimensionCompliance {
 
 export interface AirlineCompliance extends AirlineInfo {
 	complianceResults: DimensionCompliance[];
+	personalItemComplianceResults: DimensionCompliance[] | null;
 }
 
 export interface Weight {

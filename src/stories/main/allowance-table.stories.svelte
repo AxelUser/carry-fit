@@ -6,35 +6,38 @@
 	const sampleAirlineInfo: AirlineInfo[] = [
 		{
 			airline: 'Sample Airline 1',
-			carryon: { inches: 40, centimeters: 100 },
+			carryon: { inches: 40, centimeters: 100, weight: { pounds: 10, kilograms: 4.5 } },
 			region: 'Europe',
-			link: 'https://www.sampleairline.com',
-			pounds: 10,
-			kilograms: 4.5
+			link: 'https://www.sampleairline.com'
 		},
 		{
 			airline: 'Sample Airline 2',
-			carryon: { inches: [45, 50, 25], centimeters: [110, 125, 65] },
+			carryon: {
+				inches: [45, 50, 25],
+				centimeters: [110, 125, 65],
+				weight: { pounds: 12, kilograms: 5.4 }
+			},
 			region: 'Asia',
-			link: 'https://www.sampleairline.com',
-			pounds: 12,
-			kilograms: 5.4
+			link: 'https://www.sampleairline.com'
 		}
 	];
 
 	const sampleCompliantAirlines: AirlineCompliance[] = [
 		{
 			airline: 'Compliant Airline 1',
-			carryon: { inches: 40, centimeters: 100 },
+			carryon: { inches: 40, centimeters: 100, weight: { pounds: 10, kilograms: 4.5 } },
 			region: 'Europe',
 			link: 'https://www.sampleairline.com',
 			complianceResults: [{ passed: true, diff: 0 }],
-			pounds: 10,
-			kilograms: 4.5
+			personalItemComplianceResults: [{ passed: true, diff: 0 }]
 		},
 		{
 			airline: 'Compliant Airline 2',
-			carryon: { inches: [45, 50, 25], centimeters: [110, 125, 65] },
+			carryon: {
+				inches: [45, 50, 25],
+				centimeters: [110, 125, 65],
+				weight: { pounds: 12, kilograms: 5.4 }
+			},
 			region: 'Asia',
 			link: 'https://www.sampleairline.com',
 			complianceResults: [
@@ -42,15 +45,22 @@
 				{ passed: true, diff: 0 },
 				{ passed: true, diff: 0 }
 			],
-			pounds: 12,
-			kilograms: 5.4
+			personalItemComplianceResults: [
+				{ passed: true, diff: 0 },
+				{ passed: true, diff: 0 },
+				{ passed: true, diff: 0 }
+			]
 		}
 	];
 
 	const sampleNonCompliantAirlines: AirlineCompliance[] = [
 		{
 			airline: 'Non-Compliant Airline 1',
-			carryon: { inches: [60, 70, 30], centimeters: [150, 175, 75] },
+			carryon: {
+				inches: [60, 70, 30],
+				centimeters: [150, 175, 75],
+				weight: { pounds: 15, kilograms: 6.8 }
+			},
 			region: 'South America',
 			link: 'https://www.sampleairline.com',
 			complianceResults: [
@@ -58,8 +68,11 @@
 				{ passed: true, diff: 0 },
 				{ passed: false, diff: 3 }
 			],
-			pounds: 15,
-			kilograms: 6.8
+			personalItemComplianceResults: [
+				{ passed: false, diff: 2 },
+				{ passed: true, diff: 0 },
+				{ passed: false, diff: 1 }
+			]
 		}
 	];
 

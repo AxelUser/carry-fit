@@ -132,6 +132,7 @@
 						{airline}
 						{measurementSystem}
 						complianceResults={airline.complianceResults}
+						personalItemComplianceResults={airline.personalItemComplianceResults}
 						isFavorite={favoriteAirlines.has(airline.airline)}
 						{toggleFavorite}
 					/>

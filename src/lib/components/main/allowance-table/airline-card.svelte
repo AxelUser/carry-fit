@@ -13,12 +13,19 @@
 		airline: AirlineInfo;
 		measurementSystem: MeasurementSystem;
 		complianceResults?: DimensionCompliance[];
+		personalItemComplianceResults?: DimensionCompliance[] | null;
 		isFavorite: boolean;
 		toggleFavorite: (airline: string) => void;
 	}
 
-	let { airline, measurementSystem, complianceResults, isFavorite, toggleFavorite }: Props =
-		$props();
+	let {
+		airline,
+		measurementSystem,
+		complianceResults,
+		personalItemComplianceResults,
+		isFavorite,
+		toggleFavorite
+	}: Props = $props();
 
 	const isMetric = $derived(measurementSystem === MeasurementSystems.Metric);
 	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
@@ -51,6 +58,10 @@
 	const dim0 = $derived(complianceResults?.[0]);
 	const dim1 = $derived(complianceResults?.[1]);
 	const dim2 = $derived(complianceResults?.[2]);
+
+	const personalItemDim0 = $derived(personalItemComplianceResults?.[0]);
+	const personalItemDim1 = $derived(personalItemComplianceResults?.[1]);
+	const personalItemDim2 = $derived(personalItemComplianceResults?.[2]);
 
 	function formatDimension(value: number): string {
 		return Number.isInteger(value) ? value.toString() : value.toFixed(1);
@@ -171,20 +182,56 @@
 					{#if personalItemDimensions.length === 1}
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Total</dt>
-							<dd class="font-medium">{formatDimension(personalItemDimensions[0])} {unit}</dd>
+							<dd
+								class="font-medium"
+								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
+							>
+								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
+									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
+								{/if}
+								{formatDimension(personalItemDimensions[0])}
+								{unit}
+							</dd>
 						</div>
 					{:else}
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Length</dt>
-							<dd class="font-medium">{formatDimension(personalItemDimensions[0])} {unit}</dd>
+							<dd
+								class="font-medium"
+								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
+							>
+								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
+									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
+								{/if}
+								{formatDimension(personalItemDimensions[0])}
+								{unit}
+							</dd>
 						</div>
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Width</dt>
-							<dd class="font-medium">{formatDimension(personalItemDimensions[1])} {unit}</dd>
+							<dd
+								class="font-medium"
+								class:text-destructive={personalItemDim1 && !personalItemDim1.passed}
+							>
+								{#if personalItemDim1 && !personalItemDim1.passed && personalItemDim1.diff > 0}
+									<span class="mr-1 text-xs">({formatDiff(personalItemDim1.diff)})</span>
+								{/if}
+								{formatDimension(personalItemDimensions[1])}
+								{unit}
+							</dd>
 						</div>
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Depth</dt>
-							<dd class="font-medium">{formatDimension(personalItemDimensions[2])} {unit}</dd>
+							<dd
+								class="font-medium"
+								class:text-destructive={personalItemDim2 && !personalItemDim2.passed}
+							>
+								{#if personalItemDim2 && !personalItemDim2.passed && personalItemDim2.diff > 0}
+									<span class="mr-1 text-xs">({formatDiff(personalItemDim2.diff)})</span>
+								{/if}
+								{formatDimension(personalItemDimensions[2])}
+								{unit}
+							</dd>
 						</div>
 					{/if}
 				{:else}

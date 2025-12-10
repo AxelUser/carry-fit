@@ -7,6 +7,7 @@ import type {
 	DimensionCompliance
 } from '$lib/types';
 import { getAirlineDimensions } from '$lib/utils/mapping';
+import { DEFAULT_PERSONAL_ITEM } from './index';
 
 /**
  * Check if the user's bag dimensions comply with the airline's carry-on limits.
@@ -79,10 +80,27 @@ export function groupAirlinesByCompliance(
 				flexibility
 			);
 
+			const personalItemDimensions = getAirlineDimensions(
+				airline.personalItem ?? DEFAULT_PERSONAL_ITEM,
+				measurementSystem
+			);
+
+			const personalItemCompliance = checkCompliance(
+				personalItemDimensions,
+				[userDimensions.depth, userDimensions.width, userDimensions.height],
+				flexibility
+			);
+
+			const airlineCompliance: AirlineCompliance = {
+				...airline,
+				complianceResults: compliance || [],
+				personalItemComplianceResults: personalItemCompliance
+			};
+
 			if (compliance?.every((c) => c.passed)) {
-				acc.compliant.push({ ...airline, complianceResults: compliance });
+				acc.compliant.push(airlineCompliance);
 			} else if (compliance) {
-				acc.nonCompliant.push({ ...airline, complianceResults: compliance });
+				acc.nonCompliant.push(airlineCompliance);
 			}
 
 			return acc;

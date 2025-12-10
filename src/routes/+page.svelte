@@ -109,6 +109,38 @@
 		)
 	);
 
+	const carryOnScore = $derived.by(() => {
+		if (filteredAirlines.length === 0) return 0;
+		let carryOnCompliantCount = 0;
+		for (const airline of airlinesByCompliance.compliant) {
+			if (airline.complianceResults?.every((result) => result.passed)) {
+				carryOnCompliantCount++;
+			}
+		}
+		for (const airline of airlinesByCompliance.nonCompliant) {
+			if (airline.complianceResults?.every((result) => result.passed)) {
+				carryOnCompliantCount++;
+			}
+		}
+		return (carryOnCompliantCount / filteredAirlines.length) * 100;
+	});
+
+	const personalItemScore = $derived.by(() => {
+		if (filteredAirlines.length === 0) return 0;
+		let personalItemCompliantCount = 0;
+		for (const airline of airlinesByCompliance.compliant) {
+			if (airline.personalItemComplianceResults?.every((result) => result.passed)) {
+				personalItemCompliantCount++;
+			}
+		}
+		for (const airline of airlinesByCompliance.nonCompliant) {
+			if (airline.personalItemComplianceResults?.every((result) => result.passed)) {
+				personalItemCompliantCount++;
+			}
+		}
+		return (personalItemCompliantCount / filteredAirlines.length) * 100;
+	});
+
 	$effect(() => {
 		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
 			metrics.userBagValidated(
@@ -203,10 +235,7 @@
 
 							{#if allDimensionsSet}
 								<div class="mt-6">
-									<ComplianceScore
-										allAirlinesCount={filteredAirlines.length}
-										compliantAirlinesCount={airlinesByCompliance.compliant.length}
-									/>
+									<ComplianceScore {carryOnScore} {personalItemScore} />
 								</div>
 							{/if}
 						</Card.Content>
