@@ -8,7 +8,6 @@
 	import { Slider } from '../ui/slider';
 	import { Button } from '../ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
-	import MeasurementSystemSelect from './measurement-system-select.svelte';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -58,13 +57,6 @@
 			<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
 			<p class="text-sm text-muted-foreground">Enter manually or parse from a website</p>
 		</div>
-		<MeasurementSystemSelect
-			value={measurementSystem}
-			onChanged={(system) => {
-				measurementSystem = system;
-				onChanged();
-			}}
-		/>
 	</div>
 
 	<div class="mb-3 flex flex-wrap items-center gap-2">
@@ -78,7 +70,7 @@
 		</Button>
 	</div>
 
-	<div data-tour-id="bag-input" class="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+	<div data-tour-id="bag-input" class="grid grid-cols-1 gap-3 sm:grid-cols-4 sm:gap-4">
 		<div class="flex flex-col gap-1.5">
 			<Label for="height">Height</Label>
 			<div class="relative">
@@ -136,9 +128,43 @@
 				</span>
 			</div>
 		</div>
+		<div class="flex flex-col gap-1.5">
+			<Label>Units</Label>
+			<div
+				data-tour-id="measurement-system-select"
+				class="flex w-full items-center gap-2 bg-card py-1"
+			>
+				<Button
+					variant={measurementSystem === MeasurementSystems.Metric ? 'default' : 'outline'}
+					size="sm"
+					class="flex-1 justify-center px-3"
+					onclick={() => {
+						measurementSystem = MeasurementSystems.Metric;
+						onChanged();
+					}}
+					data-testid="metric-button"
+					data-active={measurementSystem === MeasurementSystems.Metric}
+				>
+					cm/kg
+				</Button>
+				<Button
+					variant={measurementSystem === MeasurementSystems.Imperial ? 'default' : 'outline'}
+					size="sm"
+					class="flex-1 justify-center px-3"
+					onclick={() => {
+						measurementSystem = MeasurementSystems.Imperial;
+						onChanged();
+					}}
+					data-testid="imperial-button"
+					data-active={measurementSystem === MeasurementSystems.Imperial}
+				>
+					in/lb
+				</Button>
+			</div>
+		</div>
 	</div>
 
-	<p class="mb-3 mt-1 text-center text-sm font-medium text-card-foreground/80">
+	<p class="mb-3 mt-3 text-center text-sm font-medium text-card-foreground/80">
 		Don't worry about the order - we'll find the best fit
 	</p>
 
