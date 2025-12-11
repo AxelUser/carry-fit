@@ -31,14 +31,80 @@
 
 	const unitLabel = $derived(measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in');
 
+	const dimensionPlaceholders = $derived(
+		measurementSystem === MeasurementSystems.Metric
+			? { height: 'e.g. 55', width: 'e.g. 40', depth: 'e.g. 23' }
+			: { height: 'e.g. 22', width: 'e.g. 16', depth: 'e.g. 9' }
+	);
+
 	let allDimensionsSet = $derived(
 		userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
+
+	const initialInputs = {
+		height: userDimensions.height > 0 ? `${userDimensions.height}` : '',
+		width: userDimensions.width > 0 ? `${userDimensions.width}` : '',
+		depth: userDimensions.depth > 0 ? `${userDimensions.depth}` : ''
+	};
+
+	let inputs = $state({ ...initialInputs });
+
+	// Just to convert commas to dots and remove non-numeric characters.
+	function sanitize(raw: string) {
+		return raw
+			.replace(/,/g, '.')
+			.replace(/[^\d.]/g, '')
+			.trim();
+	}
+
+	// The only reason I do parsing manually, because I don't want HTML5 number inputs.
+	function handleDimensionInput(key: keyof typeof inputs, event: Event) {
+		const inputEl = event.currentTarget as HTMLInputElement;
+		const raw = inputEl.value;
+		const cleaned = sanitize(raw);
+
+		// Reject malformed decimals (multiple dots or non-numeric)
+		if (!/^\d*(?:\.\d*)?$/.test(cleaned)) {
+			inputEl.value = inputs[key];
+			return;
+		}
+
+		// Treat totally cleared input as zero in state
+		if (!cleaned) {
+			inputEl.value = '';
+			inputs = { ...inputs, [key]: '' };
+			userDimensions[key] = 0;
+			onChanged();
+			return;
+		}
+
+		// Normalize leading dot and leading zeros in integer part
+		const dotted = cleaned.startsWith('.') ? `0${cleaned}` : cleaned;
+		const [intPartRaw, fracPartRaw = ''] = dotted.split('.');
+		const intPartTrimmed = intPartRaw.replace(/^0+(?=\d)/, '') || '0';
+		const normalized =
+			fracPartRaw.length > 0 || dotted.endsWith('.')
+				? `${intPartTrimmed}.${fracPartRaw}`
+				: intPartTrimmed;
+
+		const parsed = Number.parseFloat(normalized);
+		if (!Number.isFinite(parsed) || parsed < 0) {
+			inputEl.value = inputs[key];
+			return;
+		}
+
+		inputEl.value = normalized;
+		inputs = { ...inputs, [key]: normalized };
+		userDimensions[key] = parsed;
+
+		onChanged();
+	}
 
 	function resetDimensions() {
 		userDimensions.depth = 0;
 		userDimensions.width = 0;
 		userDimensions.height = 0;
+		inputs = { height: '', width: '', depth: '' };
 		showFlexibility = false;
 		flexibility = 0;
 	}
@@ -75,14 +141,13 @@
 			<Label for="height">Height</Label>
 			<div class="relative">
 				<Input
-					type="number"
+					type="text"
 					id="height"
-					value={userDimensions.height}
-					oninput={(e) => {
-						userDimensions.height = Number(e.currentTarget.value);
-						onChanged();
-					}}
-					min={0}
+					value={inputs.height}
+					oninput={(e) => handleDimensionInput('height', e)}
+					inputmode="decimal"
+					autocomplete="off"
+					placeholder={dimensionPlaceholders.height}
 					class="pr-12"
 				/>
 				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -94,14 +159,13 @@
 			<Label for="width">Width</Label>
 			<div class="relative">
 				<Input
-					type="number"
+					type="text"
 					id="width"
-					value={userDimensions.width}
-					oninput={(e) => {
-						userDimensions.width = Number(e.currentTarget.value);
-						onChanged();
-					}}
-					min={0}
+					value={inputs.width}
+					oninput={(e) => handleDimensionInput('width', e)}
+					inputmode="decimal"
+					autocomplete="off"
+					placeholder={dimensionPlaceholders.width}
 					class="pr-12"
 				/>
 				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -113,14 +177,13 @@
 			<Label for="depth">Depth</Label>
 			<div class="relative">
 				<Input
-					type="number"
+					type="text"
 					id="depth"
-					value={userDimensions.depth}
-					oninput={(e) => {
-						userDimensions.depth = Number(e.currentTarget.value);
-						onChanged();
-					}}
-					min={0}
+					value={inputs.depth}
+					oninput={(e) => handleDimensionInput('depth', e)}
+					inputmode="decimal"
+					autocomplete="off"
+					placeholder={dimensionPlaceholders.depth}
 					class="pr-12"
 				/>
 				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
