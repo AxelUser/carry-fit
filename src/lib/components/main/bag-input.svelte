@@ -70,8 +70,8 @@
 		</Button>
 	</div>
 
-	<div data-tour-id="bag-input" class="grid grid-cols-1 gap-3 sm:grid-cols-4 sm:gap-4">
-		<div class="flex flex-col gap-1.5">
+	<div data-tour-id="bag-input" class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4">
+		<div class="order-2 flex flex-col gap-1.5 sm:order-1">
 			<Label for="height">Height</Label>
 			<div class="relative">
 				<Input
@@ -90,7 +90,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="flex flex-col gap-1.5">
+		<div class="order-3 flex flex-col gap-1.5 sm:order-2">
 			<Label for="width">Width</Label>
 			<div class="relative">
 				<Input
@@ -109,7 +109,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="flex flex-col gap-1.5">
+		<div class="order-4 flex flex-col gap-1.5 sm:order-3">
 			<Label for="depth">Depth</Label>
 			<div class="relative">
 				<Input
@@ -128,7 +128,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="flex flex-col gap-1.5">
+		<div class="order-1 col-span-3 flex flex-col gap-1.5 sm:order-4 sm:col-span-1">
 			<Label>Units</Label>
 			<div
 				data-tour-id="measurement-system-select"

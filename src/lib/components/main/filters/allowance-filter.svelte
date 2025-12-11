@@ -93,17 +93,13 @@
 						</div>
 
 						<div class="flex items-start gap-2">
-							<Button variant="outline" size="sm" onclick={selectAllRegions}>
-								Select All
-							</Button>
-							<Button variant="outline" size="sm" onclick={clearAllRegions}>
-								Clear All
-							</Button>
+							<Button variant="outline" size="sm" onclick={selectAllRegions}>Select All</Button>
+							<Button variant="outline" size="sm" onclick={clearAllRegions}>Clear All</Button>
 						</div>
 					</div>
 
 					<div
-						class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4"
+						class="mt-3 flex flex-wrap gap-2"
 						data-tour-id="regions-filter-list"
 						data-testid="regions-filter-list"
 					>
@@ -117,7 +113,7 @@
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
 								data-selected={isSelected}
-								class="w-full justify-center text-sm"
+								class="gap-2 text-sm"
 							>
 								<span>{region}</span>
 								{#if isSelected && isAvailable}
