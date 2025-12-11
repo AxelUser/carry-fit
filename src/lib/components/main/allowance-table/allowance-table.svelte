@@ -13,9 +13,9 @@
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
-	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
+	import { ArrowDownAZ, ArrowUpAZ, Check } from 'lucide-svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+	import { Button } from '$lib/components/ui/button';
 
 	type ComplianceCategory = 'compliant' | 'non-compliant';
 
@@ -70,6 +70,17 @@
 
 	let visibleComplianceCategories = $state<ComplianceCategory[]>([]);
 	let hasInitializedSelection = $state(false);
+
+	function toggleComplianceCategory(category: ComplianceCategory) {
+		if (visibleComplianceCategories.includes(category)) {
+			visibleComplianceCategories = visibleComplianceCategories.filter(
+				(selected) => selected !== category
+			);
+			return;
+		}
+
+		visibleComplianceCategories = [...visibleComplianceCategories, category];
+	}
 
 	$effect(() => {
 		if (!showComplianceResult) {
@@ -165,20 +176,34 @@
 		</div>
 
 		{#if showComplianceResult && showComplianceToggle}
-			<ToggleGroup.Root
-				variant="outline"
-				type="multiple"
-				class="flex flex-wrap justify-end gap-2"
-				bind:value={visibleComplianceCategories}
-				aria-label="Filter airlines by compliance"
-			>
-				<ToggleGroup.Item value="compliant" aria-label="Show compliant airlines">
+			<div class="flex flex-wrap justify-end gap-2" aria-label="Filter airlines by compliance">
+				<Button
+					size="sm"
+					variant={visibleComplianceCategories.includes('compliant') ? 'default' : 'outline'}
+					onclick={() => toggleComplianceCategory('compliant')}
+					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
+				>
 					Compliant ({compliantAirlines.length})
-				</ToggleGroup.Item>
-				<ToggleGroup.Item value="non-compliant" aria-label="Show non-compliant airlines">
+					{#if visibleComplianceCategories.includes('compliant')}
+						<div class="ml-1 animate-bounce">
+							<Check class="h-4 w-4" />
+						</div>
+					{/if}
+				</Button>
+				<Button
+					size="sm"
+					variant={visibleComplianceCategories.includes('non-compliant') ? 'default' : 'outline'}
+					onclick={() => toggleComplianceCategory('non-compliant')}
+					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
+				>
 					Non-compliant ({nonCompliantAirlines.length})
-				</ToggleGroup.Item>
-			</ToggleGroup.Root>
+					{#if visibleComplianceCategories.includes('non-compliant')}
+						<div class="ml-1 animate-bounce">
+							<Check class="h-4 w-4" />
+						</div>
+					{/if}
+				</Button>
+			</div>
 		{/if}
 
 		{#if noSearchResults}
@@ -243,3 +268,26 @@
 		</div>
 	</ScrollArea>
 {/snippet}
+
+<style>
+	@keyframes bounce {
+		0% {
+			transform: scale(0);
+			opacity: 0;
+		}
+		50% {
+			transform: scale(1.2);
+			opacity: 1;
+		}
+		75% {
+			transform: scale(0.8);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	.animate-bounce {
+		animation: bounce 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+	}
+</style>
