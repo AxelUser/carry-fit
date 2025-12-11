@@ -5,11 +5,12 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { ChevronsDownUp, ChevronsUpDown, ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
+	import { ChevronsDownUp, ChevronsUpDown } from 'lucide-svelte';
 	import AirlineCard from './airline-card.svelte';
 	import { CarryOnBagCheckedIcon, CarryOnBagInactiveIcon } from '$lib/components/icons';
 	import { tv } from 'tailwind-variants';
 	import { cn } from '$lib/utils/styling';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 
 	interface Props {
 		airlines: AirlineCompliance[];
@@ -22,14 +23,15 @@
 		toggleFavorite: (airline: string) => void;
 		onSectionToggle: (section: 'compliant' | 'non-compliant') => void;
 		favoriteAirlines: Set<string>;
+		scrollable?: boolean;
 	}
 
 	const container = tv({
-		base: 'flex-1',
+		base: 'w-full',
 		variants: {
 			layout: {
 				'single-column': '',
-				'two-column': 'xl:max-w-[50%]'
+				'two-column': ''
 			}
 		}
 	});
@@ -44,7 +46,8 @@
 		sortDirection = $bindable(),
 		toggleFavorite,
 		onSectionToggle,
-		favoriteAirlines
+		favoriteAirlines,
+		scrollable = false
 	}: Props = $props();
 
 	const buttonStyles = {
@@ -61,17 +64,11 @@
 		}
 	}
 
-	function toggleSortDirection() {
-		sortDirection =
-			sortDirection === SortDirections.Ascending
-				? SortDirections.Descending
-				: SortDirections.Ascending;
-	}
 </script>
 
 <div class={container({ layout })} data-testid={`${section}-section`} id={`${section}-airlines`}>
 	<details
-		class="group h-full"
+		class="group h-full w-full"
 		{open}
 		role="none"
 		onclick={(e) => {
@@ -104,40 +101,52 @@
 				</h3>
 			</button>
 		</summary>
-		<div class={cn('mt-3 rounded-lg border p-4')}>
-			<div class="mb-4 flex justify-end">
-				<button
-					class="flex items-center gap-2 rounded-lg border bg-background px-3 py-1.5 text-sm transition-colors hover:bg-muted"
-					onclick={toggleSortDirection}
-					aria-label="Sort airlines"
+		<div class={cn('mt-3 h-full')}>
+			{#if scrollable}
+				<ScrollArea class="h-[560px] w-full pr-2">
+					<div class="pb-2">
+						<div
+							class={cn(
+								'grid auto-rows-fr gap-4',
+								layout === 'single-column' ? 'md:grid-cols-2' : 'grid-cols-1'
+							)}
+							style="contain: layout style;"
+							data-testid={`${section}-cards`}
+						>
+							{#each airlines as airline, i (airline.airline + i)}
+								<AirlineCard
+									{airline}
+									{measurementSystem}
+									complianceResults={airline.complianceResults}
+									personalItemComplianceResults={airline.personalItemComplianceResults}
+									isFavorite={favoriteAirlines.has(airline.airline)}
+									{toggleFavorite}
+								/>
+							{/each}
+						</div>
+					</div>
+				</ScrollArea>
+			{:else}
+				<div
+					class={cn(
+						'grid auto-rows-fr gap-4',
+						layout === 'single-column' ? 'md:grid-cols-2' : 'grid-cols-1'
+					)}
+					style="contain: layout style;"
+					data-testid={`${section}-cards`}
 				>
-					Sort
-					{#if sortDirection === SortDirections.Ascending}
-						<ArrowDownAZ class="size-4" />
-					{:else}
-						<ArrowUpAZ class="size-4" />
-					{/if}
-				</button>
-			</div>
-			<div
-				class={cn(
-					'grid auto-rows-fr gap-4',
-					layout === 'single-column' ? 'sm:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1'
-				)}
-				style="contain: layout style;"
-				data-testid={`${section}-cards`}
-			>
-				{#each airlines as airline, i (airline.airline + i)}
-					<AirlineCard
-						{airline}
-						{measurementSystem}
-						complianceResults={airline.complianceResults}
-						personalItemComplianceResults={airline.personalItemComplianceResults}
-						isFavorite={favoriteAirlines.has(airline.airline)}
-						{toggleFavorite}
-					/>
-				{/each}
-			</div>
+					{#each airlines as airline, i (airline.airline + i)}
+						<AirlineCard
+							{airline}
+							{measurementSystem}
+							complianceResults={airline.complianceResults}
+							personalItemComplianceResults={airline.personalItemComplianceResults}
+							isFavorite={favoriteAirlines.has(airline.airline)}
+							{toggleFavorite}
+						/>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</details>
 </div>

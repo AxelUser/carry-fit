@@ -12,8 +12,6 @@
 	import { Alert, AlertDescription } from '$lib/components/ui/alert';
 	import { AlertTriangle, ClipboardPaste } from 'lucide-svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
-	import { badgeVariants } from '../ui/badge';
-	import { cn } from '$lib/utils/styling';
 	import { metrics } from '$lib/analytics';
 
 	let open = $state(false);
@@ -63,14 +61,16 @@
 	}
 </script>
 
-<button
+<Button
 	data-tour-id="paste-dimensions"
-	class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
+	variant="ghost"
+	size="sm"
 	onclick={openDialog}
+	class="gap-1"
 >
-	<ClipboardPaste class="mr-1 size-3" />
+	<ClipboardPaste class="size-4" />
 	<span>Parse</span>
-</button>
+</Button>
 
 <Dialog bind:open>
 	<DialogContent>

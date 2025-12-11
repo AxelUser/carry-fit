@@ -8,19 +8,10 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import { links } from '$lib/utils/navigation';
-	import {
-		AllowanceFilter,
-		AllowanceTable,
-		BagInput,
-		ComplianceScore,
-		Info,
-		MeasurementSystemSelect
-	} from '$lib/components/main';
+	import { AllowanceFilter, AllowanceTable, BagInput, ComplianceScore, Info } from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { runMainTour, runPendingTours } from '$lib/tours';
+	import { runPendingTours } from '$lib/tours';
 
 	let innerWidth = $state(0);
 	// Taken from tailwind.config.ts
@@ -177,88 +168,63 @@
 
 <svelte:window bind:innerWidth />
 
-<div class="min-h-screen px-2 py-8 sm:px-4">
-	<div class="min-h-screen">
-		<div class="mx-auto md:container">
-			<div class="mb-2 py-2 text-center">
-				<h1 class="mb-3 font-extrabold">
-					<span
-						class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
-					>
-						CarryFit
-					</span>
-					<span class="ml-0 inline-flex translate-y-2">
-						<CarryFitIcon class="h-12 w-12 sm:h-16 sm:w-16" />
-					</span>
-				</h1>
-				<p class="text-lg sm:text-xl">
-					Instantly validate your carry-on bag dimensions for <span class="font-medium text-primary"
-						>{allAirlines.length}</span
-					> airlines worldwide
-				</p>
-				<div class="mt-4 flex justify-center gap-2">
-					<Button
-						data-tour-id="take-tour-button"
-						variant="link"
-						size="sm"
-						onclick={() => runMainTour()}
-					>
-						Take a Tour
-					</Button>
-					<Button href={links.legal.privacy} variant="link" size="sm">Privacy Policy</Button>
-					<Button href={links.legal.terms} variant="link" size="sm">Terms of Use</Button>
-				</div>
-			</div>
+<div class="min-h-screen px-3 py-8 sm:px-4">
+	<div class="mx-auto max-w-4xl space-y-6">
+		<div class="text-center">
+			<h1 class="mb-2 font-extrabold">
+				<span
+					class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
+				>
+					CarryFit
+				</span>
+				<span class="ml-2 inline-flex translate-y-1">
+					<CarryFitIcon class="h-10 w-10 sm:h-14 sm:w-14" />
+				</span>
+			</h1>
+			<p class="text-base text-muted-foreground sm:text-lg">
+				Validate your carry-on dimensions for <span class="font-semibold text-primary">{allAirlines.length}</span>
+				airlines worldwide
+			</p>
+		</div>
 
-			<div class="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
-				<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
-
-				<div class="mx-auto w-full max-w-2xl lg:mx-0 lg:flex-1">
-					<MeasurementSystemSelect
-						bind:value={preferences.measurementSystem}
-						onChanged={clearSharedBagInfo}
+			<Card.Root>
+			<Card.Content class="space-y-4">
+					<BagInput
+						bind:userDimensions
+						measurementSystem={preferences.measurementSystem}
+						bind:showFlexibility
+						bind:flexibility
+						flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
+						flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
+						onChanged={() => {
+							clearSharedBagInfo();
+						}}
 					/>
 
-					<Card.Root>
-						<Card.Content>
-							<BagInput
-								bind:userDimensions
-								measurementSystem={preferences.measurementSystem}
-								bind:showFlexibility
-								bind:flexibility
-								flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
-								flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
-								onChanged={() => {
-									clearSharedBagInfo();
-								}}
-							/>
+					{#if allDimensionsSet}
+					<div class="pt-2">
+							<ComplianceScore {carryOnScore} {personalItemScore} />
+						</div>
+					{/if}
+				</Card.Content>
+			</Card.Root>
 
-							{#if allDimensionsSet}
-								<div class="mt-6">
-									<ComplianceScore {carryOnScore} {personalItemScore} />
-								</div>
-							{/if}
-						</Card.Content>
-					</Card.Root>
-				</div>
-			</div>
+			<AllowanceFilter
+				airlines={allAirlines}
+				bind:favoriteAirlines={preferences.favoriteAirlines}
+				bind:filteredAirlines
+				bind:filterRegions={preferences.filterRegions}
+			/>
 
-			<div class="flex flex-col gap-4">
-				<AllowanceFilter
-					airlines={allAirlines}
-					bind:favoriteAirlines={preferences.favoriteAirlines}
-					bind:filteredAirlines
-					bind:filterRegions={preferences.filterRegions}
-				/>
-				<AllowanceTable
-					measurementSystem={preferences.measurementSystem}
-					bind:favoriteAirlines={preferences.favoriteAirlines}
-					airlines={filteredAirlines}
-					compliantAirlines={airlinesByCompliance.compliant}
-					nonCompliantAirlines={airlinesByCompliance.nonCompliant}
-					variant={isLargeScreen ? 'two-column' : 'single-column'}
-				/>
-			</div>
-		</div>
+			<AllowanceTable
+				measurementSystem={preferences.measurementSystem}
+				bind:favoriteAirlines={preferences.favoriteAirlines}
+				airlines={filteredAirlines}
+				compliantAirlines={airlinesByCompliance.compliant}
+				nonCompliantAirlines={airlinesByCompliance.nonCompliant}
+			variant="single-column"
+			/>
+
+			<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 	</div>
 </div>

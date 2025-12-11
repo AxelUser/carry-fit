@@ -7,9 +7,6 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import { Label } from '$lib/components/ui/label';
-	import { badgeVariants } from '$lib/components/ui/badge';
-
-	import { cn } from '$lib/utils/styling';
 	import FavoriteAirlines from './favorite-airlines.svelte';
 
 	interface Props {
@@ -96,29 +93,17 @@
 						</div>
 
 						<div class="flex items-start gap-2">
-							<button
-								class={cn(
-									badgeVariants({ variant: 'secondary' }),
-									'focus:outline-none focus:ring-0 focus:ring-offset-0'
-								)}
-								onclick={selectAllRegions}
-							>
+							<Button variant="outline" size="sm" onclick={selectAllRegions}>
 								Select All
-							</button>
-							<button
-								class={cn(
-									badgeVariants({ variant: 'secondary' }),
-									'focus:outline-none focus:ring-0 focus:ring-offset-0'
-								)}
-								onclick={clearAllRegions}
-							>
+							</Button>
+							<Button variant="outline" size="sm" onclick={clearAllRegions}>
 								Clear All
-							</button>
+							</Button>
 						</div>
 					</div>
 
 					<div
-						class="mt-3 flex flex-wrap gap-2"
+						class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4"
 						data-tour-id="regions-filter-list"
 						data-testid="regions-filter-list"
 					>
@@ -132,6 +117,7 @@
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
 								data-selected={isSelected}
+								class="w-full justify-center text-sm"
 							>
 								<span>{region}</span>
 								{#if isSelected && isAvailable}

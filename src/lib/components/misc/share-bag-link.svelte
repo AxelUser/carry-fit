@@ -2,8 +2,7 @@
 	import { ClickSplash } from '$lib/components/ui/click-splash';
 	import { Link } from 'lucide-svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
-	import { badgeVariants } from '../ui/badge';
-	import { cn } from '$lib/utils/styling';
+	import { Button } from '$lib/components/ui/button';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -26,12 +25,9 @@
 
 <ClickSplash onTrigger={copyShareLink} content="Copied!">
 	{#snippet trigger()}
-		<button
-			class={cn(badgeVariants({ variant: 'secondary' }), 'focus:ring-0 focus:ring-offset-0')}
-			onclick={copyShareLink}
-		>
-			<Link class="mr-1 size-3" />
+		<Button variant="ghost" size="sm" onclick={copyShareLink} class="gap-1">
+			<Link class="size-4" />
 			<span>Copy</span>
-		</button>
+		</Button>
 	{/snippet}
 </ClickSplash>

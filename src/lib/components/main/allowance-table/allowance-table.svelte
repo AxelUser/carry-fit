@@ -15,6 +15,7 @@
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
 	import { ArrowDownAZ, ArrowUpAZ } from 'lucide-svelte';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -88,19 +89,11 @@
 				: SortDirections.Ascending;
 	}
 
-	// Mutual exclusivity of compliance and non-compliance sections
+	// Keep sections open by default when available
 	$effect(() => {
-		// Always open compliance and non-compliance in two-column layout
-		if (variant === 'two-column') {
-			isNonCompliantOpen = true;
-			isCompliantOpen = true;
-			return;
-		}
-
-		// If only one section is available, open it
 		if (onlyCompliantSection) {
-			isNonCompliantOpen = false;
 			isCompliantOpen = true;
+			isNonCompliantOpen = false;
 			return;
 		}
 
@@ -110,9 +103,9 @@
 			return;
 		}
 
-		// If both sections available and this is single-column layout, open non-compliant
+		// If both sections are available, keep both open
 		isNonCompliantOpen = true;
-		isCompliantOpen = false;
+		isCompliantOpen = true;
 	});
 
 	let lastToggledSection = $state<'compliant' | 'non-compliant'>('non-compliant');
@@ -170,7 +163,10 @@
 		<Card.Title>Airlines</Card.Title>
 	</Card.Header>
 	<Card.Content class="flex min-h-[300px] flex-col gap-4 overflow-x-auto">
-		<SearchInput />
+		<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+			<SearchInput />
+			<div class="flex justify-end">{@render sortButton()}</div>
+		</div>
 
 		{#if noSearchResults}
 			<EmptyState
@@ -210,8 +206,11 @@
 {/snippet}
 
 {#snippet airlinesGrid()}
+	{@const complianceGridCols =
+		hasCompliantAirlines && hasNonCompliantAirlines ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}
+
 	{#if showComplianceResult}
-		<div class="flex flex-col gap-6 xl:flex-row xl:items-start" data-testid="compliance-sections">
+		<div class={`grid gap-4 ${complianceGridCols}`} data-testid="compliance-sections">
 			{#if hasNonCompliantAirlines}
 				<ComplianceCards
 					variant="nonCompliant"
@@ -224,6 +223,7 @@
 					{toggleFavorite}
 					favoriteAirlines={favoriteAirlinesSet}
 					onSectionToggle={toggleSection}
+					scrollable
 				/>
 			{/if}
 
@@ -239,27 +239,24 @@
 					{toggleFavorite}
 					favoriteAirlines={favoriteAirlinesSet}
 					onSectionToggle={toggleSection}
+					scrollable
 				/>
 			{/if}
 		</div>
 	{:else}
-		<div class="flex flex-col gap-4">
-			<div class="flex justify-end">
-				{@render sortButton()}
+		<ScrollArea class="h-[640px] pr-2">
+			<div class="pb-2">
+				<div class="grid auto-rows-fr gap-4 sm:grid-cols-2" style="contain: layout style;">
+					{#each sortedAirlines as airline, i (airline.airline + i)}
+						<AirlineCard
+							{airline}
+							{measurementSystem}
+							isFavorite={favoriteAirlinesSet.has(airline.airline)}
+							{toggleFavorite}
+						/>
+					{/each}
+				</div>
 			</div>
-			<div
-				class="grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3"
-				style="contain: layout style;"
-			>
-				{#each sortedAirlines as airline, i (airline.airline + i)}
-					<AirlineCard
-						{airline}
-						{measurementSystem}
-						isFavorite={favoriteAirlinesSet.has(airline.airline)}
-						{toggleFavorite}
-					/>
-				{/each}
-			</div>
-		</div>
+		</ScrollArea>
 	{/if}
 {/snippet}
