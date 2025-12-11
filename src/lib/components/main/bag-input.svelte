@@ -41,14 +41,6 @@
 		userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0
 	);
 
-	const initialInputs = {
-		height: userDimensions.height > 0 ? `${userDimensions.height}` : '',
-		width: userDimensions.width > 0 ? `${userDimensions.width}` : '',
-		depth: userDimensions.depth > 0 ? `${userDimensions.depth}` : ''
-	};
-
-	let inputs = $state({ ...initialInputs });
-
 	// Just to convert commas to dots and remove non-numeric characters.
 	function sanitize(raw: string) {
 		return raw
@@ -58,21 +50,20 @@
 	}
 
 	// The only reason I do parsing manually, because I don't want HTML5 number inputs.
-	function handleDimensionInput(key: keyof typeof inputs, event: Event) {
+	function handleDimensionInput(key: keyof UserDimensions, event: Event) {
 		const inputEl = event.currentTarget as HTMLInputElement;
 		const raw = inputEl.value;
 		const cleaned = sanitize(raw);
 
 		// Reject malformed decimals (multiple dots or non-numeric)
 		if (!/^\d*(?:\.\d*)?$/.test(cleaned)) {
-			inputEl.value = inputs[key];
+			inputEl.value = userDimensions[key] > 0 ? `${userDimensions[key]}` : '';
 			return;
 		}
 
 		// Treat totally cleared input as zero in state
 		if (!cleaned) {
 			inputEl.value = '';
-			inputs = { ...inputs, [key]: '' };
 			userDimensions[key] = 0;
 			onChanged();
 			return;
@@ -89,12 +80,11 @@
 
 		const parsed = Number.parseFloat(normalized);
 		if (!Number.isFinite(parsed) || parsed < 0) {
-			inputEl.value = inputs[key];
+			inputEl.value = userDimensions[key] > 0 ? `${userDimensions[key]}` : '';
 			return;
 		}
 
 		inputEl.value = normalized;
-		inputs = { ...inputs, [key]: normalized };
 		userDimensions[key] = parsed;
 
 		onChanged();
@@ -104,7 +94,6 @@
 		userDimensions.depth = 0;
 		userDimensions.width = 0;
 		userDimensions.height = 0;
-		inputs = { height: '', width: '', depth: '' };
 		showFlexibility = false;
 		flexibility = 0;
 	}
@@ -113,6 +102,7 @@
 		userDimensions.height = dimensions.height;
 		userDimensions.width = dimensions.width;
 		userDimensions.depth = dimensions.depth;
+
 		onChanged();
 	}
 </script>
@@ -143,7 +133,7 @@
 				<Input
 					type="text"
 					id="height"
-					value={inputs.height}
+					value={userDimensions.height > 0 ? `${userDimensions.height}` : ''}
 					oninput={(e) => handleDimensionInput('height', e)}
 					inputmode="decimal"
 					autocomplete="off"
@@ -161,7 +151,7 @@
 				<Input
 					type="text"
 					id="width"
-					value={inputs.width}
+					value={userDimensions.width > 0 ? `${userDimensions.width}` : ''}
 					oninput={(e) => handleDimensionInput('width', e)}
 					inputmode="decimal"
 					autocomplete="off"
@@ -179,7 +169,7 @@
 				<Input
 					type="text"
 					id="depth"
-					value={inputs.depth}
+					value={userDimensions.depth > 0 ? `${userDimensions.depth}` : ''}
 					oninput={(e) => handleDimensionInput('depth', e)}
 					inputmode="decimal"
 					autocomplete="off"
