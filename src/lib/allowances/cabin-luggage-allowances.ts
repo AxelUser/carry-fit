@@ -1396,22 +1396,6 @@ export const allowances: AirlineAllowance[] = [
 		}
 	},
 	{
-		id: 'aer-lingus',
-		airline: 'Aer Lingus',
-		region: 'Europe',
-		link: 'https://www.aerlingus.com/travel-information/baggage-information/cabin-baggage/',
-		carryOn: {
-			dimensions: {
-				centimeters: [55, 40, 24],
-				inches: [21.5, 15.5, 9.5]
-			},
-			weight: {
-				kilograms: 10,
-				pounds: 22
-			}
-		}
-	},
-	{
 		id: 'aeroflot',
 		airline: 'Aeroflot',
 		region: 'Russia',
