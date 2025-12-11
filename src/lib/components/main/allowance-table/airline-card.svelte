@@ -9,6 +9,7 @@
 	import Star from '$lib/components/icons/lucide/star.svelte';
 	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
 	import { cn } from '$lib/utils/styling';
+	import { Separator } from '$lib/components/ui/separator';
 
 	interface Props {
 		airline: AirlineInfo;
@@ -172,7 +173,8 @@
 				{/if}
 			</dl>
 			{#if carryOnWeight}
-				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
+				<Separator orientation="horizontal" />
+				<div class="mt-auto flex justify-between pt-1 text-sm">
 					<dt class="text-muted-foreground">Weight</dt>
 					<dd class="font-medium" data-testid="weight-limit">
 						{carryOnWeight}
