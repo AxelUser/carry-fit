@@ -22,7 +22,7 @@
 
 	let {
 		userDimensions = $bindable(),
-		measurementSystem,
+		measurementSystem = $bindable(),
 		showFlexibility = $bindable(),
 		flexibility = $bindable(),
 		flexibilityMaxValue,
@@ -55,7 +55,7 @@
 <div class="mb-4">
 	<div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 		<div>
-		<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
+			<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
 			<p class="text-sm text-muted-foreground">Enter manually or parse from a website</p>
 		</div>
 		<MeasurementSystemSelect
@@ -68,14 +68,14 @@
 	</div>
 
 	<div class="mb-3 flex flex-wrap items-center gap-2">
-			{#if allDimensionsSet}
-				<ShareBagLink {userDimensions} {measurementSystem} />
-			{/if}
-			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
+		{#if allDimensionsSet}
+			<ShareBagLink {userDimensions} {measurementSystem} />
+		{/if}
+		<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
 		<Button variant="ghost" size="sm" onclick={resetDimensions} class="gap-1">
-				<Eraser class="size-4" />
-				<span>Clear</span>
-			</Button>
+			<Eraser class="size-4" />
+			<span>Clear</span>
+		</Button>
 	</div>
 
 	<div data-tour-id="bag-input" class="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">

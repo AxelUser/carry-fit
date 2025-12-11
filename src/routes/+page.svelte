@@ -8,7 +8,13 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import { AllowanceFilter, AllowanceTable, BagInput, ComplianceScore, Info } from '$lib/components/main';
+	import {
+		AllowanceFilter,
+		AllowanceTable,
+		BagInput,
+		ComplianceScore,
+		Info
+	} from '$lib/components/main';
 	import * as Card from '$lib/components/ui/card';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
@@ -182,49 +188,51 @@
 				</span>
 			</h1>
 			<p class="text-base text-muted-foreground sm:text-lg">
-				Validate your carry-on dimensions for <span class="font-semibold text-primary">{allAirlines.length}</span>
+				Validate your carry-on dimensions for <span class="font-semibold text-primary"
+					>{allAirlines.length}</span
+				>
 				airlines worldwide
 			</p>
 		</div>
 
-			<Card.Root>
+		<Card.Root>
 			<Card.Content class="space-y-4">
-					<BagInput
-						bind:userDimensions
-						measurementSystem={preferences.measurementSystem}
-						bind:showFlexibility
-						bind:flexibility
-						flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
-						flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
-						onChanged={() => {
-							clearSharedBagInfo();
-						}}
-					/>
+				<BagInput
+					bind:userDimensions
+					bind:measurementSystem={preferences.measurementSystem}
+					bind:showFlexibility
+					bind:flexibility
+					flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
+					flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
+					onChanged={() => {
+						clearSharedBagInfo();
+					}}
+				/>
 
-					{#if allDimensionsSet}
+				{#if allDimensionsSet}
 					<div class="pt-2">
-							<ComplianceScore {carryOnScore} {personalItemScore} />
-						</div>
-					{/if}
-				</Card.Content>
-			</Card.Root>
+						<ComplianceScore {carryOnScore} {personalItemScore} />
+					</div>
+				{/if}
+			</Card.Content>
+		</Card.Root>
 
-			<AllowanceFilter
-				airlines={allAirlines}
-				bind:favoriteAirlines={preferences.favoriteAirlines}
-				bind:filteredAirlines
-				bind:filterRegions={preferences.filterRegions}
-			/>
+		<AllowanceFilter
+			airlines={allAirlines}
+			bind:favoriteAirlines={preferences.favoriteAirlines}
+			bind:filteredAirlines
+			bind:filterRegions={preferences.filterRegions}
+		/>
 
-			<AllowanceTable
-				measurementSystem={preferences.measurementSystem}
-				bind:favoriteAirlines={preferences.favoriteAirlines}
-				airlines={filteredAirlines}
-				compliantAirlines={airlinesByCompliance.compliant}
-				nonCompliantAirlines={airlinesByCompliance.nonCompliant}
+		<AllowanceTable
+			measurementSystem={preferences.measurementSystem}
+			bind:favoriteAirlines={preferences.favoriteAirlines}
+			airlines={filteredAirlines}
+			compliantAirlines={airlinesByCompliance.compliant}
+			nonCompliantAirlines={airlinesByCompliance.nonCompliant}
 			variant="single-column"
-			/>
+		/>
 
-			<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
+		<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
 	</div>
 </div>
