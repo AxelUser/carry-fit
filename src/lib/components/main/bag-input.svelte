@@ -175,18 +175,19 @@
 		</div>
 
 		{#if showFlexibility}
-			<div class="mt-3">
-				<div class="flex flex-col items-center gap-4 px-2">
-					<FlexibleSuitcase value={flexibility} {measurementSystem} max={flexibilityMaxValue} />
+			<div class="mt-3 flex flex-col items-center gap-4 px-2">
+				<FlexibleSuitcase value={flexibility} {measurementSystem} max={flexibilityMaxValue} />
+				<div class="mx-auto w-full max-w-[360px]">
 					<Slider
+						class="w-full"
 						type="single"
 						bind:value={flexibility}
 						min={0}
 						max={flexibilityMaxValue}
 						step={flexibilityStep}
 					/>
-					<p class="text-sm text-primary">Adjust for how much your bag can be squeezed to fit</p>
 				</div>
+				<p class="text-sm text-primary">Adjust for how much your bag can be squeezed to fit</p>
 			</div>
 		{/if}
 	</div>
