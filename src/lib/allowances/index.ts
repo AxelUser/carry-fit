@@ -1,4 +1,4 @@
-export { checkCompliance, groupAirlinesByCompliance } from './bag-validation';
+export { checkCompliance, computeAirlinesCompliance } from './bag-validation';
 export { loadData } from './loader';
 export { getScoreMessage } from './scoring-messages';
 import { type BagAllowanceDimensions } from '$lib/types';

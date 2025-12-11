@@ -77,6 +77,8 @@
 		}
 	];
 
+	const sampleComplianceAirlines = [...sampleCompliantAirlines, ...sampleNonCompliantAirlines];
+
 	const { Story } = defineMeta({
 		title: 'Main/AllowanceTable',
 		component: AllowanceTable,
@@ -98,12 +100,8 @@
 				description: 'Array of airline information',
 				control: 'object'
 			},
-			compliantAirlines: {
-				description: 'Array of compliant airlines with compliance results',
-				control: 'object'
-			},
-			nonCompliantAirlines: {
-				description: 'Array of non-compliant airlines with compliance results',
+			complianceAirlines: {
+				description: 'Array of airlines with compliance results',
 				control: 'object'
 			}
 		}
@@ -116,8 +114,7 @@
 		measurementSystem: MeasurementSystems.Metric,
 		favoriteAirlines: ['Sample Airline 1'],
 		airlines: sampleAirlineInfo,
-		compliantAirlines: [],
-		nonCompliantAirlines: []
+		complianceAirlines: []
 	}}
 />
 
@@ -126,9 +123,8 @@
 	args={{
 		measurementSystem: MeasurementSystems.Metric,
 		favoriteAirlines: [],
-		airlines: [],
-		compliantAirlines: sampleCompliantAirlines,
-		nonCompliantAirlines: sampleNonCompliantAirlines
+		airlines: sampleAirlineInfo,
+		complianceAirlines: sampleComplianceAirlines
 	}}
 />
 
@@ -138,8 +134,7 @@
 		measurementSystem: MeasurementSystems.Imperial,
 		favoriteAirlines: [],
 		airlines: sampleAirlineInfo,
-		compliantAirlines: [],
-		nonCompliantAirlines: []
+		complianceAirlines: []
 	}}
 />
 
@@ -149,7 +144,6 @@
 		measurementSystem: MeasurementSystems.Metric,
 		favoriteAirlines: [],
 		airlines: [],
-		compliantAirlines: [],
-		nonCompliantAirlines: []
+		complianceAirlines: []
 	}}
 />

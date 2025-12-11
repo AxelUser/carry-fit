@@ -61,17 +61,14 @@ export function checkCompliance(
 	});
 }
 
-export function groupAirlinesByCompliance(
+export function computeAirlinesCompliance(
 	airlines: AirlineInfo[],
 	userDimensions: UserDimensions,
 	measurementSystem: MeasurementSystem,
 	flexibility: number
-): AirlinesByCompliance {
+): AirlineCompliance[] {
 	if (userDimensions.depth === 0 || userDimensions.width === 0 || userDimensions.height === 0) {
-		return {
-			compliant: [],
-			nonCompliant: []
-		};
+		return [];
 	}
 
 	const userDimensionsSorted = descDimensions([
@@ -80,50 +77,36 @@ export function groupAirlinesByCompliance(
 		userDimensions.height
 	]);
 
-	return airlines.reduce<{
-		compliant: AirlineCompliance[];
-		nonCompliant: AirlineCompliance[];
-	}>(
-		(acc, airline) => {
-			const carryOnDimensions = getRelevantAirlineDimensions(airline.carryon, measurementSystem);
-			if (!carryOnDimensions) {
-				throw new Error(
-					`No carry-on dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
-				);
-			}
-
-			const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibility);
-
-			const personalItemDimensions = getRelevantAirlineDimensions(
-				hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
-				measurementSystem
+	return airlines.map((airline) => {
+		const carryOnDimensions = getRelevantAirlineDimensions(airline.carryon, measurementSystem);
+		if (!carryOnDimensions) {
+			throw new Error(
+				`No carry-on dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
 			);
-			if (!personalItemDimensions) {
-				throw new Error(
-					`No personal item dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
-				);
-			}
+		}
 
-			const personalItemCompliance = checkCompliance(
-				personalItemDimensions,
-				userDimensionsSorted,
-				flexibility
+		const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibility);
+
+		const personalItemDimensions = getRelevantAirlineDimensions(
+			hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
+			measurementSystem
+		);
+		if (!personalItemDimensions) {
+			throw new Error(
+				`No personal item dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
 			);
+		}
 
-			const airlineCompliance: AirlineCompliance = {
-				...airline,
-				complianceResults: compliance || [],
-				personalItemComplianceResults: personalItemCompliance
-			};
+		const personalItemCompliance = checkCompliance(
+			personalItemDimensions,
+			userDimensionsSorted,
+			flexibility
+		);
 
-			if (compliance?.every((c) => c.passed)) {
-				acc.compliant.push(airlineCompliance);
-			} else if (compliance) {
-				acc.nonCompliant.push(airlineCompliance);
-			}
-
-			return acc;
-		},
-		{ compliant: [], nonCompliant: [] }
-	);
+		return {
+			...airline,
+			complianceResults: compliance || [],
+			personalItemComplianceResults: personalItemCompliance
+		};
+	});
 }

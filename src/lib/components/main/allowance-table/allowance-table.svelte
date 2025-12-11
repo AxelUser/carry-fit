@@ -23,38 +23,37 @@
 		measurementSystem: MeasurementSystem;
 		favoriteAirlines: string[];
 		airlines: AirlineInfo[];
-		compliantAirlines: AirlineCompliance[];
-		nonCompliantAirlines: AirlineCompliance[];
+		complianceAirlines: AirlineCompliance[];
 	}
 
 	let {
 		measurementSystem,
 		favoriteAirlines = $bindable(),
 		airlines,
-		compliantAirlines,
-		nonCompliantAirlines
+		complianceAirlines
 	}: Props = $props();
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
+	const isCompliant = (airline: AirlineCompliance) =>
+		airline.complianceResults.every((result) => result.passed);
 
-	const showComplianceResult = $derived(
-		compliantAirlines.length > 0 || nonCompliantAirlines.length > 0
-	);
+	const showComplianceResult = $derived(complianceAirlines.length > 0);
 
 	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
 
-	const sortedAirlines = $derived(sortAirlines(searchState.filterAirlines(airlines)));
-	const sortedCompliantAirlines = $derived(
-		sortAirlines(searchState.filterAirlines(compliantAirlines))
+	const sortedAirlines = $derived(
+		sortAirlines(sortDirection, searchState.filterAirlines(airlines))
 	);
-	const sortedNonCompliantAirlines = $derived(
-		sortAirlines(searchState.filterAirlines(nonCompliantAirlines))
+	const sortedComplianceAirlines = $derived(
+		sortAirlines(sortDirection, searchState.filterAirlines(complianceAirlines))
+	);
+	const compliantAirlines = $derived(sortedComplianceAirlines.filter(isCompliant));
+	const nonCompliantAirlines = $derived(
+		sortedComplianceAirlines.filter((airline) => !isCompliant(airline))
 	);
 
-	const hasCompliantAirlines = $derived(sortedCompliantAirlines.length > 0);
-	const hasNonCompliantAirlines = $derived(sortedNonCompliantAirlines.length > 0);
-
-	const gridColumns = 'sm:grid-cols-2';
+	const hasCompliantAirlines = $derived(compliantAirlines.length > 0);
+	const hasNonCompliantAirlines = $derived(nonCompliantAirlines.length > 0);
 
 	const availableComplianceCategories = $derived<ComplianceCategory[]>(
 		(() => {
@@ -99,37 +98,30 @@
 		}
 	});
 
-	const complianceAirlines = $derived.by<AirlineCompliance[]>(() => {
+	const complianceAirlinesToShow = $derived.by<AirlineCompliance[]>(() => {
 		if (!showComplianceResult) {
 			return [];
 		}
 
-		const airlinesToShow: AirlineCompliance[] = [];
-
-		if (visibleComplianceCategories.includes('compliant')) {
-			airlinesToShow.push(...sortedCompliantAirlines);
-		}
-
-		if (visibleComplianceCategories.includes('non-compliant')) {
-			airlinesToShow.push(...sortedNonCompliantAirlines);
-		}
-
-		return sortAirlines(airlinesToShow);
+		return sortedComplianceAirlines.filter((airline) => {
+			if (isCompliant(airline)) {
+				return visibleComplianceCategories.includes('compliant');
+			}
+			return visibleComplianceCategories.includes('non-compliant');
+		});
 	});
 
 	const visibleAirlines = $derived<AirlineInfo[]>(
-		showComplianceResult ? complianceAirlines : sortedAirlines
+		showComplianceResult ? complianceAirlinesToShow : sortedAirlines
 	);
 	const hasVisibleAirlines = $derived(visibleAirlines.length > 0);
 	const showComplianceToggle = $derived(availableComplianceCategories.length === 2);
 
 	const noSearchResults = $derived(searchState.searchTerm !== '' && visibleAirlines.length === 0);
 
-	function sortAirlines<T extends AirlineInfo>(airlines: T[]) {
-		return airlines.toSorted((a, b) => {
-			const direction = sortDirection === SortDirections.Ascending ? 1 : -1;
-			return a.airline.localeCompare(b.airline) * direction;
-		});
+	function sortAirlines<T extends AirlineInfo>(order: SortDirection, airlines: T[]) {
+		const direction = order === SortDirections.Ascending ? 1 : -1;
+		return airlines.toSorted((a, b) => a.airline.localeCompare(b.airline) * direction);
 	}
 
 	function toggleSortDirection() {
@@ -148,14 +140,14 @@
 		metrics.favoriteAirlineToggled();
 	}
 
-	// This is a workaround to prevent the sluggishness of the table when the airlines data is updated
+	// FIXME: This is a workaround to prevent the sluggishness of the table when the airlines data is updated. Need proper grid virtualization.
 	let isLoading = $state(false);
 	const debouncedUpdate = debounce(() => {
 		isLoading = false;
 	}, 1000);
 
 	$effect(() => {
-		if (compliantAirlines || nonCompliantAirlines || airlines) {
+		if (complianceAirlines || airlines) {
 			isLoading = true;
 			debouncedUpdate();
 		}
@@ -181,10 +173,10 @@
 				aria-label="Filter airlines by compliance"
 			>
 				<ToggleGroup.Item value="compliant" aria-label="Show compliant airlines">
-					Compliant ({sortedCompliantAirlines.length})
+					Compliant ({compliantAirlines.length})
 				</ToggleGroup.Item>
 				<ToggleGroup.Item value="non-compliant" aria-label="Show non-compliant airlines">
-					Non-compliant ({sortedNonCompliantAirlines.length})
+					Non-compliant ({nonCompliantAirlines.length})
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
 		{/if}
@@ -232,7 +224,7 @@
 	<ScrollArea class="h-[640px] pr-2">
 		<div class="pb-2">
 			<div
-				class={`grid auto-rows-fr gap-4 ${gridColumns}`}
+				class="grid auto-rows-fr gap-4 sm:grid-cols-2"
 				style="contain: layout style;"
 				data-testid="airline-cards"
 			>

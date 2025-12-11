@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CarryFitIcon } from '$lib/components/icons';
-	import { loadData, groupAirlinesByCompliance } from '$lib/allowances';
+	import { loadData, computeAirlinesCompliance } from '$lib/allowances';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy } from 'svelte';
@@ -97,8 +97,8 @@
 	let showFavoritesOnly = $state(false);
 	let filteredAirlines = $state(allAirlines);
 
-	const airlinesByCompliance = $derived(
-		groupAirlinesByCompliance(
+	const airlinesWithCompliance = $derived(
+		computeAirlinesCompliance(
 			filteredAirlines,
 			userDimensions,
 			preferences.measurementSystem,
@@ -107,35 +107,21 @@
 	);
 
 	const carryOnScore = $derived.by(() => {
-		if (filteredAirlines.length === 0) return 0;
-		let carryOnCompliantCount = 0;
-		for (const airline of airlinesByCompliance.compliant) {
-			if (airline.complianceResults?.every((result) => result.passed)) {
-				carryOnCompliantCount++;
-			}
-		}
-		for (const airline of airlinesByCompliance.nonCompliant) {
-			if (airline.complianceResults?.every((result) => result.passed)) {
-				carryOnCompliantCount++;
-			}
-		}
-		return (carryOnCompliantCount / filteredAirlines.length) * 100;
+		if (airlinesWithCompliance.length === 0) return 0;
+		const compliantCount = airlinesWithCompliance.reduce((count, airline) => {
+			return count + (airline.complianceResults.every((result) => result.passed) ? 1 : 0);
+		}, 0);
+		return (compliantCount / airlinesWithCompliance.length) * 100;
 	});
 
 	const personalItemScore = $derived.by(() => {
-		if (filteredAirlines.length === 0) return 0;
-		let personalItemCompliantCount = 0;
-		for (const airline of airlinesByCompliance.compliant) {
-			if (airline.personalItemComplianceResults?.every((result) => result.passed)) {
-				personalItemCompliantCount++;
-			}
-		}
-		for (const airline of airlinesByCompliance.nonCompliant) {
-			if (airline.personalItemComplianceResults?.every((result) => result.passed)) {
-				personalItemCompliantCount++;
-			}
-		}
-		return (personalItemCompliantCount / filteredAirlines.length) * 100;
+		if (airlinesWithCompliance.length === 0) return 0;
+		const compliantCount = airlinesWithCompliance.reduce((count, airline) => {
+			return (
+				count + (airline.personalItemComplianceResults?.every((result) => result.passed) ? 1 : 0)
+			);
+		}, 0);
+		return (compliantCount / airlinesWithCompliance.length) * 100;
 	});
 
 	$effect(() => {
@@ -228,8 +214,7 @@
 			measurementSystem={preferences.measurementSystem}
 			bind:favoriteAirlines={preferences.favoriteAirlines}
 			airlines={filteredAirlines}
-			compliantAirlines={airlinesByCompliance.compliant}
-			nonCompliantAirlines={airlinesByCompliance.nonCompliant}
+			complianceAirlines={airlinesWithCompliance}
 		/>
 
 		<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
