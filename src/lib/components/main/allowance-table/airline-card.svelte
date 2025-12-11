@@ -8,6 +8,7 @@
 	import { getAirlineDimensions } from '$lib/utils/mapping';
 	import Star from '$lib/components/icons/lucide/star.svelte';
 	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
+	import { cn } from '$lib/utils/styling';
 
 	interface Props {
 		airline: AirlineInfo;
@@ -63,6 +64,16 @@
 	const personalItemDim1 = $derived(personalItemComplianceResults?.[1]);
 	const personalItemDim2 = $derived(personalItemComplianceResults?.[2]);
 
+	const isCarryOnNonCompliant = $derived(
+		complianceResults ? complianceResults.some((result) => !result?.passed) : false
+	);
+	const isPersonalItemNonCompliant = $derived(
+		personalItemComplianceResults
+			? personalItemComplianceResults.some((result) => !result?.passed)
+			: false
+	);
+	const isFullyNonCompliant = $derived(isCarryOnNonCompliant && isPersonalItemNonCompliant);
+
 	function formatDimension(value: number): string {
 		return Number.isInteger(value) ? value.toString() : value.toFixed(1);
 	}
@@ -74,7 +85,10 @@
 </script>
 
 <article
-	class="flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md"
+	class={cn(
+		'flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
+		isFullyNonCompliant ? 'border-destructive' : 'border-border'
+	)}
 	data-testid="airline-card"
 >
 	<header class="flex items-center justify-between border-b px-4 py-3">
