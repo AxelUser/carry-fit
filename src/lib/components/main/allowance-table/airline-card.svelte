@@ -75,7 +75,6 @@
 
 <article
 	class="flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md"
-	style="contain: content; content-visibility: auto; contain-intrinsic-size: auto 280px;"
 	data-testid="airline-card"
 >
 	<header class="flex items-center justify-between border-b px-4 py-3">

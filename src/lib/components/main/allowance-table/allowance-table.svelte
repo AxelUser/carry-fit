@@ -51,21 +51,18 @@
 		sortAirlines(searchState.filterAirlines(nonCompliantAirlines))
 	);
 
-	let isNonCompliantOpen = $state(false);
-	let isCompliantOpen = $state(false);
-
 	const hasCompliantAirlines = $derived(sortedCompliantAirlines.length > 0);
 	const hasNonCompliantAirlines = $derived(sortedNonCompliantAirlines.length > 0);
 
 	const onlyCompliantSection = $derived(hasCompliantAirlines && !hasNonCompliantAirlines);
 	const onlyNonCompliantSection = $derived(!hasCompliantAirlines && hasNonCompliantAirlines);
 
-	const complianceDetailsFoldable = $derived(
-		variant === 'single-column' && hasCompliantAirlines && hasNonCompliantAirlines
-	);
-
 	const tableLayout = $derived(
-		onlyCompliantSection || onlyNonCompliantSection ? 'single-column' : 'two-column'
+		variant === 'two-column' && hasCompliantAirlines && hasNonCompliantAirlines
+			? 'two-column'
+			: onlyCompliantSection || onlyNonCompliantSection
+				? 'single-column'
+				: 'two-column'
 	);
 
 	const noSearchResults = $derived(
@@ -87,52 +84,6 @@
 			sortDirection === SortDirections.Ascending
 				? SortDirections.Descending
 				: SortDirections.Ascending;
-	}
-
-	// Keep sections open by default when available
-	$effect(() => {
-		if (onlyCompliantSection) {
-			isCompliantOpen = true;
-			isNonCompliantOpen = false;
-			return;
-		}
-
-		if (onlyNonCompliantSection) {
-			isNonCompliantOpen = true;
-			isCompliantOpen = false;
-			return;
-		}
-
-		// If both sections are available, keep both open
-		isNonCompliantOpen = true;
-		isCompliantOpen = true;
-	});
-
-	let lastToggledSection = $state<'compliant' | 'non-compliant'>('non-compliant');
-
-	function toggleSection(section: 'compliant' | 'non-compliant') {
-		lastToggledSection = section;
-		if (section === 'compliant') {
-			if (isCompliantOpen) {
-				isNonCompliantOpen = false;
-				setTimeout(() => {
-					document.getElementById('compliant-airlines')?.scrollIntoView({
-						behavior: 'instant',
-						block: 'start'
-					});
-				}, 0);
-			}
-		} else {
-			if (isNonCompliantOpen) {
-				isCompliantOpen = false;
-				setTimeout(() => {
-					document.getElementById('nonCompliant-airlines')?.scrollIntoView({
-						behavior: 'instant',
-						block: 'start'
-					});
-				}, 0);
-			}
-		}
 	}
 
 	function toggleFavorite(airlineName: string) {
@@ -216,13 +167,9 @@
 					variant="nonCompliant"
 					airlines={sortedNonCompliantAirlines}
 					{measurementSystem}
-					bind:open={isNonCompliantOpen}
 					layout={tableLayout}
-					collapsible={complianceDetailsFoldable}
-					bind:sortDirection
 					{toggleFavorite}
 					favoriteAirlines={favoriteAirlinesSet}
-					onSectionToggle={toggleSection}
 					scrollable
 				/>
 			{/if}
@@ -232,13 +179,9 @@
 					variant="compliant"
 					airlines={sortedCompliantAirlines}
 					{measurementSystem}
-					bind:open={isCompliantOpen}
 					layout={tableLayout}
-					collapsible={complianceDetailsFoldable}
-					bind:sortDirection
 					{toggleFavorite}
 					favoriteAirlines={favoriteAirlinesSet}
-					onSectionToggle={toggleSection}
 					scrollable
 				/>
 			{/if}
