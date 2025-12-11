@@ -4,10 +4,17 @@ import type {
 	AirlinesByCompliance,
 	AirlineInfo,
 	AirlineCompliance,
-	DimensionCompliance
+	DimensionCompliance,
+	BagAllowance
 } from '$lib/types';
 import { getAirlineDimensions } from '$lib/utils/mapping';
 import { DEFAULT_PERSONAL_ITEM } from './index';
+
+function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowance {
+	const dims = allowance?.inches ?? allowance?.centimeters;
+	if (Array.isArray(dims)) return dims.length > 0;
+	return typeof dims === 'number';
+}
 
 /**
  * Check if the user's bag dimensions comply with the airline's carry-on limits.
@@ -81,7 +88,7 @@ export function groupAirlinesByCompliance(
 			);
 
 			const personalItemDimensions = getAirlineDimensions(
-				airline.personalItem ?? DEFAULT_PERSONAL_ITEM,
+				hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
 				measurementSystem
 			);
 
