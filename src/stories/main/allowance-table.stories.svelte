@@ -2,6 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { AllowanceTable } from '$lib/components/main/allowance-table';
 	import { MeasurementSystems, type AirlineCompliance, type AirlineInfo } from '$lib/types';
+	import { descDimensions } from '$lib/utils/dimensions';
 
 	const sampleAirlineInfo: AirlineInfo[] = [
 		{
@@ -13,8 +14,8 @@
 		{
 			airline: 'Sample Airline 2',
 			carryon: {
-				inches: [45, 50, 25],
-				centimeters: [110, 125, 65],
+				inches: descDimensions([45, 50, 25]),
+				centimeters: descDimensions([110, 125, 65]),
 				weight: { pounds: 12, kilograms: 5.4 }
 			},
 			region: 'Asia',
@@ -34,8 +35,8 @@
 		{
 			airline: 'Compliant Airline 2',
 			carryon: {
-				inches: [45, 50, 25],
-				centimeters: [110, 125, 65],
+				inches: descDimensions([45, 50, 25]),
+				centimeters: descDimensions([110, 125, 65]),
 				weight: { pounds: 12, kilograms: 5.4 }
 			},
 			region: 'Asia',
@@ -57,8 +58,8 @@
 		{
 			airline: 'Non-Compliant Airline 1',
 			carryon: {
-				inches: [60, 70, 30],
-				centimeters: [150, 175, 75],
+				inches: descDimensions([60, 70, 30]),
+				centimeters: descDimensions([150, 175, 75]),
 				weight: { pounds: 15, kilograms: 6.8 }
 			},
 			region: 'South America',

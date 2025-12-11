@@ -5,10 +5,12 @@ import type {
 	AirlineInfo,
 	AirlineCompliance,
 	DimensionCompliance,
-	BagAllowance
+	BagAllowance,
+	DimensionValue
 } from '$lib/types';
-import { getAirlineDimensions } from '$lib/utils/mapping';
+import { descDimensions, getRelevantAirlineDimensions } from '$lib/utils/dimensions';
 import { DEFAULT_PERSONAL_ITEM } from './index';
+import type { SortedDimensions } from '$lib/types';
 
 function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowance {
 	const dims = allowance?.inches ?? allowance?.centimeters;
@@ -25,27 +27,23 @@ function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowan
  * @returns An array of compliance results with pass/fail status and diff for each dimension. Returns null if dimensions are empty.
  */
 export function checkCompliance(
-	airlineDimensions: number[],
-	userDimensions: number[],
+	airlineDimensions: DimensionValue,
+	userDimensions: SortedDimensions,
 	flexibility: number = 0
 ): DimensionCompliance[] | null {
-	if (airlineDimensions.length === 0 || userDimensions.length === 0) return null;
-
-	if (airlineDimensions.length === 1) {
+	if (typeof airlineDimensions === 'number') {
 		const bagSum = userDimensions.reduce((acc, curr) => acc + curr, 0);
-		const diff = bagSum - airlineDimensions[0];
+		const diff = bagSum - airlineDimensions;
 		const passed = diff <= flexibility;
 		return [{ passed, diff: passed ? 0 : diff }];
 	}
 
-	// Sort dimensions from largest to smallest for both airline and bag
-	const bagDims = userDimensions.toSorted((a, b) => b - a);
-	const airlineDims = airlineDimensions.toSorted((a, b) => b - a);
+	const airlineDims = airlineDimensions;
 
 	let remainingFlexibility = flexibility;
 
 	return airlineDims.map((airlineDim, index) => {
-		const bagDim = bagDims[index];
+		const bagDim = userDimensions[index];
 		const excess = bagDim - airlineDim;
 
 		// If dimension fits or we have no excess, it's compliant
@@ -76,25 +74,39 @@ export function groupAirlinesByCompliance(
 		};
 	}
 
+	const userDimensionsSorted = descDimensions([
+		userDimensions.depth,
+		userDimensions.width,
+		userDimensions.height
+	]);
+
 	return airlines.reduce<{
 		compliant: AirlineCompliance[];
 		nonCompliant: AirlineCompliance[];
 	}>(
 		(acc, airline) => {
-			const compliance = checkCompliance(
-				getAirlineDimensions(airline.carryon, measurementSystem),
-				[userDimensions.depth, userDimensions.width, userDimensions.height],
-				flexibility
-			);
+			const carryOnDimensions = getRelevantAirlineDimensions(airline.carryon, measurementSystem);
+			if (!carryOnDimensions) {
+				throw new Error(
+					`No carry-on dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
+				);
+			}
 
-			const personalItemDimensions = getAirlineDimensions(
+			const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibility);
+
+			const personalItemDimensions = getRelevantAirlineDimensions(
 				hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
 				measurementSystem
 			);
+			if (!personalItemDimensions) {
+				throw new Error(
+					`No personal item dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
+				);
+			}
 
 			const personalItemCompliance = checkCompliance(
 				personalItemDimensions,
-				[userDimensions.depth, userDimensions.width, userDimensions.height],
+				userDimensionsSorted,
 				flexibility
 			);
 

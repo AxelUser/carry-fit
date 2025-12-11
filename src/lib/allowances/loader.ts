@@ -3,6 +3,7 @@ import {
 	type AirlineInfo,
 	type BagAllowance,
 	type BagAllowanceDimensions,
+	type SortedDimensions,
 	type Data,
 	type TestResult,
 	type Weight
@@ -10,6 +11,7 @@ import {
 import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
 import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 import { convertDimensions, convertWeight } from '$lib/utils/math';
+import { descDimensions } from '$lib/utils/dimensions';
 
 export function loadData(): Data {
 	const parsedAllowances = allowances.map(mapAirlineData);
@@ -94,8 +96,8 @@ function getLastTestOfAirline(
 function getCarryOnDimensions(
 	airlineName: string,
 	dims: {
-		centimeters?: number | number[];
-		inches?: number | number[];
+		centimeters?: number | [number, number, number];
+		inches?: number | [number, number, number];
 	}
 ): BagAllowanceDimensions {
 	let parsedCentimeters = dims.centimeters ? getDimensions(dims.centimeters) : undefined;
@@ -118,11 +120,8 @@ function getCarryOnDimensions(
 	};
 }
 
-function getDimensions(dimensions: number | number[]): number | number[] {
-	if (typeof dimensions === 'number') {
-		return dimensions;
-	}
-	return dimensions.sort((a, b) => b - a);
+function getDimensions(dimensions: number | [number, number, number]): number | SortedDimensions {
+	return typeof dimensions === 'number' ? dimensions : descDimensions(dimensions);
 }
 
 function getWeight(weight?: { kilograms?: number; pounds?: number }): Weight | undefined {

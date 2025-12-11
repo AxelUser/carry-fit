@@ -99,25 +99,23 @@
 		}
 	});
 
-	const complianceAirlines = $derived<AirlineCompliance[]>(
-		(() => {
-			if (!showComplianceResult) {
-				return [];
-			}
+	const complianceAirlines = $derived.by<AirlineCompliance[]>(() => {
+		if (!showComplianceResult) {
+			return [];
+		}
 
-			const airlinesToShow: AirlineCompliance[] = [];
+		const airlinesToShow: AirlineCompliance[] = [];
 
-			if (visibleComplianceCategories.includes('compliant')) {
-				airlinesToShow.push(...sortedCompliantAirlines);
-			}
+		if (visibleComplianceCategories.includes('compliant')) {
+			airlinesToShow.push(...sortedCompliantAirlines);
+		}
 
-			if (visibleComplianceCategories.includes('non-compliant')) {
-				airlinesToShow.push(...sortedNonCompliantAirlines);
-			}
+		if (visibleComplianceCategories.includes('non-compliant')) {
+			airlinesToShow.push(...sortedNonCompliantAirlines);
+		}
 
-			return sortAirlines(airlinesToShow);
-		})()
-	);
+		return sortAirlines(airlinesToShow);
+	});
 
 	const visibleAirlines = $derived<AirlineInfo[]>(
 		showComplianceResult ? complianceAirlines : sortedAirlines

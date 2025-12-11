@@ -43,9 +43,20 @@ export interface Weight {
 	pounds?: number;
 }
 
+declare const sortedDescendingDimensionsBrand: unique symbol;
+
+/**
+ * A three-length tuple that has been pre-sorted from largest to smallest.
+ */
+export type SortedDimensions = [number, number, number] & {
+	readonly [sortedDescendingDimensionsBrand]: true;
+};
+
+export type DimensionValue = number | SortedDimensions;
+
 export interface BagAllowanceDimensions {
-	inches: number | number[];
-	centimeters: number | number[];
+	inches: DimensionValue;
+	centimeters: DimensionValue;
 }
 
 export interface BagAllowance extends Partial<BagAllowanceDimensions> {

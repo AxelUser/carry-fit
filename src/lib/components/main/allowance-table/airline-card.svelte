@@ -3,9 +3,10 @@
 		MeasurementSystems,
 		type AirlineInfo,
 		type MeasurementSystem,
-		type DimensionCompliance
+		type DimensionCompliance,
+		type DimensionValue
 	} from '$lib/types';
-	import { getAirlineDimensions } from '$lib/utils/mapping';
+	import { getRelevantAirlineDimensions } from '$lib/utils/dimensions';
 	import Star from '$lib/components/icons/lucide/star.svelte';
 	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
 	import { cn } from '$lib/utils/styling';
@@ -30,13 +31,20 @@
 	}: Props = $props();
 
 	const isMetric = $derived(measurementSystem === MeasurementSystems.Metric);
-	const carryOnDimensions = $derived(getAirlineDimensions(airline.carryon, measurementSystem));
-	const sortedCarryOnDimensions = $derived(
-		carryOnDimensions.length > 1 ? carryOnDimensions.toSorted((a, b) => b - a) : carryOnDimensions
-	);
-	const personalItemDimensions = $derived(
-		airline.personalItem ? getAirlineDimensions(airline.personalItem, measurementSystem) : null
-	);
+	const carryOnDimensions = $derived.by<DimensionValue>(() => {
+		const dims = getRelevantAirlineDimensions(airline.carryon, measurementSystem);
+		if (!dims) {
+			throw new Error(
+				`No carry-on dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
+			);
+		}
+		return dims;
+	});
+	const personalItemDimensions = $derived.by<DimensionValue | undefined>(() => {
+		return airline.personalItem
+			? getRelevantAirlineDimensions(airline.personalItem, measurementSystem)
+			: undefined;
+	});
 	const unit = $derived(isMetric ? 'cm' : 'in');
 	const weightUnit = $derived(isMetric ? 'kg' : 'lb');
 	const carryOnWeight = $derived(
@@ -120,7 +128,7 @@
 				<span class="text-sm font-medium text-foreground">Carry-on</span>
 			</div>
 			<dl class="flex-1 space-y-1 text-sm">
-				{#if sortedCarryOnDimensions.length === 1}
+				{#if typeof carryOnDimensions === 'number'}
 					<div class="flex justify-between">
 						<dt class="text-muted-foreground">Total</dt>
 						<dd
@@ -131,7 +139,7 @@
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[0])}
+							{formatDimension(carryOnDimensions)}
 							{unit}
 						</dd>
 					</div>
@@ -146,7 +154,7 @@
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[0])}
+							{formatDimension(carryOnDimensions[0])}
 							{unit}
 						</dd>
 					</div>
@@ -156,7 +164,7 @@
 							{#if dim1 && !dim1.passed && dim1.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim1.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[1])}
+							{formatDimension(carryOnDimensions[1])}
 							{unit}
 						</dd>
 					</div>
@@ -166,7 +174,7 @@
 							{#if dim2 && !dim2.passed && dim2.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim2.diff)})</span>
 							{/if}
-							{formatDimension(sortedCarryOnDimensions[2])}
+							{formatDimension(carryOnDimensions[2])}
 							{unit}
 						</dd>
 					</div>
@@ -193,8 +201,8 @@
 				<span class="text-sm font-medium text-foreground">Personal Item</span>
 			</div>
 			<dl class="flex-1 space-y-1 text-sm">
-				{#if personalItemDimensions && personalItemDimensions.length > 0}
-					{#if personalItemDimensions.length === 1}
+				{#if personalItemDimensions}
+					{#if typeof personalItemDimensions === 'number'}
 						<div class="flex justify-between">
 							<dt class="text-muted-foreground">Total</dt>
 							<dd
@@ -204,7 +212,7 @@
 								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
 								{/if}
-								{formatDimension(personalItemDimensions[0])}
+								{formatDimension(personalItemDimensions)}
 								{unit}
 							</dd>
 						</div>

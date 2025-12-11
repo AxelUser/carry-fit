@@ -15,8 +15,8 @@ export interface AirlineAllowance {
 	 */
 	carryOn: {
 		dimensions?: {
-			centimeters?: number | number[];
-			inches?: number | number[];
+			centimeters?: number | [number, number, number];
+			inches?: number | [number, number, number];
 		};
 		weight?: {
 			kilograms?: number;
@@ -34,8 +34,8 @@ export interface AirlineAllowance {
 	 */
 	personalItem?: {
 		dimensions?: {
-			centimeters?: number | number[];
-			inches?: number | number[];
+			centimeters?: number | [number, number, number];
+			inches?: number | [number, number, number];
 		};
 		weight?: {
 			kilograms?: number;

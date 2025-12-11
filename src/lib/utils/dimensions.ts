@@ -2,21 +2,26 @@ import {
 	type BagAllowanceDimensions,
 	type UserDimensions,
 	type MeasurementSystem,
-	MeasurementSystems
+	MeasurementSystems,
+	type DimensionValue,
+	type SortedDimensions
 } from '$lib/types';
 
-export function getAirlineDimensions(
+export const descDimensions = (dims: [number, number, number]): SortedDimensions =>
+	dims.toSorted((a, b) => b - a) as SortedDimensions;
+
+export function getRelevantAirlineDimensions(
 	allowanceDims: Partial<BagAllowanceDimensions>,
 	measurementSystem: MeasurementSystem
-): number[] {
+): DimensionValue | undefined {
 	const dims =
 		measurementSystem === MeasurementSystems.Metric
 			? allowanceDims.centimeters
 			: allowanceDims.inches;
 	if (dims === undefined) {
-		return [];
+		return undefined;
 	}
-	return Array.isArray(dims) ? dims : [dims];
+	return dims;
 }
 
 export function getUserDimensionsIfFilled(bagDimensions: UserDimensions): number[] {
