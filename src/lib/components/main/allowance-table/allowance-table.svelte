@@ -25,7 +25,6 @@
 		airlines: AirlineInfo[];
 		compliantAirlines: AirlineCompliance[];
 		nonCompliantAirlines: AirlineCompliance[];
-		variant: 'single-column' | 'two-column';
 	}
 
 	let {
@@ -33,8 +32,7 @@
 		favoriteAirlines = $bindable(),
 		airlines,
 		compliantAirlines,
-		nonCompliantAirlines,
-		variant
+		nonCompliantAirlines
 	}: Props = $props();
 
 	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));

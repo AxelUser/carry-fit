@@ -230,7 +230,6 @@
 			airlines={filteredAirlines}
 			compliantAirlines={airlinesByCompliance.compliant}
 			nonCompliantAirlines={airlinesByCompliance.nonCompliant}
-			variant="single-column"
 		/>
 
 		<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />

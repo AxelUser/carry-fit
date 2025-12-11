@@ -17,7 +17,7 @@
 			<Card.Title>FAQ</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			<Accordion.Root type="single" collapsible>
+			<Accordion.Root type="single">
 				<Accordion.Item value="about">
 					<Accordion.Trigger>What is CarryFit?</Accordion.Trigger>
 					<Accordion.Content>
@@ -75,4 +75,3 @@
 		airline's website before traveling, especially for unmarked airlines that aren't monitored.
 	</p>
 {/snippet}
-

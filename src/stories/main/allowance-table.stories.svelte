@@ -104,11 +104,6 @@
 			nonCompliantAirlines: {
 				description: 'Array of non-compliant airlines with compliance results',
 				control: 'object'
-			},
-			variant: {
-				description: 'Layout variant',
-				control: 'select',
-				options: ['single-column', 'two-column']
 			}
 		}
 	});
@@ -121,20 +116,18 @@
 		favoriteAirlines: ['Sample Airline 1'],
 		airlines: sampleAirlineInfo,
 		compliantAirlines: [],
-		nonCompliantAirlines: [],
-		variant: 'single-column'
+		nonCompliantAirlines: []
 	}}
 />
 
 <Story
-	name="Two Column Layout With Compliance Results"
+	name="With Compliance Toggle"
 	args={{
 		measurementSystem: MeasurementSystems.Metric,
 		favoriteAirlines: [],
 		airlines: [],
 		compliantAirlines: sampleCompliantAirlines,
-		nonCompliantAirlines: sampleNonCompliantAirlines,
-		variant: 'two-column'
+		nonCompliantAirlines: sampleNonCompliantAirlines
 	}}
 />
 
@@ -145,8 +138,7 @@
 		favoriteAirlines: [],
 		airlines: sampleAirlineInfo,
 		compliantAirlines: [],
-		nonCompliantAirlines: [],
-		variant: 'single-column'
+		nonCompliantAirlines: []
 	}}
 />
 
@@ -157,7 +149,6 @@
 		favoriteAirlines: [],
 		airlines: [],
 		compliantAirlines: [],
-		nonCompliantAirlines: [],
-		variant: 'single-column'
+		nonCompliantAirlines: []
 	}}
 />
