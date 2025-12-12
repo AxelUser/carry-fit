@@ -246,7 +246,7 @@
 {/snippet}
 
 {#snippet airlinesGrid()}
-	<ScrollArea class="h-[640px] pr-2">
+	<ScrollArea data-testid="allowances-grid" class="h-[640px] pr-2">
 		<div class="pb-2">
 			<div
 				class="grid auto-rows-fr gap-4 sm:grid-cols-2"

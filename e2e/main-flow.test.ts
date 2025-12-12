@@ -14,16 +14,17 @@ test.beforeEach(async ({ page }) => {
 
 async function pageIsReady(page: Page) {
 	await page.waitForLoadState('networkidle');
-	await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'CarryFit', exact: true })).toBeVisible();
 }
 
-async function preparePage(page: Page, showTable = false) {
+async function preparePage(page: Page, waitForAllowances = false) {
 	await page.goto('/', { waitUntil: 'networkidle' });
-	await expect(page.getByText('CarryFit', { exact: true })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'CarryFit', exact: true })).toBeVisible();
 	await page.getByTestId('accept-all-cookies').click();
 	await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-	if (showTable) {
-		await expect(page.getByRole('table')).toBeVisible();
+	if (waitForAllowances) {
+		await expect(page.getByTestId('empty-state')).not.toBeVisible();
+		await expect(page.getByTestId('allowances-grid')).toBeVisible();
 	}
 }
 
@@ -126,7 +127,7 @@ test.describe('Favorites functionality', () => {
 
 	test('should add and remove airlines from favorites', async ({ page }) => {
 		// Get the first airline row
-		const firstAirlineRow = page.getByRole('row').nth(1);
+		const firstAirlineRow = page.getByTestId('airline-card').nth(1);
 
 		// Initial state should show not favorited
 		await expect(firstAirlineRow.getByTestId('favorite-button')).toHaveAttribute(
@@ -155,17 +156,17 @@ test.describe('Favorites functionality', () => {
 
 	test('should filter airlines by favorites', async ({ page }) => {
 		// Get initial number of airlines
-		const initialAirlineCount = (await page.getByRole('row').count()) - 1; // Subtract header row
+		const initialAirlineCount = (await page.getByTestId('airline-card').count()) - 1; // Subtract header row
 
 		// Add first two airlines to favorites
-		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
-		await page.getByRole('row').nth(2).getByTestId('favorite-button').click();
+		await page.getByTestId('airline-card').nth(1).getByTestId('favorite-button').click();
+		await page.getByTestId('airline-card').nth(2).getByTestId('favorite-button').click();
 
 		// Enable favorites filter
 		await page.getByLabel('Favorites only').check();
 
 		// Wait for the table to be shown after filtering
-		await expect(page.getByRole('table')).toBeVisible();
+		await expect(page.getByTestId('allowances-grid')).toBeVisible();
 
 		// Should show only favorited airlines
 		const filteredAirlineCount = (await page.getByRole('row').count()) - 1;
@@ -181,18 +182,17 @@ test.describe('Favorites functionality', () => {
 
 	test('should persist favorites across page reloads', async ({ page }) => {
 		// Add first airline to favorites
-		const firstAirlineRow = page.getByRole('row').nth(1);
+		const firstAirlineRow = page.getByTestId('airline-card').nth(1);
 		await firstAirlineRow.getByTestId('favorite-button').click();
 
 		// Reload page
 		await page.reload();
-		await expect(page.getByRole('table')).toBeVisible();
+		await expect(page.getByTestId('allowances-grid')).toBeVisible();
 
 		// First airline should still be favorited
-		await expect(page.getByRole('row').nth(1).getByTestId('favorite-button')).toHaveAttribute(
-			'data-favorite',
-			'true'
-		);
+		await expect(
+			page.getByTestId('airline-card').nth(1).getByTestId('favorite-button')
+		).toHaveAttribute('data-favorite', 'true');
 	});
 
 	test('should update favorites count in filter section', async ({ page }) => {
@@ -200,14 +200,14 @@ test.describe('Favorites functionality', () => {
 		await expect(page.getByTestId('favorites-count')).not.toBeVisible();
 
 		// Add two airlines to favorites
-		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
-		await page.getByRole('row').nth(2).getByTestId('favorite-button').click();
+		await page.getByTestId('airline-card').nth(1).getByTestId('favorite-button').click();
+		await page.getByTestId('airline-card').nth(2).getByTestId('favorite-button').click();
 
 		// Should show correct count
 		await expect(page.getByTestId('favorites-count')).toHaveText('2 airlines');
 
 		// Remove one favorite
-		await page.getByRole('row').nth(1).getByTestId('favorite-button').click();
+		await page.getByTestId('airline-card').nth(1).getByTestId('favorite-button').click();
 
 		// Should update count
 		await expect(page.getByTestId('favorites-count')).toHaveText('1 airline');
@@ -217,7 +217,7 @@ test.describe('Favorites functionality', () => {
 		page
 	}) => {
 		// Add one airline to favorites
-		const firstAirlineRow = page.getByRole('row').nth(1);
+		const firstAirlineRow = page.getByTestId('airline-card').nth(1);
 		const region = await firstAirlineRow.getByTestId('region').textContent();
 		await firstAirlineRow.getByTestId('favorite-button').click();
 
@@ -247,7 +247,7 @@ test.describe('Favorites functionality', () => {
 
 		// Add airlines to favorites and collect their names
 		for (const rowIndex of airlineRows) {
-			const row = page.getByRole('row').nth(rowIndex);
+			const row = page.getByTestId('airline-card').nth(rowIndex);
 			const airlineName = await row.getByTestId('airline-name').textContent();
 			favoriteAirlineNames.push(airlineName!);
 			await row.getByTestId('favorite-button').click();
@@ -258,7 +258,7 @@ test.describe('Favorites functionality', () => {
 
 		// Reload page
 		await page.reload();
-		await expect(page.getByRole('table')).toBeVisible();
+		await expect(page.getByTestId('allowances-grid')).toBeVisible();
 
 		// Verify favorites count persisted
 		await expect(page.getByTestId('favorites-count')).toHaveText('3 airlines');
@@ -298,14 +298,20 @@ test.describe('Measurement system updates', () => {
 		await expect(page.getByRole('columnheader', { name: 'Carry-On (in)' })).toBeVisible();
 
 		// Check weight units changed (find a cell with both kg and lb values)
-		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
+		for (const weightCell of await page
+			.getByTestId('airline-card')
+			.getByTestId('weight-limit')
+			.all()) {
 			await expect(weightCell.getByText(/lb|N\/A/)).toBeVisible();
 		}
 
 		// Switch back to metric and verify kg is shown
 		await page.getByRole('button', { name: /Metric/i }).click();
 
-		for (const weightCell of await page.getByRole('row').getByTestId('weight-limit').all()) {
+		for (const weightCell of await page
+			.getByTestId('airline-card')
+			.getByTestId('weight-limit')
+			.all()) {
 			await expect(weightCell.getByText(/kg|N\/A/)).toBeVisible();
 		}
 	});
