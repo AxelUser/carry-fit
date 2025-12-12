@@ -13,7 +13,8 @@ export type Region =
 	| 'South America'
 	| 'Asia'
 	| 'Oceania'
-	| 'Africa';
+	| 'Africa'
+	| 'Middle East';
 
 export interface AirlineInfo {
 	airline: string;

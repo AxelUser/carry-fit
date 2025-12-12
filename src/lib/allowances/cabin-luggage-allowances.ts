@@ -2344,7 +2344,95 @@ export const allowances: AirlineAllowance[] = [
 				centimeters: [45, 33, 20]
 			},
 			weight: {
-				kilograms: 10
+				kilograms: 6
+			}
+		}
+	},
+	{
+		id: 'air-arabia',
+		airline: 'Air Arabia',
+		region: 'Middle East',
+		link: 'https://www.airarabia.com/en/hand-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 20]
+			},
+			weight: {
+				kilograms: 7
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [25, 33, 20]
+			},
+			weight: {
+				kilograms: 3
+			}
+		}
+	},
+	{
+		id: 'batik-air',
+		airline: 'Batik Air',
+		region: 'Asia',
+		link: 'https://www.batikair.com.my/experience/baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [56, 36, 23]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [22, 27, 8]
+			}
+		},
+		totalWeight: {
+			kilograms: 7
+		}
+	},
+	{
+		id: 'breeze-airways',
+		airline: 'Breeze Airways',
+		region: 'North America',
+		link: 'https://www.flybreeze.com/support?a=Bag-Allowance-and-Dimensions---id--EvTT15-VRZWup0Ivwy_VhA',
+		carryOn: {
+			dimensions: {
+				inches: [22, 14, 9]
+			},
+			weight: {
+				pounds: 35
+			}
+		},
+		personalItem: {
+			dimensions: {
+				inches: [17, 13, 8]
+			}
+		}
+	},
+	{
+		id: 'flynas',
+		airline: 'Flynas',
+		region: 'Middle East',
+		link: 'https://www.flynas.com/en/plan-my-trip/cabin-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [56, 36, 23]
+			},
+			weight: {
+				kilograms: 7
+			}
+		}
+	},
+	{
+		id: 'gulf-air',
+		airline: 'Gulf Air',
+		region: 'Middle East',
+		link: 'https://www.gulfair.com/help/baggage/baggage-information',
+		carryOn: {
+			dimensions: {
+				centimeters: [45, 40, 30]
+			},
+			weight: {
+				kilograms: 6
 			}
 		}
 	}
