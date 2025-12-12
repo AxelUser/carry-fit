@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/test';
+import { getAirlineAllowances } from '../helpers/ui';
 
 test.describe('Filter Regions', () => {
 	test.beforeEach(async ({ app }) => {
@@ -6,22 +7,24 @@ test.describe('Filter Regions', () => {
 	});
 
 	test('should filter airlines by region', async ({ page }) => {
-		const initialRows = await page.getByRole('row').count();
-		expect(initialRows).toBeGreaterThan(0);
+		const initialCount = await getAirlineAllowances(page).count();
+		expect(initialCount).toBeGreaterThan(0);
 
-		const europeCheckbox = page.getByRole('button', { name: 'Europe' });
+		const europeCheckbox = page
+			.getByTestId('regions-filter-list')
+			.getByRole('button', { name: 'Europe' });
 		await page.getByText('Clear All').click();
 		await europeCheckbox.click();
 
-		await expect(page.getByRole('table')).toBeVisible();
+		const filteredAllowances = getAirlineAllowances(page);
+		const filteredCount = await filteredAllowances.count();
 
-		const filteredRows = await page.getByRole('row').count();
-		expect(filteredRows).toBeLessThan(initialRows);
+		expect(filteredCount).toBeGreaterThan(0);
+		expect(filteredCount).toBeLessThan(initialCount);
 
-		const regionCells = page.getByRole('cell', { name: 'Europe' });
-		const regionCount = await regionCells.count();
-		expect(regionCount).toBeGreaterThan(0);
-		expect(regionCount).toBe(filteredRows - 1);
+		for (const regionCell of await filteredAllowances.getByTestId('region').all()) {
+			await expect(regionCell).toHaveText('Europe');
+		}
 	});
 
 	test('should persist selected regions across page reloads', async ({ app, page }) => {
