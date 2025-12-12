@@ -10,10 +10,9 @@ export async function setBagDimensions(
 }
 
 export async function switchUnits(page: Page, units: 'metric' | 'imperial') {
-	const buttonName = units === 'imperial' ? /Imperial/i : /Metric/i;
-	await page.getByRole('button', { name: buttonName }).click();
-	const activeTestId = units === 'imperial' ? 'imperial-button' : 'metric-button';
-	await expect(page.getByTestId(activeTestId)).toHaveAttribute('data-active', 'true');
+	const button = page.getByTestId(`${units}-button`);
+	await button.click();
+	await expect(button).toHaveAttribute('data-active', 'true');
 }
 
 export async function openParseDialog(page: Page) {

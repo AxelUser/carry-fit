@@ -134,7 +134,7 @@
 						<dd
 							class="font-medium"
 							class:text-destructive={dim0 && !dim0.passed}
-							data-testid="dimensions"
+							data-testid="total-dimensions"
 						>
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
@@ -149,7 +149,7 @@
 						<dd
 							class="font-medium"
 							class:text-destructive={dim0 && !dim0.passed}
-							data-testid="dimensions"
+							data-testid="length"
 						>
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
@@ -160,7 +160,11 @@
 					</div>
 					<div class="flex justify-between">
 						<dt class="text-muted-foreground">Width</dt>
-						<dd class="font-medium" class:text-destructive={dim1 && !dim1.passed}>
+						<dd
+							class="font-medium"
+							class:text-destructive={dim1 && !dim1.passed}
+							data-testid="width"
+						>
 							{#if dim1 && !dim1.passed && dim1.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim1.diff)})</span>
 							{/if}
@@ -170,7 +174,11 @@
 					</div>
 					<div class="flex justify-between">
 						<dt class="text-muted-foreground">Depth</dt>
-						<dd class="font-medium" class:text-destructive={dim2 && !dim2.passed}>
+						<dd
+							class="font-medium"
+							class:text-destructive={dim2 && !dim2.passed}
+							data-testid="depth"
+						>
 							{#if dim2 && !dim2.passed && dim2.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim2.diff)})</span>
 							{/if}
@@ -208,6 +216,7 @@
 							<dd
 								class="font-medium"
 								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
+								data-testid="total-dimensions"
 							>
 								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
@@ -222,6 +231,7 @@
 							<dd
 								class="font-medium"
 								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
+								data-testid="length"
 							>
 								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
@@ -235,6 +245,7 @@
 							<dd
 								class="font-medium"
 								class:text-destructive={personalItemDim1 && !personalItemDim1.passed}
+								data-testid="width"
 							>
 								{#if personalItemDim1 && !personalItemDim1.passed && personalItemDim1.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim1.diff)})</span>
@@ -248,6 +259,7 @@
 							<dd
 								class="font-medium"
 								class:text-destructive={personalItemDim2 && !personalItemDim2.passed}
+								data-testid="depth"
 							>
 								{#if personalItemDim2 && !personalItemDim2.passed && personalItemDim2.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim2.diff)})</span>
@@ -264,7 +276,10 @@
 			{#if personalItemWeight}
 				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
 					<dt class="text-muted-foreground">Weight</dt>
-					<dd class="font-medium">{personalItemWeight} {weightUnit}</dd>
+					<dd class="font-medium" data-testid="weight-limit">
+						{personalItemWeight}
+						{weightUnit}
+					</dd>
 				</div>
 			{/if}
 		</div>
@@ -273,7 +288,7 @@
 			<div class="col-span-1 rounded-lg bg-muted/50 p-3 sm:col-span-2">
 				<div class="flex justify-between text-sm">
 					<dt class="text-muted-foreground">Total Weight</dt>
-					<dd class="font-medium">{totalWeight} {weightUnit}</dd>
+					<dd data-testid="total-weight" class="font-medium">{totalWeight} {weightUnit}</dd>
 				</div>
 			</div>
 		{/if}
