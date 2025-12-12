@@ -153,16 +153,16 @@
 
 	// FIXME: This is a workaround to prevent the sluggishness of the table when the airlines data is updated. Need proper grid virtualization.
 	let isLoading = $state(false);
-	const debouncedUpdate = debounce(() => {
-		isLoading = false;
-	}, 1000);
+	// const debouncedUpdate = debounce(() => {
+	// 	isLoading = false;
+	// }, 1000);
 
-	$effect(() => {
-		if (complianceAirlines || airlines) {
-			isLoading = true;
-			debouncedUpdate();
-		}
-	});
+	// $effect(() => {
+	// 	if (complianceAirlines || airlines) {
+	// 		isLoading = true;
+	// 		debouncedUpdate();
+	// 	}
+	// });
 </script>
 
 <Card.Root>
@@ -253,7 +253,7 @@
 				style="contain: layout style;"
 				data-testid="airline-cards"
 			>
-				{#each visibleAirlines as airline, i (airline.airline + i)}
+				{#each visibleAirlines as airline (airline.airline)}
 					<AirlineCard
 						{airline}
 						{measurementSystem}
