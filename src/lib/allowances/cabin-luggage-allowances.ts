@@ -200,7 +200,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'qatar-airways',
 		airline: 'Qatar Airways',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.qatarairways.com/en/baggage/allowance.html',
 		carryOn: {
 			dimensions: {
@@ -244,7 +244,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'etihad-airways',
 		airline: 'Etihad Airways',
-		region: 'Africa',
+		region: 'Middle East',
 		link: 'https://www.etihad.com/content/eag/etihadairways/etihadcom/global/en/fly-etihad/baggage/cabin-bags.html',
 		carryOn: {
 			dimensions: {
@@ -607,7 +607,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'emirates',
 		airline: 'Emirates',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.emirates.com/us/english/before-you-fly/baggage/cabin-baggage-rules/',
 		carryOn: {
 			dimensions: {
@@ -638,7 +638,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'air-austral',
 		airline: 'Air Austral',
-		region: 'Europe',
+		region: 'Oceania',
 		link: 'https://www.air-austral.com/en/prepare-your-flight/your-baggage/carry-on-baggage.html',
 		carryOn: {
 			dimensions: {
@@ -701,7 +701,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'armenian-airlines',
 		airline: 'Armenian Airlines',
-		region: 'Asia',
+		region: 'Europe',
 		link: 'https://armenianairlines.am/en/baggage/hand-luggage',
 		carryOn: {
 			dimensions: {
@@ -973,7 +973,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'pegasus-airlines',
 		airline: 'Pegasus Airlines',
-		region: 'Asia',
+		region: 'Europe',
 		link: 'https://www.flypgs.com/en/pegasus-baggage-allowance',
 		carryOn: {
 			dimensions: {
@@ -1073,7 +1073,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'vivaaerobus',
 		airline: 'VivaAerobus',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://blog.vivaaerobus.com/en/baggage-policies/',
 		carryOn: {
 			dimensions: {
@@ -1172,7 +1172,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'azerbaijan-airlines',
 		airline: 'Azerbaijan Airlines',
-		region: 'Asia',
+		region: 'Europe',
 		link: 'https://www.azal.az/en/information/baggage/hand/',
 		carryOn: {
 			dimensions: {
@@ -1228,7 +1228,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'egypt-air',
 		airline: 'Egypt Air',
-		region: 'Africa',
+		region: 'Middle East',
 		link: 'https://www.egyptair.com/en/fly/baggage/Pages/baggage-allowance.aspx',
 		carryOn: {
 			dimensions: {
@@ -1328,7 +1328,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 's7-airlines',
 		airline: 'S7 Airlines',
-		region: 'Russia',
+		region: 'Europe',
 		link: 'https://www.s7.ru/ru/info/norma-provoza-bagazha/#luggage',
 		carryOn: {
 			dimensions: {
@@ -1356,7 +1356,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'sunexpress',
 		airline: 'SunExpress',
-		region: 'Asia',
+		region: 'Europe',
 		link: 'https://www.sunexpress.com/en-gb/information/luggage-info/cabin-baggage/',
 		carryOn: {
 			dimensions: {
@@ -1384,7 +1384,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'turkish-airlines',
 		airline: 'Turkish Airlines',
-		region: 'Asia',
+		region: 'Europe',
 		link: 'https://www.turkishairlines.com/en-us/any-questions/carry-on-baggage/index.html',
 		carryOn: {
 			dimensions: {
@@ -1398,7 +1398,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'aeroflot',
 		airline: 'Aeroflot',
-		region: 'Russia',
+		region: 'Europe',
 		link: 'https://www.aeroflot.ru/ru-en/information/preparation/luggage#baggage_tab2',
 		carryOn: {
 			dimensions: {
@@ -1412,7 +1412,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'aeromexico',
 		airline: 'Aeroméxico',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://aeromexico.com/en-us/travel-information/baggage/carry-on-baggage',
 		carryOn: {
 			dimensions: {
@@ -1458,7 +1458,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'bh-air',
 		airline: 'BH Air',
-		region: 'Europe',
+		region: 'Middle East',
 		link: 'http://www.bhairlines.com/page.php?id=38',
 		carryOn: {
 			dimensions: {
@@ -1472,7 +1472,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'volaris',
 		airline: 'Volaris',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://cms.volaris.com/en/travel-info/baggage-policy/',
 		carryOn: {
 			dimensions: {
@@ -1500,7 +1500,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'wingo',
 		airline: 'Wingo',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://www.wingo.com/centro-de-ayuda/equipaje/equipaje-de-mano-adicional',
 		carryOn: {
 			dimensions: {
@@ -1615,7 +1615,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'caribbean-airlines',
 		airline: 'Caribbean Airlines',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://www.caribbean-airlines.com/#/baggage/carry-on',
 		carryOn: {
 			dimensions: {
@@ -1777,7 +1777,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'jetstar',
 		airline: 'Jetstar',
-		region: 'Oceania',
+		region: 'Asia',
 		link: 'https://www.jetstar.com/au/en/help/articles/carry-on-baggage-what-can-i-bring-on-board',
 		carryOn: {
 			dimensions: {
@@ -1820,7 +1820,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'oman-air',
 		airline: 'Oman Air',
-		region: 'Africa',
+		region: 'Middle East',
 		link: 'https://www.omanair.com/en/baggage-policy/baggage-allowance',
 		carryOn: {
 			dimensions: {
@@ -1905,7 +1905,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'royal-jordanian-airlines',
 		airline: 'Royal Jordanian Airlines',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces',
 		carryOn: {
 			dimensions: {
@@ -1920,7 +1920,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'saudia-airlines',
 		airline: 'Saudia Airlines',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.saudia.com/before-flying/baggage/hand-baggage',
 		carryOn: {
 			dimensions: {
@@ -2049,7 +2049,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'copa-airlines',
 		airline: 'Copa Airlines',
-		region: 'South America',
+		region: 'North America',
 		link: 'https://www.copaair.com/en/web/gs/carry-on-luggage',
 		carryOn: {
 			dimensions: {
@@ -2128,7 +2128,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'el-al',
 		airline: 'El Al',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.elal.com/en/PassengersInfo/Baggage/Hand-Baggage/Pages/Policy.aspx',
 		carryOn: {
 			dimensions: {
@@ -2200,7 +2200,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'kuwait-airways',
 		airline: 'Kuwait Airways',
-		region: 'Asia',
+		region: 'Middle East',
 		link: 'https://www.kuwaitairways.com/en/is/free-carry-on-baggage',
 		carryOn: {
 			dimensions: {
@@ -2309,7 +2309,7 @@ export const allowances: AirlineAllowance[] = [
 	{
 		id: 'pobeda',
 		airline: 'Pobeda',
-		region: 'Russia',
+		region: 'Europe',
 		link: 'https://www.flypobeda.ru/information/luggage_baggage',
 		carryOn: {
 			dimensions: {

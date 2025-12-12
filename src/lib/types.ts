@@ -8,7 +8,6 @@ export interface Data {
 
 export type Region =
 	| 'Europe'
-	| 'Russia'
 	| 'North America'
 	| 'South America'
 	| 'Asia'
