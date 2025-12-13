@@ -10,7 +10,7 @@
 	let { title, description, variant = 'not-found' }: Props = $props();
 </script>
 
-<div class="flex flex-col items-center justify-center gap-3 py-12">
+<div data-testid="empty-state" class="flex flex-col items-center justify-center gap-3 py-12">
 	<div class="rounded-full bg-primary">
 		<div class="rounded-full bg-primary/50 p-3">
 			{#if variant === 'not-found'}

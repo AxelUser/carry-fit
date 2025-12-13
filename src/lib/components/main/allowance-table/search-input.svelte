@@ -1,18 +1,19 @@
 <script lang="ts">
-	import { X } from 'lucide-svelte';
+	import { X, Search } from 'lucide-svelte';
 	import { searchState } from './search.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { metrics } from '$lib/analytics';
 </script>
 
-<div class="relative max-w-60 text-sm font-normal">
+<div class="relative w-full text-sm font-normal sm:max-w-sm">
+	<Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 	<Input
 		data-testid="search-input"
 		data-tour-id="search-input"
 		type="text"
 		placeholder="Search airlines..."
 		bind:value={searchState.searchTerm}
-		class="pr-8"
+		class="pl-9 pr-8"
 		oninput={() => metrics.airlineSearchPerformed(searchState.searchTerm)}
 	/>
 	{#if searchState.searchTerm}

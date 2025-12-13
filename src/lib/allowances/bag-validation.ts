@@ -3,9 +3,20 @@ import type {
 	MeasurementSystem,
 	AirlinesByCompliance,
 	AirlineInfo,
-	AirlineCompliance
+	AirlineCompliance,
+	DimensionCompliance,
+	BagAllowance,
+	DimensionValue
 } from '$lib/types';
-import { getAirlineDimensions } from '$lib/utils/mapping';
+import { descDimensions, getRelevantAirlineDimensions } from '$lib/utils/dimensions';
+import { DEFAULT_PERSONAL_ITEM } from './index';
+import type { SortedDimensions } from '$lib/types';
+
+function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowance {
+	const dims = allowance?.inches ?? allowance?.centimeters;
+	if (Array.isArray(dims)) return dims.length > 0;
+	return typeof dims === 'number';
+}
 
 /**
  * Check if the user's bag dimensions comply with the airline's carry-on limits.
@@ -13,75 +24,89 @@ import { getAirlineDimensions } from '$lib/utils/mapping';
  * @param airlineDimensions - The airline's carry-on limits. Can be size per dimension or total size.
  * @param userDimensions - The user's bag dimensions.
  * @param flexibility - Amount of flexibility in the same unit as dimensions
- * @returns An object containing the compliance status for each dimension, or a boolean if the airline has a total size limit. If user dimensions contain 0, returns null.
+ * @returns An array of compliance results with pass/fail status and diff for each dimension. Returns null if dimensions are empty.
  */
 export function checkCompliance(
-	airlineDimensions: number[],
-	userDimensions: number[],
+	airlineDimensions: DimensionValue,
+	userDimensions: SortedDimensions,
 	flexibility: number = 0
-): boolean[] | null {
-	if (airlineDimensions.length === 0 || userDimensions.length === 0) return null;
-
-	if (airlineDimensions.length === 1) {
+): DimensionCompliance[] | null {
+	if (typeof airlineDimensions === 'number') {
 		const bagSum = userDimensions.reduce((acc, curr) => acc + curr, 0);
-		return [bagSum <= airlineDimensions[0] + flexibility];
+		const diff = bagSum - airlineDimensions;
+		const passed = diff <= flexibility;
+		return [{ passed, diff: passed ? 0 : diff }];
 	}
 
-	// Sort dimensions from largest to smallest for both airline and bag
-	const bagDims = userDimensions.toSorted((a, b) => b - a);
-	const airlineDims = airlineDimensions.toSorted((a, b) => b - a);
+	const airlineDims = airlineDimensions;
 
 	let remainingFlexibility = flexibility;
 
 	return airlineDims.map((airlineDim, index) => {
-		const bagDim = bagDims[index];
+		const bagDim = userDimensions[index];
 		const excess = bagDim - airlineDim;
 
 		// If dimension fits or we have no excess, it's compliant
-		if (excess <= 0) return true;
+		if (excess <= 0) {
+			return { passed: true, diff: 0 };
+		}
 
 		// If we have enough flexibility to accommodate the excess
 		if (excess <= remainingFlexibility) {
 			remainingFlexibility -= excess;
-			return true;
+			return { passed: true, diff: 0 };
 		}
 
-		return false;
+		return { passed: false, diff: excess };
 	});
 }
 
-export function groupAirlinesByCompliance(
+export function computeAirlinesCompliance(
 	airlines: AirlineInfo[],
 	userDimensions: UserDimensions,
 	measurementSystem: MeasurementSystem,
 	flexibility: number
-): AirlinesByCompliance {
+): AirlineCompliance[] {
 	if (userDimensions.depth === 0 || userDimensions.width === 0 || userDimensions.height === 0) {
-		return {
-			compliant: [],
-			nonCompliant: []
-		};
+		return [];
 	}
 
-	return airlines.reduce<{
-		compliant: AirlineCompliance[];
-		nonCompliant: AirlineCompliance[];
-	}>(
-		(acc, airline) => {
-			const compliance = checkCompliance(
-				getAirlineDimensions(airline.carryon, measurementSystem),
-				[userDimensions.depth, userDimensions.width, userDimensions.height],
-				flexibility
+	const userDimensionsSorted = descDimensions([
+		userDimensions.depth,
+		userDimensions.width,
+		userDimensions.height
+	]);
+
+	return airlines.map((airline) => {
+		const carryOnDimensions = getRelevantAirlineDimensions(airline.carryon, measurementSystem);
+		if (!carryOnDimensions) {
+			throw new Error(
+				`No carry-on dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
 			);
+		}
 
-			if (compliance?.every(Boolean)) {
-				acc.compliant.push({ ...airline, complianceResults: compliance });
-			} else if (compliance) {
-				acc.nonCompliant.push({ ...airline, complianceResults: compliance });
-			}
+		const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibility);
 
-			return acc;
-		},
-		{ compliant: [], nonCompliant: [] }
-	);
+		const personalItemDimensions = getRelevantAirlineDimensions(
+			hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
+			measurementSystem
+		);
+		if (!personalItemDimensions) {
+			throw new Error(
+				`No personal item dimensions provided in ${airline.airline} for measurement system ${measurementSystem}`
+			);
+		}
+
+		const personalItemCompliance = checkCompliance(
+			personalItemDimensions,
+			userDimensionsSorted,
+			flexibility
+		);
+
+		return {
+			...airline,
+			complianceResults: compliance || [],
+			personalItemComplianceResults: personalItemCompliance
+		};
+	});
 }

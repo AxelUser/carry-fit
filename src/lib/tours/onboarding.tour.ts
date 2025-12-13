@@ -2,7 +2,7 @@ import type { Tour } from './types';
 
 export const onboardingTour: Tour = {
 	name: 'onboarding',
-	updatedAt: new Date('2025-02-03T00:00:00Z'),
+	updatedAt: new Date('2025-12-12T00:00:00Z'),
 	steps: () => [
 		{
 			popover: {
@@ -12,19 +12,11 @@ export const onboardingTour: Tour = {
 			}
 		},
 		{
-			element: '[data-tour-id="measurement-system-select"]',
-			popover: {
-				title: 'Choose Your Units',
-				description:
-					'Start by selecting your preferred measurement system - Metric (cm/kg) or Imperial (in/lb).'
-			}
-		},
-		{
 			element: '[data-tour-id="bag-input"]',
 			popover: {
-				title: 'Enter Bag Dimensions',
+				title: 'Set your units and size',
 				description:
-					"Input your bag's measurements. Don't worry about the order - we'll find the best fit!"
+					"Choose metric or imperial, then type in your bag's measurements. Any order is fine - we'll sort it out."
 			}
 		},
 		{
