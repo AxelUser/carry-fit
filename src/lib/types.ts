@@ -1,11 +1,3 @@
-export interface Data {
-	meta: {
-		lastTestRun: Date;
-		coveredByTest: number;
-	};
-	allowances: AirlineInfo[];
-}
-
 export type Region =
 	| 'Europe'
 	| 'North America'

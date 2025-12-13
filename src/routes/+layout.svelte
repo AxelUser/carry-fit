@@ -73,15 +73,17 @@
 							</div>
 
 							<div class="rounded-lg border border-primary/10 bg-primary/10 p-6">
-								<h3 class="mb-3 font-medium text-primary">Want to help catch this bug? Here's how:</h3>
+								<h3 class="mb-3 font-medium text-primary">
+									Want to help catch this bug? Here's how:
+								</h3>
 								<ul class="ml-2 space-y-2 text-sm text-primary">
 									<li>
 										• File a bug report on <a
-											href="https://github.com/AxelUser/carry-fit"
+											href="https://github.com/AxelUser/carry-fit/issues"
 											class="text-primary hover:underline"
 											target="_blank"
-											rel="noopener noreferrer">GitHub</a
-										> (our bug collection gallery)
+											rel="noopener noreferrer">GitHub issues</a
+										>
 									</li>
 									<li>
 										• Send a friendly email to <a
@@ -90,12 +92,12 @@
 										>
 									</li>
 									<li>
-										• Tweet at me on <a
+										• Tweet or DM me on <a
 											href="https://x.com/axel_user"
 											class="text-primary hover:underline"
 											target="_blank"
 											rel="noopener noreferrer">X (Twitter)</a
-										> - I promise I don't byte! 🤓
+										> - yes I sit here, but I'm not toxic! 🤓
 									</li>
 								</ul>
 							</div>

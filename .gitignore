@@ -29,3 +29,4 @@ vite.config.ts.timestamp-*
 *storybook.log
 
 .prompts
+.cursor

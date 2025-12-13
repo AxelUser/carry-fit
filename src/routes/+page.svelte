@@ -15,13 +15,10 @@
 		ComplianceScore,
 		Info
 	} from '$lib/components/main';
+	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
 	import * as Card from '$lib/components/ui/card';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
-
-	let innerWidth = $state(0);
-	// Taken from tailwind.config.ts
-	let isLargeScreen = $derived(innerWidth > 1280);
 
 	const FLEXIBILITY_CONFIG = {
 		metric: {
@@ -34,7 +31,7 @@
 		}
 	};
 
-	const { meta, allowances: allAirlines } = loadData();
+	const allAirlines = loadData();
 
 	let sharedBagInfo = (() => {
 		if (!browser) {
@@ -158,8 +155,6 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth />
-
 <div class="min-h-screen px-3 py-8 sm:px-4">
 	<div class="mx-auto max-w-4xl space-y-6">
 		<div class="text-center">
@@ -174,11 +169,15 @@
 				</span>
 			</h1>
 			<p class="text-base text-muted-foreground sm:text-lg">
-				Validate your carry-on dimensions for <span class="font-semibold text-primary"
+				Check carry-on and personal item dimensions for <span class="font-semibold text-primary"
 					>{allAirlines.length}</span
 				>
-				airlines worldwide
+				airlines worldwide.
 			</p>
+			<div class="mt-4 flex flex-wrap justify-center gap-2">
+				<GithubStarButton />
+				<BuyMeCoffeeButton />
+			</div>
 		</div>
 
 		<Card.Root>
@@ -217,6 +216,6 @@
 			complianceAirlines={airlinesWithCompliance}
 		/>
 
-		<Info coveredByTest={meta.coveredByTest} lastTestRun={meta.lastTestRun} />
+		<Info airlinesCount={allAirlines.length} />
 	</div>
 </div>

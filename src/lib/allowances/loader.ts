@@ -4,7 +4,6 @@ import {
 	type BagAllowance,
 	type BagAllowanceDimensions,
 	type SortedDimensions,
-	type Data,
 	type TestResult,
 	type Weight
 } from '$lib/types';
@@ -13,15 +12,9 @@ import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-r
 import { convertDimensions, convertWeight } from '$lib/utils/math';
 import { descDimensions } from '$lib/utils/dimensions';
 
-export function loadData(): Data {
+export function loadData(): AirlineInfo[] {
 	const parsedAllowances = allowances.map(mapAirlineData);
-	return {
-		meta: {
-			lastTestRun: new Date(allowanceConsistencyResults.meta.lastTestRun),
-			coveredByTest: parsedAllowances.filter((airline) => airline.testResult).length
-		},
-		allowances: parsedAllowances
-	};
+	return parsedAllowances;
 }
 
 function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
