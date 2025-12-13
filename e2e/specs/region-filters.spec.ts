@@ -3,7 +3,7 @@ import { getAirlineAllowances } from '../helpers/ui';
 
 test.describe('Filter Regions', () => {
 	test.beforeEach(async ({ app }) => {
-		await app.gotoHome({ waitForAllowances: true });
+		await app.gotoHome();
 	});
 
 	test('should filter airlines by region', async ({ page }) => {

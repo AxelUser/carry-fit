@@ -3,7 +3,7 @@ import { getAirlineAllowances } from '../helpers/ui';
 
 test.describe('Allowance grid search functionality', () => {
 	test.beforeEach(async ({ app }) => {
-		await app.gotoHome({ waitForAllowances: true });
+		await app.gotoHome();
 	});
 
 	test('should filter airlines by search term', async ({ page }) => {

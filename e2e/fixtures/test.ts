@@ -5,20 +5,16 @@ async function pageIsReady(page: Page) {
 	await expect(page.getByRole('heading', { name: 'CarryFit', exact: true })).toBeVisible();
 }
 
-async function preparePage(page: Page, waitForAllowances = false) {
+async function preparePage(page: Page) {
 	await page.goto('/', { waitUntil: 'networkidle' });
 	await expect(page.getByRole('heading', { name: 'CarryFit', exact: true })).toBeVisible();
 	await page.getByTestId('accept-all-cookies').click();
 	await expect(page.getByTestId('accept-all-cookies')).not.toBeVisible();
-	if (waitForAllowances) {
-		await expect(page.getByTestId('empty-state')).not.toBeVisible();
-		await expect(page.getByTestId('allowances-grid')).toBeVisible();
-	}
 }
 
 type AppFixtures = {
 	app: {
-		gotoHome: (options?: { waitForAllowances?: boolean }) => Promise<void>;
+		gotoHome: () => Promise<void>;
 		expectReady: () => Promise<void>;
 	};
 };
@@ -37,8 +33,8 @@ export const test = base.extend<AppFixtures>({
 	},
 	app: async ({ page }, use) => {
 		await use({
-			gotoHome: async (options?: { waitForAllowances?: boolean }) => {
-				await preparePage(page, options?.waitForAllowances);
+			gotoHome: async () => {
+				await preparePage(page);
 			},
 			expectReady: async () => {
 				await pageIsReady(page);

@@ -47,7 +47,7 @@ async function fillSearchQuery(page: Page, query: string) {
 
 test.describe('Favorite Airlines Dialog', () => {
 	test.beforeEach(async ({ app, page }) => {
-		await app.gotoHome({ waitForAllowances: true });
+		await app.gotoHome();
 		await openFavoriteAirlinesDialog(page);
 	});
 

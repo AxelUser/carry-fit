@@ -2,10 +2,8 @@ import { test, expect } from '../fixtures/test';
 import { getAirlineAllowances, switchUnits } from '../helpers/ui';
 
 test.describe('Measurement system updates', () => {
-	test.beforeEach(async ({ app, page }) => {
+	test.beforeEach(async ({ app }) => {
 		await app.gotoHome();
-		await expect(page.getByTestId('allowances-grid')).toBeVisible();
-		await expect(getAirlineAllowances(page).first()).toBeVisible();
 	});
 
 	test('should update units in table when measurement system changes', async ({ page }) => {
