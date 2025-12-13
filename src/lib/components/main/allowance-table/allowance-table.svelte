@@ -16,6 +16,7 @@
 	import { ArrowDownAZ, ArrowUpAZ, Check } from 'lucide-svelte';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Button } from '$lib/components/ui/button';
+	import { untrack } from 'svelte';
 
 	type ComplianceCategory = 'compliant' | 'non-compliant';
 
@@ -69,7 +70,7 @@
 	);
 
 	let visibleComplianceCategories = $state<ComplianceCategory[]>([]);
-	let hasInitializedSelection = $state(false);
+	let previousAvailableCategories = $state<ComplianceCategory[]>([]);
 
 	function toggleComplianceCategory(category: ComplianceCategory) {
 		if (visibleComplianceCategories.includes(category)) {
@@ -85,7 +86,7 @@
 	$effect(() => {
 		if (!showComplianceResult) {
 			visibleComplianceCategories = [];
-			hasInitializedSelection = false;
+			previousAvailableCategories = [];
 			return;
 		}
 
@@ -94,9 +95,16 @@
 				? (['compliant', 'non-compliant'] satisfies ComplianceCategory[])
 				: availableComplianceCategories;
 
-		if (!hasInitializedSelection && visibleComplianceCategories.length === 0) {
+		// Reset selection to all available categories when compliance results change
+		const categoriesChanged =
+			untrack(() => previousAvailableCategories.length) !== availableComplianceCategories.length ||
+			!untrack(() =>
+				previousAvailableCategories.every((cat) => availableComplianceCategories.includes(cat))
+			);
+
+		if (categoriesChanged) {
 			visibleComplianceCategories = defaultCategories;
-			hasInitializedSelection = true;
+			previousAvailableCategories = [...availableComplianceCategories];
 			return;
 		}
 
