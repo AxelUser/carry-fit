@@ -1,5 +1,17 @@
+import type { Page } from '@playwright/test';
 import { test, expect } from '../fixtures/test';
 import { openParseDialog, setBagDimensions, switchUnits } from '../helpers/ui';
+
+const heightInput = (page: Page) => page.getByLabel('Height');
+const widthInput = (page: Page) => page.getByLabel('Width');
+const depthInput = (page: Page) => page.getByLabel('Depth');
+const parseDialog = (page: Page) => page.getByRole('dialog');
+const parseTextbox = (page: Page) => parseDialog(page).getByRole('textbox');
+const parseDimensionsButton = (page: Page) =>
+	parseDialog(page).getByRole('button', { name: 'Parse Dimensions', exact: true });
+const cancelParseButton = (page: Page) =>
+	parseDialog(page).getByRole('button', { name: 'Cancel', exact: true });
+const complianceSection = (page: Page) => page.getByTestId('compliance-score');
 
 test.describe('Bag dimension parsing', () => {
 	test.beforeEach(async ({ app }) => {
@@ -7,37 +19,40 @@ test.describe('Bag dimension parsing', () => {
 	});
 
 	test('should parse valid dimensions string and set bag dimensions', async ({ page }) => {
+		await expect(complianceSection(page)).not.toBeVisible();
+
 		await openParseDialog(page);
 
-		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
+		await parseTextbox(page).fill('34.0 x 53.0 x 19.0 cm');
+		await parseDimensionsButton(page).click();
 
-		await expect(page.getByRole('dialog')).not.toBeVisible();
+		await expect(parseDialog(page)).not.toBeVisible();
 
-		await expect(page.getByLabel('Height')).toHaveValue('34');
-		await expect(page.getByLabel('Width')).toHaveValue('53');
-		await expect(page.getByLabel('Depth')).toHaveValue('19');
+		await expect(heightInput(page)).toHaveValue('34');
+		await expect(widthInput(page)).toHaveValue('53');
+		await expect(depthInput(page)).toHaveValue('19');
 
-		await expect(page.getByText(/Compliance Score/)).toBeVisible();
+		await expect(complianceSection(page)).toBeVisible();
 	});
 
 	test('should show error for invalid dimensions string', async ({ page }) => {
-		const initialHeight = await page.getByLabel('Height').inputValue();
-		const initialWidth = await page.getByLabel('Width').inputValue();
-		const initialDepth = await page.getByLabel('Depth').inputValue();
+		const initialHeight = await heightInput(page).inputValue();
+		const initialWidth = await widthInput(page).inputValue();
+		const initialDepth = await depthInput(page).inputValue();
 
 		await openParseDialog(page);
 
-		await page.getByRole('dialog').getByRole('textbox').fill('This is not a dimension string');
-		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
+		await parseTextbox(page).fill('This is not a dimension string');
+		await parseDimensionsButton(page).click();
 
 		await expect(page.getByText(/No dimensions found/)).toBeVisible();
 
-		await expect(page.getByRole('dialog')).toBeVisible();
+		await expect(parseDialog(page)).toBeVisible();
 
-		await expect(page.getByLabel('Height')).toHaveValue(initialHeight);
-		await expect(page.getByLabel('Width')).toHaveValue(initialWidth);
-		await expect(page.getByLabel('Depth')).toHaveValue(initialDepth);
+		await expect(heightInput(page)).toHaveValue(initialHeight);
+		await expect(widthInput(page)).toHaveValue(initialWidth);
+		await expect(depthInput(page)).toHaveValue(initialDepth);
+		await expect(complianceSection(page)).not.toBeVisible();
 	});
 
 	test('should not affect dimensions when dialog is cancelled', async ({ page }) => {
@@ -45,14 +60,15 @@ test.describe('Bag dimension parsing', () => {
 
 		await openParseDialog(page);
 
-		await page.getByRole('dialog').getByRole('textbox').fill('34.0 x 53.0 x 19.0 cm');
-		await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
+		await parseTextbox(page).fill('34.0 x 53.0 x 19.0 cm');
+		await cancelParseButton(page).click();
 
-		await expect(page.getByRole('dialog')).not.toBeVisible();
+		await expect(parseDialog(page)).not.toBeVisible();
 
-		await expect(page.getByLabel('Height')).toHaveValue('50');
-		await expect(page.getByLabel('Width')).toHaveValue('40');
-		await expect(page.getByLabel('Depth')).toHaveValue('25');
+		await expect(heightInput(page)).toHaveValue('50');
+		await expect(widthInput(page)).toHaveValue('40');
+		await expect(depthInput(page)).toHaveValue('25');
+		await expect(complianceSection(page)).toBeVisible();
 	});
 
 	test('should parse dimensions according to selected measurement system', async ({ page }) => {
@@ -60,28 +76,23 @@ test.describe('Bag dimension parsing', () => {
 
 		await openParseDialog(page);
 
-		await page
-			.getByRole('dialog')
-			.getByRole('textbox')
-			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
+		await parseTextbox(page).fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await parseDimensionsButton(page).click();
 
-		await expect(page.getByRole('dialog')).not.toBeVisible();
+		await expect(parseDialog(page)).not.toBeVisible();
 
-		await expect(page.getByLabel('Height')).toHaveValue('13.39');
-		await expect(page.getByLabel('Width')).toHaveValue('20.87');
-		await expect(page.getByLabel('Depth')).toHaveValue('7.48');
+		await expect(heightInput(page)).toHaveValue('13.39');
+		await expect(widthInput(page)).toHaveValue('20.87');
+		await expect(depthInput(page)).toHaveValue('7.48');
 
 		await switchUnits(page, 'metric');
 		await openParseDialog(page);
-		await page
-			.getByRole('dialog')
-			.getByRole('textbox')
-			.fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
-		await page.getByRole('dialog').getByRole('button', { name: 'Parse Dimensions' }).click();
+		await parseTextbox(page).fill('34.0 x 53.0 x 19.0 cm / 13.39 x 20.87 x 7.48in');
+		await parseDimensionsButton(page).click();
 
-		await expect(page.getByLabel('Height')).toHaveValue('34');
-		await expect(page.getByLabel('Width')).toHaveValue('53');
-		await expect(page.getByLabel('Depth')).toHaveValue('19');
+		await expect(heightInput(page)).toHaveValue('34');
+		await expect(widthInput(page)).toHaveValue('53');
+		await expect(depthInput(page)).toHaveValue('19');
+		await expect(complianceSection(page)).toBeVisible();
 	});
 });

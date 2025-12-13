@@ -1,34 +1,38 @@
+import type { Page } from '@playwright/test';
 import { test, expect } from '../fixtures/test';
+import { getAirlineAllowances } from '../helpers/ui';
 
-test.describe('Allowance table interaction', () => {
+const allowancesGrid = (page: Page) => page.getByTestId('allowances-grid');
+const sortButton = (page: Page) => page.getByRole('button', { name: 'Sort airlines', exact: true });
+const airlineNames = (page: Page) => getAirlineAllowances(page).getByTestId('airline-name');
+
+test.describe('Allowance grid interaction', () => {
 	test.beforeEach(async ({ app }) => {
-		await app.gotoHome({ waitForAllowances: true });
+		await app.gotoHome();
 	});
 
-	test('should display airline allowances table by default', async ({ page }) => {
-		const headers = ['Airline', 'Region', 'Carry-On (cm)', 'Weight', 'Policy'];
-		for (const header of headers) {
-			await expect(page.getByRole('columnheader', { name: header })).toBeVisible();
-		}
+	test('should display airline allowances grid by default', async ({ page }) => {
+		await expect(allowancesGrid(page)).toBeVisible();
 
-		await expect(page.getByRole('cell', { name: /Finnair/i })).toBeVisible();
+		const cards = getAirlineAllowances(page);
+		await expect(cards.first()).toBeVisible();
+
+		await expect(airlineNames(page).filter({ hasText: /^Finnair$/ })).toBeVisible();
 	});
 
 	test('should sort airlines correctly', async ({ page }) => {
-		const airlineSortButton = page.getByRole('button', { name: /^Airline/ });
-		await airlineSortButton.click();
+		await expect(allowancesGrid(page)).toBeVisible();
 
-		const ascAirlines = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
-			cells.map((cell) => cell.textContent?.trim())
-		);
+		const initial = (await airlineNames(page).allTextContents()).map((name) => name.trim());
+		expect(initial.length).toBeGreaterThan(1);
 
-		await airlineSortButton.click();
+		await sortButton(page).click();
 
-		const descAirlines = await page.$$eval('tbody tr td:nth-child(2)', (cells) =>
-			cells.map((cell) => cell.textContent?.trim())
-		);
+		const updated = (await airlineNames(page).allTextContents()).map((name) => name.trim());
 
-		expect(ascAirlines).not.toEqual(descAirlines);
-		expect(ascAirlines).toEqual([...descAirlines].reverse());
+		expect(updated).not.toEqual(initial);
+		expect(updated[0]).toBe(initial[initial.length - 1]);
+		expect(updated[updated.length - 1]).toBe(initial[0]);
+		expect(updated).toEqual([...initial].reverse());
 	});
 });
