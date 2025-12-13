@@ -99,6 +99,7 @@
 		isFullyNonCompliant ? 'border-destructive' : 'border-border'
 	)}
 	data-testid="airline-card"
+	data-compliance={isFullyNonCompliant ? 'non-compliant' : 'compliant'}
 >
 	<header class="flex items-center justify-between border-b px-4 py-3">
 		<div class="flex items-center gap-3">
@@ -135,6 +136,7 @@
 							class="font-medium"
 							class:text-destructive={dim0 && !dim0.passed}
 							data-testid="total-dimensions"
+							data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
 						>
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
@@ -150,6 +152,7 @@
 							class="font-medium"
 							class:text-destructive={dim0 && !dim0.passed}
 							data-testid="length"
+							data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
 						>
 							{#if dim0 && !dim0.passed && dim0.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
@@ -164,6 +167,7 @@
 							class="font-medium"
 							class:text-destructive={dim1 && !dim1.passed}
 							data-testid="width"
+							data-dimension-status={dim1 && !dim1.passed ? 'fail' : 'pass'}
 						>
 							{#if dim1 && !dim1.passed && dim1.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim1.diff)})</span>
@@ -178,6 +182,7 @@
 							class="font-medium"
 							class:text-destructive={dim2 && !dim2.passed}
 							data-testid="depth"
+							data-dimension-status={dim2 && !dim2.passed ? 'fail' : 'pass'}
 						>
 							{#if dim2 && !dim2.passed && dim2.diff > 0}
 								<span class="mr-1 text-xs">({formatDiff(dim2.diff)})</span>
@@ -217,6 +222,9 @@
 								class="font-medium"
 								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
 								data-testid="total-dimensions"
+								data-dimension-status={personalItemDim0 && !personalItemDim0.passed
+									? 'fail'
+									: 'pass'}
 							>
 								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
@@ -232,6 +240,9 @@
 								class="font-medium"
 								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
 								data-testid="length"
+								data-dimension-status={personalItemDim0 && !personalItemDim0.passed
+									? 'fail'
+									: 'pass'}
 							>
 								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
@@ -246,6 +257,9 @@
 								class="font-medium"
 								class:text-destructive={personalItemDim1 && !personalItemDim1.passed}
 								data-testid="width"
+								data-dimension-status={personalItemDim1 && !personalItemDim1.passed
+									? 'fail'
+									: 'pass'}
 							>
 								{#if personalItemDim1 && !personalItemDim1.passed && personalItemDim1.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim1.diff)})</span>
@@ -260,6 +274,9 @@
 								class="font-medium"
 								class:text-destructive={personalItemDim2 && !personalItemDim2.passed}
 								data-testid="depth"
+								data-dimension-status={personalItemDim2 && !personalItemDim2.passed
+									? 'fail'
+									: 'pass'}
 							>
 								{#if personalItemDim2 && !personalItemDim2.passed && personalItemDim2.diff > 0}
 									<span class="mr-1 text-xs">({formatDiff(personalItemDim2.diff)})</span>

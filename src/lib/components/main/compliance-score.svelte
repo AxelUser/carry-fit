@@ -193,6 +193,7 @@
 
 <div
 	class="relative overflow-hidden rounded-xl border-2 border-border bg-card p-6 text-center shadow-sm"
+	data-testid="compliance-score"
 >
 	{#if shouldAnimateBackground}
 		<canvas
@@ -209,27 +210,41 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-4">
-			{@render complianceScoreResults('Carry-on', carryOnScore, carryOnClasses)}
+			{@render complianceScoreResults('Carry-on', 'carry-on', carryOnScore, carryOnClasses)}
 
-			{@render complianceScoreResults('Personal Item', personalItemScore, personalItemClasses)}
+			{@render complianceScoreResults(
+				'Personal Item',
+				'personal-item',
+				personalItemScore,
+				personalItemClasses
+			)}
 		</div>
 	</div>
 </div>
 
 {#snippet complianceScoreResults(
 	label: string,
+	sectionKey: string,
 	percentage: number,
 	classes: { text: string; bar: string }
 )}
-	<div class="flex flex-col items-center">
+	<div
+		class="flex flex-col items-center"
+		data-testid="compliance-score-section"
+		data-section={sectionKey}
+	>
 		<div class="text-md mb-2 font-semibold text-foreground drop-shadow-sm">{label}</div>
 		<div class="relative mb-2 h-3 w-full overflow-hidden rounded-full bg-muted/80">
 			<div
 				class={cn('h-full transition-all duration-500 ease-out', classes.bar)}
 				style="width: {percentage}%"
+				data-testid="compliance-score-bar"
 			></div>
 		</div>
-		<div class={cn('text-2xl font-black tracking-tight drop-shadow-sm sm:text-3xl', classes.text)}>
+		<div
+			class={cn('text-2xl font-black tracking-tight drop-shadow-sm sm:text-3xl', classes.text)}
+			data-testid="compliance-score-percentage"
+		>
 			{percentage.toFixed(0)}%
 		</div>
 	</div>
