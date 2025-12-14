@@ -977,11 +977,18 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.flypgs.com/en/pegasus-baggage-allowance',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 20],
-				inches: [22, 16, 8]
+				centimeters: [55, 40, 23]
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 3
 			}
 		}
 	},
@@ -993,10 +1000,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 20]
-			},
-			weight: {
-				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [35, 30, 20]
+			}
+		},
+		totalWeight: {
+			kilograms: 10
 		}
 	},
 	{
@@ -1010,6 +1022,12 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 10
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
 			}
 		}
 	},
@@ -1029,16 +1047,26 @@ export const allowances: AirlineAllowance[] = [
 	},
 	{
 		id: 'tap-portugal',
-		airline: 'TAP Portugal',
+		airline: 'TAP Air Portugal',
 		region: 'Europe',
 		link: 'https://www.flytap.com/en-de/baggage/hand-baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 25]
+				centimeters: [55, 40, 25],
+				inches: [22, 16, 10]
 			},
 			weight: {
 				kilograms: 10,
 				pounds: 22
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 2,
+				pounds: 4.4
 			}
 		}
 	},
@@ -1050,15 +1078,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 20]
-			},
-			weight: {
-				kilograms: 8
 			}
+		},
+		totalWeight: {
+			kilograms: 8
 		}
 	},
 	{
-		id: 'tuifly',
-		airline: 'TUIfly',
+		id: 'tui',
+		airline: 'TUI',
 		region: 'Europe',
 		link: 'https://www.tui.com/service-kontakt/flug/handgepaeck',
 		carryOn: {
@@ -1067,22 +1095,39 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 10
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
+			},
+			weight: {
+				kilograms: 6
 			}
 		}
 	},
 	{
 		id: 'vivaaerobus',
-		airline: 'VivaAerobus',
+		airline: 'Viva',
 		region: 'North America',
-		link: 'https://blog.vivaaerobus.com/en/baggage-policies/',
+		link: 'https://www.vivaaerobus.com/en-us/info/get-ready-to-fly/baggage-policies',
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 25],
 				inches: [22, 16, 10]
 			},
 			weight: {
-				kilograms: 10,
 				pounds: 22
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [45, 35, 20],
+				inches: [18, 14, 8]
+			},
+			weight: {
+				kilograms: 3
 			}
 		}
 	},
@@ -1097,6 +1142,12 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 10
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
 			}
 		}
 	},
@@ -1108,10 +1159,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 23]
-			},
-			weight: {
-				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
+		},
+		totalWeight: {
+			kilograms: 8
 		}
 	},
 	{
@@ -1123,6 +1179,13 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [55, 40, 23],
 				inches: [21.5, 15.5, 9]
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [43, 33, 16],
+				inches: [17, 13, 6]
 			}
 		}
 	},
@@ -1133,7 +1196,8 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.airnewzealand.com/carry-on-baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: 118
+				centimeters: [55, 40, 23],
+				inches: [21, 16, 9]
 			},
 			weight: {
 				kilograms: 7,
@@ -1152,6 +1216,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			weight: {
+				kilograms: 4
 			}
 		}
 	},
