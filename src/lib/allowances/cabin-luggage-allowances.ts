@@ -1228,13 +1228,18 @@ export const allowances: AirlineAllowance[] = [
 		id: 'austrian-airlines',
 		airline: 'Austrian Airlines',
 		region: 'Europe',
-		link: 'https://www.austrian.com/gb/en/carry-on-baggage',
+		link: 'https://www.austrian.com/lt/en/handgepaeck',
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 23]
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
 			}
 		}
 	},
@@ -1264,6 +1269,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
 		}
 	},
 	{
@@ -1274,10 +1284,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 23]
-			},
-			weight: {
-				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
+		},
+		totalWeight: {
+			kilograms: 12
 		}
 	},
 	{
@@ -1291,6 +1306,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
 			}
 		}
 	},
@@ -1319,6 +1339,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 7
+			}
+		},
+		personalItem: {
+			weight: {
+				kilograms: 5
 			}
 		}
 	},
