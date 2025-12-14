@@ -32,7 +32,7 @@
 					</Accordion.Content>
 				</Accordion.Item>
 				<Accordion.Item value="carryon-vs-personal">
-					<Accordion.Trigger>Carry-on vs personal item — what's the difference?</Accordion.Trigger>
+					<Accordion.Trigger>Carry-on vs personal item</Accordion.Trigger>
 					<Accordion.Content>
 						{@render carryonVsPersonalContent()}
 					</Accordion.Content>
@@ -44,7 +44,7 @@
 					</Accordion.Content>
 				</Accordion.Item>
 				<Accordion.Item value="missing-personal-item-dimensions">
-					<Accordion.Trigger>How do you handle missing personal item dimensions?</Accordion.Trigger>
+					<Accordion.Trigger>Missing personal item dimensions</Accordion.Trigger>
 					<Accordion.Content>
 						{@render personalItemsDimensionsContent()}
 					</Accordion.Content>
