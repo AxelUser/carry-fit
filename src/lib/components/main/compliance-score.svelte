@@ -1,15 +1,28 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getScoreVisual } from '$lib/allowances';
+	import { getScoreVisual, DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
 	import { cn } from '$lib/utils/styling';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
+	import { descDimensions, formatDims } from '$lib/utils/dimensions';
 
 	interface Props {
 		carryOnScore: number;
 		personalItemScore: number;
 		showBackground?: boolean;
+		airlinesCount: number;
+		userDimensions: UserDimensions;
+		measurementSystem: MeasurementSystem;
 	}
 
-	let { carryOnScore, personalItemScore, showBackground = true }: Props = $props();
+	let {
+		carryOnScore,
+		personalItemScore,
+		showBackground = true,
+		airlinesCount,
+		userDimensions,
+		measurementSystem
+	}: Props = $props();
 
 	const visual = $derived(getScoreVisual(carryOnScore, personalItemScore));
 	const message = $derived(visual.message);
@@ -189,6 +202,18 @@
 
 	const carryOnClasses = $derived(getScoreClasses(carryOnScore));
 	const personalItemClasses = $derived(getScoreClasses(personalItemScore));
+
+	const bagDimensionsDisplay = $derived(
+		formatDims(
+			descDimensions([userDimensions.height, userDimensions.width, userDimensions.depth]),
+			measurementSystem
+		)
+	);
+	const defaultPersonalItemDisplay = $derived(
+		measurementSystem === MeasurementSystems.Metric
+			? formatDims(DEFAULT_PERSONAL_ITEM.centimeters, measurementSystem)
+			: formatDims(DEFAULT_PERSONAL_ITEM.inches, measurementSystem)
+	);
 </script>
 
 <div
@@ -202,10 +227,8 @@
 		></canvas>
 	{/if}
 
-	<div class="relative z-20 mx-auto max-w-4xl p-4 sm:p-6">
-		<div
-			class="mb-4 text-2xl font-extrabold leading-tight text-foreground drop-shadow-lg sm:text-3xl"
-		>
+	<div class="relative z-20 mx-auto max-w-4xl space-y-8">
+		<div class="text-2xl font-extrabold leading-tight text-foreground drop-shadow-lg sm:text-3xl">
 			{message}
 		</div>
 
@@ -218,6 +241,36 @@
 				personalItemScore,
 				personalItemClasses
 			)}
+		</div>
+
+		<div class="text-center">
+			<Dialog.Root>
+				<Dialog.Trigger class="text-sm text-muted-foreground underline hover:text-foreground"
+					>But why?</Dialog.Trigger
+				>
+				<Dialog.Content>
+					<Dialog.Header>
+						<Dialog.Title>How Scoring Works</Dialog.Title>
+					</Dialog.Header>
+					<Dialog.Description>
+						<div class="space-y-4">
+							<p>
+								Your bag size <strong>({bagDimensionsDisplay})</strong> was compared to
+								<strong>{airlinesCount}</strong> airline rules that match your filters, for both carry-on
+								and personal item.
+							</p>
+							<p>The score is basically the percentage of airlines that allow your bag.</p>
+							<p>
+								You might wonder why the personal item score is low, even though more airlines might
+								accept your bag. Since airlines often do not give exact size limits for personal
+								items and just say it must fit under the seat, we use a standard size of <strong
+									>{defaultPersonalItemDisplay}</strong
+								>. This size is small, but it is a safe guess.
+							</p>
+						</div>
+					</Dialog.Description>
+				</Dialog.Content>
+			</Dialog.Root>
 		</div>
 	</div>
 </div>

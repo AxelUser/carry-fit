@@ -196,7 +196,13 @@
 
 				{#if allDimensionsSet}
 					<div class="pt-2">
-						<ComplianceScore {carryOnScore} {personalItemScore} />
+						<ComplianceScore
+							{carryOnScore}
+							{personalItemScore}
+							airlinesCount={airlinesWithCompliance.length}
+							{userDimensions}
+							measurementSystem={preferences.measurementSystem}
+						/>
 					</div>
 				{/if}
 			</Card.Content>

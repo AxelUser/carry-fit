@@ -2,14 +2,8 @@
 	import * as Card from '$lib/components/ui/card';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
-	import type { DimensionValue } from '$lib/types';
-
-	const formatDims = (dims: DimensionValue, unit: string) => {
-		if (Array.isArray(dims)) {
-			return `${dims.join(' × ')} ${unit}`;
-		}
-		return `${dims} ${unit}`;
-	};
+	import { formatDims } from '$lib/utils/dimensions';
+	import { MeasurementSystems } from '$lib/types';
 
 	interface Props {
 		airlinesCount: number;
@@ -134,8 +128,8 @@
 			over-promise:
 		</p>
 		<ul class="list-inside list-disc text-sm">
-			<li>{formatDims(DEFAULT_PERSONAL_ITEM.centimeters, 'cm')}</li>
-			<li>{formatDims(DEFAULT_PERSONAL_ITEM.inches, 'in')}</li>
+			<li>{formatDims(DEFAULT_PERSONAL_ITEM.centimeters, MeasurementSystems.Metric)}</li>
+			<li>{formatDims(DEFAULT_PERSONAL_ITEM.inches, MeasurementSystems.Imperial)}</li>
 		</ul>
 	</div>
 {/snippet}

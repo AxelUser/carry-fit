@@ -30,3 +30,11 @@ export function getUserDimensionsIfFilled(bagDimensions: UserDimensions): number
 	}
 	return [];
 }
+
+export function formatDims(dims: DimensionValue, measurementSystem: MeasurementSystem) {
+	const unit = measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in';
+	if (Array.isArray(dims)) {
+		return `${dims.join('\u00A0×\u00A0')} ${unit}`;
+	}
+	return `${dims} ${unit}`;
+}
