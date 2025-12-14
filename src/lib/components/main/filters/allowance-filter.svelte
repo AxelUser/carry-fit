@@ -7,9 +7,6 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import { Label } from '$lib/components/ui/label';
-	import { badgeVariants } from '$lib/components/ui/badge';
-
-	import { cn } from '$lib/utils/styling';
 	import FavoriteAirlines from './favorite-airlines.svelte';
 
 	interface Props {
@@ -96,24 +93,8 @@
 						</div>
 
 						<div class="flex items-start gap-2">
-							<button
-								class={cn(
-									badgeVariants({ variant: 'secondary' }),
-									'focus:outline-none focus:ring-0 focus:ring-offset-0'
-								)}
-								onclick={selectAllRegions}
-							>
-								Select All
-							</button>
-							<button
-								class={cn(
-									badgeVariants({ variant: 'secondary' }),
-									'focus:outline-none focus:ring-0 focus:ring-offset-0'
-								)}
-								onclick={clearAllRegions}
-							>
-								Clear All
-							</button>
+							<Button variant="outline" size="sm" onclick={selectAllRegions}>Select All</Button>
+							<Button variant="outline" size="sm" onclick={clearAllRegions}>Clear All</Button>
 						</div>
 					</div>
 
@@ -132,6 +113,7 @@
 								disabled={!isAvailable}
 								onclick={() => isAvailable && toggleRegion(region)}
 								data-selected={isSelected}
+								class="gap-2 text-sm"
 							>
 								<span>{region}</span>
 								{#if isSelected && isAvailable}

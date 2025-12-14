@@ -2,15 +2,17 @@
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { cn } from '$lib/utils/styling';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		duration?: number;
 		content?: string;
 		size?: 'xs' | 'sm' | 'base' | 'lg';
 		onTrigger?: () => Promise<void> | void;
+		trigger: Snippet;
 	}
 
-	let { duration = 500, onTrigger, content, size = 'xs' }: Props = $props();
+	let { duration = 500, onTrigger, content, size = 'xs', trigger }: Props = $props();
 	let isOpen = $state(false);
 	let clickCount = $state(0);
 
@@ -39,7 +41,7 @@
 </script>
 
 <div role="none" class="relative inline-flex items-start" onclick={handleTriggerClick}>
-	<slot name="trigger" />
+	{@render trigger()}
 
 	{#key clickCount}
 		{#if isOpen}

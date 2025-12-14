@@ -1,53 +1,64 @@
 import {
 	MeasurementSystems,
 	type AirlineInfo,
+	type BagAllowance,
 	type BagAllowanceDimensions,
-	type Data,
-	type TestResult
+	type SortedDimensions,
+	type TestResult,
+	type Weight
 } from '$lib/types';
 import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
-import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 import { convertDimensions, convertWeight } from '$lib/utils/math';
+import { descDimensions } from '$lib/utils/dimensions';
 
-export function loadData(): Data {
+export function loadData(): AirlineInfo[] {
 	const parsedAllowances = allowances.map(mapAirlineData);
-	return {
-		meta: {
-			lastTestRun: new Date(allowanceConsistencyResults.meta.lastTestRun),
-			coveredByTest: parsedAllowances.filter((airline) => airline.testResult).length
-		},
-		allowances: parsedAllowances
-	};
+	return parsedAllowances;
 }
 
 function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
-	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn);
-
-	let pounds = allowance.pounds ?? undefined;
-	let kilograms = allowance.kilograms ?? undefined;
-
-	if (!kilograms && typeof pounds === 'number') {
-		kilograms = convertWeight(pounds, MeasurementSystems.Metric);
+	if (!allowance.carryOn.dimensions) {
+		throw new Error(`No dimensions for ${allowance.airline}`);
 	}
 
-	if (!pounds && typeof kilograms === 'number') {
-		pounds = convertWeight(kilograms, MeasurementSystems.Imperial);
+	const carryOnDimensions = getCarryOnDimensions(allowance.airline, allowance.carryOn.dimensions);
+
+	const carryOnWeight = getWeight(allowance.carryOn.weight);
+
+	const carryon: BagAllowance = {
+		...carryOnDimensions,
+		...(carryOnWeight && { weight: carryOnWeight })
+	};
+
+	let personalItem: BagAllowance | undefined;
+	if (allowance.personalItem) {
+		const personalItemWeight = getWeight(allowance.personalItem.weight);
+
+		if (allowance.personalItem.dimensions) {
+			const personalItemDimensions = getCarryOnDimensions(
+				allowance.airline,
+				allowance.personalItem.dimensions
+			);
+			personalItem = {
+				...personalItemDimensions,
+				...(personalItemWeight && { weight: personalItemWeight })
+			};
+		} else {
+			personalItem = {
+				...(personalItemWeight && { weight: personalItemWeight })
+			};
+		}
 	}
 
-	const parsedTestResult = getLastTestOfAirline(
-		allowanceConsistencyResults.results[
-			allowance.id as keyof typeof allowanceConsistencyResults.results
-		]
-	);
+	const totalWeight = getWeight(allowance.totalWeight);
 
 	return {
 		airline: allowance.airline,
 		region: allowance.region,
 		link: allowance.link,
-		carryon: carryOnDimensions,
-		pounds,
-		kilograms,
-		testResult: parsedTestResult
+		carryon,
+		personalItem,
+		...(totalWeight && { totalWeight })
 	};
 }
 
@@ -70,8 +81,8 @@ function getLastTestOfAirline(
 function getCarryOnDimensions(
 	airlineName: string,
 	dims: {
-		centimeters?: number | number[];
-		inches?: number | number[];
+		centimeters?: number | [number, number, number];
+		inches?: number | [number, number, number];
 	}
 ): BagAllowanceDimensions {
 	let parsedCentimeters = dims.centimeters ? getDimensions(dims.centimeters) : undefined;
@@ -94,9 +105,32 @@ function getCarryOnDimensions(
 	};
 }
 
-function getDimensions(dimensions: number | number[]): number | number[] {
-	if (typeof dimensions === 'number') {
-		return dimensions;
+function getDimensions(dimensions: number | [number, number, number]): number | SortedDimensions {
+	return typeof dimensions === 'number' ? dimensions : descDimensions(dimensions);
+}
+
+function getWeight(weight?: { kilograms?: number; pounds?: number }): Weight | undefined {
+	if (!weight) {
+		return undefined;
 	}
-	return dimensions.sort((a, b) => b - a);
+
+	let kilograms = weight.kilograms;
+	let pounds = weight.pounds;
+
+	if (!kilograms && !pounds) {
+		return undefined;
+	}
+
+	if (!kilograms && typeof pounds === 'number') {
+		kilograms = convertWeight(pounds, MeasurementSystems.Metric);
+	}
+
+	if (!pounds && typeof kilograms === 'number') {
+		pounds = convertWeight(kilograms, MeasurementSystems.Imperial);
+	}
+
+	return {
+		...(kilograms !== undefined && { kilograms }),
+		...(pounds !== undefined && { pounds })
+	};
 }

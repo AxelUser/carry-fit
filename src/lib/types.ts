@@ -1,31 +1,54 @@
-export interface Data {
-	meta: {
-		lastTestRun: Date;
-		coveredByTest: number;
-	};
-	allowances: AirlineInfo[];
-}
+export type Region =
+	| 'Europe'
+	| 'North America'
+	| 'South America'
+	| 'Asia'
+	| 'Oceania'
+	| 'Africa'
+	| 'Middle East';
 
 export interface AirlineInfo {
 	airline: string;
-	region: string;
-	link?: string;
-	carryon: BagAllowanceDimensions;
-	pounds?: number;
-	kilograms?: number;
-	testResult?: {
-		lastTest: Date;
-		success: boolean;
-	};
+	region: Region;
+	link: string;
+	carryon: BagAllowance;
+	personalItem?: BagAllowance;
+	totalWeight?: Weight;
+}
+
+export interface DimensionCompliance {
+	passed: boolean;
+	diff: number;
 }
 
 export interface AirlineCompliance extends AirlineInfo {
-	complianceResults: boolean[];
+	complianceResults: DimensionCompliance[];
+	personalItemComplianceResults: DimensionCompliance[] | null;
 }
 
+export interface Weight {
+	kilograms?: number;
+	pounds?: number;
+}
+
+declare const sortedDescendingDimensionsBrand: unique symbol;
+
+/**
+ * A three-length tuple that has been pre-sorted from largest to smallest.
+ */
+export type SortedDimensions = [number, number, number] & {
+	readonly [sortedDescendingDimensionsBrand]: true;
+};
+
+export type DimensionValue = number | SortedDimensions;
+
 export interface BagAllowanceDimensions {
-	inches: number | number[];
-	centimeters: number | number[];
+	inches: DimensionValue;
+	centimeters: DimensionValue;
+}
+
+export interface BagAllowance extends Partial<BagAllowanceDimensions> {
+	weight?: Weight;
 }
 
 export const MeasurementSystems = {

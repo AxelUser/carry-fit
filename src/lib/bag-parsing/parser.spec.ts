@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { DimensionParser } from './parser';
 import { convertDimensions } from '$lib/utils/math';
 import type { UserDimensions } from '$lib/types';
+import { descDimensions } from '$lib/utils/dimensions';
 
 describe('DimensionParser', () => {
 	const parser = new DimensionParser();
@@ -77,5 +78,5 @@ describe('DimensionParser', () => {
 function convertToDescArray(dims: UserDimensions | null): number[] | null {
 	if (!dims) return null;
 
-	return [dims.depth, dims.height, dims.width].toSorted((a, b) => b - a);
+	return descDimensions([dims.depth, dims.height, dims.width]);
 }

@@ -5,21 +5,17 @@ Thank you for your interest in contributing to CarryFit! This document provides 
 ## Ways to Contribute
 
 1. **Report Bugs**
-   - Use the GitHub Issues page to report bugs
-   - Use the bug report template
+   - Use the [bug report template](https://github.com/AxelUser/carry-fit/issues/new/choose)
    - Clearly describe the issue, including steps to reproduce
-   - Include browser and device information if relevant
 
 2. **Suggest Enhancements**
-   - Feature requests are welcome
-   - Use the feature request template
+   - Use the [feature request template](https://github.com/AxelUser/carry-fit/issues/new/choose)
    - Provide clear and detailed explanation of the feature
    - Explain why this enhancement would be useful
 
 3. **Update Airline Data**
    - Airline data is stored in [`src/lib/allowances/cabin-luggage-allowances.ts`](src/lib/allowances/cabin-luggage-allowances.ts)
    - Please include links to the policy pages or screenshots
-   - Optionally, add test cases using the `test` property to verify data accuracy. We're using simple text matching on the innerText of the policy page. You may see the logic in [`e2e/allowance-consistency.test.ts`](e2e/allowance-consistency.test.ts)
 
 4. **Submit Code Changes**
    - Fork the repository
@@ -59,7 +55,7 @@ Storybook is used for developing and testing UI components in isolation. Moreove
 2. **End-to-End Tests**
    - E2E tests use Playwright
    - Run E2E tests: `pnpm test:e2e`
-   - Add new test cases in `e2e/` directory or update existing ones (e.g. [`e2e/main-flow.test.ts`](e2e/main-flow.test.ts))
+   - Add new test cases in `e2e/` directory or update existing ones
 
 ## Code Style
 
@@ -81,4 +77,4 @@ Storybook is used for developing and testing UI components in isolation. Moreove
 Feel free to reach out to the maintainer:
 
 - Email: [aleksey@maltsev.space](mailto:aleksey@maltsev.space)
-- Twitter: [@axel_user](https://x.com/axel_user)
+- Open a [GitHub issue](https://github.com/AxelUser/carry-fit/issues/new/choose)

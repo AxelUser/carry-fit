@@ -1,54 +1,29 @@
 <script lang="ts">
-	import { MonitorCheck } from 'lucide-svelte';
 	import * as Card from '$lib/components/ui/card';
-	import { Separator } from '$lib/components/ui/separator';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import { SupportSection } from '$lib/components/misc';
-	import * as Avatar from '$lib/components/ui/avatar';
+	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
+	import type { DimensionValue } from '$lib/types';
 
-	interface Props {
-		coveredByTest: number;
-		lastTestRun: Date;
-	}
-
-	interface Contributor {
-		login: string;
-		avatar_url: string;
-		html_url: string;
-		contributions: number;
-	}
-
-	let { coveredByTest, lastTestRun }: Props = $props();
-
-	// Fetch contributors data
-	const fetchContributors = async () => {
-		try {
-			const response = await fetch('https://api.github.com/repos/AxelUser/carry-fit/contributors');
-			if (!response.ok) throw new Error('Failed to fetch contributors');
-			return await response.json();
-		} catch (error) {
-			console.error('Error fetching contributors:', error);
-			return [];
+	const formatDims = (dims: DimensionValue, unit: string) => {
+		if (Array.isArray(dims)) {
+			return `${dims.join(' × ')} ${unit}`;
 		}
+		return `${dims} ${unit}`;
 	};
 
-	let contributors = $state<Contributor[]>([]);
-	let isLoading = $state(true);
+	interface Props {
+		airlinesCount: number;
+	}
 
-	$effect(() => {
-		fetchContributors().then((data) => {
-			contributors = data;
-			isLoading = false;
-		});
-	});
+	const { airlinesCount }: Props = $props();
 </script>
 
-<div class="mx-auto flex w-full max-w-2xl flex-col">
+<div class="mx-auto w-full max-w-4xl">
 	<Card.Root>
 		<Card.Header>
 			<Card.Title>FAQ</Card.Title>
 		</Card.Header>
-		<Card.Content class="flex flex-col gap-4">
+		<Card.Content>
 			<Accordion.Root type="single">
 				<Accordion.Item value="about">
 					<Accordion.Trigger>What is CarryFit?</Accordion.Trigger>
@@ -56,22 +31,49 @@
 						{@render aboutContent()}
 					</Accordion.Content>
 				</Accordion.Item>
-				<Accordion.Item value="dimensions">
-					<Accordion.Trigger>What are the dimensions?</Accordion.Trigger>
-					<Accordion.Content>
-						{@render dimensionsNote()}
-					</Accordion.Content>
-				</Accordion.Item>
-				<Accordion.Item value="warning">
+				<Accordion.Item value="trust">
 					<Accordion.Trigger>Can I trust this?</Accordion.Trigger>
 					<Accordion.Content>
-						{@render warningContent()}
+						{@render trustContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="carryon-vs-personal">
+					<Accordion.Trigger>Carry-on vs personal item — what's the difference?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render carryonVsPersonalContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="results-explanation">
+					<Accordion.Trigger>How do the results work?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render resultsExplanationContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="missing-personal-item-dimensions">
+					<Accordion.Trigger>How do you handle missing personal item dimensions?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render personalItemsDimensionsContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="wheels-handles">
+					<Accordion.Trigger>Do wheels and handles count?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render wheelsHandlesContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="weight-limits">
+					<Accordion.Trigger>What about weight limits?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render weightLimitsContent()}
+					</Accordion.Content>
+				</Accordion.Item>
+				<Accordion.Item value="contact">
+					<Accordion.Trigger>Found something wrong or missing?</Accordion.Trigger>
+					<Accordion.Content>
+						{@render contactContent()}
 					</Accordion.Content>
 				</Accordion.Item>
 			</Accordion.Root>
-			{@render contributorsSection(contributors)}
-			<Separator />
-			<SupportSection />
 		</Card.Content>
 	</Card.Root>
 </div>
@@ -79,102 +81,122 @@
 {#snippet aboutContent()}
 	<div class="flex flex-col gap-2">
 		<p>
-			CarryFit helps you check if your carry-on luggage meets the size requirements for different
-			airlines worldwide. Enter your bag's dimensions, and we'll show you which airlines will accept
-			it as cabin baggage.
+			CarryFit is a quick way to see if your bag is <em>likely</em> to fit an airline's cabin size
+			limits. I collected data from all {airlinesCount} airlines so you can easily check how good your
+			bag will fit as a carry-on and personal item.
 		</p>
-
-		<Separator />
-		<div class="flex flex-col gap-2">
-			<p>
-				Created by <a
-					href="https://maltsev.space"
-					class="text-primary hover:underline"
-					target="_blank"
-					rel="noopener noreferrer">Aleksey Maltsev</a
-				>
-			</p>
-			<div>
-				Found an error or have a feature suggestion? You can:
-				<ul class="ml-2 list-inside list-disc">
-					<li>
-						Create an issue or submit a pull request on <a
-							href="https://github.com/AxelUser/carry-fit"
-							class="text-primary hover:underline"
-							target="_blank"
-							rel="noopener noreferrer">GitHub</a
-						>
-					</li>
-					<li>
-						Email me at <a href="mailto:aleksey@maltsev.space" class="text-primary hover:underline"
-							>aleksey@maltsev.space</a
-						>
-					</li>
-					<li>
-						Contact me on <a
-							href="https://x.com/axel_user"
-							class="text-primary hover:underline"
-							target="_blank"
-							rel="noopener noreferrer">X (Twitter)</a
-						>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<p>
+			I built it because I got tired of bouncing between product pages, airline sites, and random
+			YouTube videos to find a sweet spot between comfort and compliance.
+		</p>
+		<p>You can use it to compare bags before buying, and doing a quick pre-trip sanity check.</p>
 	</div>
 {/snippet}
 
-{#snippet dimensionsNote()}
-	<p>
-		The dimensions shown are for standard carry-on luggage (cabin bags), not personal items. Some
-		airlines may not allow these sizes with basic/economy tickets or may require an additional fee.
-		Personal item allowances will be
-		<a
-			href="https://github.com/AxelUser/carry-fit/issues/11"
-			class="text-primary hover:underline"
-			target="_blank"
-			rel="noopener noreferrer">added in a future update</a
-		>. If you'd like to see this feature, please vote for it on GitHub.
-	</p>
+{#snippet carryonVsPersonalContent()}
+	<div class="flex flex-col gap-2">
+		<p><strong>Carry-on</strong> is the bigger bag that usually goes in the overhead bin.</p>
+		<p>
+			<strong>Personal item</strong> is the smaller bag that goes under the seat (backpack, tote, laptop
+			bag, small duffel).
+		</p>
+		<p>Airlines can be surprisingly strict about personal items, so it's worth checking both.</p>
+	</div>
 {/snippet}
 
-{#snippet warningContent()}
-	<p>
-		Airlines marked with <MonitorCheck size={16} class="mb-1 inline text-green-600" /> ({coveredByTest}
-		total) are semi-automatically monitored for policy changes. Last verification was on {lastTestRun.toLocaleDateString()}.
-	</p>
-	<p>
-		However, airline policies can change at any time. Always verify the current requirements on your
-		airline's website before traveling, especially for unmarked airlines that aren't monitored.
-	</p>
+{#snippet resultsExplanationContent()}
+	<div class="flex flex-col gap-2">
+		<p>
+			When an airline has clear limits, CarryFit compares your bag to all cabin luggage allowances,
+			providing a percentage of compliance as carry-on and personal item, as well as "fitting"
+			details in the table below.
+		</p>
+		<p>
+			However, some airlines have different rules by fare class, route, or aircraft, so the "right"
+			limit can change. Think of the table as a helpful starting point, not a promise you'll never
+			get stopped at the gate.
+		</p>
+	</div>
 {/snippet}
 
-{#snippet contributorsSection(contributors: Contributor[])}
-	<div class="flex flex-col gap-4">
-		<h3 class="font-semibold">Contributors</h3>
-		<div class="flex flex-wrap gap-1.5">
-			{#if isLoading}
-				{#each Array(5) as _}
-					<div
-						class="h-10 w-10 animate-pulse rounded-full bg-gradient-to-r from-muted to-muted/50"
-					></div>
-				{/each}
-			{:else}
-				{#each [...contributors].sort((a, b) => b.contributions - a.contributions) as contributor (contributor.login)}
-					<a
-						href={contributor.html_url}
-						class="group transition-transform hover:scale-110"
-						target="_blank"
-						rel="noopener noreferrer"
-						title={`${contributor.login} (${contributor.contributions} contributions)`}
-					>
-						<Avatar.Root>
-							<Avatar.Image src={contributor.avatar_url} alt={contributor.login} />
-							<Avatar.Fallback>{contributor.login.slice(0, 2).toUpperCase()}</Avatar.Fallback>
-						</Avatar.Root>
-					</a>
-				{/each}
-			{/if}
-		</div>
+{#snippet personalItemsDimensionsContent()}
+	<div class="flex flex-col gap-2">
+		<p>
+			Personal item space varies a lot, because under-seat room depends on the plane and even your
+			seat.
+		</p>
+		<p>
+			Some airlines don't publish personal item dimensions at all (it's just "must fit under the
+			seat").
+		</p>
+		<p>
+			When there are no published numbers, CarryFit uses a conservative fallback so it doesn't
+			over-promise:
+		</p>
+		<ul class="list-inside list-disc text-sm">
+			<li>{formatDims(DEFAULT_PERSONAL_ITEM.centimeters, 'cm')}</li>
+			<li>{formatDims(DEFAULT_PERSONAL_ITEM.inches, 'in')}</li>
+		</ul>
+	</div>
+{/snippet}
+
+{#snippet wheelsHandlesContent()}
+	<div class="flex flex-col gap-2">
+		<p>Usually, yes.</p>
+		<p>
+			If an airline measures your bag, they're typically looking at the <em>outermost</em> size.
+		</p>
+		<p>
+			Measure including wheels, handles, and anything that sticks out, so you don't get surprised at
+			the gate.
+		</p>
+	</div>
+{/snippet}
+
+{#snippet weightLimitsContent()}
+	<div class="flex flex-col gap-2">
+		<p>Some airlines do care about cabin-bag weight (and some barely check).</p>
+		<p>CarryFit shows weight limits when the airline publishes them.</p>
+		<p>
+			If weight is tight for your airline, double-check the official policy page before you fly.
+		</p>
+	</div>
+{/snippet}
+
+{#snippet trustContent()}
+	<div class="flex flex-col gap-2">
+		<p>I use CarryFit myself, but I still treat it as guidance.</p>
+		<p>
+			Even though I do my best to update the data regularly, airline policies change, and
+			enforcement depends on the airport staff and how full the flight is.
+		</p>
+		<p>
+			If you're searching for most actual cabin luggage allowances, you might want to check the
+			airline's official policy I provide for each airline. Always confirm your airline's current
+			rules (and your fare class) before going to the airport!
+		</p>
+	</div>
+{/snippet}
+
+{#snippet contactContent()}
+	<div class="flex flex-col gap-2">
+		<p>
+			If you spot a bug, a wrong allowance, or an airline that should be added, please open an issue
+			on <a
+				href="https://github.com/AxelUser/carry-fit/issues"
+				class="text-primary hover:underline"
+				target="_blank"
+				rel="noopener noreferrer">GitHub</a
+			>.
+		</p>
+		<p>
+			You can also reach out to me via email at <a
+				href="mailto:aleksey@maltsev.space"
+				class="text-primary hover:underline"
+				target="_blank"
+				rel="noopener noreferrer">aleksey@maltsev.space</a
+			>.
+		</p>
+		<p>Even a quick note like "this airline page says X" is super helpful.</p>
 	</div>
 {/snippet}

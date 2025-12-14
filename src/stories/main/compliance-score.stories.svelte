@@ -10,54 +10,54 @@
 			layout: 'centered'
 		},
 		argTypes: {
-			allAirlinesCount: {
-				description: 'Total number of airlines',
-				control: 'number'
+			carryOnScore: {
+				description: 'Carry-on compliance score (0-100)',
+				control: { type: 'number', min: 0, max: 100 }
 			},
-			compliantAirlinesCount: {
-				description: 'Number of airlines that comply',
-				control: 'number'
+			personalItemScore: {
+				description: 'Personal item compliance score (0-100)',
+				control: { type: 'number', min: 0, max: 100 }
 			}
 		}
 	});
 </script>
 
 <Story
-	name="High Score"
+	name="Validators Fear This Bag"
 	args={{
-		allAirlinesCount: 10,
-		compliantAirlinesCount: 9
+		carryOnScore: 95,
+		personalItemScore: 98
 	}}
 />
 
 <Story
-	name="Medium Score"
+	name="Solid Travel Companion"
 	args={{
-		allAirlinesCount: 10,
-		compliantAirlinesCount: 7
+		carryOnScore: 85,
+		personalItemScore: 82
 	}}
 />
 
 <Story
-	name="Low Score"
+	name="Overhead Hero, Underseat Zero"
 	args={{
-		allAirlinesCount: 10,
-		compliantAirlinesCount: 5
+		carryOnScore: 95,
+		personalItemScore: 45
 	}}
 />
 
 <Story
-	name="Zero Score"
+	name="Tight Squeeze"
 	args={{
-		allAirlinesCount: 10,
-		compliantAirlinesCount: 0
+		carryOnScore: 65,
+		personalItemScore: 70
 	}}
 />
 
 <Story
-	name="No Airlines"
+	name="Living Dangerously"
 	args={{
-		allAirlinesCount: 0,
-		compliantAirlinesCount: 0
+		carryOnScore: 45,
+		personalItemScore: 35
 	}}
 />
