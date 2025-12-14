@@ -95,7 +95,7 @@
 
 <article
 	class={cn(
-		'flex min-h-[304px] flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
+		'flex min-h-[330px] flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
 		isFullyNonCompliant ? 'border-destructive' : 'border-border'
 	)}
 	data-testid="airline-card"

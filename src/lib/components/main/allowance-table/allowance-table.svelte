@@ -163,7 +163,8 @@
 	// Virtual Grid params
 	const GAP = 16;
 
-	const ITEM_HEIGHT_SPLITVIEW = 304;
+	// when changing these values, also change the item height in airline-card.svelte
+	const ITEM_HEIGHT_SPLITVIEW = 330;
 	const ITEM_HEIGHT_COLUMNVIEW = 492;
 
 	const VERTICAL_GAP = 16;
