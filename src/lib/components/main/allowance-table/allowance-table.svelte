@@ -17,6 +17,7 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Button } from '$lib/components/ui/button';
 	import { untrack } from 'svelte';
+	import { Grid } from 'svelte-virtual';
 
 	type ComplianceCategory = 'compliant' | 'non-compliant';
 
@@ -159,25 +160,33 @@
 		metrics.favoriteAirlineToggled();
 	}
 
-	// FIXME: This is a workaround to prevent the sluggishness of the table when the airlines data is updated. Need proper grid virtualization.
-	let isLoading = $state(false);
-	// const debouncedUpdate = debounce(() => {
-	// 	isLoading = false;
-	// }, 1000);
+	// Virtual Grid params
+	const GAP = 16;
 
-	// $effect(() => {
-	// 	if (complianceAirlines || airlines) {
-	// 		isLoading = true;
-	// 		debouncedUpdate();
-	// 	}
-	// });
+	const ITEM_HEIGHT_SPLITVIEW = 304;
+	const ITEM_HEIGHT_COLUMNVIEW = 492;
+
+	const VERTICAL_GAP = 16;
+
+	let isLoading = $state(false);
+	let windowWidth = $state(0);
+	let gridContainerWidth = $state(0);
+	const columnCount = $derived(windowWidth > 800 ? 2 : 1);
+	const itemWidth = $derived((gridContainerWidth - GAP * (columnCount + 1)) / columnCount);
+	const itemHeight = $derived(
+		(windowWidth > 640 ? ITEM_HEIGHT_SPLITVIEW : ITEM_HEIGHT_COLUMNVIEW) + VERTICAL_GAP
+	);
 </script>
 
+<svelte:window bind:innerWidth={windowWidth} />
 <Card.Root>
 	<Card.Header>
 		<Card.Title>Airlines</Card.Title>
 	</Card.Header>
-	<Card.Content class="flex min-h-[300px] flex-col gap-4 overflow-x-auto">
+	<Card.Content
+		class="flex min-h-[300px] flex-col gap-4 overflow-x-auto"
+		data-testid="allowances-grid"
+	>
 		<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 			<SearchInput />
 			<div class="flex justify-end">{@render sortButton()}</div>
@@ -254,27 +263,36 @@
 {/snippet}
 
 {#snippet airlinesGrid()}
-	<ScrollArea data-testid="allowances-grid" class="h-[640px] pr-2">
-		<div class="pb-2">
-			<div
-				class="grid auto-rows-fr gap-4 sm:grid-cols-2"
-				style="contain: layout style;"
-				data-testid="airline-cards"
-			>
-				{#each visibleAirlines as airline (airline.airline)}
-					<AirlineCard
-						{airline}
-						{measurementSystem}
-						complianceResults={(airline as AirlineCompliance).complianceResults}
-						personalItemComplianceResults={(airline as AirlineCompliance)
-							.personalItemComplianceResults}
-						isFavorite={favoriteAirlinesSet.has(airline.airline)}
-						{toggleFavorite}
-					/>
-				{/each}
-			</div>
-		</div>
-	</ScrollArea>
+	<div class="h-[640px]" bind:clientWidth={gridContainerWidth}>
+		{#if gridContainerWidth > 0}
+			<Grid itemCount={visibleAirlines.length} {itemHeight} {itemWidth} height={640} {columnCount}>
+				{#snippet item({ index, style })}
+					{#if index < visibleAirlines.length}
+						{@const airline = visibleAirlines[index]}
+						{#if airline.airline}
+							<div {style} class="mb-4 px-2">
+								<div>
+									<AirlineCard
+										{airline}
+										{measurementSystem}
+										complianceResults={(airline as AirlineCompliance).complianceResults}
+										personalItemComplianceResults={(airline as AirlineCompliance)
+											.personalItemComplianceResults}
+										isFavorite={favoriteAirlinesSet.has(airline.airline)}
+										{toggleFavorite}
+									/>
+								</div>
+							</div>
+						{:else}
+							<div {style} class="mb-4 px-2">
+								Index {index} is out of bounds
+							</div>
+						{/if}
+					{/if}
+				{/snippet}
+			</Grid>
+		{/if}
+	</div>
 {/snippet}
 
 <style>

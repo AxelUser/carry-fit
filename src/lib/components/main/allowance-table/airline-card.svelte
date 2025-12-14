@@ -95,7 +95,7 @@
 
 <article
 	class={cn(
-		'flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
+		'flex min-h-[304px] flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
 		isFullyNonCompliant ? 'border-destructive' : 'border-border'
 	)}
 	data-testid="airline-card"
@@ -123,7 +123,10 @@
 	</header>
 
 	<div class="grid flex-1 grid-cols-1 gap-3 p-4 sm:grid-cols-2">
-		<div class="flex h-full flex-col rounded-lg bg-muted/50 p-3" data-testid="carryon-section">
+		<div
+			class="flex min-h-[150px] flex-col rounded-lg bg-muted/50 p-3"
+			data-testid="carryon-section"
+		>
 			<div class="mb-2 flex items-center gap-2">
 				<span class="text-primary">💼</span>
 				<span class="text-sm font-medium text-foreground">Carry-on</span>
@@ -206,7 +209,7 @@
 		</div>
 
 		<div
-			class="flex h-full flex-col rounded-lg bg-muted/50 p-3"
+			class="flex min-h-[150px] flex-col rounded-lg bg-muted/50 p-3"
 			data-testid="personal-item-section"
 		>
 			<div class="mb-2 flex items-center gap-2">

@@ -117,6 +117,9 @@ importers:
       svelte-check:
         specifier: ^4.0.0
         version: 4.1.1(svelte@5.14.3)(typescript@5.7.2)
+      svelte-virtual:
+        specifier: 1.0.0-next.22
+        version: 1.0.0-next.22(svelte@5.14.3)
       tailwind-merge:
         specifier: ^2.5.5
         version: 2.5.5
@@ -2614,6 +2617,12 @@ packages:
   svelte-toolbelt@0.7.1:
     resolution: {integrity: sha512-HcBOcR17Vx9bjaOceUvxkY3nGmbBmCBBbuWLLEWO6jtmWH8f/QoWmbyUfQZrpDINH39en1b8mptfPQT9VKQ1xQ==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  svelte-virtual@1.0.0-next.22:
+    resolution: {integrity: sha512-di0VzgnmIpIrqMrKM3BdWncjsaskzBzsWdBY+c/RatnuDDHj5OiiQNx/oAt7XZbxHWksf3Shlu3O4cfnKHBJ4w==}
+    engines: {pnpm: '>=7'}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -5424,6 +5433,10 @@ snapshots:
       clsx: 2.1.1
       runed: 0.23.2(svelte@5.14.3)
       style-to-object: 1.0.8
+      svelte: 5.14.3
+
+  svelte-virtual@1.0.0-next.22(svelte@5.14.3):
+    dependencies:
       svelte: 5.14.3
 
   svelte-virtuallists@1.4.0(clsx@2.1.1)(svelte@5.14.3):

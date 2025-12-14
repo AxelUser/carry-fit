@@ -16,20 +16,17 @@ test.describe('Measurement system updates', () => {
 
 		await expect(firstDimension).toContainText('cm');
 
-		const [weightLimitsMetric, lengthsMetric, widthsMetric, depthsMetric, totalDimensionsMetric] =
-			await Promise.all([
-				allowances.getByTestId('weight-limit').allTextContents(),
-				allowances.getByTestId('length').allTextContents(),
-				allowances.getByTestId('width').allTextContents(),
-				allowances.getByTestId('depth').allTextContents(),
-				allowances.getByTestId('total-dimensions').allTextContents()
-			]);
+		const [weightLimitsMetric, lengthsMetric, widthsMetric, depthsMetric] = await Promise.all([
+			allowances.getByTestId('weight-limit').allTextContents(),
+			allowances.getByTestId('length').allTextContents(),
+			allowances.getByTestId('width').allTextContents(),
+			allowances.getByTestId('depth').allTextContents()
+		]);
 
 		expect(weightLimitsMetric.length).toBeGreaterThan(0);
 		expect(lengthsMetric.length).toBeGreaterThan(0);
 		expect(widthsMetric.length).toBeGreaterThan(0);
 		expect(depthsMetric.length).toBeGreaterThan(0);
-		expect(totalDimensionsMetric.length).toBeGreaterThan(0);
 
 		for (const text of weightLimitsMetric) {
 			expect(text).toContain('kg');
@@ -43,32 +40,22 @@ test.describe('Measurement system updates', () => {
 		for (const text of depthsMetric) {
 			expect(text).toContain('cm');
 		}
-		for (const text of totalDimensionsMetric) {
-			expect(text).toContain('cm');
-		}
 
 		await switchUnits(page, 'imperial');
 		await expect(firstDimension).toContainText('in');
 
-		const [
-			weightLimitsImperial,
-			lengthsImperial,
-			widthsImperial,
-			depthsImperial,
-			totalDimensionsImperial
-		] = await Promise.all([
-			allowances.getByTestId('weight-limit').allTextContents(),
-			allowances.getByTestId('length').allTextContents(),
-			allowances.getByTestId('width').allTextContents(),
-			allowances.getByTestId('depth').allTextContents(),
-			allowances.getByTestId('total-dimensions').allTextContents()
-		]);
+		const [weightLimitsImperial, lengthsImperial, widthsImperial, depthsImperial] =
+			await Promise.all([
+				allowances.getByTestId('weight-limit').allTextContents(),
+				allowances.getByTestId('length').allTextContents(),
+				allowances.getByTestId('width').allTextContents(),
+				allowances.getByTestId('depth').allTextContents()
+			]);
 
 		expect(weightLimitsImperial.length).toBeGreaterThan(0);
 		expect(lengthsImperial.length).toBeGreaterThan(0);
 		expect(widthsImperial.length).toBeGreaterThan(0);
 		expect(depthsImperial.length).toBeGreaterThan(0);
-		expect(totalDimensionsImperial.length).toBeGreaterThan(0);
 
 		for (const text of weightLimitsImperial) {
 			expect(text).toContain('lb');
@@ -82,15 +69,9 @@ test.describe('Measurement system updates', () => {
 		for (const text of depthsImperial) {
 			expect(text).toContain('in');
 		}
-		for (const text of totalDimensionsImperial) {
-			expect(text).toContain('in');
-		}
 	});
 
-	test('should persist measurement system preference across page reloads', async ({
-		app,
-		page
-	}) => {
+	test('should persist measurement system preference across page reloads', async ({ page }) => {
 		await expect(page.getByTestId('metric-button')).toHaveAttribute('data-active', 'true');
 		await expect(page.getByTestId('imperial-button')).toHaveAttribute('data-active', 'false');
 

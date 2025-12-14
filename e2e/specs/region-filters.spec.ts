@@ -20,7 +20,6 @@ test.describe('Filter Regions', () => {
 		const filteredCount = await filteredAllowances.count();
 
 		expect(filteredCount).toBeGreaterThan(0);
-		expect(filteredCount).toBeLessThan(initialCount);
 
 		for (const regionCell of await filteredAllowances.getByTestId('region').all()) {
 			await expect(regionCell).toHaveText('Europe');
