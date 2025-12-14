@@ -14,10 +14,6 @@ export interface AirlineInfo {
 	carryon: BagAllowance;
 	personalItem?: BagAllowance;
 	totalWeight?: Weight;
-	testResult?: {
-		lastTest: Date;
-		success: boolean;
-	};
 }
 
 export interface DimensionCompliance {

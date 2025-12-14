@@ -3,9 +3,6 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
-# Generated files
-src/lib/allowances/allowance-consistency-results.json
-
 # GitHub workflows and configuration
 .github/**
 

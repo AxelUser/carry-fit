@@ -8,7 +8,6 @@ import {
 	type Weight
 } from '$lib/types';
 import { allowances, type AirlineAllowance } from '$lib/allowances/cabin-luggage-allowances';
-import allowanceConsistencyResults from '$lib/allowances/allowance-consistency-results.json' assert { type: 'json' };
 import { convertDimensions, convertWeight } from '$lib/utils/math';
 import { descDimensions } from '$lib/utils/dimensions';
 
@@ -53,20 +52,13 @@ function mapAirlineData(allowance: AirlineAllowance): AirlineInfo {
 
 	const totalWeight = getWeight(allowance.totalWeight);
 
-	const parsedTestResult = getLastTestOfAirline(
-		allowanceConsistencyResults.results[
-			allowance.id as keyof typeof allowanceConsistencyResults.results
-		]
-	);
-
 	return {
 		airline: allowance.airline,
 		region: allowance.region,
 		link: allowance.link,
 		carryon,
 		personalItem,
-		...(totalWeight && { totalWeight }),
-		testResult: parsedTestResult
+		...(totalWeight && { totalWeight })
 	};
 }
 
