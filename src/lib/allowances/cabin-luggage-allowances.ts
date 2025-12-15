@@ -2118,13 +2118,13 @@ export const allowances: AirlineAllowance[] = [
 	},
 	{
 		id: 'royal-jordanian-airlines',
-		airline: 'Royal Jordanian Airlines',
+		airline: 'Royal Jordanian',
 		region: 'Middle East',
 		link: 'https://www.rj.com/en/info-and-tips/baggage-information/carry-on-pieces',
 		carryOn: {
 			dimensions: {
-				centimeters: [51, 41, 23],
-				inches: [20, 16, 9]
+				centimeters: [23, 41, 51],
+				inches: [9, 16, 20]
 			},
 			weight: {
 				kilograms: 7
@@ -2148,16 +2148,21 @@ export const allowances: AirlineAllowance[] = [
 	},
 	{
 		id: 'scoot-airlines',
-		airline: 'Scoot Airlines',
+		airline: 'Scoot',
 		region: 'Asia',
 		link: 'https://www.flyscoot.com/en/plan/booking-your-flight/baggage',
 		carryOn: {
 			dimensions: {
 				centimeters: [54, 38, 23]
-			},
-			weight: {
-				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10]
+			}
+		},
+		totalWeight: {
+			kilograms: 10
 		}
 	},
 	{
@@ -2171,6 +2176,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 7
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10]
 			}
 		}
 	},
@@ -2186,6 +2196,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 40, 10]
+			}
 		}
 	},
 	{
@@ -2195,10 +2210,12 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.srilankan.com/en_uk/plan-and-book/luggage',
 		carryOn: {
 			dimensions: {
-				centimeters: 115
+				centimeters: [56, 36, 23],
+				inches: [22, 14, 9]
 			},
 			weight: {
-				kilograms: 7
+				kilograms: 7,
+				pounds: 15
 			}
 		}
 	},
@@ -2209,8 +2226,14 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.united.com/ual/en/us/fly/travel/baggage/carry-on.html',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 35, 23],
-				inches: [22, 14, 9]
+				centimeters: [23, 35, 56],
+				inches: [9, 14, 22]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [22, 25, 43],
+				inches: [9, 10, 17]
 			}
 		}
 	},
@@ -2226,6 +2249,14 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
+		},
+		totalWeight: {
+			kilograms: 12
 		}
 	},
 	{
@@ -2235,12 +2266,18 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://help.virginatlantic.com/gb/en/baggage/hand-baggage.html',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 36, 23],
-				inches: [22, 14, 9]
+				centimeters: [23, 36, 56],
+				inches: [9, 14, 22]
 			},
 			weight: {
 				kilograms: 10,
 				pounds: 22
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15],
+				inches: [16, 12, 6]
 			}
 		}
 	},
@@ -2274,6 +2311,12 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10,
 				pounds: 22
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [43, 25, 22],
+				inches: [17, 10, 9]
+			}
 		}
 	},
 	{
@@ -2302,6 +2345,14 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: 80
+			},
+			weight: {
+				kilograms: 3
+			}
 		}
 	},
 	{
@@ -2313,10 +2364,12 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [56, 45, 25],
 				inches: [22, 18, 10]
-			},
-			weight: {
-				kilograms: 23,
-				pounds: 51
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15],
+				inches: [16, 12, 6]
 			}
 		}
 	},
@@ -2351,6 +2404,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [18, 30, 18]
+			}
 		}
 	},
 	{
@@ -2365,6 +2423,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 40, 15]
+			}
 		}
 	},
 	{
@@ -2378,6 +2441,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 10
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
 			}
 		}
 	},
@@ -2407,15 +2475,24 @@ export const allowances: AirlineAllowance[] = [
 		id: 'thai-airways',
 		airline: 'Thai Airways',
 		region: 'Asia',
-		link: 'https://www.thaiairways.com/en/travel_information/baggage.page',
+		link: 'https://www.thaiairways.com/en-th/content/baggage/carry-on-baggage/',
 		carryOn: {
 			dimensions: {
 				centimeters: [56, 45, 25],
 				inches: [22, 18, 10]
 			},
 			weight: {
-				kilograms: 7,
-				pounds: 15
+				kilograms: 7
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [37.5, 25, 12.5],
+				inches: [15, 10, 5]
+			},
+			weight: {
+				kilograms: 1.5,
+				pounds: 3.3
 			}
 		}
 	},
@@ -2443,11 +2520,11 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [56, 36, 23],
 				inches: [22, 14, 9]
-			},
-			weight: {
-				kilograms: 7,
-				pounds: 15
 			}
+		},
+		totalWeight: {
+			kilograms: 7,
+			pounds: 15
 		}
 	},
 	{
@@ -2463,6 +2540,13 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10,
 				pounds: 22
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15],
+				inches: [15.5, 11.5, 5.5]
 			}
 		}
 	},
@@ -2475,6 +2559,13 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [56, 46, 25],
 				inches: [22, 18, 10]
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [45, 35, 20],
+				inches: [18, 14, 8]
 			}
 		}
 	},
@@ -2489,6 +2580,12 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				pounds: 35
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				inches: [14, 18, 8]
 			}
 		}
 	},
@@ -2500,6 +2597,14 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				inches: [24, 16, 11]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				inches: [14, 14, 10]
+			},
+			weight: {
+				pounds: 15
 			}
 		}
 	},
@@ -2525,6 +2630,12 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				pounds: 35
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				inches: [17, 13, 9]
 			}
 		}
 	},
@@ -2532,13 +2643,16 @@ export const allowances: AirlineAllowance[] = [
 		id: 'pobeda',
 		airline: 'Pobeda',
 		region: 'Europe',
-		link: 'https://www.flypobeda.ru/information/luggage_baggage',
+		link: 'https://www.flypobeda.ru/en/information/luggage_baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: [36, 30, 27]
+				centimeters: [55, 40, 25]
 			},
-			weight: {
-				kilograms: 10
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [36, 30, 27]
 			}
 		}
 	},
@@ -2550,10 +2664,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 25]
-			},
-			weight: {
-				kilograms: 7
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [35, 45, 25]
+			}
+		},
+		totalWeight: {
+			kilograms: 7
 		}
 	},
 	{
