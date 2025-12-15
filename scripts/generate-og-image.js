@@ -14,10 +14,7 @@ async function generateOgImage() {
 	const page = await context.newPage();
 
 	// Read the HTML template
-	const htmlContent = await fs.readFile(
-		join(__dirname, '../src/lib/components/og-image.svelte'),
-		'utf-8'
-	);
+	const htmlContent = await fs.readFile(join(__dirname, 'og-image.html'), 'utf-8');
 
 	// Create a temporary HTML file with necessary styles
 	const tempHtml = `
