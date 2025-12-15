@@ -1354,8 +1354,7 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.fijiairways.com/manage/baggage-allowances',
 		carryOn: {
 			dimensions: {
-				centimeters: 118,
-				inches: 46
+				centimeters: [55, 40, 23]
 			},
 			weight: {
 				kilograms: 7,
@@ -1375,6 +1374,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
 		}
 	},
 	{
@@ -1389,6 +1393,11 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 8
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
+			}
 		}
 	},
 	{
@@ -1399,10 +1408,15 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 23]
-			},
-			weight: {
-				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 40, 20]
+			}
+		},
+		totalWeight: {
+			kilograms: 10
 		}
 	},
 	{
@@ -1416,7 +1430,8 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
-			}
+			},
+			isExtra: true
 		}
 	},
 	{
@@ -1431,6 +1446,14 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: 75
+			},
+			weight: {
+				kilograms: 5
+			}
 		}
 	},
 	{
@@ -1444,6 +1467,12 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
 			}
 		}
 	},
@@ -1458,12 +1487,21 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 40, 20]
+			},
+			weight: {
+				kilograms: 4
 			}
 		}
 	},
 	{
 		id: 'swiss-international-air-lines',
-		airline: 'Swiss International Air Lines',
+		airline: 'SWISS',
 		region: 'Europe',
 		link: 'https://www.swiss.com/de/en/prepare/baggage/hand-baggage',
 		carryOn: {
@@ -1472,6 +1510,11 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
 			}
 		}
 	},
@@ -1482,10 +1525,18 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.turkishairlines.com/en-us/any-questions/carry-on-baggage/index.html',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 23]
+				centimeters: [23, 40, 55]
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 4
 			}
 		}
 	},
@@ -1501,6 +1552,14 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: 80
+			},
+			weight: {
+				kilograms: 5
+			}
 		}
 	},
 	{
@@ -1511,11 +1570,11 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 40, 25],
-				inches: [21.5, 15.7, 10]
+				inches: [21.6, 15.7, 9.8]
 			},
 			weight: {
 				kilograms: 10,
-				pounds: 22
+				pounds: 23
 			}
 		}
 	},
@@ -1526,12 +1585,10 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.ana.co.jp/en/us/travel-information/baggage-information/carry-on/',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 25],
-				inches: [22, 16, 10]
+				centimeters: [55, 40, 25]
 			},
 			weight: {
-				kilograms: 10,
-				pounds: 22
+				kilograms: 10
 			}
 		}
 	},
@@ -1547,16 +1604,24 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10]
+			},
+			weight: {
+				kilograms: 5
+			}
 		}
 	},
 	{
 		id: 'bh-air',
 		airline: 'BH Air',
 		region: 'Middle East',
-		link: 'http://www.bhairlines.com/page.php?id=38',
+		link: 'https://www.bhairlines.com/Travel-information',
 		carryOn: {
 			dimensions: {
-				centimeters: [60, 40, 30]
+				centimeters: [55, 40, 25]
 			},
 			weight: {
 				kilograms: 7
@@ -1571,31 +1636,17 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				inches: [22, 16, 10]
-			},
-			weight: {
-				pounds: 33
 			}
-		}
-	},
-	{
-		id: 'czech-airlines',
-		airline: 'Czech Airlines',
-		region: 'Europe',
-		link: 'https://www.smartwings.com/en/what-is-the-baggage-allowance',
-		carryOn: {
-			dimensions: {
-				centimeters: [55, 40, 23]
-			},
-			weight: {
-				kilograms: 8
-			}
+		},
+		totalWeight: {
+			pounds: 44
 		}
 	},
 	{
 		id: 'wingo',
 		airline: 'Wingo',
 		region: 'North America',
-		link: 'https://www.wingo.com/centro-de-ayuda/equipaje/equipaje-de-mano-adicional',
+		link: 'https://www.wingo.com/en/help-center/policies/baggage-policy',
 		carryOn: {
 			dimensions: {
 				centimeters: [55, 45, 25]
@@ -1603,20 +1654,33 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 12
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 35, 25]
+			},
+			weight: {
+				kilograms: 10
+			}
 		}
 	},
 	{
 		id: 'air-asia',
-		airline: 'Air Asia',
+		airline: 'AirAsia',
 		region: 'Asia',
 		link: 'https://support.airasia.com/s/article/What-are-the-rules-for-cabin-baggage-on-board?language=en_GB',
 		carryOn: {
 			dimensions: {
 				centimeters: [56, 36, 23]
-			},
-			weight: {
-				kilograms: 7
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10]
+			}
+		},
+		totalWeight: {
+			kilograms: 7
 		}
 	},
 	{
@@ -1632,13 +1696,20 @@ export const allowances: AirlineAllowance[] = [
 	},
 	{
 		id: 'allegiant-air',
-		airline: 'Allegiant Air',
+		airline: 'Allegiant',
 		region: 'North America',
 		link: 'https://www.allegiantair.com/baggage-1',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 25],
-				inches: [22, 16, 10]
+				centimeters: [25, 40, 55],
+				inches: [10, 16, 22]
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [20, 35, 45],
+				inches: [8, 14, 18]
 			}
 		}
 	},
@@ -1649,8 +1720,14 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.aa.com/i18n/travel-info/baggage/carry-on-baggage.jsp',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 36, 23],
+				centimeters: [56, 36, 23],
 				inches: [22, 14, 9]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [45, 35, 20],
+				inches: [18, 14, 8]
 			}
 		}
 	},
@@ -1661,13 +1738,12 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://bahamasair.com/baggage-information/baggage-rates-baggage-claim-form-pdf',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 36, 23],
 				inches: [22, 14, 9]
-			},
-			weight: {
-				kilograms: 9,
-				pounds: 20
 			}
+		},
+		totalWeight: {
+			kilograms: 9.07,
+			pounds: 20
 		}
 	},
 	{
@@ -1686,12 +1762,12 @@ export const allowances: AirlineAllowance[] = [
 	},
 	{
 		id: 'cambodia-angkor-air',
-		airline: 'Cambodia Angkor Air',
+		airline: 'Air Cambodia',
 		region: 'Asia',
 		link: 'https://www.aircambodia.com/en/baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 36, 23],
+				centimeters: [55, 36, 23],
 				inches: [22, 11, 9]
 			},
 			weight: {
@@ -1719,6 +1795,12 @@ export const allowances: AirlineAllowance[] = [
 			weight: {
 				kilograms: 10,
 				pounds: 22
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [33, 43, 15],
+				inches: [13, 17, 6]
 			}
 		}
 	},
@@ -1772,11 +1854,11 @@ export const allowances: AirlineAllowance[] = [
 		id: 'delta-air-lines',
 		airline: 'Delta Air Lines',
 		region: 'North America',
-		link: 'https://www.delta.com/us/en/baggage/carry-on-baggage#baggageFees.html',
+		link: 'https://www.delta.com/us/en/baggage/carry-on-baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 35, 23],
-				inches: [22, 14, 9]
+				inches: [22, 14, 9],
+				centimeters: [56, 35, 23]
 			}
 		}
 	},
@@ -1804,8 +1886,8 @@ export const allowances: AirlineAllowance[] = [
 				inches: [22, 14, 9]
 			},
 			weight: {
-				kilograms: 11,
-				pounds: 25
+				pounds: 25,
+				kilograms: 11
 			}
 		}
 	},
@@ -1818,10 +1900,16 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [56, 36, 23],
 				inches: [22, 14, 9]
-			},
-			weight: {
-				kilograms: 7
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 25, 20],
+				inches: [15.7, 10, 8]
+			}
+		},
+		totalWeight: {
+			kilograms: 7
 		}
 	},
 	{
@@ -1833,11 +1921,17 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [56, 36, 23],
 				inches: [22, 14, 9]
-			},
-			weight: {
-				kilograms: 7,
-				pounds: 15
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15],
+				inches: [16, 12, 6]
+			}
+		},
+		totalWeight: {
+			kilograms: 7,
+			pounds: 15
 		}
 	},
 	{
@@ -1847,13 +1941,13 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.jal.co.jp/jp/en/inter/baggage/inflight/#anchorlink001',
 		carryOn: {
 			dimensions: {
-				centimeters: [56, 40, 25],
+				centimeters: [55, 40, 25],
 				inches: [22, 16, 10]
-			},
-			weight: {
-				kilograms: 10,
-				pounds: 22
 			}
+		},
+		totalWeight: {
+			kilograms: 10,
+			pounds: 22
 		}
 	},
 	{
@@ -1863,8 +1957,14 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.jetblue.com/help/carry-on-bags',
 		carryOn: {
 			dimensions: {
-				centimeters: [57, 35.5, 23],
-				inches: [22, 14, 9]
+				inches: [22, 14, 9],
+				centimeters: [55.88, 35.56, 22.86]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				inches: [17, 13, 8],
+				centimeters: [43.2, 33, 20.32]
 			}
 		}
 	},
@@ -1934,10 +2034,10 @@ export const allowances: AirlineAllowance[] = [
 		carryOn: {
 			dimensions: {
 				centimeters: 115
-			},
-			weight: {
-				kilograms: 7
 			}
+		},
+		totalWeight: {
+			kilograms: 7
 		}
 	},
 	{
@@ -1954,6 +2054,12 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 7,
 				pounds: 15
 			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [45, 35, 20],
+				inches: [18, 14, 8]
+			}
 		}
 	},
 	{
@@ -1965,6 +2071,12 @@ export const allowances: AirlineAllowance[] = [
 			dimensions: {
 				centimeters: [55, 40, 23],
 				inches: [21.5, 15.5, 9]
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [33, 43, 16],
+				inches: [13, 17, 6]
 			}
 		}
 	},
@@ -1989,10 +2101,18 @@ export const allowances: AirlineAllowance[] = [
 		link: 'https://www.royalairmaroc.com/int-en/carry-on-baggage',
 		carryOn: {
 			dimensions: {
-				centimeters: [55, 40, 20]
+				centimeters: [55, 40, 25]
 			},
 			weight: {
 				kilograms: 10
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 2
 			}
 		}
 	},
@@ -2272,6 +2392,14 @@ export const allowances: AirlineAllowance[] = [
 			},
 			weight: {
 				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 3
 			}
 		}
 	},
