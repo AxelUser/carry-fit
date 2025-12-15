@@ -2776,5 +2776,195 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 6
 			}
 		}
+	},
+	{
+		id: 'china-eastern-airlines',
+		airline: 'China Eastern Airlines',
+		region: 'Asia',
+		link: 'https://www.ceair.com/global/en_USD/Announcement/BaggageService/CarryonBaggage/',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 20],
+				inches: [22, 16, 8]
+			},
+			weight: {
+				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [55, 40, 20],
+				inches: [22, 16, 8]
+			}
+		}
+	},
+	{
+		id: 'eva-air',
+		airline: 'EVA Air',
+		region: 'Asia',
+		link: 'https://www.evaair.com/en-global/fly-prepare/baggage/free-baggage/carry-on-baggage/',
+		carryOn: {
+			dimensions: {
+				centimeters: [23, 36, 56],
+				inches: [9, 14, 22]
+			},
+			weight: {
+				kilograms: 7,
+				pounds: 15
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10],
+				inches: [16, 12, 4]
+			}
+		}
+	},
+	{
+		id: 'lot-polish-airlines',
+		airline: 'LOT Polish Airlines',
+		region: 'Europe',
+		link: 'https://www.lot.com/es/en/journey/baggage/short-haul-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23]
+			},
+			weight: {
+				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 35, 12]
+			},
+			weight: {
+				kilograms: 2
+			}
+		}
+	},
+	{
+		id: 'ita-airways',
+		airline: 'ITA Airways',
+		region: 'Europe',
+		link: 'https://www.ita-airways.com/en_en/fly-ita/baggage/hand-baggage.html',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23]
+			},
+			weight: {
+				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 40, 15]
+			}
+		}
+	},
+	{
+		id: 'eurowings',
+		airline: 'Eurowings',
+		region: 'Europe',
+		link: 'https://www.eurowings.com/en/information/baggage.html#hand',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23]
+			},
+			weight: {
+				kilograms: 8
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 25]
+			}
+		}
+	},
+	{
+		id: 'volotea',
+		airline: 'Volotea',
+		region: 'Europe',
+		link: 'https://www.volotea.com/en/baggage/',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 20]
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 20]
+			}
+		},
+		totalWeight: {
+			kilograms: 10
+		}
+	},
+	{
+		id: 'ajet',
+		airline: 'AJet',
+		region: 'Europe',
+		link: 'https://ajet.com/en/corporate/rules-and-conditions/baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23]
+			},
+			weight: {
+				kilograms: 8
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			},
+			weight: {
+				kilograms: 4
+			}
+		}
+	},
+	{
+		id: 'rwanda-air',
+		airline: 'RwandAir',
+		region: 'Africa',
+		link: 'https://www.rwandair.com/information/prepare-to-fly/baggage/',
+		carryOn: {
+			dimensions: {
+				inches: [22, 15, 8],
+				centimeters: [55, 38, 20]
+			},
+			weight: {
+				kilograms: 10,
+				pounds: 21
+			}
+		},
+		totalWeight: {
+			kilograms: 7,
+			pounds: 15
+		}
+	},
+	{
+		id: 'jetsmart',
+		airline: 'JetSMART',
+		region: 'South America',
+		link: 'https://jetsmart.com/us/en/opcionales',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 35, 25]
+			},
+			weight: {
+				kilograms: 10
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [45, 35, 25]
+			},
+			weight: {
+				kilograms: 10
+			}
+		}
 	}
 ];
