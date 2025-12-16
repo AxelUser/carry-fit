@@ -4,6 +4,8 @@
 
 CarryFit helps travelers check if their carry-on luggage meets the size requirements for different airlines worldwide. Simply enter your bag's dimensions, and instantly see which airlines will accept it as cabin luggage.
 
+Join the [GitHub Discussions](https://github.com/AxelUser/carry-fit/discussions) to stay updated on the project!
+
 ## Key Features
 
 - Instant compliance checking for 150+ airlines worldwide
