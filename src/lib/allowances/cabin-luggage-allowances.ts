@@ -2966,5 +2966,186 @@ export const allowances: AirlineAllowance[] = [
 				kilograms: 10
 			}
 		}
+	},
+	{
+		id: 'lion-air',
+		airline: 'Lion Air',
+		region: 'Asia',
+		link: 'https://kblionairen.kb.botplatform.io/article/what-is-the-requirement-to-bring-cabin-baggage/704',
+		carryOn: {
+			dimensions: {
+				centimeters: [40, 30, 20]
+			},
+			weight: {
+				kilograms: 7
+			}
+		}
+	},
+	{
+		id: 'flydubai',
+		airline: 'flydubai',
+		region: 'Middle East',
+		link: 'https://www.flydubai.com/en/flying-with-us/baggage/hand-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 38, 20]
+			},
+			weight: {
+				kilograms: 7
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [25, 33, 20]
+			}
+		}
+	},
+	{
+		id: 'vietjet-air',
+		airline: 'VietJet Air',
+		region: 'Asia',
+		link: 'https://www.vietjetair.com/en/pages/baggage-service-1608369253127',
+		carryOn: {
+			dimensions: {
+				centimeters: [56, 36, 23]
+			},
+			weight: {
+				kilograms: 7
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 20, 10]
+			}
+		}
+	},
+	{
+		id: 'shenzhen-airlines',
+		airline: 'Shenzhen Airlines',
+		region: 'Asia',
+		link: 'https://globalpage.shenzhenair.com/zhair/cms/static/pages/wcm/static-navigation/Itinerary/BaggageServices/CarryOnBaggage/CarryOnBaggage_en?language_id=102',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 20],
+				inches: [22, 16, 8]
+			},
+			weight: {
+				kilograms: 5
+			}
+		}
+	},
+	{
+		id: 'sichuan-airlines',
+		airline: 'Sichuan Airlines',
+		region: 'Asia',
+		link: 'https://global.sichuanair.com/www/?country=US-EN#/information?key1=6&key2=6.1',
+		carryOn: {
+			dimensions: {
+				centimeters: [20, 40, 55]
+			},
+			weight: {
+				kilograms: 8
+			}
+		}
+	},
+	{
+		id: 'starlux-airlines',
+		airline: 'STARLUX Airlines',
+		region: 'Asia',
+		link: 'https://www.starlux-airlines.com/en-JP/check-in-fly/baggage-information/general/carry-on-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [56, 36, 23],
+				inches: [22, 14, 9]
+			},
+			weight: {
+				kilograms: 7,
+				pounds: 15
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 10],
+				inches: [16, 12, 4]
+			}
+		}
+	},
+	{
+		id: 'sky-express',
+		airline: 'SKY express',
+		region: 'Europe',
+		link: 'https://www.skyexpress.gr/en/sky-experience/before-fly/fare-types',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23]
+			},
+			weight: {
+				kilograms: 8
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [40, 30, 15]
+			}
+		}
+	},
+	{
+		id: 'sky-airline',
+		airline: 'SKY Airline',
+		region: 'South America',
+		link: 'https://cda.skyairline.com/es/chile/servicios/centro-de-ayuda/category/37',
+		carryOn: {
+			dimensions: {
+				centimeters: [25, 35, 55]
+			},
+			weight: {
+				kilograms: 10
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [25, 35, 45]
+			},
+			weight: {
+				kilograms: 10
+			}
+		}
+	},
+	{
+		id: 'jeju-air',
+		airline: 'Jeju Air',
+		region: 'Asia',
+		link: 'https://www.jejuair.net/en/linkService/boardingProcessGuide/cabinBaggage.do',
+		carryOn: {
+			dimensions: {
+				centimeters: [40, 20, 55]
+			},
+			weight: {
+				kilograms: 10,
+				pounds: 22
+			}
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [30, 15, 40]
+			}
+		}
+	},
+	{
+		id: 'shandong-airlines',
+		airline: 'Shandong Airlines',
+		region: 'Asia',
+		link: 'https://www.sda.cn/uploads/2/BaggageService.pdf',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 20],
+				inches: [22, 16, 8]
+			},
+			weight: {
+				kilograms: 5,
+				pounds: 11
+			}
+		}
 	}
 ];
