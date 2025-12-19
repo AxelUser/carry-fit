@@ -7,17 +7,15 @@
 		type SortDirection
 	} from '$lib/types';
 	import { metrics } from '$lib/analytics';
-	import { debounce } from '$lib/utils/actions';
 	import AirlineCard from './airline-card.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
 	import { ArrowDownAZ, ArrowUpAZ, Check } from 'lucide-svelte';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Button } from '$lib/components/ui/button';
 	import { untrack } from 'svelte';
-	import { Grid } from 'svelte-virtual';
+	import { VirtualList } from 'svelte-virtuallists';
 
 	type ComplianceCategory = 'compliant' | 'non-compliant';
 
@@ -161,6 +159,7 @@
 	}
 
 	// Virtual Grid params
+	// FIXME: remove constant sizes when finished refactoring https://github.com/AxelUser/carry-fit/issues/71
 	const GAP = 16;
 
 	// when changing these values, also change the item height in airline-card.svelte
@@ -171,12 +170,15 @@
 
 	let isLoading = $state(false);
 	let windowWidth = $state(0);
-	let gridContainerWidth = $state(0);
 	const columnCount = $derived(windowWidth > 800 ? 2 : 1);
-	const itemWidth = $derived((gridContainerWidth - GAP * (columnCount + 1)) / columnCount);
-	const itemHeight = $derived(
-		(windowWidth > 640 ? ITEM_HEIGHT_SPLITVIEW : ITEM_HEIGHT_COLUMNVIEW) + VERTICAL_GAP
-	);
+
+	const airlineRows = $derived.by(() => {
+		const rows: AirlineInfo[][] = [];
+		for (let i = 0; i < visibleAirlines.length; i += columnCount) {
+			rows.push(visibleAirlines.slice(i, i + columnCount));
+		}
+		return rows;
+	});
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -264,36 +266,30 @@
 {/snippet}
 
 {#snippet airlinesGrid()}
-	<div class="h-[640px]" bind:clientWidth={gridContainerWidth}>
-		{#if gridContainerWidth > 0}
-			<Grid itemCount={visibleAirlines.length} {itemHeight} {itemWidth} height={640} {columnCount}>
-				{#snippet item({ index, style })}
-					{#if index < visibleAirlines.length}
-						{@const airline = visibleAirlines[index]}
-						{#if airline.airline}
-							<div {style} class="mb-4 px-2">
-								<div>
-									<AirlineCard
-										{airline}
-										{measurementSystem}
-										complianceResults={(airline as AirlineCompliance).complianceResults}
-										personalItemComplianceResults={(airline as AirlineCompliance)
-											.personalItemComplianceResults}
-										isFavorite={favoriteAirlinesSet.has(airline.airline)}
-										{toggleFavorite}
-									/>
-								</div>
-							</div>
-						{:else}
-							<div {style} class="mb-4 px-2">
-								Index {index} is out of bounds
-							</div>
-						{/if}
-					{/if}
-				{/snippet}
-			</Grid>
-		{/if}
-	</div>
+	<VirtualList items={airlineRows} style="height: 640px;">
+		{#snippet vl_slot({ index, item: row })}
+			<div class="mb-4 flex gap-4 px-2">
+				{#each row as airline}
+					<div class="min-w-0 flex-1">
+						<AirlineCard
+							{airline}
+							{measurementSystem}
+							complianceResults={(airline as AirlineCompliance).complianceResults}
+							personalItemComplianceResults={(airline as AirlineCompliance)
+								.personalItemComplianceResults}
+							isFavorite={favoriteAirlinesSet.has(airline.airline)}
+							{toggleFavorite}
+						/>
+					</div>
+				{/each}
+				{#if row.length < columnCount}
+					{#each Array(columnCount - row.length) as _}
+						<div class="min-w-0 flex-1"></div>
+					{/each}
+				{/if}
+			</div>
+		{/snippet}
+	</VirtualList>
 {/snippet}
 
 <style>
