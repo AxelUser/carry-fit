@@ -51,27 +51,11 @@
 		isMetric ? airline.carryon.weight?.kilograms : airline.carryon.weight?.pounds
 	);
 	const personalItemWeight = $derived(
-		airline.personalItem?.weight
-			? isMetric
-				? airline.personalItem.weight.kilograms
-				: airline.personalItem.weight.pounds
-			: undefined
+		isMetric ? airline.personalItem?.weight?.kilograms : airline.personalItem?.weight?.pounds
 	);
 	const totalWeight = $derived(
-		airline.totalWeight
-			? isMetric
-				? airline.totalWeight.kilograms
-				: airline.totalWeight.pounds
-			: undefined
+		isMetric ? airline.totalWeight?.kilograms : airline.totalWeight?.pounds
 	);
-
-	const dim0 = $derived(complianceResults?.[0]);
-	const dim1 = $derived(complianceResults?.[1]);
-	const dim2 = $derived(complianceResults?.[2]);
-
-	const personalItemDim0 = $derived(personalItemComplianceResults?.[0]);
-	const personalItemDim1 = $derived(personalItemComplianceResults?.[1]);
-	const personalItemDim2 = $derived(personalItemComplianceResults?.[2]);
 
 	const isCarryOnNonCompliant = $derived(
 		complianceResults ? complianceResults.some((result) => !result?.passed) : false
@@ -116,10 +100,12 @@
 						class="font-medium"
 						class:text-destructive={complianceResults?.[0] && !complianceResults?.[0]?.passed}
 						data-testid="total-dimensions"
-						data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
+						data-dimension-status={complianceResults?.[0] && !complianceResults?.[0]?.passed
+							? 'fail'
+							: 'pass'}
 					>
-						{#if dim0 && !dim0.passed && dim0.diff > 0}
-							<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
+						{#if complianceResults?.[0] && !complianceResults?.[0]?.passed && complianceResults?.[0]?.diff > 0}
+							<span class="mr-1 text-xs">({formatDiff(complianceResults?.[0]?.diff)})</span>
 						{/if}
 						{formatDimension(dimensions)}
 						{unit}
