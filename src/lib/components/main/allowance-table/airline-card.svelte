@@ -16,7 +16,7 @@
 		airline: AirlineInfo;
 		measurementSystem: MeasurementSystem;
 		complianceResults?: DimensionCompliance[];
-		personalItemComplianceResults?: DimensionCompliance[] | null;
+		personalItemComplianceResults?: DimensionCompliance[];
 		isFavorite: boolean;
 		toggleFavorite: (airline: string) => void;
 	}
@@ -93,6 +93,109 @@
 	}
 </script>
 
+{#snippet dimensions(
+	icon: string,
+	label: string,
+	testId: string,
+	dimensions: DimensionValue | string,
+	weight?: number,
+	complianceResults?: DimensionCompliance[]
+)}
+	<div class="flex h-full flex-col rounded-lg bg-muted/50 p-3" data-testid={testId}>
+		<div class="mb-2 flex items-center gap-2">
+			<span class="text-primary">{icon}</span>
+			<span class="text-sm font-medium text-foreground">{label}</span>
+		</div>
+		<dl class="flex-1 space-y-1 text-sm">
+			{#if typeof dimensions === 'string'}
+				<p class="text-sm italic text-muted-foreground">{dimensions}</p>
+			{:else if typeof dimensions === 'number'}
+				<div class="flex justify-between">
+					<dt class="text-muted-foreground">Total</dt>
+					<dd
+						class="font-medium"
+						class:text-destructive={complianceResults?.[0] && !complianceResults?.[0]?.passed}
+						data-testid="total-dimensions"
+						data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
+					>
+						{#if dim0 && !dim0.passed && dim0.diff > 0}
+							<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
+						{/if}
+						{formatDimension(dimensions)}
+						{unit}
+					</dd>
+				</div>
+			{:else}
+				<div class="flex justify-between">
+					<dt class="text-muted-foreground">Length</dt>
+					<dd
+						class="font-medium"
+						class:text-destructive={complianceResults?.[0] && !complianceResults?.[0]?.passed}
+						data-testid="length"
+						data-dimension-status={complianceResults?.[0] && !complianceResults?.[0]?.passed
+							? 'fail'
+							: 'pass'}
+					>
+						{#if complianceResults?.[0] && !complianceResults?.[0]?.passed && complianceResults?.[0]?.diff > 0}
+							<span class="mr-1 text-xs">({formatDiff(complianceResults?.[0]?.diff)})</span>
+						{/if}
+						{formatDimension(dimensions[0])}
+						{unit}
+					</dd>
+				</div>
+				<div class="flex justify-between">
+					<dt class="text-muted-foreground">Width</dt>
+					<dd
+						class="font-medium"
+						class:text-destructive={complianceResults?.[1] && !complianceResults?.[1]?.passed}
+						data-testid="width"
+						data-dimension-status={complianceResults?.[1] && !complianceResults?.[1]?.passed
+							? 'fail'
+							: 'pass'}
+					>
+						{#if complianceResults?.[1] && !complianceResults?.[1]?.passed && complianceResults?.[1]?.diff > 0}
+							<span class="mr-1 text-xs">({formatDiff(complianceResults?.[1]?.diff)})</span>
+						{/if}
+						{formatDimension(dimensions[1])}
+						{unit}
+					</dd>
+				</div>
+				<div class="flex justify-between">
+					<dt class="text-muted-foreground">Depth</dt>
+					<dd
+						class="font-medium"
+						class:text-destructive={complianceResults?.[2] && !complianceResults?.[2]?.passed}
+						data-testid="depth"
+						data-dimension-status={complianceResults?.[2] && !complianceResults?.[2]?.passed
+							? 'fail'
+							: 'pass'}
+					>
+						{#if complianceResults?.[2] && !complianceResults?.[2]?.passed && complianceResults?.[2]?.diff > 0}
+							<span class="mr-1 text-xs">({formatDiff(complianceResults?.[2]?.diff)})</span>
+						{/if}
+						{formatDimension(dimensions[2])}
+						{unit}
+					</dd>
+				</div>
+			{/if}
+		</dl>
+		{#if weight || !totalWeight}
+			<Separator orientation="horizontal" />
+			<div class="mt-auto flex justify-between pt-1 text-sm">
+				<dt class="text-muted-foreground">Weight</dt>
+				<dd class="font-medium" data-testid="weight-limit">
+					{#if weight}
+						{weight}
+						{weightUnit}
+					{:else}
+						N/A
+					{/if}
+				</dd>
+			</div>
+		{/if}
+	</div>
+{/snippet}
+
 <article
 	class={cn(
 		'flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
@@ -123,191 +226,23 @@
 	</header>
 
 	<div class="grid flex-1 grid-cols-2 gap-3 p-4">
-		<div class="flex h-full flex-col rounded-lg bg-muted/50 p-3" data-testid="carryon-section">
-			<div class="mb-2 flex items-center gap-2">
-				<span class="text-primary">💼</span>
-				<span class="text-sm font-medium text-foreground">Carry-on</span>
-			</div>
-			<dl class="flex-1 space-y-1 text-sm">
-				{#if typeof carryOnDimensions === 'number'}
-					<div class="flex justify-between">
-						<dt class="text-muted-foreground">Total</dt>
-						<dd
-							class="font-medium"
-							class:text-destructive={dim0 && !dim0.passed}
-							data-testid="total-dimensions"
-							data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
-						>
-							{#if dim0 && !dim0.passed && dim0.diff > 0}
-								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
-							{/if}
-							{formatDimension(carryOnDimensions)}
-							{unit}
-						</dd>
-					</div>
-				{:else}
-					<div class="flex justify-between">
-						<dt class="text-muted-foreground">Length</dt>
-						<dd
-							class="font-medium"
-							class:text-destructive={dim0 && !dim0.passed}
-							data-testid="length"
-							data-dimension-status={dim0 && !dim0.passed ? 'fail' : 'pass'}
-						>
-							{#if dim0 && !dim0.passed && dim0.diff > 0}
-								<span class="mr-1 text-xs">({formatDiff(dim0.diff)})</span>
-							{/if}
-							{formatDimension(carryOnDimensions[0])}
-							{unit}
-						</dd>
-					</div>
-					<div class="flex justify-between">
-						<dt class="text-muted-foreground">Width</dt>
-						<dd
-							class="font-medium"
-							class:text-destructive={dim1 && !dim1.passed}
-							data-testid="width"
-							data-dimension-status={dim1 && !dim1.passed ? 'fail' : 'pass'}
-						>
-							{#if dim1 && !dim1.passed && dim1.diff > 0}
-								<span class="mr-1 text-xs">({formatDiff(dim1.diff)})</span>
-							{/if}
-							{formatDimension(carryOnDimensions[1])}
-							{unit}
-						</dd>
-					</div>
-					<div class="flex justify-between">
-						<dt class="text-muted-foreground">Depth</dt>
-						<dd
-							class="font-medium"
-							class:text-destructive={dim2 && !dim2.passed}
-							data-testid="depth"
-							data-dimension-status={dim2 && !dim2.passed ? 'fail' : 'pass'}
-						>
-							{#if dim2 && !dim2.passed && dim2.diff > 0}
-								<span class="mr-1 text-xs">({formatDiff(dim2.diff)})</span>
-							{/if}
-							{formatDimension(carryOnDimensions[2])}
-							{unit}
-						</dd>
-					</div>
-				{/if}
-			</dl>
-			{#if carryOnWeight || !totalWeight}
-				<Separator orientation="horizontal" />
-				<div class="mt-auto flex justify-between pt-1 text-sm">
-					<dt class="text-muted-foreground">Weight</dt>
-					<dd class="font-medium" data-testid="weight-limit">
-						{#if carryOnWeight}
-							{carryOnWeight}
-							{weightUnit}
-						{:else}
-							N/A
-						{/if}
-					</dd>
-				</div>
-			{/if}
-		</div>
+		{@render dimensions(
+			'💼',
+			'Carry-on',
+			'carryon-section',
+			carryOnDimensions,
+			carryOnWeight,
+			complianceResults
+		)}
 
-		<div
-			class="flex h-full flex-col rounded-lg bg-muted/50 p-3"
-			data-testid="personal-item-section"
-		>
-			<div class="mb-2 flex items-center gap-2">
-				<span class="text-secondary-foreground">👜</span>
-				<span class="text-sm font-medium text-foreground">Personal Item</span>
-			</div>
-			<dl class="flex-1 space-y-1 text-sm">
-				{#if personalItemDimensions}
-					{#if typeof personalItemDimensions === 'number'}
-						<div class="flex justify-between">
-							<dt class="text-muted-foreground">Total</dt>
-							<dd
-								class="font-medium"
-								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
-								data-testid="total-dimensions"
-								data-dimension-status={personalItemDim0 && !personalItemDim0.passed
-									? 'fail'
-									: 'pass'}
-							>
-								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
-									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
-								{/if}
-								{formatDimension(personalItemDimensions)}
-								{unit}
-							</dd>
-						</div>
-					{:else}
-						<div class="flex justify-between">
-							<dt class="text-muted-foreground">Length</dt>
-							<dd
-								class="font-medium"
-								class:text-destructive={personalItemDim0 && !personalItemDim0.passed}
-								data-testid="length"
-								data-dimension-status={personalItemDim0 && !personalItemDim0.passed
-									? 'fail'
-									: 'pass'}
-							>
-								{#if personalItemDim0 && !personalItemDim0.passed && personalItemDim0.diff > 0}
-									<span class="mr-1 text-xs">({formatDiff(personalItemDim0.diff)})</span>
-								{/if}
-								{formatDimension(personalItemDimensions[0])}
-								{unit}
-							</dd>
-						</div>
-						<div class="flex justify-between">
-							<dt class="text-muted-foreground">Width</dt>
-							<dd
-								class="font-medium"
-								class:text-destructive={personalItemDim1 && !personalItemDim1.passed}
-								data-testid="width"
-								data-dimension-status={personalItemDim1 && !personalItemDim1.passed
-									? 'fail'
-									: 'pass'}
-							>
-								{#if personalItemDim1 && !personalItemDim1.passed && personalItemDim1.diff > 0}
-									<span class="mr-1 text-xs">({formatDiff(personalItemDim1.diff)})</span>
-								{/if}
-								{formatDimension(personalItemDimensions[1])}
-								{unit}
-							</dd>
-						</div>
-						<div class="flex justify-between">
-							<dt class="text-muted-foreground">Depth</dt>
-							<dd
-								class="font-medium"
-								class:text-destructive={personalItemDim2 && !personalItemDim2.passed}
-								data-testid="depth"
-								data-dimension-status={personalItemDim2 && !personalItemDim2.passed
-									? 'fail'
-									: 'pass'}
-							>
-								{#if personalItemDim2 && !personalItemDim2.passed && personalItemDim2.diff > 0}
-									<span class="mr-1 text-xs">({formatDiff(personalItemDim2.diff)})</span>
-								{/if}
-								{formatDimension(personalItemDimensions[2])}
-								{unit}
-							</dd>
-						</div>
-					{/if}
-				{:else}
-					<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
-				{/if}
-			</dl>
-			{#if personalItemWeight || !totalWeight}
-				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
-					<dt class="text-muted-foreground">Weight</dt>
-					<dd class="font-medium" data-testid="weight-limit">
-						{#if personalItemWeight}
-							{personalItemWeight}
-							{weightUnit}
-						{:else}
-							N/A
-						{/if}
-					</dd>
-				</div>
-			{/if}
-		</div>
+		{@render dimensions(
+			'👜',
+			'Personal Item',
+			'personal-item-section',
+			personalItemDimensions ?? 'Must fit under seat.',
+			personalItemWeight,
+			personalItemComplianceResults
+		)}
 
 		{#if totalWeight}
 			<div class="col-span-2 rounded-lg bg-muted/50 p-3">
@@ -320,18 +255,14 @@
 	</div>
 
 	<footer class="mt-auto border-t px-4 py-2" data-tour-id="policy-link">
-		{#if airline.link}
-			<a
-				class="text-sm text-primary hover:underline"
-				href={airline.link}
-				target="_blank"
-				rel="noopener noreferrer"
-				data-testid="policy-link"
-			>
-				View Policy ↗
-			</a>
-		{:else}
-			<span class="text-sm text-muted-foreground">No policy link</span>
-		{/if}
+		<a
+			class="text-sm text-primary hover:underline"
+			href={airline.link}
+			target="_blank"
+			rel="noopener noreferrer"
+			data-testid="policy-link"
+		>
+			View Policy ↗
+		</a>
 	</footer>
 </article>
