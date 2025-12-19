@@ -268,7 +268,8 @@
 {#snippet airlinesGrid()}
 	<VirtualList items={airlineRows} style="height: 640px;">
 		{#snippet vl_slot({ index, item: row })}
-			<div class="mb-4 flex gap-4 px-2">
+			<!-- This hardcoded min height is to stabilize the virtual item height, else it will be crazy jumping up and down when size is recalculated -->
+			<div class="mb-4 flex min-h-[304px] gap-4 px-2">
 				{#each row as airline}
 					<div class="min-w-0 flex-1">
 						<AirlineCard
