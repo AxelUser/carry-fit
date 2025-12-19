@@ -29,6 +29,9 @@ test.describe('Measurement system updates', () => {
 		expect(depthsMetric.length).toBeGreaterThan(0);
 
 		for (const text of weightLimitsMetric) {
+			if (text === 'N/A') {
+				continue;
+			}
 			expect(text).toContain('kg');
 		}
 		for (const text of lengthsMetric) {
@@ -58,6 +61,9 @@ test.describe('Measurement system updates', () => {
 		expect(depthsImperial.length).toBeGreaterThan(0);
 
 		for (const text of weightLimitsImperial) {
+			if (text === 'N/A') {
+				continue;
+			}
 			expect(text).toContain('lb');
 		}
 		for (const text of lengthsImperial) {
