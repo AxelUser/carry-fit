@@ -225,27 +225,29 @@
 		<span class="text-xs text-muted-foreground" data-testid="region">{airline.region}</span>
 	</header>
 
-	<div class="grid flex-1 grid-cols-2 gap-3 p-4">
-		{@render dimensions(
-			'💼',
-			'Carry-on',
-			'carryon-section',
-			carryOnDimensions,
-			carryOnWeight,
-			complianceResults
-		)}
+	<div class="flex flex-1 flex-col gap-2 p-2 xs:gap-3 xs:p-4">
+		<div class="grid flex-1 grid-cols-2 gap-2 xs:gap-3">
+			{@render dimensions(
+				'💼',
+				'Carry-on',
+				'carryon-section',
+				carryOnDimensions,
+				carryOnWeight,
+				complianceResults
+			)}
 
-		{@render dimensions(
-			'👜',
-			'Personal Item',
-			'personal-item-section',
-			personalItemDimensions ?? 'Must fit under seat.',
-			personalItemWeight,
-			personalItemComplianceResults
-		)}
+			{@render dimensions(
+				'👜',
+				'Personal Item',
+				'personal-item-section',
+				personalItemDimensions ?? 'Must fit under seat.',
+				personalItemWeight,
+				personalItemComplianceResults
+			)}
+		</div>
 
 		{#if totalWeight}
-			<div class="col-span-2 rounded-lg bg-muted/50 p-3">
+			<div class="rounded-lg bg-muted/50 p-3">
 				<div class="flex justify-between text-sm">
 					<dt class="text-muted-foreground">Total Weight</dt>
 					<dd data-testid="total-weight" class="font-medium">{totalWeight} {weightUnit}</dd>
