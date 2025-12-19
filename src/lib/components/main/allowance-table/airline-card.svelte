@@ -193,13 +193,17 @@
 					</div>
 				{/if}
 			</dl>
-			{#if carryOnWeight}
+			{#if carryOnWeight || !totalWeight}
 				<Separator orientation="horizontal" />
 				<div class="mt-auto flex justify-between pt-1 text-sm">
 					<dt class="text-muted-foreground">Weight</dt>
 					<dd class="font-medium" data-testid="weight-limit">
-						{carryOnWeight}
-						{weightUnit}
+						{#if carryOnWeight}
+							{carryOnWeight}
+							{weightUnit}
+						{:else}
+							N/A
+						{/if}
 					</dd>
 				</div>
 			{/if}
@@ -290,12 +294,16 @@
 					<p class="text-sm italic text-muted-foreground">Must fit under seat.</p>
 				{/if}
 			</dl>
-			{#if personalItemWeight}
+			{#if personalItemWeight || !totalWeight}
 				<div class="mt-auto flex justify-between border-t border-border/50 pt-1 text-sm">
 					<dt class="text-muted-foreground">Weight</dt>
 					<dd class="font-medium" data-testid="weight-limit">
-						{personalItemWeight}
-						{weightUnit}
+						{#if personalItemWeight}
+							{personalItemWeight}
+							{weightUnit}
+						{:else}
+							N/A
+						{/if}
 					</dd>
 				</div>
 			{/if}
