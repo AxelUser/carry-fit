@@ -158,17 +158,6 @@
 		metrics.favoriteAirlineToggled();
 	}
 
-	// Virtual Grid params
-	// FIXME: remove constant sizes when finished refactoring https://github.com/AxelUser/carry-fit/issues/71
-	const GAP = 16;
-
-	// when changing these values, also change the item height in airline-card.svelte
-	const ITEM_HEIGHT_SPLITVIEW = 330;
-	const ITEM_HEIGHT_COLUMNVIEW = 492;
-
-	const VERTICAL_GAP = 16;
-
-	let isLoading = $state(false);
 	let windowWidth = $state(0);
 	const columnCount = $derived(windowWidth > 800 ? 2 : 1);
 
@@ -230,12 +219,6 @@
 			<EmptyState
 				title="No airlines found"
 				description={`No airlines match your search "${searchState.searchTerm}"`}
-			/>
-		{:else if isLoading}
-			<EmptyState
-				variant="refreshing"
-				title="Refreshing airlines"
-				description="Please wait while we update the results"
 			/>
 		{:else if !hasVisibleAirlines}
 			<EmptyState
