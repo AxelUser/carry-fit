@@ -9,6 +9,7 @@
 	import { cn } from '$lib/utils/ui';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { SvelteSet } from 'svelte/reactivity';
+	import * as Empty from '$lib/components/ui/empty';
 
 	interface Props {
 		items: string[];
@@ -115,7 +116,7 @@
 					</div>
 				{/if}
 
-				<div class="relative w-full">
+				<div class="relative h-full w-full">
 					{#if filteredItems.length > 0}
 						<VirtualList class="virtual-list-viewport h-full w-full" items={filteredItems}>
 							{#snippet vl_slot({ index, item })}
@@ -136,11 +137,14 @@
 							{/snippet}
 						</VirtualList>
 					{:else}
-						<div
-							class="text-muted-foreground absolute inset-0 flex items-center justify-center text-sm"
-						>
-							No items found.
-						</div>
+						<Empty.Root class="h-full border-0 p-4">
+							<Empty.Header>
+								<Empty.Media variant="icon">
+									<Search class="size-5" />
+								</Empty.Media>
+								<Empty.Title>No items found</Empty.Title>
+							</Empty.Header>
+						</Empty.Root>
 					{/if}
 				</div>
 			</ScrollArea>
