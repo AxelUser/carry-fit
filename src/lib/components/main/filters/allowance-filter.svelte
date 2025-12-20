@@ -127,7 +127,8 @@
 	<Card.Header>
 		<Card.Title>Filters</Card.Title>
 		<Card.Description>
-			Select airlines to check compliance and display in the results below
+			Filter airlines to check cabin luggage compliance. Choose either whole regions or individual
+			airlines.
 		</Card.Description>
 	</Card.Header>
 	<Card.Content>
