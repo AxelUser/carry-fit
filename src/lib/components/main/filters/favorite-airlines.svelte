@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, ChevronsUpDown, X } from 'lucide-svelte';
+	import { Check, ChevronsUpDown, X } from '@lucide/svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Popover from '$lib/components/ui/popover';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';

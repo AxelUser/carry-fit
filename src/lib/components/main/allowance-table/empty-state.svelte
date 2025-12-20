@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RefreshCw, SearchX } from 'lucide-svelte';
+	import { RefreshCw, SearchX } from '@lucide/svelte';
 
 	interface Props {
 		title: string;

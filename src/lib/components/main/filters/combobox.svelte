@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { VirtualList } from 'svelte-virtuallists';
-	import { Search } from 'lucide-svelte';
+	import { Search } from '@lucide/svelte';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { Input } from '$lib/components/ui/input';
 	import { onDestroy, type Snippet } from 'svelte';

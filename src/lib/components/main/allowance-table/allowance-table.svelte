@@ -12,7 +12,7 @@
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
-	import { ArrowDownAZ, ArrowUpAZ, Check } from 'lucide-svelte';
+	import { ArrowDownAZ, ArrowUpAZ, Check } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { untrack } from 'svelte';
 	import { VirtualList } from 'svelte-virtuallists';

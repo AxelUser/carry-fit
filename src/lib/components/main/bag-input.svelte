@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Eraser } from 'lucide-svelte';
+	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Label } from '../ui/label';

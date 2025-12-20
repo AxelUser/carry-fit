@@ -2,7 +2,7 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { metrics, updateConsent } from '$lib/analytics';
 	import '../app.css';
-	import { AlertTriangle } from 'lucide-svelte';
+	import { AlertTriangle } from '@lucide/svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
 	import { CookieBanner } from '$lib/components/misc';

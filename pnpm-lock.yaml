@@ -99,9 +99,6 @@ importers:
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0
-      lucide-svelte:
-        specifier: ^0.469.0
-        version: 0.469.0(svelte@5.14.3)
       prettier:
         specifier: ^3.3.2
         version: 3.4.2
@@ -1986,11 +1983,6 @@ packages:
   lru-cache@11.0.2:
     resolution: {integrity: sha512-123qHRfJBmo2jXDbo/a5YOQrJoHF/GNQTLzQ5+IdK5pWpceK17yRc6ozlWd25FxvGKQbIUs91fDFkXmDHTKcyA==}
     engines: {node: 20 || >=22}
-
-  lucide-svelte@0.469.0:
-    resolution: {integrity: sha512-PMIJ8jrFqVUsXJz4d1yfAQplaGhNOahwwkzbunha8DhpiD73xqX24n8dE1dPpUk3vcrdWVsHc1y/liHHotOnGQ==}
-    peerDependencies:
-      svelte: ^3 || ^4 || ^5.0.0-next.42
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -4902,10 +4894,6 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lru-cache@11.0.2: {}
-
-  lucide-svelte@0.469.0(svelte@5.14.3):
-    dependencies:
-      svelte: 5.14.3
 
   lz-string@1.5.0: {}
 
