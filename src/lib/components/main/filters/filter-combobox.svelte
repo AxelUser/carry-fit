@@ -85,11 +85,13 @@
 			</Button>
 		{/snippet}
 	</Popover.Trigger>
-	<Popover.Content class="w-full p-0" align="start" sideOffset={4} avoidCollisions={false}>
-		<div
-			class="bg-popover text-popover-foreground w-full rounded-md border shadow-md"
-			data-testid="combobox-content"
-		>
+	<Popover.Content
+		class="w-(--bits-popover-anchor-width) p-0"
+		align="start"
+		sideOffset={4}
+		avoidCollisions={false}
+	>
+		<div class="w-full rounded-md border shadow-md" data-testid="combobox-content">
 			<div class="flex items-center border-b px-3 py-1">
 				<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 				<Input
