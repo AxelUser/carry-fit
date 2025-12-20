@@ -101,7 +101,7 @@
 				/>
 			</div>
 
-			<ScrollArea class="h-[200px] w-full">
+			<ScrollArea class="h-[200px] w-full" type="auto">
 				{#if !isAllSelected}
 					<div class="border-b px-2 py-1.5">
 						<Button
@@ -128,7 +128,7 @@
 								>
 									<div class="flex min-w-0 flex-1 items-center gap-2">
 										<Check
-											class={cn('h-4 w-4 shrink-0', isSelected ? 'opacity-100' : 'opacity-0')}
+											class={cn('size-4 shrink-0', isSelected ? 'opacity-100' : 'opacity-0')}
 										/>
 										<span class="truncate">{itemLabel(item.item)}</span>
 									</div>
@@ -147,27 +147,3 @@
 		</div>
 	</Popover.Content>
 </Popover.Root>
-
-<style>
-	:global(.virtual-list-viewport) {
-		scrollbar-width: thin;
-		scrollbar-color: hsl(var(--muted-foreground)) transparent;
-	}
-
-	:global(.virtual-list-viewport::-webkit-scrollbar) {
-		width: 6px;
-	}
-
-	:global(.virtual-list-viewport::-webkit-scrollbar-track) {
-		background-color: transparent;
-	}
-
-	:global(.virtual-list-viewport::-webkit-scrollbar-thumb) {
-		background-color: hsl(var(--muted-foreground) / 0.3);
-		border-radius: 3px;
-	}
-
-	:global(.virtual-list-viewport::-webkit-scrollbar-thumb:hover) {
-		background-color: hsl(var(--muted-foreground) / 0.5);
-	}
-</style>

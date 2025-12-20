@@ -1,16 +1,18 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
-	import { X } from '@lucide/svelte';
+	import { Funnel, X } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Empty from '$lib/components/ui/empty';
 	import { Badge } from '$lib/components/ui/badge';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import FilterCombobox from './filter-combobox.svelte';
 	import { cn } from '$lib/utils/ui';
 	import { SvelteSet } from 'svelte/reactivity';
+	import { dev } from '$app/environment';
 
-	const MAX_VISIBLE_FILTERS = 16;
+	const MAX_VISIBLE_FILTERS = dev ? 2 : 16;
 
 	type FilterMode = 'regions' | 'airlines';
 
@@ -204,7 +206,7 @@
 						<h4 class="font-medium">Current Filters</h4>
 						<Button variant="ghost" size="sm" onclick={clearAllFilters}>Clear all</Button>
 					</div>
-					<div class="flex flex-wrap gap-2">
+					<div class="flex flex-wrap items-end gap-2">
 						{#each visibleFilters as filter}
 							<Badge class="gap-1 pr-1 text-sm">
 								<span>{filter}</span>
@@ -221,7 +223,7 @@
 							<Button
 								variant="link"
 								size="sm"
-								class="h-6 text-xs"
+								class="h-6 text-sm"
 								onclick={() => (showAllDialogOpen = true)}
 							>
 								{hiddenFiltersCount} more...
@@ -235,30 +237,48 @@
 </Card.Root>
 
 <Dialog.Root bind:open={showAllDialogOpen}>
+	{@const itemName = filterMode === 'regions' ? 'Regions' : 'Airlines'}
 	<Dialog.Content class="max-w-lg">
 		<Dialog.Header>
 			<Dialog.Title>
-				All {filterMode === 'regions' ? 'Regions' : 'Airlines'} ({activeFilters.length})
+				{activeFilters.length === 0
+					? `All ${itemName}`
+					: `Selected ${itemName} (${activeFilters.length})`}
 			</Dialog.Title>
 		</Dialog.Header>
-		<ScrollArea class="max-h-[400px]">
-			<div class="space-y-2 pr-4">
-				{#each activeFilters as filter}
-					<div class="flex items-center justify-between rounded-md border p-2">
-						<span>{filter}</span>
-						<Button
-							variant="ghost"
-							size="sm"
-							class="h-8 w-8 p-0"
-							onclick={() => removeFilter(filter)}
-						>
-							<X class="h-4 w-4" />
-							<span class="sr-only">Remove {filter}</span>
-						</Button>
-					</div>
-				{/each}
-			</div>
-		</ScrollArea>
+		{#if activeFilters.length === 0}
+			<Empty.Root>
+				<Empty.Header>
+					<Empty.Media variant="icon">
+						<Funnel class="size-10" />
+					</Empty.Media>
+					<Empty.Title>All {itemName.toLowerCase()} included</Empty.Title>
+					<Empty.Description>
+						No {itemName.toLowerCase()} are filtered out, so all available airlines are checked for cabin
+						luggage allowance compliance.
+					</Empty.Description>
+				</Empty.Header>
+			</Empty.Root>
+		{:else}
+			<ScrollArea class="max-h-[400px]">
+				<div class="space-y-2">
+					{#each activeFilters as filter}
+						<div class="flex items-center justify-between rounded-md border p-2">
+							<span>{filter}</span>
+							<Button
+								variant="ghost"
+								size="sm"
+								class="h-8 w-8 p-0"
+								onclick={() => removeFilter(filter)}
+							>
+								<X class="h-4 w-4" />
+								<span class="sr-only">Remove {filter}</span>
+							</Button>
+						</div>
+					{/each}
+				</div>
+			</ScrollArea>
+		{/if}
 		<Dialog.Footer>
 			<Button variant="outline" onclick={clearAllFilters}>Clear all</Button>
 			<Button onclick={() => (showAllDialogOpen = false)}>Close</Button>
