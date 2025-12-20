@@ -42,11 +42,11 @@
 					We use cookies to improve your experience. By continuing to use our site, you agree to our
 					<a
 						href={links.legal.privacy}
-						class="whitespace-nowrap font-medium text-primary hover:underline">Privacy Policy</a
+						class="text-primary font-medium whitespace-nowrap hover:underline">Privacy Policy</a
 					>. You can change your preferences anytime on our
 					<a
 						href={links.legal.optOut}
-						class="whitespace-nowrap font-medium text-primary hover:underline">opt-out page</a
+						class="text-primary font-medium whitespace-nowrap hover:underline">opt-out page</a
 					>.
 				</p>
 			</AlertDialog.Description>

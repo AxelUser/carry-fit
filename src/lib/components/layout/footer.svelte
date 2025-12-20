@@ -33,15 +33,15 @@
 	});
 </script>
 
-<footer class="border-t bg-muted/50">
+<footer class="bg-muted/50 border-t">
 	<div class="mx-auto max-w-6xl px-6 py-12 sm:px-8 md:px-10">
 		<div class="grid items-start justify-items-start gap-10 sm:grid-cols-2 lg:grid-cols-4">
 			<div class="flex flex-col gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">About</h3>
-				<p class="text-sm leading-relaxed text-muted-foreground">
+				<h3 class="text-foreground/70 text-xs font-semibold tracking-wide uppercase">About</h3>
+				<p class="text-muted-foreground text-sm leading-relaxed">
 					CarryFit helps you validate cabin bag dimensions across airlines.
 				</p>
-				<p class="text-sm text-muted-foreground">
+				<p class="text-muted-foreground text-sm">
 					Created by
 					<a
 						href="https://maltsev.space"
@@ -55,8 +55,8 @@
 			</div>
 
 			<div class="flex flex-col gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">Support</h3>
-				<div class="flex flex-col gap-2 text-sm text-muted-foreground">
+				<h3 class="text-foreground/70 text-xs font-semibold tracking-wide uppercase">Support</h3>
+				<div class="text-muted-foreground flex flex-col gap-2 text-sm">
 					<p>If this tool helps you, consider supporting it:</p>
 					<div class="flex flex-wrap items-center gap-2">
 						<GithubStarButton />
@@ -66,14 +66,14 @@
 			</div>
 
 			<div class="flex flex-col gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">
+				<h3 class="text-foreground/70 text-xs font-semibold tracking-wide uppercase">
 					Contributors
 				</h3>
 				<div class="flex flex-wrap gap-1.5">
 					{#if isLoading}
 						{#each Array(5) as _}
 							<div
-								class="h-10 w-10 animate-pulse rounded-full bg-gradient-to-r from-muted to-muted/50"
+								class="from-muted to-muted/50 h-10 w-10 animate-pulse rounded-full bg-linear-to-r"
 							></div>
 						{/each}
 					{:else}
@@ -96,7 +96,7 @@
 			</div>
 
 			<div class="flex flex-col gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">Legal</h3>
+				<h3 class="text-foreground/70 text-xs font-semibold tracking-wide uppercase">Legal</h3>
 				<div class="flex flex-col gap-2">
 					<Button href={links.legal.privacy} variant="link" size="sm" class="justify-start p-0">
 						Privacy Policy

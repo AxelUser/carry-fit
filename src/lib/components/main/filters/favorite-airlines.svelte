@@ -82,10 +82,10 @@
 							<div class="flex min-w-0 items-center gap-2">
 								<Check
 									data-testid="favorite-airline-check-icon"
-									class={cn('h-4 w-4 flex-shrink-0', isFavorite ? 'opacity-100' : 'opacity-0')}
+									class={cn('h-4 w-4 shrink-0', isFavorite ? 'opacity-100' : 'opacity-0')}
 								/>
 								<span class="truncate">{item.airline}</span>
-								<span class="flex-shrink-0 text-muted-foreground">({item.region})</span>
+								<span class="text-muted-foreground shrink-0">({item.region})</span>
 							</div>
 						{/snippet}
 					</Combobox>
@@ -96,7 +96,7 @@
 				<h4 class="text-sm font-medium">
 					Selected Airlines ({favoriteAirlines.length})
 				</h4>
-				<div class="h-[200px] rounded-md border border-muted p-2">
+				<div class="border-muted h-[200px] rounded-md border p-2">
 					{#if favoriteAirlines.length > 0}
 						<ScrollArea class="h-full">
 							<div class="space-y-2">
@@ -126,7 +126,7 @@
 							</div>
 						</ScrollArea>
 					{:else}
-						<p class="text-sm text-muted-foreground">
+						<p class="text-muted-foreground text-sm">
 							No favorite airlines selected. Use the search box above to add airlines to your
 							favorites.
 						</p>

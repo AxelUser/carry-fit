@@ -235,7 +235,7 @@
 
 {#snippet sortButton()}
 	<button
-		class="flex items-center gap-2 rounded-lg border bg-background px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+		class="bg-background hover:bg-muted flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm transition-colors"
 		onclick={toggleSortDirection}
 		aria-label="Sort airlines"
 	>

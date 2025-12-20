@@ -46,7 +46,7 @@
 	{#key clickCount}
 		{#if isOpen}
 			<div
-				class="pointer-events-none absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2"
+				class="pointer-events-none absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2"
 				transition:fly={{ duration, easing: cubicOut }}
 			>
 				<span class={cn('animate-float-away block font-medium text-gray-700', sizeClasses[size])}>

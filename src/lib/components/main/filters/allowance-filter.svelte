@@ -82,7 +82,7 @@
 					<div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
 						<div>
 							<h3 class="font-medium">Regions</h3>
-							<p class="text-xs text-muted-foreground sm:text-sm">
+							<p class="text-muted-foreground text-xs sm:text-sm">
 								{#if selectedRegions.size === 0}
 									Choose regions to start comparing
 								{:else}
@@ -144,7 +144,7 @@
 							</Button>
 						</div>
 						{#if favoriteAirlines.length > 0}
-							<span data-testid="favorites-count" class="text-sm text-primary">
+							<span data-testid="favorites-count" class="text-primary text-sm">
 								{favoriteAirlines.length}
 								{favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
 							</span>

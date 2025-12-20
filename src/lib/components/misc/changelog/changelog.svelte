@@ -49,7 +49,7 @@
 						<span>Latest Updates</span>
 						{#if hasNewVersion}
 							<div class="relative mr-1">
-								<div class="absolute -right-1.5 -top-1 h-2 w-2">
+								<div class="absolute -top-1 -right-1.5 h-2 w-2">
 									<div
 										class="absolute h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
 									></div>

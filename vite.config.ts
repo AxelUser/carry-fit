@@ -1,9 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { qrcode } from 'vite-plugin-qrcode';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-	plugins: [sveltekit(), qrcode()],
+	plugins: [tailwindcss(), sveltekit(), qrcode()],
 	optimizeDeps: {
 		include: [
 			'posthog-js',

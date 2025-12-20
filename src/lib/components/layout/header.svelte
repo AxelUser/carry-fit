@@ -18,7 +18,7 @@
 
 <header
 	class={cn(
-		'sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+		'bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur-sm',
 		className
 	)}
 >
@@ -27,7 +27,7 @@
 			<a href={links.home} class="flex items-center gap-2 transition-opacity hover:opacity-80">
 				<CarryFitIcon class="h-6 w-6 sm:h-8 sm:w-8" />
 				<span
-					class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-xl font-extrabold text-transparent sm:text-2xl"
+					class="bg-linear-to-r from-blue-700 to-sky-500 bg-clip-text text-xl font-extrabold text-transparent sm:text-2xl"
 				>
 					CarryFit
 				</span>

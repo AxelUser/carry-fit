@@ -25,7 +25,7 @@
 <svelte:window bind:innerWidth />
 
 {#if easterEggs.ultraWide}
-	<div class="fixed hidden 3xl:block">
+	<div class="3xl:block fixed hidden">
 		{@render card('left')}
 		{@render card('right')}
 	</div>

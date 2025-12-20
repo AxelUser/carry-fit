@@ -85,14 +85,14 @@
 	weight?: number,
 	complianceResults?: DimensionCompliance[]
 )}
-	<div class="flex h-full flex-col rounded-lg bg-muted/50 p-3" data-testid={testId}>
+	<div class="bg-muted/50 flex h-full flex-col rounded-lg p-3" data-testid={testId}>
 		<div class="mb-2 flex items-center gap-2">
 			<span class="text-primary">{icon}</span>
-			<span class="text-sm font-medium text-foreground">{label}</span>
+			<span class="text-foreground text-sm font-medium">{label}</span>
 		</div>
 		<dl class="flex-1 space-y-1 text-sm">
 			{#if typeof dimensions === 'string'}
-				<p class="text-sm italic text-muted-foreground">{dimensions}</p>
+				<p class="text-muted-foreground text-sm italic">{dimensions}</p>
 			{:else if typeof dimensions === 'number'}
 				<div class="flex justify-between">
 					<dt class="text-muted-foreground">Total</dt>
@@ -184,7 +184,7 @@
 
 <article
 	class={cn(
-		'flex h-full flex-col rounded-xl border bg-card shadow-sm hover:shadow-md',
+		'bg-card flex h-full flex-col rounded-xl border shadow-xs hover:shadow-md',
 		isFullyNonCompliant ? 'border-destructive' : 'border-border'
 	)}
 	data-testid="airline-card"
@@ -201,18 +201,18 @@
 				aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
 			>
 				{#if isFavorite}
-					<Star size={18} class="text-amber-500 transition-colors hover:text-muted-foreground" />
+					<Star size={18} class="hover:text-muted-foreground text-amber-500 transition-colors" />
 				{:else}
 					<StarOff size={18} class="text-muted-foreground transition-colors hover:text-amber-500" />
 				{/if}
 			</button>
-			<h3 class="font-semibold text-foreground" data-testid="airline-name">{airline.airline}</h3>
+			<h3 class="text-foreground font-semibold" data-testid="airline-name">{airline.airline}</h3>
 		</div>
-		<span class="text-xs text-muted-foreground" data-testid="region">{airline.region}</span>
+		<span class="text-muted-foreground text-xs" data-testid="region">{airline.region}</span>
 	</header>
 
-	<div class="flex flex-1 flex-col gap-2 p-2 xs:gap-3 xs:p-4">
-		<div class="grid flex-1 grid-cols-2 gap-2 xs:gap-3">
+	<div class="xs:gap-3 xs:p-4 flex flex-1 flex-col gap-2 p-2">
+		<div class="xs:gap-3 grid flex-1 grid-cols-2 gap-2">
 			{@render dimensions(
 				'💼',
 				'Carry-on',
@@ -233,7 +233,7 @@
 		</div>
 
 		{#if totalWeight}
-			<div class="rounded-lg bg-muted/50 p-3">
+			<div class="bg-muted/50 rounded-lg p-3">
 				<div class="flex justify-between text-sm">
 					<dt class="text-muted-foreground">Total Weight</dt>
 					<dd data-testid="total-weight" class="font-medium">{totalWeight} {weightUnit}</dd>
@@ -244,7 +244,7 @@
 
 	<footer class="mt-auto border-t px-4 py-2" data-tour-id="policy-link">
 		<a
-			class="text-sm text-primary hover:underline"
+			class="text-primary text-sm hover:underline"
 			href={airline.link}
 			target="_blank"
 			rel="noopener noreferrer"

@@ -94,7 +94,7 @@
 		<div class="grid grid-cols-2 justify-items-start gap-4">
 			<div class="text-sm font-medium">Old Button</div>
 			<button
-				class="flex items-center rounded-full bg-gradient-to-r from-sky-600 to-blue-700 px-3 py-1.5 text-xs font-medium text-white shadow-md transition-all duration-200 hover:from-sky-700 hover:to-blue-800 sm:px-4 sm:py-2 sm:text-sm"
+				class="flex items-center rounded-full bg-linear-to-r from-sky-600 to-blue-700 px-3 py-1.5 text-xs font-medium text-white shadow-md transition-all duration-200 hover:from-sky-700 hover:to-blue-800 sm:px-4 sm:py-2 sm:text-sm"
 			>
 				<span>North America</span>
 				<div class="ml-2">

@@ -14,14 +14,14 @@
 			<span>Back to CarryFit</span>
 		</Button>
 
-		<div class="rounded-xl p-6 shadow-xl ring-1 ring-primary">
-			<h1 class="mb-8 bg-clip-text pb-1 text-3xl font-bold text-primary sm:text-4xl">
+		<div class="ring-primary rounded-xl p-6 shadow-xl ring-1">
+			<h1 class="text-primary mb-8 bg-clip-text pb-1 text-3xl font-bold sm:text-4xl">
 				{page.data.title}
 			</h1>
 
 			<div class="max-w-none space-y-8">
 				{#if page.data.lastUpdated}
-					<p class="text-sm text-foreground">
+					<p class="text-foreground text-sm">
 						Last updated: {page.data.lastUpdated.toLocaleDateString()}
 					</p>
 				{/if}

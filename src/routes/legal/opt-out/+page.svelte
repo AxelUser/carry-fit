@@ -58,13 +58,13 @@
 	<p>
 		For more information about our privacy practices, please read our <a
 			href={links.legal.privacy}
-			class="font-medium text-primary hover:underline">Privacy Policy</a
+			class="text-primary font-medium hover:underline">Privacy Policy</a
 		>.
 	</p>
 	<p>
 		If you have any questions or concerns, please contact us at <a
 			href="mailto:aleksey@maltsev.space"
-			class="font-medium text-primary hover:underline">aleksey@maltsev.space</a
+			class="text-primary font-medium hover:underline">aleksey@maltsev.space</a
 		>.
 	</p>
 </div>
