@@ -234,18 +234,14 @@
 </Card.Root>
 
 {#snippet sortButton()}
-	<button
-		class="bg-background hover:bg-muted flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm transition-colors"
-		onclick={toggleSortDirection}
-		aria-label="Sort airlines"
-	>
+	<Button size="sm" variant="outline" onclick={toggleSortDirection} aria-label="Sort airlines">
 		Sort
 		{#if sortDirection === SortDirections.Ascending}
 			<ArrowDownAZ class="size-4" />
 		{:else}
 			<ArrowUpAZ class="size-4" />
 		{/if}
-	</button>
+	</Button>
 {/snippet}
 
 {#snippet airlinesGrid()}
