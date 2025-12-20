@@ -30,7 +30,7 @@ export function checkCompliance(
 	airlineDimensions: DimensionValue,
 	userDimensions: SortedDimensions,
 	flexibility: number = 0
-): DimensionCompliance[] | null {
+): DimensionCompliance[] | undefined {
 	if (typeof airlineDimensions === 'number') {
 		const bagSum = userDimensions.reduce((acc, curr) => acc + curr, 0);
 		const diff = bagSum - airlineDimensions;
