@@ -21,19 +21,11 @@
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
-		favoriteAirlines: string[];
 		airlines: AirlineInfo[];
 		complianceAirlines: AirlineCompliance[];
 	}
 
-	let {
-		measurementSystem,
-		favoriteAirlines = $bindable(),
-		airlines,
-		complianceAirlines
-	}: Props = $props();
-
-	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
+	let { measurementSystem, airlines, complianceAirlines }: Props = $props();
 	const isCompliant = (airline: AirlineCompliance) =>
 		airline.complianceResults.every((result) => result.passed);
 
@@ -149,15 +141,6 @@
 				: SortDirections.Ascending;
 	}
 
-	function toggleFavorite(airlineName: string) {
-		const isFavorite = favoriteAirlinesSet.has(airlineName);
-		favoriteAirlines = isFavorite
-			? favoriteAirlines.filter((name) => name !== airlineName)
-			: [...favoriteAirlines, airlineName];
-
-		metrics.favoriteAirlineToggled();
-	}
-
 	let windowWidth = $state(0);
 	const columnCount = $derived(windowWidth > 800 ? 2 : 1);
 
@@ -257,8 +240,6 @@
 							complianceResults={(airline as AirlineCompliance).complianceResults}
 							personalItemComplianceResults={(airline as AirlineCompliance)
 								.personalItemComplianceResults}
-							isFavorite={favoriteAirlinesSet.has(airline.airline)}
-							{toggleFavorite}
 						/>
 					</div>
 				{/each}

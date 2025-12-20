@@ -19,10 +19,6 @@ export class Metrics {
 		this.provider.trackEvent('carryfit_error');
 	}
 
-	favoriteAirlineToggled() {
-		this.provider.trackEventDebounced('favorite_airline_toggled', undefined, 3000);
-	}
-
 	userBagValidated(
 		depth: number,
 		width: number,
@@ -40,16 +36,6 @@ export class Metrics {
 		}
 
 		this.provider.trackEventDebounced('user_bag_validated', eventProps, 3000);
-	}
-
-	favoritesFilterEnabled(favoriteAirlinesCount: number) {
-		this.provider.trackEventDebounced(
-			'favorites_filter_enabled',
-			{
-				favorites_count: favoriteAirlinesCount
-			},
-			3000
-		);
 	}
 
 	easterEggShown(name: string) {
@@ -89,9 +75,5 @@ export class Metrics {
 				3000
 			);
 		}
-	}
-
-	favoriteAirlinesDialogOpened() {
-		this.provider.trackEvent('favorite_airlines_dialog_opened');
 	}
 }

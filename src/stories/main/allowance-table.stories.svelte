@@ -92,10 +92,6 @@
 				control: 'select',
 				options: Object.values(MeasurementSystems)
 			},
-			favoriteAirlines: {
-				description: 'Array of favorite airline names',
-				control: 'object'
-			},
 			airlines: {
 				description: 'Array of airline information',
 				control: 'object'
@@ -112,7 +108,6 @@
 	name="Basic List"
 	args={{
 		measurementSystem: MeasurementSystems.Metric,
-		favoriteAirlines: ['Sample Airline 1'],
 		airlines: sampleAirlineInfo,
 		complianceAirlines: []
 	}}
@@ -122,7 +117,6 @@
 	name="With Compliance Toggle"
 	args={{
 		measurementSystem: MeasurementSystems.Metric,
-		favoriteAirlines: [],
 		airlines: sampleAirlineInfo,
 		complianceAirlines: sampleComplianceAirlines
 	}}
@@ -132,7 +126,6 @@
 	name="Imperial Measurements"
 	args={{
 		measurementSystem: MeasurementSystems.Imperial,
-		favoriteAirlines: [],
 		airlines: sampleAirlineInfo,
 		complianceAirlines: []
 	}}
@@ -142,7 +135,6 @@
 	name="Empty State"
 	args={{
 		measurementSystem: MeasurementSystems.Metric,
-		favoriteAirlines: [],
 		airlines: [],
 		complianceAirlines: []
 	}}

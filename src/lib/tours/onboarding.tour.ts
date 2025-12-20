@@ -36,31 +36,10 @@ export const onboardingTour: Tour = {
 			}
 		},
 		{
-			element: '[data-tour-id="regions-filter-list"]',
-			popover: {
-				title: 'Filter by Region',
-				description: 'Focus on specific regions to find relevant airlines.'
-			}
-		},
-		{
 			element: '[data-tour-id="search-input"]',
 			popover: {
 				title: 'Quick Airline Search',
 				description: 'Type airline name to quickly find it in the list.'
-			}
-		},
-		{
-			element: '[data-tour-id="favorite-button"]',
-			popover: {
-				title: 'Save Favorites',
-				description: 'Star your frequently used airlines to quickly find them later.'
-			}
-		},
-		{
-			element: '[data-tour-id="favorite-airlines-manage-button"]',
-			popover: {
-				title: 'Manage Favorite Airlines',
-				description: 'You can also edit your favorite airlines list here.'
 			}
 		},
 		{

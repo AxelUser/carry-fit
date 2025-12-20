@@ -7,8 +7,6 @@
 		type DimensionValue
 	} from '$lib/types';
 	import { getRelevantAirlineDimensions } from '$lib/utils/dimensions';
-	import Star from '$lib/components/icons/lucide/star.svelte';
-	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
 	import { cn } from '$lib/utils/ui';
 	import { Separator } from '$lib/components/ui/separator';
 
@@ -17,18 +15,10 @@
 		measurementSystem: MeasurementSystem;
 		complianceResults?: DimensionCompliance[];
 		personalItemComplianceResults?: DimensionCompliance[];
-		isFavorite: boolean;
-		toggleFavorite: (airline: string) => void;
 	}
 
-	let {
-		airline,
-		measurementSystem,
-		complianceResults,
-		personalItemComplianceResults,
-		isFavorite,
-		toggleFavorite
-	}: Props = $props();
+	let { airline, measurementSystem, complianceResults, personalItemComplianceResults }: Props =
+		$props();
 
 	const isMetric = $derived(measurementSystem === MeasurementSystems.Metric);
 	const carryOnDimensions = $derived.by<DimensionValue>(() => {
@@ -191,23 +181,7 @@
 	data-compliance={isFullyNonCompliant ? 'non-compliant' : 'compliant'}
 >
 	<header class="flex items-center justify-between border-b px-4 py-3">
-		<div class="flex items-center gap-3">
-			<button
-				class="group flex items-center"
-				onclick={() => toggleFavorite(airline.airline)}
-				data-tour-id="favorite-button"
-				data-testid="favorite-button"
-				data-favorite={isFavorite}
-				aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-			>
-				{#if isFavorite}
-					<Star size={18} class="hover:text-muted-foreground text-amber-500 transition-colors" />
-				{:else}
-					<StarOff size={18} class="text-muted-foreground transition-colors hover:text-amber-500" />
-				{/if}
-			</button>
-			<h3 class="text-foreground font-semibold" data-testid="airline-name">{airline.airline}</h3>
-		</div>
+		<h3 class="text-foreground font-semibold" data-testid="airline-name">{airline.airline}</h3>
 		<span class="text-muted-foreground text-xs" data-testid="region">{airline.region}</span>
 	</header>
 

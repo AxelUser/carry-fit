@@ -91,7 +91,6 @@
 		}
 	});
 
-	let showFavoritesOnly = $state(false);
 	let filteredAirlines = $state(allAirlines);
 
 	const airlinesWithCompliance = $derived(
@@ -131,12 +130,6 @@
 				showFlexibility,
 				flexibility
 			);
-		}
-	});
-
-	$effect(() => {
-		if (showFavoritesOnly) {
-			metrics.favoritesFilterEnabled(preferences.favoriteAirlines.length);
 		}
 	});
 
@@ -210,14 +203,12 @@
 
 		<AllowanceFilter
 			airlines={allAirlines}
-			bind:favoriteAirlines={preferences.favoriteAirlines}
 			bind:filteredAirlines
 			bind:filterRegions={preferences.filterRegions}
 		/>
 
 		<AllowanceTable
 			measurementSystem={preferences.measurementSystem}
-			bind:favoriteAirlines={preferences.favoriteAirlines}
 			airlines={filteredAirlines}
 			complianceAirlines={airlinesWithCompliance}
 		/>
