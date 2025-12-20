@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ScrollArea as ScrollAreaPrimitive, type WithoutChild } from 'bits-ui';
+	import { ScrollArea as ScrollAreaPrimitive } from 'bits-ui';
+	import type { WithoutChild } from '$lib/utils/styling.js';
 	import { Scrollbar } from './index.js';
 	import { cn } from '$lib/utils/styling.js';
 

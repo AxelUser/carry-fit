@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { WithElementRef, WithoutChildren } from 'bits-ui';
 	import type { HTMLTextareaAttributes } from 'svelte/elements';
-	import { cn } from '$lib/utils/styling.js';
+	import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils/styling.js';
 
 	let {
 		ref = $bindable(null),
