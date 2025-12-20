@@ -9,7 +9,7 @@
 	import { getRelevantAirlineDimensions } from '$lib/utils/dimensions';
 	import Star from '$lib/components/icons/lucide/star.svelte';
 	import StarOff from '$lib/components/icons/lucide/star-off.svelte';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 	import { Separator } from '$lib/components/ui/separator';
 
 	interface Props {

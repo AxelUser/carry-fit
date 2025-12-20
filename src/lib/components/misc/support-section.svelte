@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 
 	interface Props {
 		class?: string;

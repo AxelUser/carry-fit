@@ -6,7 +6,7 @@
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 
 	import { Badge } from '$lib/components/ui/badge';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 	import type { AirlineInfo } from '$lib/types';
 	import Combobox from './combobox.svelte';
 	import { metrics } from '$lib/analytics';

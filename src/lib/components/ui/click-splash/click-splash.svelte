@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { cn } from '$lib/utils/styling.js';
+	import { cn } from '$lib/utils/ui.js';
 	import type { Snippet } from 'svelte';
 
 	interface Props {

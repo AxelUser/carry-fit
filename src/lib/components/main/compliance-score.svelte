@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getScoreVisual, DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';

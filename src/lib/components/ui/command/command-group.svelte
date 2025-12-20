@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Command as CommandPrimitive, useId } from 'bits-ui';
-	import { cn } from '$lib/utils/styling.js';
+	import { cn } from '$lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),
@@ -15,8 +15,9 @@
 </script>
 
 <CommandPrimitive.Group
-	class={cn('text-foreground overflow-hidden p-1', className)}
 	bind:ref
+	data-slot="command-group"
+	class={cn('text-foreground overflow-hidden p-1', className)}
 	value={value ?? heading ?? `----${useId()}`}
 	{...restProps}
 >

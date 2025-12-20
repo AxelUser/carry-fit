@@ -4,7 +4,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { links } from '$lib/utils/navigation';
 	import { runMainTour } from '$lib/tours';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 	import { page } from '$app/state';
 
 	interface Props {
