@@ -34,7 +34,7 @@
 </script>
 
 <footer class="border-t bg-muted/50">
-	<div class="mx-auto max-w-6xl px-6 sm:px-8 md:px-10 py-12">
+	<div class="mx-auto max-w-6xl px-6 py-12 sm:px-8 md:px-10">
 		<div class="grid items-start justify-items-start gap-10 sm:grid-cols-2 lg:grid-cols-4">
 			<div class="flex flex-col gap-3">
 				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">About</h3>
@@ -66,11 +66,15 @@
 			</div>
 
 			<div class="flex flex-col gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">Contributors</h3>
+				<h3 class="text-xs font-semibold uppercase tracking-wide text-foreground/70">
+					Contributors
+				</h3>
 				<div class="flex flex-wrap gap-1.5">
 					{#if isLoading}
 						{#each Array(5) as _}
-							<div class="h-10 w-10 animate-pulse rounded-full bg-gradient-to-r from-muted to-muted/50"></div>
+							<div
+								class="h-10 w-10 animate-pulse rounded-full bg-gradient-to-r from-muted to-muted/50"
+							></div>
 						{/each}
 					{:else}
 						{#each [...contributors].sort((a, b) => b.contributions - a.contributions) as contributor (contributor.login)}
@@ -105,4 +109,3 @@
 		</div>
 	</div>
 </footer>
-
