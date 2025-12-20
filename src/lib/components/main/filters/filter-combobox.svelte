@@ -33,25 +33,9 @@
 
 	let popoverOpen = $state(false);
 	let searchTerm = $state('');
-	let triggerRef = $state<HTMLElement | null>(null);
-	let popoverWidth = $state<string>('300px');
 
 	const isAllSelected = $derived(selectedItems.size === 0);
 	const selectedCount = $derived(selectedItems.size);
-
-	$effect(() => {
-		if (triggerRef) {
-			const updateWidth = () => {
-				if (triggerRef) {
-					popoverWidth = `${triggerRef.offsetWidth}px`;
-				}
-			};
-			updateWidth();
-			const resizeObserver = new ResizeObserver(updateWidth);
-			resizeObserver.observe(triggerRef);
-			return () => resizeObserver.disconnect();
-		}
-	});
 
 	const filteredItems = $derived(
 		items
@@ -86,7 +70,7 @@
 </script>
 
 <Popover.Root bind:open={popoverOpen}>
-	<Popover.Trigger bind:ref={triggerRef}>
+	<Popover.Trigger>
 		{#snippet child({ props })}
 			<Button
 				{...props}
@@ -101,7 +85,7 @@
 			</Button>
 		{/snippet}
 	</Popover.Trigger>
-	<Popover.Content class="p-0" style="width: {popoverWidth};" avoidCollisions={false}>
+	<Popover.Content class="w-full p-0" align="start" sideOffset={4} avoidCollisions={false}>
 		<div
 			class="bg-popover text-popover-foreground w-full rounded-md border shadow-md"
 			data-testid="combobox-content"
