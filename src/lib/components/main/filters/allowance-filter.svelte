@@ -198,21 +198,21 @@
 			</div>
 
 			{#if activeFilters.length > 0}
-				<div class="bg-muted rounded-lg p-4">
+				<div class="border-primary bg-primary/5 rounded-lg border p-4">
 					<div class="mb-3 flex items-center justify-between">
 						<h4 class="font-medium">Current Filters</h4>
 						<Button variant="ghost" size="sm" onclick={clearAllFilters}>Clear all</Button>
 					</div>
 					<div class="flex flex-wrap gap-2">
 						{#each visibleFilters as filter}
-							<Badge class="gap-1 pr-1">
+							<Badge class="gap-1 pr-1 text-sm">
 								<span>{filter}</span>
 								<button
 									class="hover:bg-secondary-foreground/20 rounded-full p-0.5 transition-colors"
 									onclick={() => removeFilter(filter)}
 									aria-label="Remove {filter}"
 								>
-									<X class="h-3 w-3" />
+									<X class="size-3" />
 								</button>
 							</Badge>
 						{/each}
