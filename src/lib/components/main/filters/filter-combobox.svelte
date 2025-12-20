@@ -14,27 +14,44 @@
 		items: string[];
 		selectedItems: SvelteSet<string>;
 		placeholder: string;
+		searchPlaceholder?: string;
 		allSelectedText: string;
 		itemLabel: (item: string) => string;
+		getTriggerText: (selectedCount: number, isAllSelected: boolean) => string;
 		disabled?: boolean;
-		popoverWidth?: string;
 	}
 
 	let {
 		items = [],
 		selectedItems = $bindable(),
 		placeholder,
-		allSelectedText,
+		searchPlaceholder = placeholder,
 		itemLabel,
-		disabled = false,
-		popoverWidth = '300px'
+		getTriggerText,
+		disabled = false
 	}: Props = $props();
 
 	let popoverOpen = $state(false);
 	let searchTerm = $state('');
+	let triggerRef = $state<HTMLElement | null>(null);
+	let popoverWidth = $state<string>('300px');
 
 	const isAllSelected = $derived(selectedItems.size === 0);
 	const selectedCount = $derived(selectedItems.size);
+
+	$effect(() => {
+		if (triggerRef) {
+			const updateWidth = () => {
+				if (triggerRef) {
+					popoverWidth = `${triggerRef.offsetWidth}px`;
+				}
+			};
+			updateWidth();
+			const resizeObserver = new ResizeObserver(updateWidth);
+			resizeObserver.observe(triggerRef);
+			return () => resizeObserver.disconnect();
+		}
+	});
 
 	const filteredItems = $derived(
 		items
@@ -52,13 +69,7 @@
 	);
 
 	const triggerText = $derived.by(() => {
-		if (isAllSelected) {
-			return allSelectedText;
-		}
-		if (selectedCount === 1) {
-			return `1 ${placeholder.slice(0, -1)} selected`;
-		}
-		return `${selectedCount} ${placeholder} selected`;
+		return getTriggerText(selectedCount, isAllSelected);
 	});
 
 	function toggleItem(item: string) {
@@ -75,7 +86,7 @@
 </script>
 
 <Popover.Root bind:open={popoverOpen}>
-	<Popover.Trigger>
+	<Popover.Trigger bind:ref={triggerRef}>
 		{#snippet child({ props })}
 			<Button
 				{...props}
@@ -83,7 +94,6 @@
 				role="combobox"
 				aria-expanded={popoverOpen}
 				class="w-full justify-between"
-				style="width: {popoverWidth};"
 				{disabled}
 			>
 				<span class="truncate">{triggerText}</span>
@@ -101,7 +111,7 @@
 				<Input
 					class="placeholder:text-muted-foreground h-9 w-full border-0 bg-transparent py-3 text-sm outline-hidden focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 					bind:value={searchTerm}
-					{placeholder}
+					placeholder={searchPlaceholder}
 				/>
 			</div>
 

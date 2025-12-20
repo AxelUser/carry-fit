@@ -106,6 +106,21 @@
 	const airlineSelectionCount = $derived(
 		isAllAirlinesSelected ? allAirlineNames.length : selectedAirlines.size
 	);
+
+	function getTriggerText(
+		selectedCount: number,
+		isAllSelected: boolean,
+		placeholder: string,
+		allSelectedText: string
+	): string {
+		if (isAllSelected) {
+			return allSelectedText;
+		}
+		if (selectedCount === 1) {
+			return `1 ${placeholder.slice(0, -1)} selected`;
+		}
+		return `${selectedCount} ${placeholder} selected`;
+	}
 </script>
 
 <Card.Root>
@@ -148,21 +163,25 @@
 								<FilterCombobox
 									items={allRegions}
 									bind:selectedItems={selectedRegions}
-									placeholder="Search region"
+									placeholder="region"
+									searchPlaceholder="Search regions..."
 									allSelectedText="All Regions"
 									itemLabel={(item) => item}
+									getTriggerText={(selectedCount, isAllSelected) =>
+										getTriggerText(selectedCount, isAllSelected, 'regions', 'All Regions')}
 									disabled={!isSelected}
-									popoverWidth="300px"
 								/>
 							{:else}
 								<FilterCombobox
 									items={allAirlineNames}
 									bind:selectedItems={selectedAirlines}
-									placeholder="Search airline"
+									placeholder="airline"
+									searchPlaceholder="Search airlines..."
 									allSelectedText="All Airlines"
 									itemLabel={(item) => item}
+									getTriggerText={(selectedCount, isAllSelected) =>
+										getTriggerText(selectedCount, isAllSelected, 'airlines', 'All Airlines')}
 									disabled={!isSelected}
-									popoverWidth="300px"
 								/>
 							{/if}
 						</div>
