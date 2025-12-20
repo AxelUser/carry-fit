@@ -22,6 +22,7 @@
 	"devDependencies": {
 		"@chromatic-com/storybook": "3.2.4",
 		"@eslint/compat": "^1.2.3",
+		"@lucide/svelte": "^0.482.0",
 		"@playwright/test": "^1.45.3",
 		"@storybook/addon-essentials": "8.6.0-alpha.1",
 		"@storybook/addon-interactions": "8.6.0-alpha.1",
