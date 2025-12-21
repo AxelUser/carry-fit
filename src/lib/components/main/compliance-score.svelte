@@ -256,8 +256,10 @@
 						<div class="space-y-4">
 							<p>
 								Your bag size <strong>({bagDimensionsDisplay})</strong> was compared to
-								<strong>{airlinesCount}</strong> airline rules that match your filters, for both carry-on
-								and personal item.
+								<strong>{airlinesCount}</strong>
+								{airlinesCount === 1 ? "airline's" : "airlines'"}
+								{airlinesCount === 1 ? 'rule' : 'rules'} that match your filters, for both carry-on and
+								personal item.
 							</p>
 							<p>The score is basically the percentage of airlines that allow your bag.</p>
 							<p>

@@ -9,9 +9,10 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import FilterCombobox from './filter-combobox.svelte';
 	import { cn } from '$lib/utils/ui';
-	import { SvelteSet } from 'svelte/reactivity';
+	import { MediaQuery, SvelteSet } from 'svelte/reactivity';
 
-	const MAX_VISIBLE_FILTERS = 16;
+	const isDesktop = new MediaQuery('(min-width: 768px)');
+	const maxVisibleFilters = $derived(isDesktop.current ? 16 : 8);
 
 	type FilterMode = 'regions' | 'airlines';
 
@@ -29,8 +30,16 @@
 	let showAllDialogOpen = $state(false);
 	let isInternalUpdate = $state(false);
 
-	const allRegions = $derived([...new Set(airlines.map((airline) => airline.region))].sort());
-	const allAirlineNames = $derived(airlines.map((airline) => airline.airline).sort());
+	const allRegions = $derived(
+		[...new Set(airlines.map((airline) => airline.region))].sort((a, b) =>
+			a.localeCompare(b, undefined, { sensitivity: 'base' })
+		)
+	);
+	const allAirlineNames = $derived(
+		airlines
+			.map((airline) => airline.airline)
+			.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+	);
 
 	const isAllRegionsSelected = $derived(selectedRegions.size === 0);
 	const isAllAirlinesSelected = $derived(selectedAirlines.size === 0);
@@ -81,9 +90,9 @@
 		}
 	});
 
-	const visibleFilters = $derived(activeFilters.slice(0, MAX_VISIBLE_FILTERS));
+	const visibleFilters = $derived(activeFilters.slice(0, maxVisibleFilters));
 
-	const hiddenFiltersCount = $derived(Math.max(0, activeFilters.length - MAX_VISIBLE_FILTERS));
+	const hiddenFiltersCount = $derived(Math.max(0, activeFilters.length - maxVisibleFilters));
 
 	function clearAllFilters() {
 		if (filterMode === 'regions') {
