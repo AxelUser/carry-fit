@@ -1,6 +1,7 @@
 # https://carryon.fit
 User-agent: *
 Allow: /
+Disallow: /legal/opt-out
 
 # Host
 Host: https://carryon.fit
