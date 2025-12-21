@@ -1,0 +1,1 @@
+import{l as t,u,e as o,g as a,i as l}from"./CBS1TNSC.js";function c(n){o===null&&t(),a&&o.l!==null?i(o).m.push(n):u(()=>{const e=l(n);if(typeof e=="function")return e})}function f(n){o===null&&t(),c(()=>()=>l(n))}function i(n){var e=n.l;return e.u??={a:[],b:[],m:[]}}export{f as a,c as o};
