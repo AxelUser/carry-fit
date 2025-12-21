@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, ChevronsUpDown } from '@lucide/svelte';
+	import { Check, ChevronsUpDown, Info, Undo2 } from '@lucide/svelte';
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -103,18 +103,24 @@
 			</div>
 
 			<ScrollArea class="h-[200px] w-full" type="auto">
-				{#if !isAllSelected}
-					<div class="border-b px-2 py-1.5">
+				<div class="border-b px-2 py-1.5">
+					{#if isAllSelected}
+						<div class="text-muted-foreground flex h-8 items-center gap-2 text-xs">
+							<Info class="h-4 w-4 shrink-0" />
+							<span>All selected by default</span>
+						</div>
+					{:else}
 						<Button
 							variant="ghost"
 							size="sm"
-							class="h-8 w-full justify-start text-xs"
+							class="h-8 justify-start text-xs"
 							onclick={resetToAll}
 						>
+							<Undo2 class="size-4" />
 							Reset to all selected
 						</Button>
-					</div>
-				{/if}
+					{/if}
+				</div>
 
 				<div class="relative h-full w-full">
 					{#if filteredItems.length > 0}
