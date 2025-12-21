@@ -69,6 +69,12 @@
 	function resetToAll() {
 		selectedItems.clear();
 	}
+
+	$effect(() => {
+		if (!popoverOpen && !drawerOpen) {
+			searchTerm = '';
+		}
+	});
 </script>
 
 {#snippet comboboxContent(mobile: boolean)}
