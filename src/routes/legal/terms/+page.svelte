@@ -9,18 +9,18 @@
 	</p>
 </div>
 
-<div class="space-y-4 text-foreground">
+<div class="text-foreground space-y-4">
 	<h2 class="text-xl font-semibold sm:text-2xl">Open Source License</h2>
 	<p>
 		CarryFit is open-source software, released under the MIT License. The source code is available
 		on <a
 			href="https://github.com/AxelUser/carry-fit"
-			class="font-medium text-primary hover:underline"
+			class="text-primary font-medium hover:underline"
 			target="_blank"
 			rel="noopener noreferrer">GitHub</a
 		>.
 	</p>
-	<div class="rounded-lg bg-primary p-4 text-primary-foreground">
+	<div class="bg-primary text-primary-foreground rounded-lg p-4">
 		<p class="mb-2 font-medium">MIT License</p>
 		<p class="text-sm">Copyright (c) 2025 Aleksey Maltsev</p>
 		<p class="mt-2 text-sm">
@@ -50,7 +50,7 @@
 		The Service is provided as a tool to help you check carry-on luggage compliance with airline
 		requirements. However:
 	</p>
-	<ul class="list-disc space-y-1 pl-5 text-foreground">
+	<ul class="text-foreground list-disc space-y-1 pl-5">
 		<li>
 			Airlines may change their policies at any time. Always verify current requirements directly
 			with your airline
@@ -66,7 +66,7 @@
 	<p>
 		We collect anonymous usage data as described in our <a
 			href={links.legal.privacy}
-			class="font-medium text-primary hover:underline">Privacy Policy</a
+			class="text-primary font-medium hover:underline">Privacy Policy</a
 		>.
 	</p>
 </div>
@@ -84,7 +84,7 @@
 	<p>
 		If you have any questions about these Terms of Use, please contact us at <a
 			href="mailto:aleksey@maltsev.space"
-			class="font-medium text-primary hover:underline">aleksey@maltsev.space</a
+			class="text-primary font-medium hover:underline">aleksey@maltsev.space</a
 		>.
 	</p>
 </div>

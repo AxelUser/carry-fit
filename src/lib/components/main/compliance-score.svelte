@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getScoreVisual, DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
@@ -217,7 +217,7 @@
 </script>
 
 <div
-	class="relative overflow-hidden rounded-xl border-2 border-border bg-card p-6 text-center shadow-sm"
+	class="border-border bg-card relative overflow-hidden rounded-xl border-2 p-6 text-center shadow-xs"
 	data-testid="compliance-score"
 >
 	{#if shouldAnimateBackground}
@@ -228,7 +228,7 @@
 	{/if}
 
 	<div class="relative z-20 mx-auto max-w-4xl space-y-8">
-		<div class="text-2xl font-extrabold leading-tight text-foreground drop-shadow-lg sm:text-3xl">
+		<div class="text-foreground text-2xl leading-tight font-extrabold drop-shadow-lg sm:text-3xl">
 			{message}
 		</div>
 
@@ -245,7 +245,7 @@
 
 		<div class="text-center">
 			<Dialog.Root>
-				<Dialog.Trigger class="text-sm text-muted-foreground underline hover:text-foreground"
+				<Dialog.Trigger class="text-muted-foreground hover:text-foreground text-sm underline"
 					>But why?</Dialog.Trigger
 				>
 				<Dialog.Content>
@@ -256,8 +256,10 @@
 						<div class="space-y-4">
 							<p>
 								Your bag size <strong>({bagDimensionsDisplay})</strong> was compared to
-								<strong>{airlinesCount}</strong> airline rules that match your filters, for both carry-on
-								and personal item.
+								<strong>{airlinesCount}</strong>
+								{airlinesCount === 1 ? "airline's" : "airlines'"}
+								{airlinesCount === 1 ? 'rule' : 'rules'} that match your filters, for both carry-on and
+								personal item.
 							</p>
 							<p>The score is basically the percentage of airlines that allow your bag.</p>
 							<p>
@@ -286,8 +288,8 @@
 		data-testid="compliance-score-section"
 		data-section={sectionKey}
 	>
-		<div class="text-md mb-2 font-semibold text-foreground drop-shadow-sm">{label}</div>
-		<div class="relative mb-2 h-3 w-full overflow-hidden rounded-full bg-muted/80">
+		<div class="text-md text-foreground mb-2 font-semibold drop-shadow-xs">{label}</div>
+		<div class="bg-muted/80 relative mb-2 h-3 w-full overflow-hidden rounded-full">
 			<div
 				class={cn('h-full transition-all duration-500 ease-out', classes.bar)}
 				style="width: {percentage}%"
@@ -295,7 +297,7 @@
 			></div>
 		</div>
 		<div
-			class={cn('text-2xl font-black tracking-tight drop-shadow-sm sm:text-3xl', classes.text)}
+			class={cn('text-2xl font-black tracking-tight drop-shadow-xs sm:text-3xl', classes.text)}
 			data-testid="compliance-score-percentage"
 		>
 			{percentage.toFixed(0)}%

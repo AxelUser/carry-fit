@@ -8,7 +8,7 @@
 
 {#if show}
 	<span
-		class="animate-gradient inline-flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 via-fuchsia-600 to-pink-500 px-2 py-0.5 text-[10px] font-medium tracking-wide text-white shadow-sm sm:text-xs"
+		class="animate-gradient inline-flex items-center justify-center rounded-full bg-linear-to-r from-pink-500 via-fuchsia-600 to-pink-500 px-2 py-0.5 text-[10px] font-medium tracking-wide text-white shadow-xs sm:text-xs"
 	>
 		NEW
 	</span>

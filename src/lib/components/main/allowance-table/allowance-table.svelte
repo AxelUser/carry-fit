@@ -12,7 +12,7 @@
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
-	import { ArrowDownAZ, ArrowUpAZ, Check } from 'lucide-svelte';
+	import { ArrowDownAZ, ArrowUpAZ, Check } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { untrack } from 'svelte';
 	import { VirtualList } from 'svelte-virtuallists';
@@ -21,19 +21,11 @@
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
-		favoriteAirlines: string[];
 		airlines: AirlineInfo[];
 		complianceAirlines: AirlineCompliance[];
 	}
 
-	let {
-		measurementSystem,
-		favoriteAirlines = $bindable(),
-		airlines,
-		complianceAirlines
-	}: Props = $props();
-
-	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
+	let { measurementSystem, airlines, complianceAirlines }: Props = $props();
 	const isCompliant = (airline: AirlineCompliance) =>
 		airline.complianceResults.every((result) => result.passed);
 
@@ -149,26 +141,6 @@
 				: SortDirections.Ascending;
 	}
 
-	function toggleFavorite(airlineName: string) {
-		const isFavorite = favoriteAirlinesSet.has(airlineName);
-		favoriteAirlines = isFavorite
-			? favoriteAirlines.filter((name) => name !== airlineName)
-			: [...favoriteAirlines, airlineName];
-
-		metrics.favoriteAirlineToggled();
-	}
-
-	// Virtual Grid params
-	// FIXME: remove constant sizes when finished refactoring https://github.com/AxelUser/carry-fit/issues/71
-	const GAP = 16;
-
-	// when changing these values, also change the item height in airline-card.svelte
-	const ITEM_HEIGHT_SPLITVIEW = 330;
-	const ITEM_HEIGHT_COLUMNVIEW = 492;
-
-	const VERTICAL_GAP = 16;
-
-	let isLoading = $state(false);
 	let windowWidth = $state(0);
 	const columnCount = $derived(windowWidth > 800 ? 2 : 1);
 
@@ -231,12 +203,6 @@
 				title="No airlines found"
 				description={`No airlines match your search "${searchState.searchTerm}"`}
 			/>
-		{:else if isLoading}
-			<EmptyState
-				variant="refreshing"
-				title="Refreshing airlines"
-				description="Please wait while we update the results"
-			/>
 		{:else if !hasVisibleAirlines}
 			<EmptyState
 				title="Nothing to display"
@@ -251,18 +217,14 @@
 </Card.Root>
 
 {#snippet sortButton()}
-	<button
-		class="flex items-center gap-2 rounded-lg border bg-background px-3 py-1.5 text-sm transition-colors hover:bg-muted"
-		onclick={toggleSortDirection}
-		aria-label="Sort airlines"
-	>
+	<Button size="sm" variant="outline" onclick={toggleSortDirection} aria-label="Sort airlines">
 		Sort
 		{#if sortDirection === SortDirections.Ascending}
 			<ArrowDownAZ class="size-4" />
 		{:else}
 			<ArrowUpAZ class="size-4" />
 		{/if}
-	</button>
+	</Button>
 {/snippet}
 
 {#snippet airlinesGrid()}
@@ -278,8 +240,6 @@
 							complianceResults={(airline as AirlineCompliance).complianceResults}
 							personalItemComplianceResults={(airline as AirlineCompliance)
 								.personalItemComplianceResults}
-							isFavorite={favoriteAirlinesSet.has(airline.airline)}
-							{toggleFavorite}
 						/>
 					</div>
 				{/each}

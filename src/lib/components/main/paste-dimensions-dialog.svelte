@@ -10,7 +10,7 @@
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { DimensionParser } from '$lib/bag-parsing/parser';
 	import { Alert, AlertDescription } from '$lib/components/ui/alert';
-	import { AlertTriangle, ClipboardPaste } from 'lucide-svelte';
+	import { AlertTriangle, ClipboardPaste } from '@lucide/svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
 	import { metrics } from '$lib/analytics';
 

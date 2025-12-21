@@ -13,7 +13,7 @@
 <div class="space-y-4">
 	<h2 class="text-xl font-semibold sm:text-2xl">Cookie Usage</h2>
 	<p class="text-foreground">We use two types of cookies on our website:</p>
-	<ul class="list-disc space-y-2 pl-5 text-foreground">
+	<ul class="text-foreground list-disc space-y-2 pl-5">
 		<li>
 			<strong>Necessary Cookies:</strong> These are essential for the website to function properly
 			and remember your preferences. They include:
@@ -42,7 +42,7 @@
 <div class="space-y-4">
 	<h2 class="text-xl font-semibold sm:text-2xl">Information We Collect</h2>
 	<p>Through PostHog analytics, we may collect the following anonymous usage data:</p>
-	<ul class="list-disc space-y-1 pl-5 text-foreground">
+	<ul class="text-foreground list-disc space-y-1 pl-5">
 		<li>Pages visited and time spent on the website</li>
 		<li>Browser type and version</li>
 		<li>Operating system</li>
@@ -57,7 +57,7 @@
 <div class="space-y-4">
 	<h2 class="text-xl font-semibold sm:text-2xl">How We Use Your Information</h2>
 	<p>The collected analytics data is used solely for:</p>
-	<ul class="list-disc space-y-1 pl-5 text-foreground">
+	<ul class="text-foreground list-disc space-y-1 pl-5">
 		<li>Understanding how users interact with our website</li>
 		<li>Improving user experience</li>
 		<li>Identifying and fixing technical issues</li>
@@ -68,10 +68,10 @@
 <div class="space-y-4">
 	<h2 class="text-xl font-semibold sm:text-2xl">Your Privacy Choices</h2>
 	<p>You have full control over your privacy preferences:</p>
-	<ul class="list-disc space-y-1 pl-5 text-foreground">
+	<ul class="text-foreground list-disc space-y-1 pl-5">
 		<li>Choose between necessary-only or analytics cookies through our consent banner</li>
 		<li>
-			<a href={links.legal.optOut} class="font-medium text-primary hover:underline"
+			<a href={links.legal.optOut} class="text-primary font-medium hover:underline"
 				>Opt out of analytics tracking</a
 			> at any time
 		</li>
@@ -94,7 +94,7 @@
 	<p>
 		If you have any questions about this Privacy Policy, please contact us at <a
 			href="mailto:aleksey@maltsev.space"
-			class="font-medium text-primary hover:underline">aleksey@maltsev.space</a
+			class="text-primary font-medium hover:underline">aleksey@maltsev.space</a
 		>.
 	</p>
 </div>

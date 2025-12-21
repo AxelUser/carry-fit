@@ -1,186 +1,310 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
-	import { Check, Pencil } from 'lucide-svelte';
+	import { Funnel, X } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
-	import { Separator } from '$lib/components/ui/separator';
-	import { Checkbox } from '$lib/components/ui/checkbox';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Empty from '$lib/components/ui/empty';
+	import { Badge } from '$lib/components/ui/badge';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import FilterCombobox from './filter-combobox.svelte';
+	import { cn } from '$lib/utils/ui';
+	import { MediaQuery, SvelteSet } from 'svelte/reactivity';
 
-	import { Label } from '$lib/components/ui/label';
-	import FavoriteAirlines from './favorite-airlines.svelte';
+	const isDesktop = new MediaQuery('(min-width: 768px)');
+	const maxVisibleFilters = $derived(isDesktop.current ? 16 : 8);
+
+	type FilterMode = 'regions' | 'airlines';
 
 	interface Props {
 		airlines: AirlineInfo[];
-		favoriteAirlines: string[];
 		filteredAirlines: AirlineInfo[];
 		filterRegions: string[];
 	}
 
-	let {
-		airlines,
-		favoriteAirlines = $bindable(),
-		filteredAirlines = $bindable(),
-		filterRegions = $bindable()
-	}: Props = $props();
+	let { airlines, filteredAirlines = $bindable(), filterRegions = $bindable() }: Props = $props();
 
-	let showFavoritesOnly = $state(false);
-	let showFavoriteAirlinesDialog = $state(false);
+	let filterMode = $state<FilterMode>('regions');
+	let selectedRegions = $state(new SvelteSet<string>());
+	let selectedAirlines = $state(new SvelteSet<string>());
+	let showAllDialogOpen = $state(false);
+	let isInternalUpdate = $state(false);
 
-	const favoriteAirlinesSet = $derived(new Set(favoriteAirlines));
-
-	const allRegions = [...new Set(airlines.map((airline) => airline.region))].sort();
-
-	let selectedRegions = $state(new Set(filterRegions.length ? filterRegions : allRegions));
-
-	const availableSelectedRegions = $derived(
-		allRegions.filter((region) => selectedRegions.has(region) && isRegionAvailable(region))
+	const allRegions = $derived(
+		[...new Set(airlines.map((airline) => airline.region))].sort((a, b) =>
+			a.localeCompare(b, undefined, { sensitivity: 'base' })
+		)
+	);
+	const allAirlineNames = $derived(
+		airlines
+			.map((airline) => airline.airline)
+			.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
 	);
 
+	const isAllRegionsSelected = $derived(selectedRegions.size === 0);
+	const isAllAirlinesSelected = $derived(selectedAirlines.size === 0);
+
 	$effect(() => {
-		filteredAirlines = airlines
-			.filter((airline) => selectedRegions.has(airline.region))
-			.filter((airline) => !showFavoritesOnly || favoriteAirlinesSet.has(airline.airline));
-		filterRegions = Array.from(selectedRegions);
+		if (filterMode === 'regions') {
+			selectedAirlines.clear();
+			if (isAllRegionsSelected) {
+				filteredAirlines = airlines;
+			} else {
+				filteredAirlines = airlines.filter((airline) => selectedRegions.has(airline.region));
+			}
+			isInternalUpdate = true;
+			filterRegions = Array.from(selectedRegions);
+			isInternalUpdate = false;
+		} else {
+			selectedRegions.clear();
+			if (isAllAirlinesSelected) {
+				filteredAirlines = airlines;
+			} else {
+				filteredAirlines = airlines.filter((airline) => selectedAirlines.has(airline.airline));
+			}
+			isInternalUpdate = true;
+			filterRegions = [];
+			isInternalUpdate = false;
+		}
 	});
 
-	function isRegionAvailable(region: string): boolean {
-		return (
-			!showFavoritesOnly ||
-			airlines.some(
-				(airline) => airline.region === region && favoriteAirlinesSet.has(airline.airline)
-			)
-		);
-	}
+	$effect(() => {
+		if (!isInternalUpdate && filterRegions.length > 0 && filterMode === 'regions') {
+			const filterRegionsSet = new Set(filterRegions);
 
-	function selectAllRegions() {
-		selectedRegions = new Set(allRegions);
-	}
-
-	function clearAllRegions() {
-		selectedRegions = new Set();
-	}
-
-	function toggleRegion(region: string) {
-		const newSet = new Set(selectedRegions);
-		if (newSet.has(region)) {
-			newSet.delete(region);
-		} else {
-			newSet.add(region);
+			if (
+				selectedRegions.size !== filterRegionsSet.size ||
+				!Array.from(selectedRegions).every((r) => filterRegionsSet.has(r))
+			) {
+				selectedRegions.clear();
+				filterRegions.forEach((r) => selectedRegions.add(r));
+			}
 		}
-		selectedRegions = newSet;
+	});
+
+	const activeFilters = $derived.by(() => {
+		if (filterMode === 'regions') {
+			return isAllRegionsSelected ? [] : Array.from(selectedRegions);
+		} else {
+			return isAllAirlinesSelected ? [] : Array.from(selectedAirlines);
+		}
+	});
+
+	const visibleFilters = $derived(activeFilters.slice(0, maxVisibleFilters));
+
+	const hiddenFiltersCount = $derived(Math.max(0, activeFilters.length - maxVisibleFilters));
+
+	function clearAllFilters() {
+		if (filterMode === 'regions') {
+			selectedRegions.clear();
+		} else {
+			selectedAirlines.clear();
+		}
+		showAllDialogOpen = false;
+	}
+
+	function removeFilter(filter: string) {
+		if (filterMode === 'regions') {
+			selectedRegions.delete(filter);
+		} else {
+			selectedAirlines.delete(filter);
+		}
+	}
+
+	const regionSelectionCount = $derived(
+		isAllRegionsSelected ? allRegions.length : selectedRegions.size
+	);
+	const airlineSelectionCount = $derived(
+		isAllAirlinesSelected ? allAirlineNames.length : selectedAirlines.size
+	);
+
+	function getTriggerText(
+		selectedCount: number,
+		isAllSelected: boolean,
+		placeholder: string,
+		allSelectedText: string
+	): string {
+		if (isAllSelected) {
+			return allSelectedText;
+		}
+		if (selectedCount === 1) {
+			return `1 ${placeholder.slice(0, -1)} selected`;
+		}
+		return `${selectedCount} ${placeholder} selected`;
 	}
 </script>
 
-<Card.Root>
+<Card.Root data-tour-id="allowance-filter">
 	<Card.Header>
 		<Card.Title>Filters</Card.Title>
+		<Card.Description>
+			Filter airlines to check cabin luggage compliance. Choose either whole regions or individual
+			airlines.
+		</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<div class="space-y-6">
-			<div class="space-y-6">
-				<div>
-					<div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
-						<div>
-							<h3 class="font-medium">Regions</h3>
-							<p class="text-xs text-muted-foreground sm:text-sm">
-								{#if selectedRegions.size === 0}
-									Choose regions to start comparing
-								{:else}
-									Showing {selectedRegions.size}
-									{availableSelectedRegions.length === 1 ? 'region' : 'regions'}
-								{/if}
-							</p>
-						</div>
-
-						<div class="flex items-start gap-2">
-							<Button variant="outline" size="sm" onclick={selectAllRegions}>Select All</Button>
-							<Button variant="outline" size="sm" onclick={clearAllRegions}>Clear All</Button>
-						</div>
-					</div>
-
+			<div class="grid gap-4 md:grid-cols-2">
+				{#snippet filterCard(mode: FilterMode, title: string, count: number, total: number)}
+					{@const isSelected = filterMode === mode}
 					<div
-						class="mt-3 flex flex-wrap gap-2"
-						data-tour-id="regions-filter-list"
-						data-testid="regions-filter-list"
+						role="button"
+						tabindex="0"
+						class={cn(
+							'group cursor-pointer rounded-lg border-2 p-4 text-left transition-colors',
+							isSelected
+								? 'border-primary bg-primary/5'
+								: 'border-border bg-background hover:border-muted-foreground/50'
+						)}
+						onclick={() => {
+							filterMode = mode;
+						}}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								filterMode = mode;
+							}
+						}}
 					>
-						{#each allRegions as region}
-							{@const isSelected = selectedRegions.has(region)}
-							{@const isAvailable = isRegionAvailable(region)}
-
-							<Button
-								size="sm"
-								variant={isSelected ? 'default' : 'outline'}
-								disabled={!isAvailable}
-								onclick={() => isAvailable && toggleRegion(region)}
-								data-selected={isSelected}
-								class="gap-2 text-sm"
+						<div class="space-y-3">
+							<h3
+								class={cn(
+									'text-base font-medium',
+									isSelected ? 'text-foreground' : 'text-muted-foreground'
+								)}
 							>
-								<span>{region}</span>
-								{#if isSelected && isAvailable}
-									<div class="ml-2 animate-bounce">
-										<Check class="h-4 w-4" />
-									</div>
+								{title}
+							</h3>
+							<div class="h-5">
+								{#if isSelected}
+									<p class="text-muted-foreground text-sm">
+										{count} / {total} selected
+									</p>
+								{:else}
+									<div class="h-5"></div>
 								{/if}
-							</Button>
-						{/each}
-					</div>
-				</div>
-
-				<Separator />
-
-				<div>
-					<div class="flex items-center justify-between">
-						<div class="flex items-center gap-2">
-							<h3 class="font-medium">Favorites</h3>
-							<Button
-								data-tour-id="favorite-airlines-manage-button"
-								variant="ghost"
-								size="icon"
-								class="h-8 w-8"
-								onclick={() => (showFavoriteAirlinesDialog = true)}
-							>
-								<Pencil class="h-4 w-4" />
-								<span class="sr-only">Manage favorite airlines</span>
-							</Button>
+							</div>
+							{#if mode === 'regions'}
+								<FilterCombobox
+									items={allRegions}
+									bind:selectedItems={selectedRegions}
+									searchPlaceholder="Search regions..."
+									itemLabel={(item) => item}
+									getTriggerText={(selectedCount, isAllSelected) =>
+										getTriggerText(selectedCount, isAllSelected, 'regions', 'All regions')}
+									disabled={!isSelected}
+								/>
+							{:else}
+								<FilterCombobox
+									items={allAirlineNames}
+									bind:selectedItems={selectedAirlines}
+									searchPlaceholder="Search airlines..."
+									itemLabel={(item) => item}
+									getTriggerText={(selectedCount, isAllSelected) =>
+										getTriggerText(selectedCount, isAllSelected, 'airlines', 'All airlines')}
+									disabled={!isSelected}
+								/>
+							{/if}
 						</div>
-						{#if favoriteAirlines.length > 0}
-							<span data-testid="favorites-count" class="text-sm text-primary">
-								{favoriteAirlines.length}
-								{favoriteAirlines.length === 1 ? 'airline' : 'airlines'}
-							</span>
+					</div>
+				{/snippet}
+
+				{@render filterCard('regions', 'By Regions', regionSelectionCount, allRegions.length)}
+				{@render filterCard(
+					'airlines',
+					'By Airlines',
+					airlineSelectionCount,
+					allAirlineNames.length
+				)}
+			</div>
+
+			{#if activeFilters.length > 0}
+				<div
+					class="border-primary bg-primary/5 rounded-lg border p-4"
+					data-testid="current-filters"
+				>
+					<div class="mb-3 flex items-center justify-between">
+						<h4 class="font-medium">Current Filters</h4>
+						<Button variant="ghost" size="sm" onclick={clearAllFilters}>Clear all</Button>
+					</div>
+					<div class="flex flex-wrap items-end gap-2">
+						{#each visibleFilters as filter}
+							<Badge class="gap-1 pr-1 text-sm" data-testid="filter-chip" data-filter-name={filter}>
+								<span>{filter}</span>
+								<button
+									class="hover:bg-secondary-foreground/20 rounded-full p-0.5 transition-colors"
+									onclick={() => removeFilter(filter)}
+									aria-label="Remove {filter}"
+									data-testid="filter-chip-remove"
+									data-filter-name={filter}
+								>
+									<X class="size-3" />
+								</button>
+							</Badge>
+						{/each}
+						{#if hiddenFiltersCount > 0}
+							<Button
+								variant="link"
+								size="sm"
+								class="h-6 text-sm"
+								onclick={() => (showAllDialogOpen = true)}
+							>
+								{hiddenFiltersCount} more...
+							</Button>
 						{/if}
 					</div>
-					<label data-tour-id="favorites-only-filter" class="mt-2 flex items-center gap-2">
-						<Checkbox id="favorites-only-filter" bind:checked={showFavoritesOnly} />
-						<Label for="favorites-only-filter">Favorites only</Label>
-					</label>
 				</div>
-			</div>
+			{/if}
 		</div>
 	</Card.Content>
 </Card.Root>
 
-<FavoriteAirlines bind:open={showFavoriteAirlinesDialog} {airlines} bind:favoriteAirlines />
-
-<style>
-	@keyframes bounce {
-		0% {
-			transform: scale(0);
-			opacity: 0;
-		}
-		50% {
-			transform: scale(1.2);
-			opacity: 1;
-		}
-		75% {
-			transform: scale(0.8);
-		}
-		100% {
-			transform: scale(1);
-		}
-	}
-
-	.animate-bounce {
-		animation: bounce 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-	}
-</style>
+<Dialog.Root bind:open={showAllDialogOpen}>
+	{@const itemName = filterMode === 'regions' ? 'Regions' : 'Airlines'}
+	<Dialog.Content class="max-w-lg">
+		<Dialog.Header>
+			<Dialog.Title>
+				{activeFilters.length === 0
+					? `All ${itemName}`
+					: `Selected ${itemName} (${activeFilters.length})`}
+			</Dialog.Title>
+		</Dialog.Header>
+		{#if activeFilters.length === 0}
+			<Empty.Root>
+				<Empty.Header>
+					<Empty.Media variant="icon">
+						<Funnel class="size-10" />
+					</Empty.Media>
+					<Empty.Title>All {itemName.toLowerCase()} included</Empty.Title>
+					<Empty.Description>
+						No {itemName.toLowerCase()} are filtered out, so all available airlines are checked for cabin
+						luggage allowance compliance.
+					</Empty.Description>
+				</Empty.Header>
+			</Empty.Root>
+		{:else}
+			<ScrollArea class="max-h-[400px]">
+				<div class="space-y-2">
+					{#each activeFilters as filter}
+						<div class="flex items-center justify-between rounded-md border p-2">
+							<span>{filter}</span>
+							<Button
+								variant="ghost"
+								size="sm"
+								class="h-8 w-8 p-0"
+								onclick={() => removeFilter(filter)}
+							>
+								<X class="h-4 w-4" />
+								<span class="sr-only">Remove {filter}</span>
+							</Button>
+						</div>
+					{/each}
+				</div>
+			</ScrollArea>
+		{/if}
+		<Dialog.Footer>
+			<Button variant="outline" onclick={clearAllFilters}>Clear all</Button>
+			<Button onclick={() => (showAllDialogOpen = false)}>Close</Button>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

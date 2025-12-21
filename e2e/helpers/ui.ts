@@ -20,11 +20,6 @@ export async function openParseDialog(page: Page) {
 	await expect(page.getByRole('dialog')).toBeVisible();
 }
 
-export async function openFavoritesDialog(page: Page) {
-	await page.getByRole('button', { name: /Manage favorite airlines/i }).click();
-	await expect(page.getByTestId('favorite-airlines-dialog')).toBeVisible();
-}
-
 export function getAirlineAllowances(page: Page): Locator {
 	return page.getByTestId('allowances-grid').getByTestId('airline-card');
 }

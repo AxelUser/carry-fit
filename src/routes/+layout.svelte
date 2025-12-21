@@ -2,7 +2,7 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { metrics, updateConsent } from '$lib/analytics';
 	import '../app.css';
-	import { AlertTriangle } from 'lucide-svelte';
+	import { AlertTriangle } from '@lucide/svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
 	import { CookieBanner } from '$lib/components/misc';
@@ -44,7 +44,7 @@
 						<div class="mb-12 py-2 text-center">
 							<h1 class="mb-3 font-extrabold">
 								<span
-									class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
+									class="bg-linear-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
 								>
 									CarryFit
 								</span>
@@ -54,29 +54,29 @@
 							</h1>
 						</div>
 
-						<div class="mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1 ring-primary/10">
+						<div class="ring-primary/10 mx-auto max-w-2xl rounded-xl p-8 shadow-xl ring-1">
 							<div class="mb-6 flex items-start gap-4">
 								<div
-									class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-destructive/10"
+									class="bg-destructive/10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
 								>
-									<AlertTriangle class="h-6 w-6 text-destructive" />
+									<AlertTriangle class="text-destructive h-6 w-6" />
 								</div>
 								<div>
-									<h2 class="mb-2 text-xl font-semibold text-destructive">
+									<h2 class="text-destructive mb-2 text-xl font-semibold">
 										Oops! Our code took an unexpected vacation 🏖️
 									</h2>
-									<p class="mb-4 text-destructive">
+									<p class="text-destructive mb-4">
 										{error?.message ||
 											"Looks like our pixels got a bit tangled. Don't worry, they're just having a bad hair day!"}
 									</p>
 								</div>
 							</div>
 
-							<div class="rounded-lg border border-primary/10 bg-primary/10 p-6">
-								<h3 class="mb-3 font-medium text-primary">
+							<div class="border-primary/10 bg-primary/10 rounded-lg border p-6">
+								<h3 class="text-primary mb-3 font-medium">
 									Want to help catch this bug? Here's how:
 								</h3>
-								<ul class="ml-2 space-y-2 text-sm text-primary">
+								<ul class="text-primary ml-2 space-y-2 text-sm">
 									<li>
 										• File a bug report on <a
 											href="https://github.com/AxelUser/carry-fit/issues"

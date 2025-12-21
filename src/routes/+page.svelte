@@ -91,7 +91,6 @@
 		}
 	});
 
-	let showFavoritesOnly = $state(false);
 	let filteredAirlines = $state(allAirlines);
 
 	const airlinesWithCompliance = $derived(
@@ -134,12 +133,6 @@
 		}
 	});
 
-	$effect(() => {
-		if (showFavoritesOnly) {
-			metrics.favoritesFilterEnabled(preferences.favoriteAirlines.length);
-		}
-	});
-
 	const isUserReadyForTour = $derived(
 		cookieConsent.isLoaded && cookieConsent.value.timestamp !== null
 	);
@@ -160,7 +153,7 @@
 		<div class="text-center">
 			<h1 class="mb-2 font-extrabold">
 				<span
-					class="bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
+					class="bg-linear-to-r from-blue-700 to-sky-500 bg-clip-text text-4xl text-transparent sm:text-6xl"
 				>
 					CarryFit
 				</span>
@@ -168,8 +161,8 @@
 					<CarryFitIcon class="h-10 w-10 sm:h-14 sm:w-14" />
 				</span>
 			</h1>
-			<p class="text-base text-muted-foreground sm:text-lg">
-				Check carry-on and personal item dimensions for <span class="font-semibold text-primary"
+			<p class="text-muted-foreground text-base sm:text-lg">
+				Check carry-on and personal item dimensions for <span class="text-primary font-semibold"
 					>{allAirlines.length}</span
 				>
 				airlines worldwide.
@@ -210,14 +203,12 @@
 
 		<AllowanceFilter
 			airlines={allAirlines}
-			bind:favoriteAirlines={preferences.favoriteAirlines}
 			bind:filteredAirlines
 			bind:filterRegions={preferences.filterRegions}
 		/>
 
 		<AllowanceTable
 			measurementSystem={preferences.measurementSystem}
-			bind:favoriteAirlines={preferences.favoriteAirlines}
 			airlines={filteredAirlines}
 			complianceAirlines={airlinesWithCompliance}
 		/>

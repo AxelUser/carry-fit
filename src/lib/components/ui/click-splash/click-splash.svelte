@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { cn } from '$lib/utils/styling';
+	import { cn } from '$lib/utils/ui.js';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -46,10 +46,10 @@
 	{#key clickCount}
 		{#if isOpen}
 			<div
-				class="pointer-events-none absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2"
+				class="pointer-events-none absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2"
 				transition:fly={{ duration, easing: cubicOut }}
 			>
-				<span class={cn('animate-float-away block font-medium text-gray-700', sizeClasses[size])}>
+				<span class={cn('animate-float-away text-foreground block font-medium', sizeClasses[size])}>
 					{content}
 				</span>
 			</div>

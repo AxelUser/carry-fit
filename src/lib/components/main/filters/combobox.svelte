@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { VirtualList } from 'svelte-virtuallists';
-	import { Search } from 'lucide-svelte';
+	import { Search } from '@lucide/svelte';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { Input } from '$lib/components/ui/input';
 	import { onDestroy, type Snippet } from 'svelte';
@@ -39,12 +39,12 @@
 
 <div
 	data-testid="combobox-content"
-	class="w-full rounded-md border bg-popover text-popover-foreground shadow-md"
+	class="bg-popover text-popover-foreground w-full rounded-md border shadow-md"
 >
 	<div class="flex items-center border-b px-3 py-1">
 		<Search class="mr-2 h-4 w-4 shrink-0 opacity-50" />
 		<Input
-			class="h-9 w-full border-0 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+			class="placeholder:text-muted-foreground h-9 w-full border-0 bg-transparent py-3 text-sm outline-hidden focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 			bind:value={searchTerm}
 			{placeholder}
 		/>
@@ -55,7 +55,7 @@
 			<VirtualList class="virtual-list-viewport h-full w-full" items={filteredItems}>
 				{#snippet vl_slot({ index, item })}
 					<button
-						class="relative flex w-full min-w-0 cursor-pointer select-none items-start rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+						class="hover:bg-accent hover:text-accent-foreground relative flex w-full min-w-0 cursor-pointer items-start rounded-sm px-2 py-1.5 text-left text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50"
 						role="option"
 						aria-selected="false"
 						onclick={() => onSelect(item.airline)}
@@ -67,7 +67,7 @@
 				{/snippet}
 			</VirtualList>
 		{:else}
-			<div class="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+			<div class="text-muted-foreground absolute inset-0 flex items-center justify-center text-sm">
 				No airlines found.
 			</div>
 		{/if}

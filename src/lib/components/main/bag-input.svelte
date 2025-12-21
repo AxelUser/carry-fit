@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Eraser } from 'lucide-svelte';
+	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
 	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
 	import { Label } from '../ui/label';
@@ -111,7 +111,7 @@
 	<div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 		<div>
 			<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
-			<p class="text-sm text-muted-foreground">Enter manually or parse from a website</p>
+			<p class="text-muted-foreground text-sm">Enter manually or parse from a website</p>
 		</div>
 	</div>
 
@@ -140,7 +140,7 @@
 					placeholder={dimensionPlaceholders.height}
 					class="pr-12"
 				/>
-				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
 					{unitLabel}
 				</span>
 			</div>
@@ -158,7 +158,7 @@
 					placeholder={dimensionPlaceholders.width}
 					class="pr-12"
 				/>
-				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
 					{unitLabel}
 				</span>
 			</div>
@@ -176,7 +176,7 @@
 					placeholder={dimensionPlaceholders.depth}
 					class="pr-12"
 				/>
-				<span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
 					{unitLabel}
 				</span>
 			</div>
@@ -185,7 +185,7 @@
 			<Label>Units</Label>
 			<div
 				data-tour-id="measurement-system-select"
-				class="flex w-full items-center gap-2 bg-card py-1"
+				class="bg-card flex w-full items-center gap-2 py-1"
 			>
 				<Button
 					variant={measurementSystem === MeasurementSystems.Metric ? 'default' : 'outline'}
@@ -217,7 +217,7 @@
 		</div>
 	</div>
 
-	<p class="mb-3 mt-3 text-center text-sm font-medium text-card-foreground/80">
+	<p class="text-card-foreground/80 mt-3 mb-3 text-center text-sm font-medium">
 		Don't worry about the order - we'll find the best fit
 	</p>
 
@@ -240,7 +240,7 @@
 						step={flexibilityStep}
 					/>
 				</div>
-				<p class="text-sm text-primary">Adjust for how much your bag can be squeezed to fit</p>
+				<p class="text-primary text-sm">Adjust for how much your bag can be squeezed to fit</p>
 			</div>
 		{/if}
 	</div>
