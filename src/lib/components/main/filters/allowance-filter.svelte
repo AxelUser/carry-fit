@@ -10,9 +10,8 @@
 	import FilterCombobox from './filter-combobox.svelte';
 	import { cn } from '$lib/utils/ui';
 	import { SvelteSet } from 'svelte/reactivity';
-	import { dev } from '$app/environment';
 
-	const MAX_VISIBLE_FILTERS = dev ? 2 : 16;
+	const MAX_VISIBLE_FILTERS = 16;
 
 	type FilterMode = 'regions' | 'airlines';
 
@@ -92,6 +91,7 @@
 		} else {
 			selectedAirlines.clear();
 		}
+		showAllDialogOpen = false;
 	}
 
 	function removeFilter(filter: string) {
@@ -138,18 +138,31 @@
 			<div class="grid gap-4 md:grid-cols-2">
 				{#snippet filterCard(mode: FilterMode, title: string, count: number, total: number)}
 					{@const isSelected = filterMode === mode}
-					<button
+					<div
+						role="button"
+						tabindex="0"
 						class={cn(
-							'group rounded-lg border-2 p-4 text-left transition-colors',
+							'group cursor-pointer rounded-lg border-2 p-4 text-left transition-colors',
 							isSelected
 								? 'border-primary bg-primary/5'
 								: 'border-border bg-background hover:border-muted-foreground/50'
 						)}
-						onclick={() => (filterMode = mode)}
+						onclick={() => {
+							filterMode = mode;
+						}}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								filterMode = mode;
+							}
+						}}
 					>
 						<div class="space-y-3">
 							<h3
-								class={cn('font-medium', isSelected ? 'text-foreground' : 'text-muted-foreground')}
+								class={cn(
+									'text-base font-medium',
+									isSelected ? 'text-foreground' : 'text-muted-foreground'
+								)}
 							>
 								{title}
 							</h3>
@@ -184,7 +197,7 @@
 								/>
 							{/if}
 						</div>
-					</button>
+					</div>
 				{/snippet}
 
 				{@render filterCard('regions', 'By Regions', regionSelectionCount, allRegions.length)}
@@ -197,19 +210,24 @@
 			</div>
 
 			{#if activeFilters.length > 0}
-				<div class="border-primary bg-primary/5 rounded-lg border p-4">
+				<div
+					class="border-primary bg-primary/5 rounded-lg border p-4"
+					data-testid="current-filters"
+				>
 					<div class="mb-3 flex items-center justify-between">
 						<h4 class="font-medium">Current Filters</h4>
 						<Button variant="ghost" size="sm" onclick={clearAllFilters}>Clear all</Button>
 					</div>
 					<div class="flex flex-wrap items-end gap-2">
 						{#each visibleFilters as filter}
-							<Badge class="gap-1 pr-1 text-sm">
+							<Badge class="gap-1 pr-1 text-sm" data-testid="filter-chip" data-filter-name={filter}>
 								<span>{filter}</span>
 								<button
 									class="hover:bg-secondary-foreground/20 rounded-full p-0.5 transition-colors"
 									onclick={() => removeFilter(filter)}
 									aria-label="Remove {filter}"
+									data-testid="filter-chip-remove"
+									data-filter-name={filter}
 								>
 									<X class="size-3" />
 								</button>
