@@ -36,6 +36,14 @@ export const onboardingTour: Tour = {
 			}
 		},
 		{
+			element: '[data-tour-id="allowance-filter"]',
+			popover: {
+				title: 'Filter Airlines',
+				description:
+					'Filter airlines by regions or individual airlines to check compliance. Select specific regions or airlines to see only those in the results below.'
+			}
+		},
+		{
 			element: '[data-tour-id="search-input"]',
 			popover: {
 				title: 'Quick Airline Search',

@@ -134,7 +134,7 @@
 	}
 </script>
 
-<Card.Root>
+<Card.Root data-tour-id="allowance-filter">
 	<Card.Header>
 		<Card.Title>Filters</Card.Title>
 		<Card.Description>
