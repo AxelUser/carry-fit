@@ -166,24 +166,20 @@
 								<FilterCombobox
 									items={allRegions}
 									bind:selectedItems={selectedRegions}
-									placeholder="region"
 									searchPlaceholder="Search regions..."
-									allSelectedText="All Regions"
 									itemLabel={(item) => item}
 									getTriggerText={(selectedCount, isAllSelected) =>
-										getTriggerText(selectedCount, isAllSelected, 'regions', 'All Regions')}
+										getTriggerText(selectedCount, isAllSelected, 'regions', 'All regions')}
 									disabled={!isSelected}
 								/>
 							{:else}
 								<FilterCombobox
 									items={allAirlineNames}
 									bind:selectedItems={selectedAirlines}
-									placeholder="airline"
 									searchPlaceholder="Search airlines..."
-									allSelectedText="All Airlines"
 									itemLabel={(item) => item}
 									getTriggerText={(selectedCount, isAllSelected) =>
-										getTriggerText(selectedCount, isAllSelected, 'airlines', 'All Airlines')}
+										getTriggerText(selectedCount, isAllSelected, 'airlines', 'All airlines')}
 									disabled={!isSelected}
 								/>
 							{/if}
