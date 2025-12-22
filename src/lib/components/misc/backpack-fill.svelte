@@ -82,21 +82,30 @@
 		}
 	}
 
-	$effect(() => {
-		if (typeof window !== 'undefined') {
-			window.addEventListener('mousemove', handlePointerMove);
-			window.addEventListener('mouseup', handlePointerUp);
-			window.addEventListener('touchmove', handlePointerMove);
-			window.addEventListener('touchend', handlePointerUp);
+	function pointerDragAction(node: HTMLElement) {
+		// Touch events are passive by default in Svelte 5
+		// see https://svelte.dev/docs/svelte/v5-migration-guide#Breaking-changes-in-runes-mode-Touch-and-wheel-events-are-passive
+		const touchStartOptions = { passive: false };
+		const touchMoveOptions = { passive: false };
 
-			return () => {
+		node.addEventListener('mousedown', handlePointerDown);
+		node.addEventListener('touchstart', handlePointerDown, touchStartOptions);
+		window.addEventListener('mousemove', handlePointerMove);
+		window.addEventListener('mouseup', handlePointerUp);
+		window.addEventListener('touchmove', handlePointerMove, touchMoveOptions);
+		window.addEventListener('touchend', handlePointerUp);
+
+		return {
+			destroy() {
+				node.removeEventListener('mousedown', handlePointerDown);
+				node.removeEventListener('touchstart', handlePointerDown);
 				window.removeEventListener('mousemove', handlePointerMove);
 				window.removeEventListener('mouseup', handlePointerUp);
 				window.removeEventListener('touchmove', handlePointerMove);
 				window.removeEventListener('touchend', handlePointerUp);
-			};
-		}
-	});
+			}
+		};
+	}
 
 	// Ensure fill percentage stays within bounds when changed externally
 	$effect(() => {
@@ -109,8 +118,7 @@
 <div class="relative mx-auto flex h-[150px] w-full max-w-[200px] items-center justify-center">
 	<div
 		class="relative block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
-		onmousedown={handlePointerDown}
-		ontouchstart={handlePointerDown}
+		use:pointerDragAction
 		role="slider"
 		tabindex={0}
 		aria-valuemin={FLEXIBILITY_MIN_FILL_PERCENTAGE}
