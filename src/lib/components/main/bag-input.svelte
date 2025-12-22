@@ -216,7 +216,7 @@
 		Don't worry about the order - we'll find the best fit
 	</p>
 
-	<div class="mt-2">
+	<div class="mt-4">
 		<div class="flex items-center gap-2">
 			<Checkbox id="flexibility" bind:checked={showFlexibility} />
 			<Label for="flexibility">Soft bag? Get more accurate airline matches</Label>
@@ -230,9 +230,12 @@
 						fillPercentage = p;
 					}}
 				/>
-				<p class="text-primary text-sm">
-					How much space do you leave? More space = more flexibility to fit sizers
-				</p>
+				<div class="flex max-w-sm flex-col items-center gap-2 text-center">
+					<p class="text-primary text-base font-bold">How full is your bag usually?</p>
+					<p class="text-muted-foreground text-sm">
+						Slide the backpack up or down to have better chances to squeeze in the sizer.
+					</p>
+				</div>
 			</div>
 		{/if}
 	</div>
