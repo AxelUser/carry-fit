@@ -61,45 +61,60 @@ describe('Bag Validator', () => {
 	});
 
 	describe('Flexibility handling', () => {
-		describe('Per dimension measurements with flexibility', () => {
-			it('should pass when single dimension exceeds within flexibility', () => {
-				// 2cm over in one dimension
+		describe('Per dimension measurements with per-dimension budgets', () => {
+			it('should pass when single dimension exceeds within its budget', () => {
+				// Bag is 2cm over in largest dimension, 3cm budget available
+				const budgets = descDimensions([3, 3, 3]);
 				expect(
-					checkCompliance(descDimensions([56, 35, 23]), descDimensions([58, 35, 23]), 3)
+					checkCompliance(descDimensions([56, 35, 23]), descDimensions([58, 35, 23]), budgets)
 				).toEqual([pass, pass, pass]);
 			});
 
-			it('should pass when multiple dimensions exceed within total flexibility', () => {
-				// 1cm over in two dimensions (2cm total)
+			it('should pass when each dimension exceeds within its own budget', () => {
+				// Bag is 1cm over in two dimensions, each has 2cm budget
+				const budgets = descDimensions([2, 2, 2]);
 				expect(
-					checkCompliance(descDimensions([56, 36, 23]), descDimensions([57, 37, 23]), 3)
+					checkCompliance(descDimensions([56, 36, 23]), descDimensions([57, 37, 23]), budgets)
 				).toEqual([pass, pass, pass]);
 			});
 
-			it('should fail for one dimension exceeding total flexibility', () => {
-				// 2cm + 2cm + 1cm = 5cm total over, flexibility consumed by first dim
-				expect(
-					checkCompliance(descDimensions([56, 36, 23]), descDimensions([58, 38, 24]), 3)
-				).toEqual([pass, fail(2), pass]);
+			it('should fail when dimension exceeds its own budget', () => {
+				// Bag is 2cm over in largest dimension, but only 1cm budget available
+				const airlineDims = descDimensions([56, 36, 23]);
+				const bagDims = descDimensions([58, 36, 23]);
+				const budgets = descDimensions([1, 1, 1]);
+				const result = checkCompliance(airlineDims, bagDims, budgets);
+				expect(result).toEqual([fail(2), pass, pass]);
 			});
 
-			it('should handle flexibility of 0', () => {
-				// 1cm over in one dimension
+			it('should handle per-dimension budgets independently', () => {
+				// Largest dimension has 5cm budget (passes), middle has 2cm budget (fails with 3cm excess)
+				const budgets = descDimensions([5, 2, 1]);
 				expect(
-					checkCompliance(descDimensions([56, 36, 23]), descDimensions([57, 36, 23]), 0)
+					checkCompliance(descDimensions([56, 36, 23]), descDimensions([59, 39, 23]), budgets)
+				).toEqual([pass, fail(3), pass]);
+			});
+
+			it('should handle budgets of 0', () => {
+				// Bag is 1cm over in one dimension, no budget available
+				const budgets = descDimensions([0, 0, 0]);
+				expect(
+					checkCompliance(descDimensions([56, 36, 23]), descDimensions([57, 36, 23]), budgets)
 				).toEqual([fail(1), pass, pass]);
 			});
 		});
 
 		describe('Total size limit with flexibility', () => {
-			it('should pass when total size exceeds within flexibility', () => {
-				// 116 total, 1 over
-				expect(checkCompliance(115, descDimensions([50, 40, 26]), 2)).toEqual([pass]);
+			it('should pass when total size exceeds within total flexibility', () => {
+				// Total size is 1cm over limit, total budget is 2cm
+				const budgets = descDimensions([1, 1, 0]);
+				expect(checkCompliance(115, descDimensions([50, 40, 26]), budgets)).toEqual([pass]);
 			});
 
-			it('should fail when total size exceeds flexibility', () => {
-				// 118 total, 3 over
-				expect(checkCompliance(115, descDimensions([50, 40, 28]), 2)).toEqual([fail(3)]);
+			it('should fail when total size exceeds total flexibility', () => {
+				// Total size is 3cm over limit, total budget is 2cm
+				const budgets = descDimensions([1, 1, 0]);
+				expect(checkCompliance(115, descDimensions([50, 40, 28]), budgets)).toEqual([fail(3)]);
 			});
 		});
 	});

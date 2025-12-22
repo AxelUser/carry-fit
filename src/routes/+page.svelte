@@ -1,7 +1,18 @@
 <script lang="ts">
 	import { CarryFitIcon } from '$lib/components/icons';
-	import { loadData, computeAirlinesCompliance } from '$lib/allowances';
-	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
+	import {
+		loadData,
+		computeAirlinesCompliance,
+		calculateComplianceScore,
+		findNearestOptimalFillLevel
+	} from '$lib/allowances';
+	import { calculateFlexibility } from '$lib/allowances/flexibility';
+	import {
+		type UserDimensions,
+		type MeasurementSystem,
+		MeasurementSystems,
+		type SortedDimensions
+	} from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy } from 'svelte';
 	import preferences from '$lib/stores/preferences';
@@ -19,17 +30,6 @@
 	import * as Card from '$lib/components/ui/card';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
-
-	const FLEXIBILITY_CONFIG = {
-		metric: {
-			max: 8,
-			step: 0.5
-		},
-		imperial: {
-			max: 3,
-			step: 0.25
-		}
-	};
 
 	const allAirlines = loadData();
 
@@ -82,13 +82,18 @@
 		preferences.measurementSystem = sharedBagInfo.measurementSystem;
 	}
 
-	let flexibility = $state(0);
+	let fillPercentage = $state(100);
 	let showFlexibility = $state(false);
 
 	$effect(() => {
 		if (!showFlexibility) {
-			flexibility = 0;
+			fillPercentage = 100;
 		}
+	});
+
+	const flexibilityBudgets = $derived.by(() => {
+		if (!showFlexibility) return [0, 0, 0] as SortedDimensions;
+		return calculateFlexibility(userDimensions, fillPercentage);
 	});
 
 	let filteredAirlines = $state(allAirlines);
@@ -98,16 +103,12 @@
 			filteredAirlines,
 			userDimensions,
 			preferences.measurementSystem,
-			flexibility
+			flexibilityBudgets
 		)
 	);
 
 	const carryOnScore = $derived.by(() => {
-		if (airlinesWithCompliance.length === 0) return 0;
-		const compliantCount = airlinesWithCompliance.reduce((count, airline) => {
-			return count + (airline.complianceResults.every((result) => result.passed) ? 1 : 0);
-		}, 0);
-		return (compliantCount / airlinesWithCompliance.length) * 100;
+		return calculateComplianceScore(airlinesWithCompliance);
 	});
 
 	const personalItemScore = $derived.by(() => {
@@ -120,15 +121,35 @@
 		return (compliantCount / airlinesWithCompliance.length) * 100;
 	});
 
+	const suggestion = $derived.by(() => {
+		if (airlinesWithCompliance.length === 0) {
+			return null;
+		}
+		const currentFill = showFlexibility ? fillPercentage : 100;
+		return findNearestOptimalFillLevel(
+			airlinesWithCompliance,
+			userDimensions,
+			preferences.measurementSystem,
+			currentFill
+		);
+	});
+
+	function handleApplySuggestion(suggestedFillPercentage: number) {
+		showFlexibility = true;
+		fillPercentage = suggestedFillPercentage;
+	}
+
 	$effect(() => {
 		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
+			const totalFlexibility = flexibilityBudgets.reduce((acc, curr) => acc + curr, 0);
 			metrics.userBagValidated(
 				userDimensions.depth,
 				userDimensions.width,
 				userDimensions.height,
 				preferences.measurementSystem,
 				showFlexibility,
-				flexibility
+				totalFlexibility,
+				fillPercentage
 			);
 		}
 	});
@@ -179,9 +200,7 @@
 					bind:userDimensions
 					bind:measurementSystem={preferences.measurementSystem}
 					bind:showFlexibility
-					bind:flexibility
-					flexibilityMaxValue={FLEXIBILITY_CONFIG[preferences.measurementSystem].max}
-					flexibilityStep={FLEXIBILITY_CONFIG[preferences.measurementSystem].step}
+					bind:fillPercentage
 					onChanged={() => {
 						clearSharedBagInfo();
 					}}
@@ -195,6 +214,8 @@
 							airlinesCount={airlinesWithCompliance.length}
 							{userDimensions}
 							measurementSystem={preferences.measurementSystem}
+							{suggestion}
+							onApplySuggestion={handleApplySuggestion}
 						/>
 					</div>
 				{/if}

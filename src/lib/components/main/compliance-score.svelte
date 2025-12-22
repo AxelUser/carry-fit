@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getScoreVisual, DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
+	import { getScoreVisual, DEFAULT_PERSONAL_ITEM, type FillSuggestion } from '$lib/allowances';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
 
@@ -13,6 +14,8 @@
 		airlinesCount: number;
 		userDimensions: UserDimensions;
 		measurementSystem: MeasurementSystem;
+		suggestion?: FillSuggestion | null;
+		onApplySuggestion?: (fillPercentage: number) => void;
 	}
 
 	let {
@@ -21,7 +24,9 @@
 		showBackground = true,
 		airlinesCount,
 		userDimensions,
-		measurementSystem
+		measurementSystem,
+		suggestion,
+		onApplySuggestion
 	}: Props = $props();
 
 	const visual = $derived(getScoreVisual(carryOnScore, personalItemScore));
@@ -274,6 +279,24 @@
 				</Dialog.Content>
 			</Dialog.Root>
 		</div>
+
+		{#if suggestion}
+			<div class="border-primary/20 bg-primary/5 mt-6 rounded-lg border p-4">
+				<p class="text-foreground mb-3 text-sm">
+					If you usually pack to about <strong>{suggestion.fillPercentage}%</strong>, your bag fit
+					score will be <strong>{suggestion.complianceScore.toFixed(0)}%</strong>
+				</p>
+				{#if onApplySuggestion}
+					<Button
+						onclick={() => onApplySuggestion(suggestion.fillPercentage)}
+						class="w-full"
+						variant="default"
+					>
+						Apply Suggestion
+					</Button>
+				{/if}
+			</div>
+		{/if}
 	</div>
 </div>
 

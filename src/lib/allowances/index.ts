@@ -1,6 +1,16 @@
-export { checkCompliance, computeAirlinesCompliance } from './bag-validation';
+export {
+	checkCompliance,
+	computeAirlinesCompliance,
+	calculateComplianceScore
+} from './bag-validation';
 export { loadData } from './loader';
 export { getScoreVisual } from './scoring-messages';
+export { findNearestOptimalFillLevel, type FillSuggestion } from './suggestions';
+export {
+	FLEXIBILITY_MIN_FILL_PERCENTAGE,
+	FLEXIBILITY_MAX_FILL_PERCENTAGE,
+	FLEXIBILITY_STEP_PERCENTAGE
+} from './flexibility';
 import { type BagAllowanceDimensions } from '$lib/types';
 import { descDimensions } from '$lib/utils/dimensions';
 

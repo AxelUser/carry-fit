@@ -21,20 +21,12 @@
 				options: Object.values(MeasurementSystems)
 			},
 			showFlexibility: {
-				description: 'Whether to show the flexibility slider',
+				description: 'Whether to show the fill percentage control',
 				control: 'boolean'
 			},
-			flexibility: {
-				description: 'The amount of flexibility',
-				control: 'number'
-			},
-			flexibilityMaxValue: {
-				description: 'Maximum value for flexibility slider',
-				control: 'number'
-			},
-			flexibilityStep: {
-				description: 'Step value for flexibility slider',
-				control: 'number'
+			fillPercentage: {
+				description: 'The fill percentage (70-100)',
+				control: { type: 'number', min: 70, max: 100, step: 5 }
 			},
 			onChanged: {
 				description: 'Callback function when any value changes',
@@ -54,9 +46,7 @@
 		},
 		measurementSystem: MeasurementSystems.Metric,
 		showFlexibility: false,
-		flexibility: 0,
-		flexibilityMaxValue: 10,
-		flexibilityStep: 1
+		fillPercentage: 100
 	}}
 />
 
@@ -70,14 +60,12 @@
 		},
 		measurementSystem: MeasurementSystems.Metric,
 		showFlexibility: false,
-		flexibility: 0,
-		flexibilityMaxValue: 10,
-		flexibilityStep: 1
+		fillPercentage: 100
 	}}
 />
 
 <Story
-	name="With Flexibility"
+	name="With Fill Percentage"
 	args={{
 		userDimensions: {
 			width: 35,
@@ -86,8 +74,6 @@
 		},
 		measurementSystem: MeasurementSystems.Metric,
 		showFlexibility: true,
-		flexibility: 5,
-		flexibilityMaxValue: 10,
-		flexibilityStep: 1
+		fillPercentage: 80
 	}}
 />

@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
-	import { ShareBagLink, FlexibleSuitcase } from '$lib/components/misc';
+	import { ShareBagLink, BackpackFill } from '$lib/components/misc';
 	import { Label } from '../ui/label';
 	import { Input } from '../ui/input';
 	import { Checkbox } from '../ui/checkbox';
-	import { Slider } from '../ui/slider';
 	import { Button } from '../ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
 
@@ -13,9 +12,7 @@
 		userDimensions: UserDimensions;
 		measurementSystem: MeasurementSystem;
 		showFlexibility: boolean;
-		flexibility: number;
-		flexibilityMaxValue: number;
-		flexibilityStep: number;
+		fillPercentage: number;
 		onChanged: () => void;
 	}
 
@@ -23,9 +20,7 @@
 		userDimensions = $bindable(),
 		measurementSystem = $bindable(),
 		showFlexibility = $bindable(),
-		flexibility = $bindable(),
-		flexibilityMaxValue,
-		flexibilityStep,
+		fillPercentage = $bindable(),
 		onChanged
 	}: Props = $props();
 
@@ -95,7 +90,7 @@
 		userDimensions.width = 0;
 		userDimensions.height = 0;
 		showFlexibility = false;
-		flexibility = 0;
+		fillPercentage = 100;
 	}
 
 	function handlePastedDimensions(dimensions: UserDimensions) {
@@ -224,23 +219,20 @@
 	<div class="mt-2">
 		<div class="flex items-center gap-2">
 			<Checkbox id="flexibility" bind:checked={showFlexibility} />
-			<Label for="flexibility">My Bag is Flexible</Label>
+			<Label for="flexibility">Soft bag? Get more accurate airline matches</Label>
 		</div>
 
 		{#if showFlexibility}
 			<div class="mt-3 flex flex-col items-center gap-4 px-2">
-				<FlexibleSuitcase value={flexibility} {measurementSystem} max={flexibilityMaxValue} />
-				<div class="mx-auto w-full max-w-[360px]">
-					<Slider
-						class="w-full"
-						type="single"
-						bind:value={flexibility}
-						min={0}
-						max={flexibilityMaxValue}
-						step={flexibilityStep}
-					/>
-				</div>
-				<p class="text-primary text-sm">Adjust for how much your bag can be squeezed to fit</p>
+				<BackpackFill
+					bind:fillPercentage
+					onFillPercentageChange={(p) => {
+						fillPercentage = p;
+					}}
+				/>
+				<p class="text-primary text-sm">
+					How much space do you leave? More space = more flexibility to fit sizers
+				</p>
 			</div>
 		{/if}
 	</div>
