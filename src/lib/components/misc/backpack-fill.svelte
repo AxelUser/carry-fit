@@ -137,7 +137,7 @@
 		/>
 
 		<div
-			class="mask-overlay bg-primary pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
+			class="mask-overlay bg-primary pointer-events-none absolute inset-0 z-0 opacity-60 mix-blend-multiply"
 		></div>
 
 		<div class="indicator-line pointer-events-none absolute right-0 left-0 z-10">
