@@ -60,7 +60,7 @@ export function computeAirlinesCompliance(
 	airlines: AirlineInfo[],
 	userDimensions: UserDimensions,
 	measurementSystem: MeasurementSystem,
-	flexibilityBudgets: SortedDimensions
+	flexibilityBudgets?: SortedDimensions
 ): AirlineCompliance[] {
 	if (userDimensions.depth === 0 || userDimensions.width === 0 || userDimensions.height === 0) {
 		return [];
@@ -106,10 +106,18 @@ export function computeAirlinesCompliance(
 	});
 }
 
-export function calculateComplianceScore(airlines: AirlineCompliance[]): number {
+export function calculateComplianceScore(
+	airlines: AirlineCompliance[],
+	bagType: 'carryOn' | 'personalItem'
+): number {
 	if (airlines.length === 0) return 0;
-	const compliantCount = airlines.reduce((count, airline) => {
-		return count + (airline.complianceResults.every((result) => result.passed) ? 1 : 0);
-	}, 0);
+
+	const bagPassedFunc =
+		bagType === 'carryOn'
+			? (airline: AirlineCompliance) => airline.complianceResults.every((result) => result.passed)
+			: (airline: AirlineCompliance) =>
+					airline.personalItemComplianceResults?.every((result) => result.passed) ?? false;
+
+	const compliantCount = airlines.filter(bagPassedFunc).length;
 	return (compliantCount / airlines.length) * 100;
 }

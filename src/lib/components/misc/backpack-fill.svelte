@@ -103,54 +103,36 @@
 		fillPercentage = clampFillPercentage(fillPercentage);
 	});
 
-	// Convert fill percentage to pixel position from top (100% = empty/top, 0% = full/bottom)
 	const fillPosition = $derived(imageHeight > 0 ? (imageHeight * (100 - fillPercentage)) / 100 : 0);
-	// Create mask gradient that reveals content from top down to the fill position
-	const maskGradient = $derived(
-		imageHeight > 0
-			? `linear-gradient(to bottom, transparent ${fillPosition}px, black ${fillPosition}px)`
-			: undefined
-	);
-
-	const maskStyle = $derived(
-		imageHeight > 0
-			? `mask-image: url('${BACKPACK_IMAGE_PATH}'), ${maskGradient}; mask-composite: intersect; -webkit-mask-composite: source-in; mask-size: contain; mask-repeat: no-repeat; mask-position: center;`
-			: undefined
-	);
 </script>
 
 <div class="relative mx-auto flex h-[150px] w-full max-w-[200px] items-center justify-center">
-	<div class="relative flex h-full w-auto items-center justify-center">
-		<div
-			class="relative block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
-			onmousedown={handlePointerDown}
-			ontouchstart={handlePointerDown}
-			role="slider"
-			tabindex={0}
-			aria-valuemin={FLEXIBILITY_MIN_FILL_PERCENTAGE}
-			aria-valuemax={FLEXIBILITY_MAX_FILL_PERCENTAGE}
-			aria-valuenow={fillPercentage}
-			aria-label="Fill percentage"
-		>
-			<img
-				bind:this={imageEl}
-				src={BACKPACK_IMAGE_PATH}
-				alt="Backpack fill visualization"
-				class="h-full w-auto object-contain"
-				draggable="false"
-				onload={handleImageLoad}
-			/>
-		</div>
+	<div
+		class="relative block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
+		onmousedown={handlePointerDown}
+		ontouchstart={handlePointerDown}
+		role="slider"
+		tabindex={0}
+		aria-valuemin={FLEXIBILITY_MIN_FILL_PERCENTAGE}
+		aria-valuemax={FLEXIBILITY_MAX_FILL_PERCENTAGE}
+		aria-valuenow={fillPercentage}
+		aria-label="Fill percentage"
+		style="--fill-position: {fillPosition}px;"
+	>
+		<img
+			bind:this={imageEl}
+			src={BACKPACK_IMAGE_PATH}
+			alt="Backpack fill visualization"
+			class="h-full w-auto object-contain"
+			draggable="false"
+			onload={handleImageLoad}
+		/>
 
 		<div
-			class="bg-primary pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
-			style={maskStyle}
+			class="mask-overlay bg-primary pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-multiply"
 		></div>
 
-		<div
-			class="pointer-events-none absolute right-0 left-0 z-10"
-			style="top: {fillPosition}px; height: 2px; transform: translateY(-1px);"
-		>
+		<div class="indicator-line pointer-events-none absolute right-0 left-0 z-10">
 			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 				<div
 					class="bg-card border-primary flex items-center justify-center rounded-md border px-2 py-1 shadow-sm"
@@ -161,3 +143,22 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.mask-overlay {
+		mask-image:
+			url('/backpack/backpack-fill.png'),
+			linear-gradient(to bottom, transparent var(--fill-position), black var(--fill-position));
+		mask-composite: intersect;
+		-webkit-mask-composite: source-in;
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+	}
+
+	.indicator-line {
+		top: var(--fill-position);
+		height: 2px;
+		transform: translateY(-1px);
+	}
+</style>

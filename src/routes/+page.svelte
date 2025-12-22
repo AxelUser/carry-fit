@@ -7,14 +7,9 @@
 		findNearestOptimalFillLevel
 	} from '$lib/allowances';
 	import { calculateFlexibility } from '$lib/allowances/flexibility';
-	import {
-		type UserDimensions,
-		type MeasurementSystem,
-		MeasurementSystems,
-		type SortedDimensions
-	} from '$lib/types';
+	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import preferences from '$lib/stores/preferences';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -84,6 +79,7 @@
 
 	let fillPercentage = $state(100);
 	let showFlexibility = $state(false);
+	let hasAppliedSuggestion = $state(false);
 
 	$effect(() => {
 		if (!showFlexibility) {
@@ -91,10 +87,9 @@
 		}
 	});
 
-	const flexibilityBudgets = $derived.by(() => {
-		if (!showFlexibility) return [0, 0, 0] as SortedDimensions;
-		return calculateFlexibility(userDimensions, fillPercentage);
-	});
+	const flexibilityBudgets = $derived(
+		showFlexibility ? calculateFlexibility(userDimensions, fillPercentage) : undefined
+	);
 
 	let filteredAirlines = $state(allAirlines);
 
@@ -107,50 +102,47 @@
 		)
 	);
 
-	const carryOnScore = $derived.by(() => {
-		return calculateComplianceScore(airlinesWithCompliance);
-	});
+	const carryOnScore = $derived(calculateComplianceScore(airlinesWithCompliance, 'carryOn'));
 
-	const personalItemScore = $derived.by(() => {
-		if (airlinesWithCompliance.length === 0) return 0;
-		const compliantCount = airlinesWithCompliance.reduce((count, airline) => {
-			return (
-				count + (airline.personalItemComplianceResults?.every((result) => result.passed) ? 1 : 0)
-			);
-		}, 0);
-		return (compliantCount / airlinesWithCompliance.length) * 100;
-	});
+	const personalItemScore = $derived(
+		calculateComplianceScore(airlinesWithCompliance, 'personalItem')
+	);
 
 	const suggestion = $derived.by(() => {
-		if (airlinesWithCompliance.length === 0) {
+		if (airlinesWithCompliance.length === 0 || hasAppliedSuggestion) {
 			return null;
 		}
-		const currentFill = showFlexibility ? fillPercentage : 100;
+
 		return findNearestOptimalFillLevel(
 			airlinesWithCompliance,
 			userDimensions,
 			preferences.measurementSystem,
-			currentFill
+			fillPercentage
 		);
 	});
 
 	function handleApplySuggestion(suggestedFillPercentage: number) {
 		showFlexibility = true;
 		fillPercentage = suggestedFillPercentage;
+		hasAppliedSuggestion = true;
 	}
 
+	// Effect for user bag dimensions change
 	$effect(() => {
 		if (userDimensions.depth > 0 && userDimensions.width > 0 && userDimensions.height > 0) {
-			const totalFlexibility = flexibilityBudgets.reduce((acc, curr) => acc + curr, 0);
-			metrics.userBagValidated(
-				userDimensions.depth,
-				userDimensions.width,
-				userDimensions.height,
-				preferences.measurementSystem,
-				showFlexibility,
-				totalFlexibility,
-				fillPercentage
-			);
+			hasAppliedSuggestion = false;
+			untrack(() => {
+				const totalFlexibility = flexibilityBudgets?.reduce((acc, curr) => acc + curr, 0) ?? 0;
+				metrics.userBagValidated(
+					userDimensions.depth,
+					userDimensions.width,
+					userDimensions.height,
+					preferences.measurementSystem,
+					showFlexibility,
+					totalFlexibility,
+					fillPercentage
+				);
+			});
 		}
 	});
 

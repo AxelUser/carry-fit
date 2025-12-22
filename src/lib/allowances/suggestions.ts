@@ -50,7 +50,7 @@ export function findNearestOptimalFillLevel(
 		return null;
 	}
 
-	const baselineScore = calculateComplianceScore(baselineCompliance);
+	const baselineScore = calculateComplianceScore(baselineCompliance, 'carryOn');
 
 	for (
 		let fill = currentFillPercentage;
@@ -66,7 +66,7 @@ export function findNearestOptimalFillLevel(
 			measurementSystem,
 			budgets
 		);
-		const score = calculateComplianceScore(compliance);
+		const score = calculateComplianceScore(compliance, 'carryOn');
 
 		const improvement = score - baselineScore;
 

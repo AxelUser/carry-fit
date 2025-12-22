@@ -281,17 +281,13 @@
 		</div>
 
 		{#if suggestion}
-			<div class="border-primary/20 bg-primary/5 mt-6 rounded-lg border p-4">
-				<p class="text-foreground mb-3 text-sm">
-					If you usually pack to about <strong>{suggestion.fillPercentage}%</strong>, your bag fit
-					score will be <strong>{suggestion.complianceScore.toFixed(0)}%</strong>
+			<div class="border-primary/40 bg-primary/10 mt-4 rounded-lg border p-3">
+				<p class="text-foreground mb-2 text-sm">
+					Got a soft bag that compacts? Packing it to <strong>{suggestion.fillPercentage}%</strong>
+					could boost your score to <strong>{suggestion.complianceScore.toFixed(0)}%</strong>!
 				</p>
 				{#if onApplySuggestion}
-					<Button
-						onclick={() => onApplySuggestion(suggestion.fillPercentage)}
-						class="w-full"
-						variant="default"
-					>
+					<Button onclick={() => onApplySuggestion(suggestion.fillPercentage)} variant="link">
 						Apply Suggestion
 					</Button>
 				{/if}
