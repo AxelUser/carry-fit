@@ -2,6 +2,11 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { BagInput } from '$lib/components/main';
 	import { MeasurementSystems } from '$lib/types';
+	import {
+		FLEXIBILITY_MIN_FILL_PERCENTAGE,
+		FLEXIBILITY_MAX_FILL_PERCENTAGE,
+		FLEXIBILITY_STEP_PERCENTAGE
+	} from '$lib/allowances/flexibility';
 
 	const { Story } = defineMeta({
 		title: 'Main/BagInput',
@@ -25,8 +30,13 @@
 				control: 'boolean'
 			},
 			fillPercentage: {
-				description: 'The fill percentage (70-100)',
-				control: { type: 'number', min: 70, max: 100, step: 5 }
+				description: `The fill percentage (${FLEXIBILITY_MIN_FILL_PERCENTAGE}-${FLEXIBILITY_MAX_FILL_PERCENTAGE})`,
+				control: {
+					type: 'number',
+					min: FLEXIBILITY_MIN_FILL_PERCENTAGE,
+					max: FLEXIBILITY_MAX_FILL_PERCENTAGE,
+					step: FLEXIBILITY_STEP_PERCENTAGE
+				}
 			},
 			onChanged: {
 				description: 'Callback function when any value changes',
