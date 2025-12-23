@@ -186,6 +186,12 @@
 		return () => stopLoop();
 	});
 
+	$effect(() => {
+		if (canvasEl && shouldAnimateBackground) {
+			resizeCanvas();
+		}
+	});
+
 	function getScoreClasses(score: number) {
 		if (score < 60) {
 			return {
