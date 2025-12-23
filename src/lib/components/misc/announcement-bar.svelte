@@ -41,7 +41,7 @@
 				<button
 					onclick={handleDismiss}
 					class="hover:bg-primary-foreground/20 absolute right-2 flex items-center justify-center rounded p-1 transition-colors sm:right-4"
-					aria-label="Dismiss announcement about new features"
+					aria-label="Dismiss announcement"
 				>
 					<X class="text-primary-foreground h-4 w-4" />
 				</button>
