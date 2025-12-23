@@ -84,6 +84,7 @@
 	$effect(() => {
 		if (!showFlexibility) {
 			fillPercentage = 100;
+			hasAppliedSuggestion = false;
 		}
 	});
 
