@@ -1,7 +1,7 @@
 import type { UserDimensions, SortedDimensions } from '$lib/types';
 import { descDimensions } from '$lib/utils/dimensions';
 
-export const FLEXIBILITY_MIN_FILL_PERCENTAGE = 70;
+export const FLEXIBILITY_MIN_FILL_PERCENTAGE = 60;
 export const FLEXIBILITY_MAX_FILL_PERCENTAGE = 100;
 export const FLEXIBILITY_STEP_PERCENTAGE = 5;
 

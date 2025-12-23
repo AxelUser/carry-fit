@@ -15,7 +15,6 @@
 
 	let imageEl = $state<HTMLImageElement | null>(null);
 	let isDragging = $state(false);
-	let imageHeight = $state(0);
 	let startFillPercentage = $state(0);
 	let startY = $state(0);
 
@@ -35,9 +34,9 @@
 	}
 
 	function updateFillFromDelta(deltaY: number) {
-		if (!imageEl || imageHeight === 0) return;
+		if (!imageEl) return;
 
-		const percentageDelta = (deltaY / imageHeight) * 100;
+		const percentageDelta = (deltaY / imageEl.offsetHeight) * 100;
 		// Dragging down increases fill (negative delta), so we subtract to increase fill percentage
 		const newFill = clampFillPercentage(startFillPercentage - percentageDelta);
 
@@ -76,12 +75,6 @@
 		isDragging = false;
 	}
 
-	function handleImageLoad() {
-		if (imageEl) {
-			imageHeight = imageEl.offsetHeight;
-		}
-	}
-
 	function pointerDragAction(node: HTMLElement) {
 		// Touch events are passive by default in Svelte 5
 		// see https://svelte.dev/docs/svelte/v5-migration-guide#Breaking-changes-in-runes-mode-Touch-and-wheel-events-are-passive
@@ -112,12 +105,14 @@
 		fillPercentage = clampFillPercentage(fillPercentage);
 	});
 
-	const fillPosition = $derived(imageHeight > 0 ? (imageHeight * (100 - fillPercentage)) / 100 : 0);
+	const fillPosition = $derived(
+		imageEl ? (imageEl.offsetHeight * (100 - fillPercentage)) / 100 : 0
+	);
 </script>
 
 <div class="relative mx-auto flex h-[150px] w-full max-w-[200px] items-center justify-center">
 	<div
-		class="relative block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
+		class="relative mt-5 block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
 		use:pointerDragAction
 		role="slider"
 		tabindex={0}
@@ -133,7 +128,6 @@
 			alt="Backpack fill visualization"
 			class="h-full w-auto object-contain"
 			draggable="false"
-			onload={handleImageLoad}
 		/>
 
 		<div
