@@ -25,7 +25,8 @@ export class Metrics {
 		height: number,
 		measurementSystem: MeasurementSystem,
 		showFlexibility: boolean,
-		flexibility: number
+		flexibility: number,
+		fillPercentage?: number
 	) {
 		const eventProps: Record<string, string | number> = {
 			user_bag_dimensions: `${depth}x${width}x${height} ${measurementSystem === MeasurementSystems.Metric ? 'cm' : 'in'}`
@@ -33,6 +34,9 @@ export class Metrics {
 
 		if (showFlexibility) {
 			eventProps.user_bag_flexibility = flexibility;
+			if (fillPercentage !== undefined) {
+				eventProps.user_bag_fill_percentage = fillPercentage;
+			}
 		}
 
 		this.provider.trackEventDebounced('user_bag_validated', eventProps, 3000);

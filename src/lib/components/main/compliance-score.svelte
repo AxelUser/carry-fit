@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getScoreVisual, DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
+	import { getScoreVisual, DEFAULT_PERSONAL_ITEM, type FillSuggestion } from '$lib/allowances';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
 
@@ -13,6 +14,8 @@
 		airlinesCount: number;
 		userDimensions: UserDimensions;
 		measurementSystem: MeasurementSystem;
+		suggestion?: FillSuggestion | null;
+		onApplySuggestion?: (fillPercentage: number) => void;
 	}
 
 	let {
@@ -21,7 +24,9 @@
 		showBackground = true,
 		airlinesCount,
 		userDimensions,
-		measurementSystem
+		measurementSystem,
+		suggestion,
+		onApplySuggestion
 	}: Props = $props();
 
 	const visual = $derived(getScoreVisual(carryOnScore, personalItemScore));
@@ -31,6 +36,7 @@
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
 	let canvasEl = $state<HTMLCanvasElement | null>(null);
+	let windowInnerWidth = $state(0);
 	const emojiSize = 56;
 	const tileStep = 88; // emoji size + gap
 	const columnRise = tileStep * 0.35;
@@ -153,8 +159,6 @@
 			reduceMotion = event.matches;
 		};
 		media.addEventListener('change', handler);
-		const resize = () => resizeCanvas();
-		window.addEventListener('resize', resize);
 
 		if (shouldAnimateBackground) {
 			startLoopIfNeeded().catch(() => {});
@@ -162,7 +166,6 @@
 
 		return () => {
 			media.removeEventListener('change', handler);
-			window.removeEventListener('resize', resize);
 			stopLoop();
 		};
 	});
@@ -179,6 +182,14 @@
 		});
 
 		return () => stopLoop();
+	});
+
+	$effect(() => {
+		windowInnerWidth;
+		suggestion;
+		if (canvasEl && shouldAnimateBackground) {
+			resizeCanvas();
+		}
 	});
 
 	function getScoreClasses(score: number) {
@@ -215,6 +226,8 @@
 			: formatDims(DEFAULT_PERSONAL_ITEM.inches, measurementSystem)
 	);
 </script>
+
+<svelte:window bind:innerWidth={windowInnerWidth} />
 
 <div
 	class="border-border bg-card relative overflow-hidden rounded-xl border-2 p-6 text-center shadow-xs"
@@ -274,6 +287,20 @@
 				</Dialog.Content>
 			</Dialog.Root>
 		</div>
+
+		{#if suggestion}
+			<div class="border-primary/40 bg-primary/10 mt-4 rounded-lg border p-3">
+				<p class="text-foreground mb-2 text-sm">
+					Got a soft bag that compacts? Packing it to <strong>{suggestion.fillPercentage}%</strong>
+					could boost your score to <strong>{suggestion.complianceScore.toFixed(0)}%</strong>!
+				</p>
+				{#if onApplySuggestion}
+					<Button onclick={() => onApplySuggestion(suggestion.fillPercentage)} variant="link">
+						Apply Suggestion
+					</Button>
+				{/if}
+			</div>
+		{/if}
 	</div>
 </div>
 

@@ -23,37 +23,32 @@ function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowan
  * Takes into account potential flexibility of soft bags.
  * @param airlineDimensions - The airline's carry-on limits. Can be size per dimension or total size.
  * @param userDimensions - The user's bag dimensions.
- * @param flexibility - Amount of flexibility in the same unit as dimensions
+ * @param flexibilityBudgets - Per-dimension flexibility budgets in the same unit as dimensions
  * @returns An array of compliance results with pass/fail status and diff for each dimension. Returns null if dimensions are empty.
  */
 export function checkCompliance(
 	airlineDimensions: DimensionValue,
 	userDimensions: SortedDimensions,
-	flexibility: number = 0
+	flexibilityBudgets?: SortedDimensions
 ): DimensionCompliance[] | undefined {
 	if (typeof airlineDimensions === 'number') {
+		const totalFlexibility = flexibilityBudgets?.reduce((acc, curr) => acc + curr, 0) ?? 0;
 		const bagSum = userDimensions.reduce((acc, curr) => acc + curr, 0);
 		const diff = bagSum - airlineDimensions;
-		const passed = diff <= flexibility;
+		const passed = diff <= totalFlexibility;
 		return [{ passed, diff: passed ? 0 : diff }];
 	}
 
-	const airlineDims = airlineDimensions;
-
-	let remainingFlexibility = flexibility;
-
-	return airlineDims.map((airlineDim, index) => {
+	return airlineDimensions.map((airlineDim, index) => {
 		const bagDim = userDimensions[index];
 		const excess = bagDim - airlineDim;
+		const budget = flexibilityBudgets?.[index] ?? 0;
 
-		// If dimension fits or we have no excess, it's compliant
 		if (excess <= 0) {
 			return { passed: true, diff: 0 };
 		}
 
-		// If we have enough flexibility to accommodate the excess
-		if (excess <= remainingFlexibility) {
-			remainingFlexibility -= excess;
+		if (excess <= budget) {
 			return { passed: true, diff: 0 };
 		}
 
@@ -65,7 +60,7 @@ export function computeAirlinesCompliance(
 	airlines: AirlineInfo[],
 	userDimensions: UserDimensions,
 	measurementSystem: MeasurementSystem,
-	flexibility: number
+	flexibilityBudgets?: SortedDimensions
 ): AirlineCompliance[] {
 	if (userDimensions.depth === 0 || userDimensions.width === 0 || userDimensions.height === 0) {
 		return [];
@@ -85,7 +80,7 @@ export function computeAirlinesCompliance(
 			);
 		}
 
-		const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibility);
+		const compliance = checkCompliance(carryOnDimensions, userDimensionsSorted, flexibilityBudgets);
 
 		const personalItemDimensions = getRelevantAirlineDimensions(
 			hasDimensions(airline.personalItem) ? airline.personalItem : DEFAULT_PERSONAL_ITEM,
@@ -100,7 +95,7 @@ export function computeAirlinesCompliance(
 		const personalItemCompliance = checkCompliance(
 			personalItemDimensions,
 			userDimensionsSorted,
-			flexibility
+			flexibilityBudgets
 		);
 
 		return {
@@ -109,4 +104,20 @@ export function computeAirlinesCompliance(
 			personalItemComplianceResults: personalItemCompliance
 		};
 	});
+}
+
+export function calculateComplianceScore(
+	airlines: AirlineCompliance[],
+	bagType: 'carryOn' | 'personalItem'
+): number {
+	if (airlines.length === 0) return 0;
+
+	const bagPassedFunc =
+		bagType === 'carryOn'
+			? (airline: AirlineCompliance) => airline.complianceResults.every((result) => result.passed)
+			: (airline: AirlineCompliance) =>
+					airline.personalItemComplianceResults?.every((result) => result.passed) ?? false;
+
+	const compliantCount = airlines.filter(bagPassedFunc).length;
+	return (compliantCount / airlines.length) * 100;
 }
