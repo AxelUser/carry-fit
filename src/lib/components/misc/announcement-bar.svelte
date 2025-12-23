@@ -1,6 +1,20 @@
 <script lang="ts">
 	import { X } from '@lucide/svelte';
 	import { createLocalStore } from '$lib/storage/local-store.svelte';
+	import { tv } from 'tailwind-variants';
+
+	const messageVariants = tv({
+		base: 'text-primary-foreground flex items-center gap-1.5 text-xs font-medium sm:text-sm',
+		variants: {
+			interactive: {
+				true: 'transition-opacity hover:opacity-90',
+				false: ''
+			}
+		},
+		defaultVariants: {
+			interactive: false
+		}
+	});
 
 	interface Props {
 		message: string;
@@ -26,17 +40,20 @@
 		<div
 			class="relative mx-auto flex max-w-[1700px] items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-2.5"
 		>
-			<span
-				class="text-primary-foreground flex items-center gap-1.5 text-xs font-medium transition-opacity hover:opacity-90 sm:text-sm"
-			>
-				{#if href}
-					<a {href} target="_blank" rel="noopener noreferrer">
-						{message}
-					</a>
-				{:else}
-					<span>{message}</span>
-				{/if}
-			</span>
+			{#if href}
+				<a
+					{href}
+					target="_blank"
+					rel="noopener noreferrer"
+					class={messageVariants({ interactive: true })}
+				>
+					{message}
+				</a>
+			{:else}
+				<span class={messageVariants({ interactive: false })}>
+					{message}
+				</span>
+			{/if}
 			{#if dismissible}
 				<button
 					onclick={handleDismiss}
