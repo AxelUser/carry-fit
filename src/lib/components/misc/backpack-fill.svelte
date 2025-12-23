@@ -75,6 +75,25 @@
 		isDragging = false;
 	}
 
+	function handleKeyDown(event: KeyboardEvent) {
+		const { key } = event;
+
+		let newFillPercentage = fillPercentage;
+
+		if (key === 'ArrowLeft' || key === 'ArrowDown') {
+			newFillPercentage = clampFillPercentage(fillPercentage - FLEXIBILITY_STEP_PERCENTAGE);
+			event.preventDefault();
+		} else if (key === 'ArrowRight' || key === 'ArrowUp') {
+			newFillPercentage = clampFillPercentage(fillPercentage + FLEXIBILITY_STEP_PERCENTAGE);
+			event.preventDefault();
+		}
+
+		if (newFillPercentage !== fillPercentage) {
+			fillPercentage = newFillPercentage;
+			onFillPercentageChange?.(newFillPercentage);
+		}
+	}
+
 	function pointerDragAction(node: HTMLElement) {
 		// Touch events are passive by default in Svelte 5
 		// see https://svelte.dev/docs/svelte/v5-migration-guide#Breaking-changes-in-runes-mode-Touch-and-wheel-events-are-passive
@@ -114,6 +133,7 @@
 	<div
 		class="relative mt-5 block h-full w-auto cursor-grab touch-none select-none active:cursor-grabbing"
 		use:pointerDragAction
+		onkeydown={handleKeyDown}
 		role="slider"
 		tabindex={0}
 		aria-valuemin={FLEXIBILITY_MIN_FILL_PERCENTAGE}
