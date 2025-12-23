@@ -36,6 +36,7 @@
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
 	let canvasEl = $state<HTMLCanvasElement | null>(null);
+	let windowInnerWidth = $state(0);
 	const emojiSize = 56;
 	const tileStep = 88; // emoji size + gap
 	const columnRise = tileStep * 0.35;
@@ -158,8 +159,6 @@
 			reduceMotion = event.matches;
 		};
 		media.addEventListener('change', handler);
-		const resize = () => resizeCanvas();
-		window.addEventListener('resize', resize);
 
 		if (shouldAnimateBackground) {
 			startLoopIfNeeded().catch(() => {});
@@ -167,7 +166,6 @@
 
 		return () => {
 			media.removeEventListener('change', handler);
-			window.removeEventListener('resize', resize);
 			stopLoop();
 		};
 	});
@@ -187,6 +185,8 @@
 	});
 
 	$effect(() => {
+		windowInnerWidth;
+		suggestion;
 		if (canvasEl && shouldAnimateBackground) {
 			resizeCanvas();
 		}
@@ -226,6 +226,8 @@
 			: formatDims(DEFAULT_PERSONAL_ITEM.inches, measurementSystem)
 	);
 </script>
+
+<svelte:window bind:innerWidth={windowInnerWidth} />
 
 <div
 	class="border-border bg-card relative overflow-hidden rounded-xl border-2 p-6 text-center shadow-xs"
