@@ -233,7 +233,7 @@
 
 <svelte:window bind:innerWidth={windowInnerWidth} />
 
-<Card.Root class="relative overflow-hidden text-center">
+<Card.Root class="relative overflow-hidden text-center" data-testid="compliance-score">
 	<Card.Content>
 		{#if shouldAnimateBackground}
 			<canvas
