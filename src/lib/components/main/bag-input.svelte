@@ -182,7 +182,7 @@
 			</div>
 		</div>
 
-		<p class="text-card-foreground/80 mt-3 mb-3 text-center text-sm font-medium">
+		<p class="text-card-foreground/50 mt-3 mb-3 text-center text-xs font-medium sm:text-sm">
 			Don't worry about the order - we'll find the best fit
 		</p>
 
