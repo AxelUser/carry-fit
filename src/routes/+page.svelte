@@ -22,7 +22,6 @@
 		Info
 	} from '$lib/components/main';
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
-	import * as Card from '$lib/components/ui/card';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
 
@@ -187,33 +186,27 @@
 			</div>
 		</div>
 
-		<Card.Root>
-			<Card.Content class="space-y-4">
-				<BagInput
-					bind:userDimensions
-					bind:measurementSystem={preferences.measurementSystem}
-					bind:showFlexibility
-					bind:fillPercentage
-					onChanged={() => {
-						clearSharedBagInfo();
-					}}
-				/>
+		<BagInput
+			bind:userDimensions
+			bind:measurementSystem={preferences.measurementSystem}
+			bind:showFlexibility
+			bind:fillPercentage
+			onChanged={() => {
+				clearSharedBagInfo();
+			}}
+		/>
 
-				{#if allDimensionsSet}
-					<div class="pt-2">
-						<ComplianceScore
-							{carryOnScore}
-							{personalItemScore}
-							airlinesCount={airlinesWithCompliance.length}
-							{userDimensions}
-							measurementSystem={preferences.measurementSystem}
-							{suggestion}
-							onApplySuggestion={handleApplySuggestion}
-						/>
-					</div>
-				{/if}
-			</Card.Content>
-		</Card.Root>
+		{#if allDimensionsSet}
+			<ComplianceScore
+				{carryOnScore}
+				{personalItemScore}
+				airlinesCount={airlinesWithCompliance.length}
+				{userDimensions}
+				measurementSystem={preferences.measurementSystem}
+				{suggestion}
+				onApplySuggestion={handleApplySuggestion}
+			/>
+		{/if}
 
 		<AllowanceFilter
 			airlines={allAirlines}

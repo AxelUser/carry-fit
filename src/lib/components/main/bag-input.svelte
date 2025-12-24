@@ -2,11 +2,13 @@
 	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
 	import { ShareBagLink, BackpackFill } from '$lib/components/misc';
-	import { Label } from '../ui/label';
-	import { Input } from '../ui/input';
-	import { Checkbox } from '../ui/checkbox';
-	import { Button } from '../ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import * as InputGroup from '$lib/components/ui/input-group';
+	import * as Card from '$lib/components/ui/card';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Button } from '$lib/components/ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
+	import { cn } from '$lib/utils/ui';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -102,141 +104,110 @@
 	}
 </script>
 
-<div class="mb-4">
-	<div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-		<div>
-			<h2 class="text-xl font-semibold sm:text-2xl">Bag Dimensions</h2>
-			<p class="text-muted-foreground text-sm">Enter manually or parse from a website</p>
-		</div>
+{#snippet bagDimensionInput(className: string, key: keyof UserDimensions)}
+	<div class={cn('flex flex-col gap-1.5', className)}>
+		<Label for={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
+		<InputGroup.Root>
+			<InputGroup.Input
+				type="text"
+				id={key}
+				value={userDimensions[key] > 0 ? `${userDimensions[key]}` : ''}
+				oninput={(e) => handleDimensionInput(key, e)}
+				inputmode="decimal"
+				autocomplete="off"
+				placeholder={dimensionPlaceholders[key]}
+				class="pr-12"
+			/>
+			<InputGroup.Addon align="inline-end">
+				{unitLabel}
+			</InputGroup.Addon>
+		</InputGroup.Root>
 	</div>
+{/snippet}
 
-	<div class="mb-3 flex flex-wrap items-center gap-2">
-		{#if allDimensionsSet}
-			<ShareBagLink {userDimensions} {measurementSystem} />
-		{/if}
-		<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
-		<Button variant="ghost" size="sm" onclick={resetDimensions} class="gap-1">
-			<Eraser class="size-4" />
-			<span>Clear</span>
-		</Button>
-	</div>
+<Card.Root>
+	<Card.Header>
+		<Card.Title>Bag Dimensions</Card.Title>
+		<Card.Description>Enter manually or parse from a website</Card.Description>
+	</Card.Header>
+	<Card.Content>
+		<div class="mb-3 flex flex-wrap items-center gap-2">
+			{#if allDimensionsSet}
+				<ShareBagLink {userDimensions} {measurementSystem} />
+			{/if}
+			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
+			<Button variant="ghost" size="sm" onclick={resetDimensions} class="gap-1">
+				<Eraser class="size-4" />
+				<span>Clear</span>
+			</Button>
+		</div>
 
-	<div data-tour-id="bag-input" class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4">
-		<div class="order-2 flex flex-col gap-1.5 sm:order-1">
-			<Label for="height">Height</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="height"
-					value={userDimensions.height > 0 ? `${userDimensions.height}` : ''}
-					oninput={(e) => handleDimensionInput('height', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.height}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
-		<div class="order-3 flex flex-col gap-1.5 sm:order-2">
-			<Label for="width">Width</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="width"
-					value={userDimensions.width > 0 ? `${userDimensions.width}` : ''}
-					oninput={(e) => handleDimensionInput('width', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.width}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
-		<div class="order-4 flex flex-col gap-1.5 sm:order-3">
-			<Label for="depth">Depth</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="depth"
-					value={userDimensions.depth > 0 ? `${userDimensions.depth}` : ''}
-					oninput={(e) => handleDimensionInput('depth', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.depth}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
-		<div class="order-1 col-span-3 flex flex-col gap-1.5 sm:order-4 sm:col-span-1">
-			<Label>Units</Label>
-			<div
-				data-tour-id="measurement-system-select"
-				class="bg-card flex w-full items-center gap-2 py-1"
-			>
-				<Button
-					variant={measurementSystem === MeasurementSystems.Metric ? 'default' : 'outline'}
-					size="sm"
-					class="flex-1 justify-center px-3"
-					onclick={() => {
-						measurementSystem = MeasurementSystems.Metric;
-						onChanged();
-					}}
-					data-testid="metric-button"
-					data-active={measurementSystem === MeasurementSystems.Metric}
+		<div data-tour-id="bag-input" class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4">
+			{@render bagDimensionInput('order-2 sm:order-1', 'height')}
+			{@render bagDimensionInput('order-3 sm:order-2', 'width')}
+			{@render bagDimensionInput('order-4 sm:order-3', 'depth')}
+			<div class="order-1 col-span-3 flex flex-col gap-1.5 sm:order-4 sm:col-span-1">
+				<Label>Units</Label>
+				<div
+					data-tour-id="measurement-system-select"
+					class="bg-card flex w-full items-center gap-2 py-1"
 				>
-					cm/kg
-				</Button>
-				<Button
-					variant={measurementSystem === MeasurementSystems.Imperial ? 'default' : 'outline'}
-					size="sm"
-					class="flex-1 justify-center px-3"
-					onclick={() => {
-						measurementSystem = MeasurementSystems.Imperial;
-						onChanged();
-					}}
-					data-testid="imperial-button"
-					data-active={measurementSystem === MeasurementSystems.Imperial}
-				>
-					in/lb
-				</Button>
-			</div>
-		</div>
-	</div>
-
-	<p class="text-card-foreground/80 mt-3 mb-3 text-center text-sm font-medium">
-		Don't worry about the order - we'll find the best fit
-	</p>
-
-	<div class="mt-4">
-		<div class="flex items-center gap-2">
-			<Checkbox id="flexibility" bind:checked={showFlexibility} />
-			<Label for="flexibility">Soft bag? Get more accurate airline matches</Label>
-		</div>
-
-		{#if showFlexibility}
-			<div class="mt-3 flex flex-col items-center gap-4 px-2">
-				<BackpackFill
-					bind:fillPercentage
-					onFillPercentageChange={(p) => {
-						fillPercentage = p;
-					}}
-				/>
-				<div class="flex max-w-sm flex-col items-center gap-2 text-center">
-					<p class="text-primary text-base font-bold">How full is your bag usually?</p>
-					<p class="text-muted-foreground text-sm">
-						Slide the backpack up or down to have better chances to squeeze in the sizer.
-					</p>
+					<Button
+						variant={measurementSystem === MeasurementSystems.Metric ? 'default' : 'outline'}
+						size="sm"
+						class="flex-1 justify-center px-3"
+						onclick={() => {
+							measurementSystem = MeasurementSystems.Metric;
+							onChanged();
+						}}
+						data-testid="metric-button"
+						data-active={measurementSystem === MeasurementSystems.Metric}
+					>
+						cm/kg
+					</Button>
+					<Button
+						variant={measurementSystem === MeasurementSystems.Imperial ? 'default' : 'outline'}
+						size="sm"
+						class="flex-1 justify-center px-3"
+						onclick={() => {
+							measurementSystem = MeasurementSystems.Imperial;
+							onChanged();
+						}}
+						data-testid="imperial-button"
+						data-active={measurementSystem === MeasurementSystems.Imperial}
+					>
+						in/lb
+					</Button>
 				</div>
 			</div>
-		{/if}
-	</div>
-</div>
+		</div>
+
+		<p class="text-card-foreground/50 mt-3 mb-3 text-center text-xs font-medium sm:text-sm">
+			Don't worry about the order - we'll find the best fit
+		</p>
+
+		<div class="mt-4">
+			<div class="flex items-center gap-2">
+				<Checkbox id="flexibility" bind:checked={showFlexibility} />
+				<Label for="flexibility">Soft bag? Get more accurate airline matches</Label>
+			</div>
+
+			{#if showFlexibility}
+				<div class="mt-3 flex flex-col items-center gap-4 px-2">
+					<BackpackFill
+						bind:fillPercentage
+						onFillPercentageChange={(p) => {
+							fillPercentage = p;
+						}}
+					/>
+					<div class="flex max-w-sm flex-col items-center gap-2 text-center">
+						<p class="text-primary text-base font-bold">How full is your bag usually?</p>
+						<p class="text-muted-foreground text-sm">
+							Slide the backpack up or down to have better chances to squeeze in the sizer.
+						</p>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</Card.Content>
+</Card.Root>

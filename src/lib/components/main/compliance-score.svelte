@@ -3,6 +3,7 @@
 	import { getScoreVisual, DEFAULT_PERSONAL_ITEM, type FillSuggestion } from '$lib/allowances';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
@@ -196,18 +197,21 @@
 		if (score < 60) {
 			return {
 				text: 'text-red-600',
-				bar: 'bg-red-500'
+				bar: 'bg-red-500',
+				barBg: 'bg-red-500/20'
 			};
 		}
 		if (score <= 80) {
 			return {
 				text: 'text-amber-600',
-				bar: 'bg-amber-500'
+				bar: 'bg-amber-500',
+				barBg: 'bg-amber-500/20'
 			};
 		}
 		return {
 			text: 'text-emerald-600',
-			bar: 'bg-emerald-500'
+			bar: 'bg-emerald-500',
+			barBg: 'bg-emerald-500/20'
 		};
 	}
 
@@ -229,86 +233,86 @@
 
 <svelte:window bind:innerWidth={windowInnerWidth} />
 
-<div
-	class="border-border bg-card relative overflow-hidden rounded-xl border-2 p-6 text-center shadow-xs"
-	data-testid="compliance-score"
->
-	{#if shouldAnimateBackground}
-		<canvas
-			class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-25"
-			bind:this={canvasEl}
-		></canvas>
-	{/if}
-
-	<div class="relative z-20 mx-auto max-w-4xl space-y-8">
-		<div class="text-foreground text-2xl leading-tight font-extrabold drop-shadow-lg sm:text-3xl">
-			{message}
-		</div>
-
-		<div class="grid grid-cols-2 gap-4">
-			{@render complianceScoreResults('Carry-on', 'carry-on', carryOnScore, carryOnClasses)}
-
-			{@render complianceScoreResults(
-				'Personal Item',
-				'personal-item',
-				personalItemScore,
-				personalItemClasses
-			)}
-		</div>
-
-		<div class="text-center">
-			<Dialog.Root>
-				<Dialog.Trigger class="text-muted-foreground hover:text-foreground text-sm underline"
-					>But why?</Dialog.Trigger
-				>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title>How Scoring Works</Dialog.Title>
-					</Dialog.Header>
-					<Dialog.Description>
-						<div class="space-y-4">
-							<p>
-								Your bag size <strong>({bagDimensionsDisplay})</strong> was compared to
-								<strong>{airlinesCount}</strong>
-								{airlinesCount === 1 ? "airline's" : "airlines'"}
-								{airlinesCount === 1 ? 'rule' : 'rules'} that match your filters, for both carry-on and
-								personal item.
-							</p>
-							<p>The score is basically the percentage of airlines that allow your bag.</p>
-							<p>
-								You might wonder why the personal item score is low, even though more airlines might
-								accept your bag. Since airlines often do not give exact size limits for personal
-								items and just say it must fit under the seat, we use a standard size of <strong
-									>{defaultPersonalItemDisplay}</strong
-								>. This size is small, but it is a safe guess.
-							</p>
-						</div>
-					</Dialog.Description>
-				</Dialog.Content>
-			</Dialog.Root>
-		</div>
-
-		{#if suggestion}
-			<div class="border-primary/40 bg-primary/10 mt-4 rounded-lg border p-3">
-				<p class="text-foreground mb-2 text-sm">
-					Got a soft bag that compacts? Packing it to <strong>{suggestion.fillPercentage}%</strong>
-					could boost your score to <strong>{suggestion.complianceScore.toFixed(0)}%</strong>!
-				</p>
-				{#if onApplySuggestion}
-					<Button onclick={() => onApplySuggestion(suggestion.fillPercentage)} variant="link">
-						Apply Suggestion
-					</Button>
-				{/if}
-			</div>
+<Card.Root class="relative overflow-hidden text-center" data-testid="compliance-score">
+	<Card.Content>
+		{#if shouldAnimateBackground}
+			<canvas
+				class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-25"
+				bind:this={canvasEl}
+			></canvas>
 		{/if}
-	</div>
-</div>
+
+		<div class="relative z-20 mx-auto max-w-4xl space-y-8">
+			<div class="text-foreground text-2xl leading-tight font-extrabold drop-shadow-lg sm:text-3xl">
+				{message}
+			</div>
+
+			<div class="grid grid-cols-2 gap-4">
+				{@render complianceScoreResults('Carry-on', 'carry-on', carryOnScore, carryOnClasses)}
+
+				{@render complianceScoreResults(
+					'Personal Item',
+					'personal-item',
+					personalItemScore,
+					personalItemClasses
+				)}
+			</div>
+
+			<div class="text-center">
+				<Dialog.Root>
+					<Dialog.Trigger class="text-muted-foreground hover:text-foreground text-sm underline"
+						>But why?</Dialog.Trigger
+					>
+					<Dialog.Content>
+						<Dialog.Header>
+							<Dialog.Title>How Scoring Works</Dialog.Title>
+						</Dialog.Header>
+						<Dialog.Description>
+							<div class="space-y-4">
+								<p>
+									Your bag size <strong>({bagDimensionsDisplay})</strong> was compared to
+									<strong>{airlinesCount}</strong>
+									{airlinesCount === 1 ? "airline's" : "airlines'"}
+									{airlinesCount === 1 ? 'rule' : 'rules'} that match your filters, for both carry-on
+									and personal item.
+								</p>
+								<p>The score is basically the percentage of airlines that allow your bag.</p>
+								<p>
+									You might wonder why the personal item score is low, even though more airlines
+									might accept your bag. Since airlines often do not give exact size limits for
+									personal items and just say it must fit under the seat, we use a standard size of <strong
+										>{defaultPersonalItemDisplay}</strong
+									>. This size is small, but it is a safe guess.
+								</p>
+							</div>
+						</Dialog.Description>
+					</Dialog.Content>
+				</Dialog.Root>
+			</div>
+
+			{#if suggestion}
+				<div class="border-primary/40 bg-primary/10 mt-4 rounded-lg border p-3">
+					<p class="text-foreground mb-2 text-sm">
+						Got a soft bag that compacts? Packing it to <strong>{suggestion.fillPercentage}%</strong
+						>
+						could boost your score to <strong>{suggestion.complianceScore.toFixed(0)}%</strong>!
+					</p>
+					{#if onApplySuggestion}
+						<Button onclick={() => onApplySuggestion(suggestion.fillPercentage)} variant="link">
+							Apply Suggestion
+						</Button>
+					{/if}
+				</div>
+			{/if}
+		</div>
+	</Card.Content>
+</Card.Root>
 
 {#snippet complianceScoreResults(
 	label: string,
 	sectionKey: string,
 	percentage: number,
-	classes: { text: string; bar: string }
+	classes: { text: string; bar: string; barBg: string }
 )}
 	<div
 		class="flex flex-col items-center"
@@ -316,7 +320,7 @@
 		data-section={sectionKey}
 	>
 		<div class="text-md text-foreground mb-2 font-semibold drop-shadow-xs">{label}</div>
-		<div class="bg-muted/80 relative mb-2 h-3 w-full overflow-hidden rounded-full">
+		<div class={cn('relative mb-2 h-3 w-full overflow-hidden rounded-full', classes.barBg)}>
 			<div
 				class={cn('h-full transition-all duration-500 ease-out', classes.bar)}
 				style="width: {percentage}%"
