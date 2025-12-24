@@ -7,6 +7,7 @@
 	import { Checkbox } from '../ui/checkbox';
 	import { Button } from '../ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
+	import { cn } from '$lib/utils/ui';
 
 	interface Props {
 		userDimensions: UserDimensions;
@@ -102,6 +103,27 @@
 	}
 </script>
 
+{#snippet bagDimensionInput(className: string, key: keyof UserDimensions)}
+	<div class={cn('flex flex-col gap-1.5', className)}>
+		<Label for={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
+		<div class="relative">
+			<Input
+				type="text"
+				id={key}
+				value={userDimensions[key] > 0 ? `${userDimensions[key]}` : ''}
+				oninput={(e) => handleDimensionInput(key, e)}
+				inputmode="decimal"
+				autocomplete="off"
+				placeholder={dimensionPlaceholders[key]}
+				class="pr-12"
+			/>
+			<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+				{unitLabel}
+			</span>
+		</div>
+	</div>
+{/snippet}
+
 <div class="mb-4">
 	<div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 		<div>
@@ -122,60 +144,9 @@
 	</div>
 
 	<div data-tour-id="bag-input" class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4">
-		<div class="order-2 flex flex-col gap-1.5 sm:order-1">
-			<Label for="height">Height</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="height"
-					value={userDimensions.height > 0 ? `${userDimensions.height}` : ''}
-					oninput={(e) => handleDimensionInput('height', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.height}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
-		<div class="order-3 flex flex-col gap-1.5 sm:order-2">
-			<Label for="width">Width</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="width"
-					value={userDimensions.width > 0 ? `${userDimensions.width}` : ''}
-					oninput={(e) => handleDimensionInput('width', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.width}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
-		<div class="order-4 flex flex-col gap-1.5 sm:order-3">
-			<Label for="depth">Depth</Label>
-			<div class="relative">
-				<Input
-					type="text"
-					id="depth"
-					value={userDimensions.depth > 0 ? `${userDimensions.depth}` : ''}
-					oninput={(e) => handleDimensionInput('depth', e)}
-					inputmode="decimal"
-					autocomplete="off"
-					placeholder={dimensionPlaceholders.depth}
-					class="pr-12"
-				/>
-				<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-					{unitLabel}
-				</span>
-			</div>
-		</div>
+		{@render bagDimensionInput('order-2 sm:order-1', 'height')}
+		{@render bagDimensionInput('order-3 sm:order-2', 'width')}
+		{@render bagDimensionInput('order-4 sm:order-3', 'depth')}
 		<div class="order-1 col-span-3 flex flex-col gap-1.5 sm:order-4 sm:col-span-1">
 			<Label>Units</Label>
 			<div
