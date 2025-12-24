@@ -2,10 +2,10 @@
 	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
 	import { ShareBagLink, BackpackFill } from '$lib/components/misc';
-	import { Label } from '../ui/label';
-	import { Input } from '../ui/input';
-	import { Checkbox } from '../ui/checkbox';
-	import { Button } from '../ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import * as InputGroup from '$lib/components/ui/input-group';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Button } from '$lib/components/ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
 	import { cn } from '$lib/utils/ui';
 
@@ -106,8 +106,8 @@
 {#snippet bagDimensionInput(className: string, key: keyof UserDimensions)}
 	<div class={cn('flex flex-col gap-1.5', className)}>
 		<Label for={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</Label>
-		<div class="relative">
-			<Input
+		<InputGroup.Root>
+			<InputGroup.Input
 				type="text"
 				id={key}
 				value={userDimensions[key] > 0 ? `${userDimensions[key]}` : ''}
@@ -117,10 +117,10 @@
 				placeholder={dimensionPlaceholders[key]}
 				class="pr-12"
 			/>
-			<span class="text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+			<InputGroup.Addon align="inline-end">
 				{unitLabel}
-			</span>
-		</div>
+			</InputGroup.Addon>
+		</InputGroup.Root>
 	</div>
 {/snippet}
 
