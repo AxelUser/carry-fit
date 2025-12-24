@@ -5,7 +5,6 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Search } from '@lucide/svelte';
-	import { VirtualList } from 'svelte-virtuallists';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { cn } from '$lib/utils/ui';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
@@ -30,8 +29,7 @@
 		disabled = false
 	}: Props = $props();
 
-	let popoverOpen = $state(false);
-	let drawerOpen = $state(false);
+	let opened = $state(false);
 	let searchTerm = $state('');
 
 	const isDesktop = new MediaQuery('(min-width: 768px)');
@@ -71,7 +69,7 @@
 	}
 
 	$effect(() => {
-		if (!popoverOpen && !drawerOpen) {
+		if (!opened) {
 			searchTerm = '';
 		}
 	});
@@ -133,19 +131,19 @@
 {/snippet}
 
 {#if isDesktop.current}
-	<Popover.Root bind:open={popoverOpen}>
+	<Popover.Root bind:open={opened}>
 		<Popover.Trigger>
 			{#snippet child({ props }: { props: Record<string, unknown> })}
 				<Button
 					{...props}
 					variant="outline"
 					role="combobox"
-					aria-expanded={popoverOpen}
+					aria-expanded={opened}
 					class="w-full justify-between"
 					{disabled}
 				>
 					<span class="truncate">{triggerText}</span>
-					{#if popoverOpen}
+					{#if opened}
 						<ChevronsDownUp class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					{:else}
 						<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -163,14 +161,14 @@
 		</Popover.Content>
 	</Popover.Root>
 {:else}
-	<Drawer.Root bind:open={drawerOpen}>
+	<Drawer.Root bind:open={opened}>
 		<Drawer.Trigger>
 			{#snippet child({ props }: { props: Record<string, unknown> })}
 				<Button
 					{...props}
 					variant="outline"
 					role="combobox"
-					aria-expanded={drawerOpen}
+					aria-expanded={opened}
 					class="w-full justify-between"
 					{disabled}
 				>
