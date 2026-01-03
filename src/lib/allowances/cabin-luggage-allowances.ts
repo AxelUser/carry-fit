@@ -3147,5 +3147,32 @@ export const allowances: AirlineAllowance[] = [
 				pounds: 11
 			}
 		}
+	},
+	{
+		id: 'flair',
+		airline: 'Flair',
+		region: 'North America',
+		link: 'https://www.flyflair.com/travel-info/baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23],
+				inches: [21.5, 15.5, 9]
+			},
+			weight: {
+				kilograms: 10,
+				pounds: 22
+			},
+			isExtra: true
+		},
+		personalItem: {
+			dimensions: {
+				centimeters: [43, 33, 15],
+				inches: [17, 13, 6]
+			},
+			weight: {
+				kilograms: 7,
+				pounds: 15.5
+			}
+		}
 	}
 ];
