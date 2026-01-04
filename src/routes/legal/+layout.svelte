@@ -2,7 +2,7 @@
 	import { links } from '$lib/utils/navigation';
 	import { ArrowLeft } from '@lucide/svelte';
 	import { page } from '$app/state';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 
 	let { children } = $props();
 </script>

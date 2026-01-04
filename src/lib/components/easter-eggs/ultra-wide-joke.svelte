@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card';
-	import { Button } from '../ui/button';
+	import * as Card from '$ui/card';
+	import { Button } from '$ui/button';
 	import easterEggs from '$lib/stores/easter-eggs.svelte';
 	import { metrics } from '$lib/analytics';
 
