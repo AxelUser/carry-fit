@@ -32,6 +32,18 @@ Thank you for your interest in contributing to CarryFit! This document provides 
 5. Run tests: `pnpm test`
 6. Submit a Pull Request
 
+## Testing
+
+1. **Unit Tests**
+   - Write unit tests for new functionality
+   - Run unit tests: `pnpm test:unit`
+   - Tests should be placed in the same directory as the code they are testing
+
+2. **End-to-End Tests**
+   - E2E tests use Playwright
+   - Run E2E tests: `pnpm test:e2e`
+   - Add new test cases in `e2e/` directory or update existing ones
+
 ## Using Storybook
 
 Storybook is used for developing and testing UI components in isolation. Moreover, it contains a lot of examples and documentation for most of the components used in the project.
@@ -45,24 +57,13 @@ Storybook is used for developing and testing UI components in isolation. Moreove
    - Create new story files with `.stories.svelte` extension
    - Use the Svelte CSF format for writing stories
 
-## Testing
-
-1. **Unit Tests**
-   - Write unit tests for new functionality
-   - Run unit tests: `pnpm test:unit`
-   - Tests should be placed in the same directory as the code they are testing
-
-2. **End-to-End Tests**
-   - E2E tests use Playwright
-   - Run E2E tests: `pnpm test:e2e`
-   - Add new test cases in `e2e/` directory or update existing ones
-
 ## Code Style
 
-- Follow existing code formatting rules, use `prettier` to format your code
-- Use TypeScript only
-- Add comments or docstrings for complex logic
-- Use Svelte 5 runes for state management
+- Follow existing code formatting rules, use `prettier` to format your code.
+- Use TypeScript only.
+- Add comments or docstrings for complex logic.
+- Use Svelte 5 runes for state management. Consider using `*.svelte.ts` files to move complex logic to a separate file.
+- Place components in the `src/lib/components` directory. If a new component is used only at one place, put it in the same directory as the component that uses it. Else, create a new directory for the component and place it in the `src/lib/components` directory.
 
 ## Pull Request Process
 

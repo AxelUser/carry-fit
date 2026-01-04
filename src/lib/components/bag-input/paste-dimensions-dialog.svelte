@@ -1,16 +1,10 @@
 <script lang="ts">
-	import {
-		Dialog,
-		DialogContent,
-		DialogHeader,
-		DialogTitle,
-		DialogDescription
-	} from '$ui/dialog';
+	import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '$ui/dialog';
 	import { Button } from '$ui/button';
 	import { Textarea } from '$ui/textarea';
-	import { DimensionParser } from '$lib/bag-parsing/parser';
+	import { DimensionParser } from './parser';
 	import { Alert, AlertDescription } from '$ui/alert';
-	import { AlertTriangle, ClipboardPaste } from '@lucide/svelte';
+	import { TriangleAlert, ClipboardPaste } from '@lucide/svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
 	import { metrics } from '$lib/analytics';
 
@@ -91,7 +85,7 @@
 
 		{#if error}
 			<Alert variant="destructive">
-				<AlertTriangle class="h-4 w-4" />
+				<TriangleAlert class="h-4 w-4" />
 				<AlertDescription>{error}</AlertDescription>
 			</Alert>
 		{/if}

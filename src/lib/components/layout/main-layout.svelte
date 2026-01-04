@@ -2,7 +2,7 @@
 	import Header from './header.svelte';
 	import Footer from './footer.svelte';
 	import { CarryFitIcon } from '$components/icons';
-	import { AlertTriangle } from '@lucide/svelte';
+	import { TriangleAlert } from '@lucide/svelte';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -38,7 +38,7 @@
 								<div
 									class="bg-destructive/10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
 								>
-									<AlertTriangle class="text-destructive h-6 w-6" />
+									<TriangleAlert class="text-destructive h-6 w-6" />
 								</div>
 								<div>
 									<h2 class="text-destructive mb-2 text-xl font-semibold">
