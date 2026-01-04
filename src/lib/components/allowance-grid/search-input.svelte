@@ -18,7 +18,11 @@
 	</InputGroup.Addon>
 	{#if searchState.searchTerm}
 		<InputGroup.Addon align="inline-end">
-			<InputGroup.Button variant="ghost" onclick={() => searchState.clearSearch()}>
+			<InputGroup.Button
+				data-testid="search-clear-button"
+				variant="ghost"
+				onclick={() => searchState.clearSearch()}
+			>
 				<X class="size-4" />
 				<span class="sr-only">Clear search</span>
 			</InputGroup.Button>
