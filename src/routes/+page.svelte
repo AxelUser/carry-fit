@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { CarryFitIcon } from '$lib/components/icons';
+	import { CarryFitIcon } from '$components/icons';
+	import { loadData } from '$lib/allowances';
 	import {
-		loadData,
+		calculateFlexibility,
 		computeAirlinesCompliance,
 		calculateComplianceScore,
 		findNearestOptimalFillLevel
-	} from '$lib/allowances';
-	import { calculateFlexibility } from '$lib/allowances/flexibility';
+	} from '$lib/bag-scoring';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy, untrack } from 'svelte';
@@ -14,16 +14,14 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import {
-		AllowanceFilter,
-		AllowanceTable,
-		BagInput,
-		ComplianceScore,
-		Info
-	} from '$lib/components/main';
-	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
+	import { BuyMeCoffeeButton, GithubStarButton } from '$components/social';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
+	import { BagInput } from '$components/bag-input';
+	import { ComplianceScore } from '$components/compliance-score';
+	import { AirlinesFilters } from '$components/airlines-filters';
+	import { AllowanceGrid } from '$components/allowance-grid';
+	import { FAQ } from '$components/faq';
 
 	const allAirlines = loadData();
 
@@ -208,18 +206,18 @@
 			/>
 		{/if}
 
-		<AllowanceFilter
+		<AirlinesFilters
 			airlines={allAirlines}
 			bind:filteredAirlines
 			bind:filterRegions={preferences.filterRegions}
 		/>
 
-		<AllowanceTable
+		<AllowanceGrid
 			measurementSystem={preferences.measurementSystem}
 			airlines={filteredAirlines}
 			complianceAirlines={airlinesWithCompliance}
 		/>
 
-		<Info airlinesCount={allAirlines.length} />
+		<FAQ airlinesCount={allAirlines.length} />
 	</div>
 </div>

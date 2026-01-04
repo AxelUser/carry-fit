@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 	import { links } from '$lib/utils/navigation';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';

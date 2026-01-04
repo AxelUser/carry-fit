@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { CarryFitIcon } from '$lib/components/icons';
-	import { AnnouncementBar, ToggleTheme } from '$lib/components/misc';
-	import { Button } from '$lib/components/ui/button';
+	import { CarryFitIcon } from '$components/icons';
+	import AnnouncementBar from './announcement-bar.svelte';
+	import ToggleTheme from './toggle-theme.svelte';
+	import { Button } from '$ui/button';
 	import { links } from '$lib/utils/navigation';
 	import { runMainTour } from '$lib/tours';
 	import { cn } from '$lib/utils/ui';

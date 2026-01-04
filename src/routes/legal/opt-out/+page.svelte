@@ -2,7 +2,7 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { updateConsent } from '$lib/analytics';
 	import { links } from '$lib/utils/navigation';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 
 	let success = $state(false);
 	const isOptedIn = $derived(cookieConsent.value.analytics);

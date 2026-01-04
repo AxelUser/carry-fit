@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import { links } from '$lib/utils/navigation';
 	import { ArrowLeft } from '@lucide/svelte';
 	import { page } from '$app/state';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 
 	let { children } = $props();
 </script>
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="mx-auto max-w-3xl">
-		<Button href="{base}/" variant="default" class="mb-4">
+		<Button href={links.home} variant="default" class="mb-4">
 			<ArrowLeft class="h-4 w-4" />
 			<span>Back to CarryFit</span>
 		</Button>

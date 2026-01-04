@@ -9,6 +9,11 @@ const config = {
 		adapter: adapter(),
 		paths: {
 			base: process.env.BASE_PATH || ''
+		},
+		alias: {
+			$lib: './src/lib',
+			$components: './src/lib/components',
+			$ui: './src/lib/components/ui'
 		}
 	}
 };

@@ -1,12 +1,12 @@
-import { base } from '$app/paths';
+import { resolve } from '$app/paths';
 
 const links = {
 	legal: {
-		privacy: `${base}/legal/privacy`,
-		terms: `${base}/legal/terms`,
-		optOut: `${base}/legal/opt-out`
+		privacy: resolve('/legal/privacy'),
+		terms: resolve('/legal/terms'),
+		optOut: resolve('/legal/opt-out')
 	},
-	home: `${base}/`
+	home: resolve('/')
 };
 
 export { links };
