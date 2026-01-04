@@ -5,7 +5,7 @@
 	import { AlertTriangle } from '@lucide/svelte';
 	import { CarryFitIcon } from '$lib/components/icons';
 	import UltraWideJoke from '$lib/components/misc/ultra-wide-joke.svelte';
-	import { CookieBanner } from '$lib/components/misc';
+	import { CookieBanner } from '$components/cookie-banner';
 	import { Header, Footer } from '$lib/components/layout';
 	import type { CookieConsent } from '$lib/types';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';

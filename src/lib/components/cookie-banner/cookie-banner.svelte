@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { links } from '$lib/utils/navigation';
 	import type { CookieConsent } from '$lib/types';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import * as AlertDialog from '$ui/alert-dialog';
 
 	interface Props {
 		onAccept: (consent: CookieConsent) => void;
