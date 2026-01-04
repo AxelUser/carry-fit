@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { checkCompliance } from '$lib/allowances';
+import { checkCompliance } from './bag-validation';
 import { descDimensions } from '$lib/utils/dimensions';
 
 const pass = { passed: true, diff: 0 };

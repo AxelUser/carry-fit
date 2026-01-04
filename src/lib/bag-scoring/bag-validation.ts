@@ -1,7 +1,6 @@
 import type {
 	UserDimensions,
 	MeasurementSystem,
-	AirlinesByCompliance,
 	AirlineInfo,
 	AirlineCompliance,
 	DimensionCompliance,
@@ -9,7 +8,7 @@ import type {
 	DimensionValue
 } from '$lib/types';
 import { descDimensions, getRelevantAirlineDimensions } from '$lib/utils/dimensions';
-import { DEFAULT_PERSONAL_ITEM } from './index';
+import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
 import type { SortedDimensions } from '$lib/types';
 
 function hasDimensions(allowance?: BagAllowance | null): allowance is BagAllowance {

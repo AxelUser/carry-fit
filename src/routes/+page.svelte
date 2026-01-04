@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { CarryFitIcon } from '$components/icons';
+	import { loadData } from '$lib/allowances';
 	import {
-		loadData,
+		calculateFlexibility,
 		computeAirlinesCompliance,
 		calculateComplianceScore,
 		findNearestOptimalFillLevel
-	} from '$lib/allowances';
-	import { calculateFlexibility } from '$lib/allowances/flexibility';
+	} from '$lib/bag-scoring';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { metrics, disposeAnalytics } from '$lib/analytics';
 	import { onDestroy, untrack } from 'svelte';

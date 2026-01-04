@@ -3,8 +3,8 @@
 		FLEXIBILITY_MIN_FILL_PERCENTAGE,
 		FLEXIBILITY_MAX_FILL_PERCENTAGE,
 		FLEXIBILITY_STEP_PERCENTAGE
-	} from '$lib/allowances';
-	
+	} from '$lib/bag-scoring';
+
 	interface Props {
 		fillPercentage: number;
 		onFillPercentageChange: (percentage: number) => void;
