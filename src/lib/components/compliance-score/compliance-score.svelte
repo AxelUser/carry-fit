@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getScoreVisual, DEFAULT_PERSONAL_ITEM, type FillSuggestion } from '$lib/allowances';
+	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
+	import { type FillSuggestion } from '$lib/bag-scoring';
+	import { getScoreVisual } from './scoring-messages';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$ui/dialog';
 	import * as Card from '$ui/card';
