@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { Check, ChevronsDownUp, ChevronsUpDown, Info, Undo2 } from '@lucide/svelte';
-	import * as Popover from '$lib/components/ui/popover';
-	import * as Drawer from '$lib/components/ui/drawer';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
+	import * as Popover from '$ui/popover';
+	import * as Drawer from '$ui/drawer';
+	import { Button } from '$ui/button';
+	import { Input } from '$ui/input';
 	import { Search } from '@lucide/svelte';
 	import { computeMatchScore } from '$lib/utils/matching';
 	import { cn } from '$lib/utils/ui';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { ScrollArea } from '$ui/scroll-area';
 	import { MediaQuery, SvelteSet } from 'svelte/reactivity';
-	import * as Empty from '$lib/components/ui/empty';
+	import * as Empty from '$ui/empty';
 
 	interface Props {
 		items: string[];

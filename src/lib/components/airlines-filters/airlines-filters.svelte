@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { AirlineInfo } from '$lib/types';
 	import { Funnel, X } from '@lucide/svelte';
-	import { Button } from '$lib/components/ui/button';
-	import * as Card from '$lib/components/ui/card';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import * as Empty from '$lib/components/ui/empty';
-	import { Badge } from '$lib/components/ui/badge';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { Button } from '$ui/button';
+	import * as Card from '$ui/card';
+	import * as Dialog from '$ui/dialog';
+	import * as Empty from '$ui/empty';
+	import { Badge } from '$ui/badge';
+	import { ScrollArea } from '$ui/scroll-area';
 	import FilterCombobox from './filter-combobox.svelte';
 	import { cn } from '$lib/utils/ui';
 	import { MediaQuery, SvelteSet } from 'svelte/reactivity';
