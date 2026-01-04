@@ -1,0 +1,1 @@
+import{b as o,r}from"./CtnPvAU2.js";const l="";function e(...t){return o+l+r(t[0],t[1])}const s={legal:{privacy:e("/legal/privacy"),terms:e("/legal/terms"),optOut:e("/legal/opt-out")},home:e("/")};export{s as l};
