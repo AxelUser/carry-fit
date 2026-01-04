@@ -10,10 +10,10 @@
 	let { title, description }: Props = $props();
 </script>
 
-<Empty.Root>
+<Empty.Root data-testid="empty-state">
 	<Empty.Header>
 		<Empty.Media>
-			<SearchX class="text-primary-foreground size-8" />
+			<SearchX aria-hidden="true" class="text-muted-foreground size-8" />
 		</Empty.Media>
 		<Empty.Title>{title}</Empty.Title>
 		<Empty.Description>{description}</Empty.Description>
