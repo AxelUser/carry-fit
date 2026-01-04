@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { ClickSplash } from '$lib/components/ui/click-splash';
+	import { ClickSplash } from '$ui/click-splash';
 	import { Link } from '@lucide/svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 
 	interface Props {
 		userDimensions: UserDimensions;

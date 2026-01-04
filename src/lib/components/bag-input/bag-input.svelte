@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Eraser } from '@lucide/svelte';
 	import { type MeasurementSystem, type UserDimensions, MeasurementSystems } from '$lib/types';
-	import { ShareBagLink, BackpackFill } from '$lib/components/misc';
-	import { Label } from '$lib/components/ui/label';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import * as Card from '$lib/components/ui/card';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$ui/label';
+	import * as InputGroup from '$ui/input-group';
+	import * as Card from '$ui/card';
+	import { Checkbox } from '$ui/checkbox';
+	import { Button } from '$ui/button';
 	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
+	import ShareBagLink from './share-bag-link.svelte';
+	import BackpackFill from './backpack-fill.svelte';
 	import { cn } from '$lib/utils/ui';
 
 	interface Props {

@@ -17,13 +17,13 @@
 	import {
 		AllowanceFilter,
 		AllowanceTable,
-		BagInput,
 		ComplianceScore,
 		Info
 	} from '$lib/components/main';
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
+	import { BagInput } from '$components/bag-input';
 
 	const allAirlines = loadData();
 

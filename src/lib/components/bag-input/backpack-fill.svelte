@@ -4,6 +4,7 @@
 		FLEXIBILITY_MAX_FILL_PERCENTAGE,
 		FLEXIBILITY_STEP_PERCENTAGE
 	} from '$lib/allowances';
+	
 	interface Props {
 		fillPercentage: number;
 		onFillPercentageChange: (percentage: number) => void;

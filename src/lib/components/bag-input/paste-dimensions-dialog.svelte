@@ -5,11 +5,11 @@
 		DialogHeader,
 		DialogTitle,
 		DialogDescription
-	} from '$lib/components/ui/dialog';
-	import { Button } from '$lib/components/ui/button';
-	import { Textarea } from '$lib/components/ui/textarea';
+	} from '$ui/dialog';
+	import { Button } from '$ui/button';
+	import { Textarea } from '$ui/textarea';
 	import { DimensionParser } from '$lib/bag-parsing/parser';
-	import { Alert, AlertDescription } from '$lib/components/ui/alert';
+	import { Alert, AlertDescription } from '$ui/alert';
 	import { AlertTriangle, ClipboardPaste } from '@lucide/svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
 	import { metrics } from '$lib/analytics';
