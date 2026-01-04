@@ -16,7 +16,6 @@
 	import { browser } from '$app/environment';
 	import {
 		AllowanceFilter,
-		AllowanceTable,
 		ComplianceScore,
 		Info
 	} from '$lib/components/main';
@@ -24,6 +23,7 @@
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
 	import { BagInput } from '$components/bag-input';
+	import { AllowanceGrid } from '$components/allowance-grid';
 
 	const allAirlines = loadData();
 
@@ -214,7 +214,7 @@
 			bind:filterRegions={preferences.filterRegions}
 		/>
 
-		<AllowanceTable
+		<AllowanceGrid
 			measurementSystem={preferences.measurementSystem}
 			airlines={filteredAirlines}
 			complianceAirlines={airlinesWithCompliance}

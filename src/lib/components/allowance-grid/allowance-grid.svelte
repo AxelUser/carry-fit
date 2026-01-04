@@ -6,14 +6,13 @@
 		type MeasurementSystem,
 		type SortDirection
 	} from '$lib/types';
-	import { metrics } from '$lib/analytics';
 	import AirlineCard from './airline-card.svelte';
-	import * as Card from '$lib/components/ui/card';
+	import * as Card from '$ui/card';
 	import SearchInput from './search-input.svelte';
 	import { searchState } from './search.svelte';
 	import EmptyState from './empty-state.svelte';
 	import { ArrowDownAZ, ArrowUpAZ, Check } from '@lucide/svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$ui/button';
 	import { untrack } from 'svelte';
 	import { VirtualList } from 'svelte-virtuallists';
 

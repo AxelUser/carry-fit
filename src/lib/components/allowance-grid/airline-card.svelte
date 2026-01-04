@@ -8,7 +8,7 @@
 	} from '$lib/types';
 	import { getRelevantAirlineDimensions } from '$lib/utils/dimensions';
 	import { cn } from '$lib/utils/ui';
-	import { Separator } from '$lib/components/ui/separator';
+	import { Separator } from '$ui/separator';
 
 	interface Props {
 		airline: AirlineInfo;
