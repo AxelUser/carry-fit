@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CarryFitIcon } from '$lib/components/icons';
+	import { CarryFitIcon } from '$components/icons';
 	import {
 		loadData,
 		computeAirlinesCompliance,
@@ -14,7 +14,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
+	import { BuyMeCoffeeButton, GithubStarButton } from '$components/social';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
 	import { BagInput } from '$components/bag-input';
