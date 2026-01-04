@@ -205,9 +205,7 @@
 		{:else if !hasVisibleAirlines}
 			<EmptyState
 				title="Nothing to display"
-				description={showComplianceResult
-					? 'Adjust the compliance filters or search to see airlines'
-					: 'Try adjusting your filters to see available allowances'}
+				description="Try adjusting your filters to see available allowances"
 			/>
 		{:else}
 			{@render airlinesGrid()}
