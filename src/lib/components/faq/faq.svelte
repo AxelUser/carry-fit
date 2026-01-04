@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card';
-	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Card from '$ui/card';
+	import * as Accordion from '$ui/accordion';
 	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
 	import { formatDims } from '$lib/utils/dimensions';
 	import { MeasurementSystems } from '$lib/types';

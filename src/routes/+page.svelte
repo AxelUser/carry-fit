@@ -14,9 +14,6 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import {
-		Info
-	} from '$lib/components/main';
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
 	import { runPendingTours } from '$lib/tours';
@@ -24,6 +21,7 @@
 	import { ComplianceScore } from '$components/compliance-score';
 	import { AirlinesFilters } from '$components/airlines-filters';
 	import { AllowanceGrid } from '$components/allowance-grid';
+	import { FAQ } from '$components/faq';
 
 	const allAirlines = loadData();
 
@@ -220,6 +218,6 @@
 			complianceAirlines={airlinesWithCompliance}
 		/>
 
-		<Info airlinesCount={allAirlines.length} />
+		<FAQ airlinesCount={allAirlines.length} />
 	</div>
 </div>
