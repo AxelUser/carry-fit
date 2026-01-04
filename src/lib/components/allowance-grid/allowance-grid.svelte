@@ -161,7 +161,7 @@
 		class="flex min-h-[300px] flex-col gap-4 overflow-x-auto"
 		data-testid="allowances-grid"
 	>
-		<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+		<div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
 			<SearchInput />
 			<div class="flex justify-end">{@render sortButton()}</div>
 		</div>
