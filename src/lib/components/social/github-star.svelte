@@ -1,18 +1,10 @@
 <script lang="ts">
-	import { GithubIcon } from '$lib/components/icons';
-	import { onMount } from 'svelte';
+	import { GithubIcon } from '$components/icons';
+	import { githubStats } from '$lib/services/github-stats.svelte';
+	import { Separator } from '$ui/separator';
 
-	let stars = $state(0);
-
-	onMount(async () => {
-		try {
-			const response = await fetch('https://api.github.com/repos/AxelUser/carry-fit');
-			const data = await response.json();
-			stars = data.stargazers_count;
-		} catch (error) {
-			console.error('Failed to fetch GitHub stars:', error);
-			stars = 0;
-		}
+	$effect(() => {
+		githubStats.getStars();
 	});
 </script>
 
@@ -24,10 +16,10 @@
 >
 	<GithubIcon class="h-4 w-4" />
 	<span>Star</span>
-	<div class="flex items-center">
-		<div class="mx-1.5 h-3 w-px bg-white/40"></div>
+	{#if !githubStats.starsLoading}
+		<Separator class="h-[16px]! bg-white/40" orientation="vertical" />
 		<span class="min-w-[2.5ch] text-center tabular-nums">
-			{stars}
+			{githubStats.stars}
 		</span>
-	</div>
+	{/if}
 </a>

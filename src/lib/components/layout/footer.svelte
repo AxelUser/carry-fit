@@ -3,33 +3,10 @@
 	import { links } from '$lib/utils/navigation';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { BuyMeCoffeeButton, GithubStarButton } from '$lib/components/social';
-
-	interface Contributor {
-		login: string;
-		avatar_url: string;
-		html_url: string;
-		contributions: number;
-	}
-
-	let contributors = $state<Contributor[]>([]);
-	let isLoading = $state(true);
-
-	const fetchContributors = async () => {
-		try {
-			const response = await fetch('https://api.github.com/repos/AxelUser/carry-fit/contributors');
-			if (!response.ok) throw new Error('Failed to fetch contributors');
-			return await response.json();
-		} catch (error) {
-			console.error('Error fetching contributors:', error);
-			return [];
-		}
-	};
+	import { githubStats } from '$lib/services/github-stats.svelte';
 
 	$effect(() => {
-		fetchContributors().then((data) => {
-			contributors = data;
-			isLoading = false;
-		});
+		githubStats.getContributors();
 	});
 </script>
 
@@ -70,14 +47,14 @@
 					Contributors
 				</h3>
 				<div class="flex flex-wrap gap-1.5">
-					{#if isLoading}
+					{#if githubStats.contributorsLoading}
 						{#each Array(5) as _}
 							<div
 								class="from-muted to-muted/50 h-10 w-10 animate-pulse rounded-full bg-linear-to-r"
 							></div>
 						{/each}
 					{:else}
-						{#each [...contributors].sort((a, b) => b.contributions - a.contributions) as contributor (contributor.login)}
+						{#each [...githubStats.contributors].sort((a, b) => b.contributions - a.contributions) as contributor (contributor.login)}
 							<a
 								href={contributor.html_url}
 								class="group transition-transform hover:scale-110"
@@ -86,7 +63,11 @@
 								title={`${contributor.login} (${contributor.contributions} contributions)`}
 							>
 								<Avatar.Root>
-									<Avatar.Image src={contributor.avatar_url} alt={contributor.login} />
+									<Avatar.Image
+										loading="lazy"
+										src={contributor.avatar_url}
+										alt={contributor.login}
+									/>
 									<Avatar.Fallback>{contributor.login.slice(0, 2).toUpperCase()}</Avatar.Fallback>
 								</Avatar.Root>
 							</a>
