@@ -10,6 +10,7 @@
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
 	import { BackgroundRenderer } from './background-renderer.svelte';
+	import { ImageLoader } from './image-loader.svelte';
 
 	interface Props {
 		carryOnScore: number;
@@ -40,43 +41,11 @@
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
 	let canvasEl = $state<HTMLCanvasElement | null>(null);
-	let img = $state<HTMLImageElement | null>(null);
-	const imagePromises = new Map<string, Promise<HTMLImageElement>>();
-	let currentImageSrc = $state<string | null>(null);
+	const imageLoader = new ImageLoader(() => (shouldAnimateBackground ? backgroundImage : null));
 	const renderer = new BackgroundRenderer(
 		() => canvasEl,
-		() => img
+		() => imageLoader.current
 	);
-
-	function loadImage(src: string) {
-		if (imagePromises.has(src)) {
-			return imagePromises.get(src)!;
-		}
-
-		const promise = new Promise<HTMLImageElement>((resolve, reject) => {
-			const image = new Image();
-			image.src = src;
-			image.onload = () => {
-				resolve(image);
-			};
-			image.onerror = reject;
-		});
-
-		imagePromises.set(src, promise);
-		return promise;
-	}
-
-	async function ensureImage(src: string) {
-		if (currentImageSrc === src && img) return;
-
-		currentImageSrc = src;
-		const loaded = await loadImage(src).catch(() => null);
-		if (!loaded) return;
-		// Only swap if the desired image is still current
-		if (currentImageSrc === src) {
-			img = loaded;
-		}
-	}
 
 	onMount(() => {
 		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -93,7 +62,7 @@
 	});
 
 	$effect(() => {
-		if (!shouldAnimateBackground || !img) {
+		if (!shouldAnimateBackground || !imageLoader.current) {
 			renderer.stop();
 			return;
 		}
@@ -102,12 +71,6 @@
 		return () => {
 			renderer.stop();
 		};
-	});
-
-	$effect(() => {
-		if (!shouldAnimateBackground) return;
-
-		ensureImage(backgroundImage).catch(() => {});
 	});
 
 	function getScoreClasses(score: number) {
