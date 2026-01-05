@@ -9,6 +9,7 @@
 	import { Button } from '$ui/button';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
+	import { BackgroundRenderer } from './background-renderer.svelte';
 
 	interface Props {
 		carryOnScore: number;
@@ -39,18 +40,13 @@
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
 	let canvasEl = $state<HTMLCanvasElement | null>(null);
-	let windowInnerWidth = $state(0);
-	const emojiSize = 56;
-	const tileStep = 88; // emoji size + gap
-	const columnRise = tileStep * 0.35;
-	const speed = 24; // px per second
-	let img: HTMLImageElement | null = null;
+	let img = $state<HTMLImageElement | null>(null);
 	const imagePromises = new Map<string, Promise<HTMLImageElement>>();
 	let currentImageSrc = $state<string | null>(null);
-	let rafId: number | null = null;
-	let lastTs = 0;
-	let offsetX = 0;
-	let offsetY = 0;
+	const renderer = new BackgroundRenderer(
+		() => canvasEl,
+		() => img
+	);
 
 	function loadImage(src: string) {
 		if (imagePromises.has(src)) {
@@ -70,72 +66,6 @@
 		return promise;
 	}
 
-	function getCanvasRect() {
-		if (!canvasEl) return null;
-		const rect = canvasEl.getBoundingClientRect();
-		if (rect.width === 0 || rect.height === 0) {
-			return canvasEl.parentElement?.getBoundingClientRect() ?? null;
-		}
-		return rect;
-	}
-
-	function resizeCanvas() {
-		if (!canvasEl) return;
-		const dpr = window.devicePixelRatio || 1;
-		const rect = getCanvasRect();
-		if (!rect) return;
-		const { width, height } = rect;
-		canvasEl.width = width * dpr;
-		canvasEl.height = height * dpr;
-		const ctx = canvasEl.getContext('2d');
-		if (!ctx) return;
-		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-	}
-
-	function stopLoop() {
-		if (rafId !== null) {
-			cancelAnimationFrame(rafId);
-			rafId = null;
-		}
-	}
-
-	function loop(ts: number) {
-		if (!canvasEl || !img) return;
-		const ctx = canvasEl.getContext('2d');
-		if (!ctx) return;
-
-		const delta = lastTs ? (ts - lastTs) / 1000 : 0;
-		lastTs = ts;
-
-		offsetX = offsetX + speed * delta;
-		offsetY = offsetY - speed * delta;
-
-		const { width, height } = canvasEl.getBoundingClientRect();
-		ctx.clearRect(0, 0, width, height);
-
-		ctx.save();
-		ctx.globalAlpha = 0.6;
-
-		const startColumn = Math.floor((-tileStep - offsetX) / tileStep);
-		const endColumn = Math.floor((width + tileStep - offsetX) / tileStep);
-
-		for (let column = startColumn; column <= endColumn; column++) {
-			const x = column * tileStep + offsetX;
-			const startRow = Math.floor((-tileStep - offsetY + column * columnRise) / tileStep);
-			for (
-				let y = startRow * tileStep + offsetY - column * columnRise;
-				y < height + tileStep;
-				y += tileStep
-			) {
-				ctx.drawImage(img, x, y, emojiSize, emojiSize);
-			}
-		}
-
-		ctx.restore();
-
-		rafId = requestAnimationFrame(loop);
-	}
-
 	async function ensureImage(src: string) {
 		if (currentImageSrc === src && img) return;
 
@@ -148,13 +78,6 @@
 		}
 	}
 
-	async function startLoopIfNeeded() {
-		if (rafId !== null) return;
-		lastTs = 0;
-		resizeCanvas();
-		rafId = requestAnimationFrame(loop);
-	}
-
 	onMount(() => {
 		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
 		reduceMotion = media.matches;
@@ -163,36 +86,28 @@
 		};
 		media.addEventListener('change', handler);
 
-		if (shouldAnimateBackground) {
-			startLoopIfNeeded().catch(() => {});
-		}
-
 		return () => {
 			media.removeEventListener('change', handler);
-			stopLoop();
+			renderer.stop();
 		};
 	});
 
 	$effect(() => {
-		if (!canvasEl || !shouldAnimateBackground) {
-			stopLoop();
+		if (!shouldAnimateBackground || !img) {
+			renderer.stop();
 			return;
 		}
 
-		ensureImage(backgroundImage).then(() => {
-			if (!shouldAnimateBackground) return;
-			startLoopIfNeeded().catch(() => {});
-		});
-
-		return () => stopLoop();
+		renderer.start();
+		return () => {
+			renderer.stop();
+		};
 	});
 
 	$effect(() => {
-		windowInnerWidth;
-		suggestion;
-		if (canvasEl && shouldAnimateBackground) {
-			resizeCanvas();
-		}
+		if (!shouldAnimateBackground) return;
+
+		ensureImage(backgroundImage).catch(() => {});
 	});
 
 	function getScoreClasses(score: number) {
@@ -232,8 +147,6 @@
 			: formatDims(DEFAULT_PERSONAL_ITEM.inches, measurementSystem)
 	);
 </script>
-
-<svelte:window bind:innerWidth={windowInnerWidth} />
 
 <Card.Root class="relative overflow-hidden text-center" data-testid="compliance-score">
 	<Card.Content>
