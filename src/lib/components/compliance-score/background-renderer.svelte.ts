@@ -18,8 +18,7 @@ export class BackgroundRenderer {
 		emojiSize: 56,
 		gap: 32,
 		skewRatio: 0.35,
-		opacity: 0.6,
-		renderPadding: 1
+		opacity: 0.6
 	};
 
 	private animationConfig: AnimationConfig;
@@ -108,23 +107,19 @@ export class BackgroundRenderer {
 		ctx.save();
 		ctx.globalAlpha = this.config.opacity;
 
-		const { emojiSize, gap, skewRatio, renderPadding } = this.config;
+		const { emojiSize, gap, skewRatio } = this.config;
 		const cellSize = emojiSize + gap;
 		const skewOffset = cellSize * skewRatio;
-		const padding = renderPadding * cellSize;
 
-		const startX = (((this.offsetX % cellSize) + cellSize) % cellSize) - padding;
-		const colCount = Math.ceil((width + 2 * padding) / cellSize) + 1;
+		const visibleStartColIdx = Math.floor((-cellSize - this.offsetX) / cellSize);
+		const visibleEndColIdx = Math.floor((width + cellSize - this.offsetX) / cellSize);
 
-		for (let col = 0; col < colCount; col++) {
-			const tileX = startX + col * cellSize;
+		for (let col = visibleStartColIdx; col <= visibleEndColIdx; col++) {
+			const tileX = col * cellSize + this.offsetX;
+			const startRow = Math.floor((-cellSize - this.offsetY + col * skewOffset) / cellSize);
+			const baseY = startRow * cellSize + this.offsetY - col * skewOffset;
 
-			const baseY =
-				this.offsetY - (Math.floor(this.offsetX / cellSize) + renderPadding) * skewOffset;
-			const colSkew = col * skewOffset;
-			const startY = ((((baseY - colSkew) % cellSize) + cellSize) % cellSize) - padding;
-
-			for (let tileY = startY; tileY < height + padding; tileY += cellSize) {
+			for (let tileY = baseY; tileY < height + cellSize; tileY += cellSize) {
 				ctx.drawImage(img, tileX, tileY, emojiSize, emojiSize);
 			}
 		}
