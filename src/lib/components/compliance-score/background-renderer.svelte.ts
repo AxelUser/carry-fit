@@ -1,14 +1,15 @@
 import { ElementSize, watch } from 'runed';
 
 type SpeedFunction = (currentTs: number) => number;
+type AngleFunction = (currentTs: number) => number;
 
 interface AnimationConfig {
-	horizontalSpeedFn: SpeedFunction;
-	verticalSpeedFn: SpeedFunction;
+	speedFn: SpeedFunction;
+	angleFn: AngleFunction;
 }
 
-const defaultHorizontalSpeed: SpeedFunction = () => 24;
-const defaultVerticalSpeed: SpeedFunction = () => -24;
+const defaultSpeed: SpeedFunction = () => 33.94;
+const defaultAngle: AngleFunction = () => 315;
 
 export class BackgroundRenderer {
 	rafId: number | null = null;
@@ -33,8 +34,8 @@ export class BackgroundRenderer {
 		animationConfig?: Partial<AnimationConfig>
 	) {
 		this.animationConfig = {
-			horizontalSpeedFn: animationConfig?.horizontalSpeedFn ?? defaultHorizontalSpeed,
-			verticalSpeedFn: animationConfig?.verticalSpeedFn ?? defaultVerticalSpeed
+			speedFn: animationConfig?.speedFn ?? defaultSpeed,
+			angleFn: animationConfig?.angleFn ?? defaultAngle
 		};
 
 		const size = new ElementSize(() => canvasGetter());
@@ -97,8 +98,11 @@ export class BackgroundRenderer {
 		const delta = this.lastTs ? (ts - this.lastTs) / 1000 : 0;
 		this.lastTs = ts;
 
-		const currentHorizontalSpeed = this.animationConfig.horizontalSpeedFn(ts);
-		const currentVerticalSpeed = this.animationConfig.verticalSpeedFn(ts);
+		const speed = this.animationConfig.speedFn(ts);
+		const angleRadians = (this.animationConfig.angleFn(ts) * Math.PI) / 180;
+
+		const currentHorizontalSpeed = speed * Math.cos(angleRadians);
+		const currentVerticalSpeed = speed * Math.sin(angleRadians);
 
 		this.offsetX += currentHorizontalSpeed * delta;
 		this.offsetY += currentVerticalSpeed * delta;

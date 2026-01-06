@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
 	import { type FillSuggestion } from '$lib/bag-scoring';
-	import { getScoreVisual } from './scoring-messages';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$ui/dialog';
 	import * as Card from '$ui/card';
@@ -11,6 +10,9 @@
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
 	import { BackgroundRenderer } from './background-renderer.svelte';
 	import { ImageLoader } from './image-loader.svelte';
+	import { ScoreVisualizer } from './score-visualizer.svelte';
+	import { isInRange, mergeRanges } from './scoring-feedback';
+	import { RANGES } from './scoring-feedback/feedbacks';
 
 	interface Props {
 		carryOnScore: number;
@@ -34,9 +36,14 @@
 		onApplySuggestion
 	}: Props = $props();
 
-	const visual = $derived(getScoreVisual(carryOnScore, personalItemScore));
-	const message = $derived(visual.message);
-	const backgroundImage = $derived(visual.image);
+	const visualizer = new ScoreVisualizer(
+		() => carryOnScore,
+		() => personalItemScore
+	);
+	const visual = $derived(visualizer.current);
+	const message = $derived(visual?.message ?? '');
+	const backgroundImage = $derived(visual?.image ?? '');
+	const angle = $derived(visual?.angle ?? 0);
 	let reduceMotion = $state(false);
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
@@ -44,7 +51,8 @@
 	const imageLoader = new ImageLoader(() => (shouldAnimateBackground ? backgroundImage : null));
 	const renderer = new BackgroundRenderer(
 		() => canvasEl,
-		() => imageLoader.current
+		() => imageLoader.current,
+		{ angleFn: () => angle }
 	);
 
 	onMount(() => {
@@ -74,14 +82,14 @@
 	});
 
 	function getScoreClasses(score: number) {
-		if (score < 60) {
+		if (isInRange(score, mergeRanges([RANGES.VERY_BAD, RANGES.BAD]))) {
 			return {
 				text: 'text-red-600',
 				bar: 'bg-red-500',
 				barBg: 'bg-red-500/20'
 			};
 		}
-		if (score <= 80) {
+		if (isInRange(score, RANGES.MEDIUM)) {
 			return {
 				text: 'text-amber-600',
 				bar: 'bg-amber-500',
