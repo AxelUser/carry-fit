@@ -1,0 +1,155 @@
+import { ElementSize, watch } from 'runed';
+
+type SpeedFunction = (currentTs: number) => number;
+type AngleFunction = (currentTs: number) => number;
+
+interface AnimationConfig {
+	speedFn: SpeedFunction;
+	angleFn: AngleFunction;
+}
+
+const defaultSpeed: SpeedFunction = () => 33.94;
+const defaultAngle: AngleFunction = () => 315;
+
+export class BackgroundRenderer {
+	private rafId: number | null = null;
+	private loop: () => void;
+
+	private readonly config = {
+		emojiSize: 56,
+		gap: 32,
+		skewRatio: 0.35,
+		opacity: 0.6
+	};
+
+	private animationConfig: AnimationConfig;
+
+	private lastTs = 0;
+	private offsetX = 0;
+	private offsetY = 0;
+
+	constructor(
+		private canvasGetter: () => HTMLCanvasElement | null | undefined,
+		imgGetter: () => HTMLImageElement | null | undefined,
+		animationConfig?: Partial<AnimationConfig>
+	) {
+		this.animationConfig = {
+			speedFn: animationConfig?.speedFn ?? defaultSpeed,
+			angleFn: animationConfig?.angleFn ?? defaultAngle
+		};
+
+		const size = new ElementSize(() => canvasGetter());
+
+		watch([() => size.current.width, () => size.current.height], () => {
+			this.resize();
+		});
+
+		this.loop = () => {
+			const canvas = canvasGetter();
+			if (!canvas) {
+				this.rafId = requestAnimationFrame(this.loop);
+				return;
+			}
+
+			const ctx = canvas.getContext('2d');
+			const img = imgGetter();
+			const rect = canvas.getBoundingClientRect();
+
+			if (rect.width === 0 || rect.height === 0) {
+				this.rafId = requestAnimationFrame(this.loop);
+				return;
+			}
+
+			if (!ctx || !img) {
+				this.rafId = requestAnimationFrame(this.loop);
+				return;
+			}
+
+			const ts = performance.now();
+			this.draw(ctx, rect.width, rect.height, img, ts);
+			this.rafId = requestAnimationFrame(this.loop);
+		};
+	}
+
+	public start() {
+		if (this.rafId !== null) {
+			return;
+		}
+		this.lastTs = 0;
+		this.resize();
+		this.rafId = requestAnimationFrame(this.loop);
+	}
+
+	public stop() {
+		if (this.rafId === null) {
+			return;
+		}
+		cancelAnimationFrame(this.rafId);
+		this.rafId = null;
+	}
+
+	draw(
+		ctx: CanvasRenderingContext2D,
+		width: number,
+		height: number,
+		img: HTMLImageElement,
+		ts: number
+	) {
+		const delta = this.lastTs ? (ts - this.lastTs) / 1000 : 0;
+		this.lastTs = ts;
+
+		const speed = this.animationConfig.speedFn(ts);
+		const angleRadians = (this.animationConfig.angleFn(ts) * Math.PI) / 180;
+
+		const currentHorizontalSpeed = speed * Math.cos(angleRadians);
+		const currentVerticalSpeed = speed * Math.sin(angleRadians);
+
+		this.offsetX += currentHorizontalSpeed * delta;
+		this.offsetY += currentVerticalSpeed * delta;
+
+		ctx.clearRect(0, 0, width, height);
+		ctx.save();
+		ctx.globalAlpha = this.config.opacity;
+
+		const { emojiSize, gap, skewRatio } = this.config;
+		const cellSize = emojiSize + gap;
+		const skewOffset = cellSize * skewRatio;
+
+		const visibleStartColIdx = Math.floor((-cellSize - this.offsetX) / cellSize);
+		const visibleEndColIdx = Math.floor((width + cellSize - this.offsetX) / cellSize);
+
+		for (let col = visibleStartColIdx; col <= visibleEndColIdx; col++) {
+			const tileX = col * cellSize + this.offsetX;
+			const startRow = Math.floor((-cellSize - this.offsetY + col * skewOffset) / cellSize);
+			const baseY = startRow * cellSize + this.offsetY - col * skewOffset;
+
+			for (let tileY = baseY; tileY < height + cellSize; tileY += cellSize) {
+				ctx.drawImage(img, tileX, tileY, emojiSize, emojiSize);
+			}
+		}
+
+		ctx.restore();
+	}
+
+	resize() {
+		const canvas = this.canvasGetter();
+		if (!canvas) {
+			return;
+		}
+
+		const dpr = window.devicePixelRatio || 1;
+
+		let rect = canvas.getBoundingClientRect();
+		if (rect.width === 0 || rect.height === 0) {
+			rect = canvas.parentElement?.getBoundingClientRect() ?? rect;
+		}
+
+		canvas.width = rect.width * dpr;
+		canvas.height = rect.height * dpr;
+
+		const ctx = canvas.getContext('2d');
+		if (ctx) {
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		}
+	}
+}

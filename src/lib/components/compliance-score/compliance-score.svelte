@@ -2,13 +2,17 @@
 	import { onMount } from 'svelte';
 	import { DEFAULT_PERSONAL_ITEM } from '$lib/allowances';
 	import { type FillSuggestion } from '$lib/bag-scoring';
-	import { getScoreVisual } from './scoring-messages';
 	import { cn } from '$lib/utils/ui';
 	import * as Dialog from '$ui/dialog';
 	import * as Card from '$ui/card';
 	import { Button } from '$ui/button';
 	import { type UserDimensions, type MeasurementSystem, MeasurementSystems } from '$lib/types';
 	import { descDimensions, formatDims } from '$lib/utils/dimensions';
+	import { BackgroundRenderer } from './background-renderer.svelte';
+	import { ImageLoader } from './image-loader.svelte';
+	import { ScoreVisualizer } from './score-visualizer.svelte';
+	import { isInRange, mergeRanges } from './scoring-feedback';
+	import { RANGES } from './scoring-feedback/feedbacks';
 
 	interface Props {
 		carryOnScore: number;
@@ -32,128 +36,24 @@
 		onApplySuggestion
 	}: Props = $props();
 
-	const visual = $derived(getScoreVisual(carryOnScore, personalItemScore));
-	const message = $derived(visual.message);
-	const backgroundImage = $derived(visual.image);
+	const visualizer = new ScoreVisualizer(
+		() => carryOnScore,
+		() => personalItemScore
+	);
+	const visual = $derived(visualizer.current);
+	const message = $derived(visual?.message ?? '');
+	const backgroundImage = $derived(visual?.image ?? '');
+	const angle = $derived(visual?.angle ?? 0);
 	let reduceMotion = $state(false);
 
 	const shouldAnimateBackground = $derived(showBackground && !reduceMotion);
 	let canvasEl = $state<HTMLCanvasElement | null>(null);
-	let windowInnerWidth = $state(0);
-	const emojiSize = 56;
-	const tileStep = 88; // emoji size + gap
-	const columnRise = tileStep * 0.35;
-	const speed = 24; // px per second
-	let img: HTMLImageElement | null = null;
-	const imagePromises = new Map<string, Promise<HTMLImageElement>>();
-	let currentImageSrc = $state<string | null>(null);
-	let rafId: number | null = null;
-	let lastTs = 0;
-	let offsetX = 0;
-	let offsetY = 0;
-
-	function loadImage(src: string) {
-		if (imagePromises.has(src)) {
-			return imagePromises.get(src)!;
-		}
-
-		const promise = new Promise<HTMLImageElement>((resolve, reject) => {
-			const image = new Image();
-			image.src = src;
-			image.onload = () => {
-				resolve(image);
-			};
-			image.onerror = reject;
-		});
-
-		imagePromises.set(src, promise);
-		return promise;
-	}
-
-	function getCanvasRect() {
-		if (!canvasEl) return null;
-		const rect = canvasEl.getBoundingClientRect();
-		if (rect.width === 0 || rect.height === 0) {
-			return canvasEl.parentElement?.getBoundingClientRect() ?? null;
-		}
-		return rect;
-	}
-
-	function resizeCanvas() {
-		if (!canvasEl) return;
-		const dpr = window.devicePixelRatio || 1;
-		const rect = getCanvasRect();
-		if (!rect) return;
-		const { width, height } = rect;
-		canvasEl.width = width * dpr;
-		canvasEl.height = height * dpr;
-		const ctx = canvasEl.getContext('2d');
-		if (!ctx) return;
-		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-	}
-
-	function stopLoop() {
-		if (rafId !== null) {
-			cancelAnimationFrame(rafId);
-			rafId = null;
-		}
-	}
-
-	function loop(ts: number) {
-		if (!canvasEl || !img) return;
-		const ctx = canvasEl.getContext('2d');
-		if (!ctx) return;
-
-		const delta = lastTs ? (ts - lastTs) / 1000 : 0;
-		lastTs = ts;
-
-		offsetX = offsetX + speed * delta;
-		offsetY = offsetY - speed * delta;
-
-		const { width, height } = canvasEl.getBoundingClientRect();
-		ctx.clearRect(0, 0, width, height);
-
-		ctx.save();
-		ctx.globalAlpha = 0.6;
-
-		const startColumn = Math.floor((-tileStep - offsetX) / tileStep);
-		const endColumn = Math.floor((width + tileStep - offsetX) / tileStep);
-
-		for (let column = startColumn; column <= endColumn; column++) {
-			const x = column * tileStep + offsetX;
-			const startRow = Math.floor((-tileStep - offsetY + column * columnRise) / tileStep);
-			for (
-				let y = startRow * tileStep + offsetY - column * columnRise;
-				y < height + tileStep;
-				y += tileStep
-			) {
-				ctx.drawImage(img, x, y, emojiSize, emojiSize);
-			}
-		}
-
-		ctx.restore();
-
-		rafId = requestAnimationFrame(loop);
-	}
-
-	async function ensureImage(src: string) {
-		if (currentImageSrc === src && img) return;
-
-		currentImageSrc = src;
-		const loaded = await loadImage(src).catch(() => null);
-		if (!loaded) return;
-		// Only swap if the desired image is still current
-		if (currentImageSrc === src) {
-			img = loaded;
-		}
-	}
-
-	async function startLoopIfNeeded() {
-		if (rafId !== null) return;
-		lastTs = 0;
-		resizeCanvas();
-		rafId = requestAnimationFrame(loop);
-	}
+	const imageLoader = new ImageLoader(() => (shouldAnimateBackground ? backgroundImage : null));
+	const renderer = new BackgroundRenderer(
+		() => canvasEl,
+		() => imageLoader.current,
+		{ angleFn: () => angle }
+	);
 
 	onMount(() => {
 		const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -163,47 +63,33 @@
 		};
 		media.addEventListener('change', handler);
 
-		if (shouldAnimateBackground) {
-			startLoopIfNeeded().catch(() => {});
-		}
-
 		return () => {
 			media.removeEventListener('change', handler);
-			stopLoop();
+			renderer.stop();
 		};
 	});
 
 	$effect(() => {
-		if (!canvasEl || !shouldAnimateBackground) {
-			stopLoop();
+		if (!shouldAnimateBackground || !imageLoader.current) {
+			renderer.stop();
 			return;
 		}
 
-		ensureImage(backgroundImage).then(() => {
-			if (!shouldAnimateBackground) return;
-			startLoopIfNeeded().catch(() => {});
-		});
-
-		return () => stopLoop();
-	});
-
-	$effect(() => {
-		windowInnerWidth;
-		suggestion;
-		if (canvasEl && shouldAnimateBackground) {
-			resizeCanvas();
-		}
+		renderer.start();
+		return () => {
+			renderer.stop();
+		};
 	});
 
 	function getScoreClasses(score: number) {
-		if (score < 60) {
+		if (isInRange(score, mergeRanges([RANGES.VERY_BAD, RANGES.BAD]))) {
 			return {
 				text: 'text-red-600',
 				bar: 'bg-red-500',
 				barBg: 'bg-red-500/20'
 			};
 		}
-		if (score <= 80) {
+		if (isInRange(score, RANGES.MEDIUM)) {
 			return {
 				text: 'text-amber-600',
 				bar: 'bg-amber-500',
@@ -232,8 +118,6 @@
 			: formatDims(DEFAULT_PERSONAL_ITEM.inches, measurementSystem)
 	);
 </script>
-
-<svelte:window bind:innerWidth={windowInnerWidth} />
 
 <Card.Root class="relative overflow-hidden text-center" data-testid="compliance-score">
 	<Card.Content>
