@@ -1,6 +1,5 @@
 import { describe, test, expect, beforeEach } from 'vitest';
 import { ScoringFeedbackMatcher } from './matcher';
-import type { FeedbackRuleDefinition } from './matcher';
 
 describe('ScoringFeedbackMatcher', () => {
 	let matcher: ScoringFeedbackMatcher;
@@ -42,10 +41,10 @@ describe('ScoringFeedbackMatcher', () => {
 			});
 		});
 
-		test('single rule matches - both excellent', () => {
-			const result = matcher.findBestMatch(95, 95);
+		test('single rule matches', () => {
+			const result = matcher.findBestMatch(25, 25);
 			expect(result).not.toBeNull();
-			expect(result?.message).toBe('Validators fear this bag!');
+			expect(result?.message).toBe('Living dangerously, I see.');
 		});
 
 		test('multiple rules match - returns most specific', () => {
@@ -329,4 +328,3 @@ describe('ScoringFeedbackMatcher', () => {
 		});
 	});
 });
-

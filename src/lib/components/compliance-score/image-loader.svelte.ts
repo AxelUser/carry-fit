@@ -31,7 +31,10 @@ export class ImageLoader {
 			this.cache.set(src, promise);
 		}
 
-		const loaded = await promise.catch(() => null);
+		const loaded = await promise.catch(() => {
+			this.cache.delete(src);
+			return null;
+		});
 		if (!loaded || this.currentSrc !== src) return;
 
 		this.current = loaded;

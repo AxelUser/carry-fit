@@ -12,7 +12,7 @@ const defaultSpeed: SpeedFunction = () => 33.94;
 const defaultAngle: AngleFunction = () => 315;
 
 export class BackgroundRenderer {
-	rafId: number | null = null;
+	private rafId: number | null = null;
 	private loop: () => void;
 
 	private readonly config = {
@@ -30,7 +30,7 @@ export class BackgroundRenderer {
 
 	constructor(
 		private canvasGetter: () => HTMLCanvasElement | null | undefined,
-		private imgGetter: () => HTMLImageElement | null | undefined,
+		imgGetter: () => HTMLImageElement | null | undefined,
 		animationConfig?: Partial<AnimationConfig>
 	) {
 		this.animationConfig = {

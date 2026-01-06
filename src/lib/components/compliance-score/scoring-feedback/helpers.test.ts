@@ -134,7 +134,7 @@ describe('ruleCompletelyCovers', () => {
 		expect(ruleCompletelyCovers(rule1, rule2)).toBe(true);
 	});
 
-	test('returns true when covering rule contains covered rule with smaller or equal coverage', () => {
+	test('returns false when covering rule contains covered rule with smaller or equal coverage', () => {
 		const covering: FeedbackRuleWithCoverage = {
 			definition: {
 				carryOnRange: { min: 80, max: 100 },
@@ -336,4 +336,3 @@ describe('rulesHaveAmbiguousOverlap', () => {
 		expect(rulesHaveAmbiguousOverlap(rule1, rule2)).toBe(false);
 	});
 });
-
