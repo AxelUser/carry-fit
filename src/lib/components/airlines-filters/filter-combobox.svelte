@@ -5,7 +5,7 @@
 	import { Button } from '$ui/button';
 	import { Input } from '$ui/input';
 	import { Search } from '@lucide/svelte';
-	import { computeMatchScore } from '$lib/utils/matching';
+	import { searchAirlines } from '$lib/utils/matching';
 	import { cn } from '$lib/utils/ui';
 	import { ScrollArea } from '$ui/scroll-area';
 	import { MediaQuery, SvelteSet } from 'svelte/reactivity';
@@ -38,18 +38,9 @@
 	const selectedCount = $derived(selectedItems.size);
 
 	const filteredItems = $derived(
-		items
-			.map((item) => ({
-				item,
-				score: computeMatchScore(searchTerm.toLowerCase(), itemLabel(item))
-			}))
-			.filter((entry) => {
-				if (!searchTerm) return true;
-				return entry.score > 0.5;
-			})
-			.toSorted((a, b) => {
-				return b.score - a.score;
-			})
+		searchAirlines(searchTerm, items, {
+			shouldSort: true
+		}).map((result) => result.item)
 	);
 
 	const triggerText = $derived.by(() => {
@@ -103,16 +94,16 @@
 
 			{#if filteredItems.length > 0}
 				{#each filteredItems as item}
-					{@const isSelected = selectedItems.has(item.item)}
+					{@const isSelected = selectedItems.has(item)}
 					<button
 						class="hover:bg-accent hover:text-accent-foreground relative flex w-full min-w-0 cursor-pointer items-start rounded-sm px-2 py-1.5 text-left text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50"
 						role="option"
 						aria-selected={isSelected}
-						onclick={() => toggleItem(item.item)}
+						onclick={() => toggleItem(item)}
 					>
 						<div class="flex min-w-0 flex-1 items-center gap-2">
 							<Check class={cn('size-4 shrink-0', isSelected ? 'opacity-100' : 'opacity-0')} />
-							<span class="truncate">{itemLabel(item.item)}</span>
+							<span class="truncate">{itemLabel(item)}</span>
 						</div>
 					</button>
 				{/each}

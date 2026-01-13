@@ -1,122 +1,145 @@
-const WEIGHTS = {
-	BASE: 1,
-	CONSECUTIVE: 5,
-	WORD_BOUNDARY: 10,
-	SKIPPED: 0.5
-};
+function levenshteinDistance(str1: string, str2: string): number {
+	const len1 = str1.length;
+	const len2 = str2.length;
+	const matrix: number[][] = [];
 
-/**
- * Computes an opinionated similarity score between a query and target string.
- * Optimized for autocomplete and search scenarios where matches at word boundaries
- * and consecutive characters are considered more relevant.
- *
- * @param query - The search term to look for
- * @param target - The string to search within
- * @returns A normalized score between 0 and 1, where:
- * - 1.0: Perfect match (all characters match at word boundaries)
- * - 0.0: No match (characters not found or wrong order)
- * - Values between indicate partial matches, weighted by:
- *   1. Word boundary matches (10 points): Characters matching at start of words
- *   2. Consecutive matches (5 points): Characters matching in sequence
- *   3. Regular matches (1 point): Characters matching with gaps
- *
- * The scoring is opinionated and optimized for:
- * - Autocomplete scenarios where prefix matches are important
- * - Search where word boundary matches should rank higher
- * - Cases where character sequence matters more than just presence
- *
- * Example scores:
- * - "cat" in "Category" → High score (word boundary match)
- * - "cat" in "Scatter" → Medium score (consecutive matches)
- * - "cat" in "C_a_t" → Lower score (separated matches)
- * - "cat" in "tac" → 0 (wrong order)
- */
-export function computeMatchScore(query: string, target: string): number {
-	// Return 0 if either string is empty
-	if (!query || !target) return 0;
-
-	// Track current position in both strings
-	let queryIndex = 0;
-	let targetIndex = 0;
-
-	// Track the running score and match quality
-	let matchScore = 0; // Total score accumulated
-	let consecutiveMatches = 0; // Number of characters matched in a row
-	let skippedCharCount = 0; // Number of non-matching characters we've passed
-
-	// Keep scanning until we either:
-	// 1. Find all query characters (success) or
-	// 2. Run out of target characters (partial/no match)
-	while (queryIndex < query.length && targetIndex < target.length) {
-		// Use localeCompare with sensitivity: 'base' for case-insensitive comparison
-		const isMatch =
-			query[queryIndex].localeCompare(target[targetIndex], undefined, {
-				sensitivity: 'base'
-			}) === 0;
-
-		if (isMatch) {
-			// Determine match quality and assign appropriate score:
-			// - Word boundary matches (after space or start)
-			// - Consecutive matches
-			// - Regular matches
-			const isWordBoundary = targetIndex === 0 || target[targetIndex - 1] === ' ';
-			const positionScore = isWordBoundary
-				? WEIGHTS.WORD_BOUNDARY
-				: consecutiveMatches > 0
-					? WEIGHTS.CONSECUTIVE
-					: WEIGHTS.BASE;
-
-			matchScore += positionScore;
-			consecutiveMatches++; // Increment consecutive match counter
-			queryIndex++; // Move to next query character
-		} else {
-			// On non-match:
-			consecutiveMatches = 0; // Reset consecutive match counter
-			skippedCharCount++; // Track number of skipped characters
-		}
-		targetIndex++; // Always move forward in target string
+	for (let i = 0; i <= len1; i++) {
+		matrix[i] = [i];
 	}
 
-	// If we didn't find all query characters, return no match
-	if (queryIndex < query.length) return 0;
+	for (let j = 0; j <= len2; j++) {
+		matrix[0][j] = j;
+	}
 
-	// Calculate final score:
-	// 1. Calculate best possible score
-	const maxPossibleScore = computeMaxPossibleScore(query, target);
+	for (let i = 1; i <= len1; i++) {
+		for (let j = 1; j <= len2; j++) {
+			const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+			matrix[i][j] = Math.min(
+				matrix[i - 1][j] + 1,
+				matrix[i][j - 1] + 1,
+				matrix[i - 1][j - 1] + cost
+			);
+		}
+	}
 
-	// 2. Normalize match score to 0-1 range
-	const normalizedMatchScore = matchScore / maxPossibleScore;
-
-	// 3. Calculate penalty for skipped characters
-	// (skips are worse if they're a large portion of target length)
-	const skipPenalty = (skippedCharCount / target.length) * WEIGHTS.SKIPPED;
-
-	// 4. Return final score (clamped between 0 and 1)
-	return Math.max(0, Math.min(1, normalizedMatchScore - skipPenalty));
+	return matrix[len1][len2];
 }
 
-function computeMaxPossibleScore(query: string, target: string): number {
-	const targetWordBoundaries = computeWordBoundaries(target);
-
-	// Calculate best possible score using available word boundaries
-	return (
-		Math.min(
-			query.length, // Can't use more boundaries than query length
-			targetWordBoundaries
-		) *
-			WEIGHTS.WORD_BOUNDARY +
-		Math.max(0, query.length - targetWordBoundaries) * WEIGHTS.CONSECUTIVE
-	);
+function normalize(text: string): string {
+	return text
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '');
 }
 
-const boundaryCache = new Map<string, number>();
+function tokenize(text: string): string[] {
+	return normalize(text)
+		.split(/\s+/)
+		.filter((token) => token.length > 0);
+}
 
-function computeWordBoundaries(target: string): number {
-	const cached = boundaryCache.get(target);
-	if (cached) return cached;
+function computeTokenScore(queryToken: string, targetToken: string): number {
+	if (queryToken === targetToken) {
+		return 1.0;
+	}
 
-	// Count word boundaries by counting spaces and adding 1 for the start
-	const boundaries = 1 + (target.match(/\s+/g)?.length ?? 0);
-	boundaryCache.set(target, boundaries);
-	return boundaries;
+	if (targetToken.startsWith(queryToken)) {
+		return 0.9;
+	}
+
+	const distance = levenshteinDistance(queryToken, targetToken);
+	const maxDistance = Math.floor(queryToken.length / 3);
+
+	if (distance <= Math.max(1, maxDistance)) {
+		const penalty = distance / queryToken.length;
+		return Math.max(0, 0.7 - penalty);
+	}
+
+	return 0;
+}
+
+function matchTokens(queryTokens: string[], targetTokens: string[]): number {
+	if (queryTokens.length === 0) return 0;
+
+	const scores: number[] = [];
+
+	for (const queryToken of queryTokens) {
+		let bestScore = 0;
+
+		for (const targetToken of targetTokens) {
+			const score = computeTokenScore(queryToken, targetToken);
+			bestScore = Math.max(bestScore, score);
+		}
+
+		scores.push(bestScore);
+	}
+
+	// TODO: max score should be also ok, need to test it
+	const averageScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+	return averageScore;
+}
+
+export interface SearchResult<T> {
+	item: T;
+	score: number;
+}
+
+export type SearchOptions<T> = T extends string
+	? {
+			threshold?: number;
+			shouldSort?: boolean;
+		}
+	: {
+			threshold?: number;
+			shouldSort?: boolean;
+			key?: keyof T & string;
+		};
+
+const DEFAULT_OPTIONS = {
+	threshold: 0.4,
+	shouldSort: false
+};
+
+export function searchAirlines<T extends string | object>(
+	query: string,
+	items: T[],
+	options?: SearchOptions<T>
+): SearchResult<T>[] {
+	const opts = { ...DEFAULT_OPTIONS, ...options };
+
+	if (!query || query.trim() === '') {
+		return items.map((item) => ({
+			item: item,
+			score: 1
+		}));
+	}
+
+	const queryTokens = tokenize(query);
+
+	const getSearchableText = (item: T): string => {
+		if (typeof item === 'string') {
+			return item;
+		}
+
+		const key = (opts as { key?: string }).key;
+		if (key) {
+			return (item as Record<string, unknown>)[key] as string;
+		}
+
+		return String(item);
+	};
+
+	const scoredResults = items
+		.map((item) => {
+			const targetTokens = tokenize(getSearchableText(item));
+			const score = matchTokens(queryTokens, targetTokens);
+			return { item, score };
+		})
+		.filter((result) => result.score >= opts.threshold!);
+
+	if (opts.shouldSort) {
+		return scoredResults.sort((a, b) => b.score - a.score);
+	}
+
+	return scoredResults;
 }
