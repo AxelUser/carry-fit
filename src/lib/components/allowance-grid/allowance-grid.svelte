@@ -14,7 +14,7 @@
 	import { Button } from '$ui/button';
 	import { VirtualList } from 'svelte-virtuallists';
 	import { MediaQuery } from 'svelte/reactivity';
-	import Toggle from '../ui/toggle/toggle.svelte';
+	import { Toggle } from '$ui/toggle';
 	import { watch } from 'runed';
 	import { searchAirlines, type SearchOptions } from '$lib/utils/matching';
 
