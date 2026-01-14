@@ -24,25 +24,9 @@
 		complianceResults: AirlineCompliance[];
 	}
 
-	let { measurementSystem, airlines, complianceResults: complianceAirlines }: Props = $props();
+	let { measurementSystem, airlines, complianceResults }: Props = $props();
 	const isCompliant = (airline: AirlineCompliance) =>
 		airline.complianceResults.every((result) => result.passed);
-
-	// Search by airline name
-	let searchTerm = $state('');
-	const filterByName = <T extends AirlineInfo>(airlines: T[], searchTerm: string): T[] => {
-		return searchAirlines<T>(searchTerm, airlines, {
-			key: 'airline',
-			shouldSort: true
-		} as SearchOptions<T>).map((result) => result.item);
-	};
-
-	const filteredByNameAirlines = $derived.by(() => {
-		return filterByName(airlines, searchTerm);
-	});
-	const filteredByNameComplianceResults = $derived.by(() => {
-		return filterByName(complianceAirlines, searchTerm);
-	});
 
 	// Sort by airline name
 	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
@@ -58,10 +42,8 @@
 		return airlines.toSorted((a, b) => a.airline.localeCompare(b.airline) * direction);
 	}
 
-	const sortedAirlines = $derived(sortAirlines(sortDirection, filteredByNameAirlines));
-	const sortedComplianceResults = $derived(
-		sortAirlines(sortDirection, filteredByNameComplianceResults)
-	);
+	const sortedAirlines = $derived(sortAirlines(sortDirection, airlines));
+	const sortedComplianceResults = $derived(sortAirlines(sortDirection, complianceResults));
 
 	const complianceStats = $derived.by(() => {
 		return sortedComplianceResults.reduce(
@@ -81,7 +63,7 @@
 	let showCompliant = $state(true);
 	let showNonCompliant = $state(true);
 	watch(
-		() => complianceAirlines,
+		() => complianceResults,
 		() => {
 			showCompliant = true;
 			showNonCompliant = true;
@@ -92,7 +74,7 @@
 		showCompliant;
 		showNonCompliant;
 
-		if (complianceAirlines.length === 0) {
+		if (complianceResults.length === 0) {
 			return sortedAirlines;
 		}
 
@@ -104,15 +86,54 @@
 		});
 	});
 
-	const noSearchResults = $derived(searchTerm !== '' && visibleAirlines.length === 0);
+	// Search by airline name
+	let searchTerm = $state('');
+	const filterByName = <T extends AirlineInfo | AirlineCompliance>(
+		airlines: T[],
+		searchTerm: string
+	): T[] => {
+		return searchAirlines<T>(searchTerm, airlines, {
+			key: 'airline',
+			shouldSort: false
+		} as SearchOptions<T>).map((result) => result.item);
+	};
+
+	const filteredVisibleAirlines = $derived.by(() => {
+		return filterByName(visibleAirlines, searchTerm);
+	});
+
+	const noSearchResults = $derived(searchTerm !== '' && filteredVisibleAirlines.length === 0);
+	// TODO: unoptimal as hell, need to improve api for this
+	const mostSimilarAirline = $derived.by(() => {
+		const all = searchAirlines<AirlineInfo | AirlineCompliance>(searchTerm, visibleAirlines, {
+			key: 'airline',
+			threshold: 0
+		} as SearchOptions<AirlineInfo | AirlineCompliance>);
+
+		if (all.length === 0) {
+			return undefined;
+		}
+
+		let best: { score: number; item: AirlineInfo | AirlineCompliance } | undefined = undefined;
+
+		for (const result of all) {
+			if (best === undefined) {
+				best = result;
+			} else if (result.score > best.score) {
+				best = result;
+			}
+		}
+
+		return best?.item;
+	});
 
 	// Grid layout
 	const isDesktop = new MediaQuery('(min-width: 768px)', true);
 	const columnCount = $derived(isDesktop.current ? 2 : 1);
 	const airlineRows = $derived.by(() => {
 		const rows: AirlineInfo[][] = [];
-		for (let i = 0; i < visibleAirlines.length; i += columnCount) {
-			rows.push(visibleAirlines.slice(i, i + columnCount));
+		for (let i = 0; i < filteredVisibleAirlines.length; i += columnCount) {
+			rows.push(filteredVisibleAirlines.slice(i, i + columnCount));
 		}
 		return rows;
 	});
@@ -155,9 +176,9 @@
 		{#if noSearchResults}
 			<EmptyState
 				title="No airlines found"
-				description={`No airlines match your search "${searchTerm}"`}
+				description={`No airlines match your search "${searchTerm}".${mostSimilarAirline ? ` Did you mean "${mostSimilarAirline.airline}"?` : ''}`}
 			/>
-		{:else if visibleAirlines.length === 0}
+		{:else if filteredVisibleAirlines.length === 0}
 			<EmptyState
 				title="Nothing to display"
 				description="Try adjusting your filters to see available allowances"
