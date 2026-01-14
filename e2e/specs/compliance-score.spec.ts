@@ -69,8 +69,12 @@ test.describe('Bag compliance scoring', () => {
 		await page.waitForTimeout(1000);
 
 		// Check that compliance toggles are not visible (since no airlines are compliant)
-		const compliantButton = page.getByRole('button', { name: /Compliant \(\d+\)/ });
-		const nonCompliantButton = page.getByRole('button', { name: /Non-compliant \(\d+\)/ });
+		const compliantButton = page.getByRole('button', {
+			name: /Hide Compliant \(\d+\)/i
+		});
+		const nonCompliantButton = page.getByRole('button', {
+			name: /Hide Non-compliant \(\d+\)/
+		});
 
 		await expect(compliantButton).not.toBeVisible();
 		await expect(nonCompliantButton).not.toBeVisible();
@@ -86,7 +90,7 @@ test.describe('Bag compliance scoring', () => {
 		await expect(nonCompliantButton).toBeVisible();
 
 		// Check that both toggles are enabled (have primary background color indicating active state)
-		await expect(compliantButton).toHaveClass(/bg-primary/);
-		await expect(nonCompliantButton).toHaveClass(/bg-primary/);
+		await expect(compliantButton).toHaveAttribute('data-state', 'on');
+		await expect(nonCompliantButton).toHaveAttribute('data-state', 'on');
 	});
 });

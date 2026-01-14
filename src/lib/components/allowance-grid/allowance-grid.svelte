@@ -72,9 +72,7 @@
 					bind:pressed={airlinesList.showCompliant}
 					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
 				>
-					{airlinesList.showCompliant ? 'Hide' : 'Show'} Compliant (
-					{airlinesList.stats.compliant}
-					)
+					{airlinesList.showCompliant ? 'Hide' : 'Show'} Compliant ({airlinesList.stats.compliant})
 				</Toggle>
 				<Toggle
 					size="sm"
@@ -82,9 +80,8 @@
 					bind:pressed={airlinesList.showNonCompliant}
 					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
 				>
-					{airlinesList.showNonCompliant ? 'Hide' : 'Show'} Non-compliant (
-					{airlinesList.stats.nonCompliant}
-					)
+					{airlinesList.showNonCompliant ? 'Hide' : 'Show'} Non-compliant ({airlinesList.stats
+						.nonCompliant})
 				</Toggle>
 			</div>
 		{/if}
