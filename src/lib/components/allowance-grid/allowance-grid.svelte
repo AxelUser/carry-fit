@@ -3,8 +3,7 @@
 		SortDirections,
 		type AirlineCompliance,
 		type AirlineInfo,
-		type MeasurementSystem,
-		type SortDirection
+		type MeasurementSystem
 	} from '$lib/types';
 	import AirlineCard from './airline-card.svelte';
 	import * as Card from '$ui/card';
@@ -15,8 +14,7 @@
 	import { VirtualList } from 'svelte-virtuallists';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { Toggle } from '$ui/toggle';
-	import { watch } from 'runed';
-	import { searchAirlines, type SearchOptions } from '$lib/utils/matching';
+	import { AirlinesList } from './airlines-list.svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -24,116 +22,30 @@
 		complianceResults: AirlineCompliance[];
 	}
 
+	type AirlinesToDisplay = AirlineInfo | AirlineCompliance;
+
 	let { measurementSystem, airlines, complianceResults }: Props = $props();
-	const isCompliant = (airline: AirlineCompliance) =>
-		airline.complianceResults.every((result) => result.passed);
 
 	// Sort by airline name
-	let sortDirection = $state<SortDirection>(SortDirections.Ascending);
+	const airlinesList = new AirlinesList(() => ({
+		airlines,
+		complianceResults
+	}));
+
 	function toggleSortDirection() {
-		sortDirection =
-			sortDirection === SortDirections.Ascending
+		airlinesList.sortDirection =
+			airlinesList.sortDirection === SortDirections.Ascending
 				? SortDirections.Descending
 				: SortDirections.Ascending;
 	}
-
-	function sortAirlines<T extends AirlineInfo>(order: SortDirection, airlines: T[]) {
-		const direction = order === SortDirections.Ascending ? 1 : -1;
-		return airlines.toSorted((a, b) => a.airline.localeCompare(b.airline) * direction);
-	}
-
-	const sortedAirlines = $derived(sortAirlines(sortDirection, airlines));
-	const sortedComplianceResults = $derived(sortAirlines(sortDirection, complianceResults));
-
-	const complianceStats = $derived.by(() => {
-		return sortedComplianceResults.reduce(
-			(acc, airline) => {
-				if (isCompliant(airline)) {
-					acc.compliant++;
-				} else {
-					acc.nonCompliant++;
-				}
-				return acc;
-			},
-			{ compliant: 0, nonCompliant: 0 }
-		);
-	});
-
-	// Toggling compliance result groups
-	let showCompliant = $state(true);
-	let showNonCompliant = $state(true);
-	watch(
-		() => complianceResults,
-		() => {
-			showCompliant = true;
-			showNonCompliant = true;
-		}
-	);
-
-	const visibleAirlines = $derived.by<AirlineCompliance[] | AirlineInfo[]>(() => {
-		showCompliant;
-		showNonCompliant;
-
-		if (complianceResults.length === 0) {
-			return sortedAirlines;
-		}
-
-		return sortedComplianceResults.filter((airline) => {
-			if (isCompliant(airline)) {
-				return showCompliant;
-			}
-			return showNonCompliant;
-		});
-	});
-
-	// Search by airline name
-	let searchTerm = $state('');
-	const filterByName = <T extends AirlineInfo | AirlineCompliance>(
-		airlines: T[],
-		searchTerm: string
-	): T[] => {
-		return searchAirlines<T>(searchTerm, airlines, {
-			key: 'airline',
-			shouldSort: false
-		} as SearchOptions<T>).map((result) => result.item);
-	};
-
-	const filteredVisibleAirlines = $derived.by(() => {
-		return filterByName(visibleAirlines, searchTerm);
-	});
-
-	const noSearchResults = $derived(searchTerm !== '' && filteredVisibleAirlines.length === 0);
-	// TODO: unoptimal as hell, need to improve api for this
-	const mostSimilarAirline = $derived.by(() => {
-		const all = searchAirlines<AirlineInfo | AirlineCompliance>(searchTerm, visibleAirlines, {
-			key: 'airline',
-			threshold: 0
-		} as SearchOptions<AirlineInfo | AirlineCompliance>);
-
-		if (all.length === 0) {
-			return undefined;
-		}
-
-		let best: { score: number; item: AirlineInfo | AirlineCompliance } | undefined = undefined;
-
-		for (const result of all) {
-			if (best === undefined) {
-				best = result;
-			} else if (result.score > best.score) {
-				best = result;
-			}
-		}
-
-		return best?.item;
-	});
 
 	// Grid layout
 	const isDesktop = new MediaQuery('(min-width: 768px)', true);
 	const columnCount = $derived(isDesktop.current ? 2 : 1);
 	const airlineRows = $derived.by(() => {
-		const rows: AirlineInfo[][] = [];
-		for (let i = 0; i < filteredVisibleAirlines.length; i += columnCount) {
-			rows.push(filteredVisibleAirlines.slice(i, i + columnCount));
+		const rows: AirlinesToDisplay[][] = [];
+		for (let i = 0; i < airlinesList.current.length; i += columnCount) {
+			rows.push(airlinesList.current.slice(i, i + columnCount));
 		}
 		return rows;
 	});
@@ -148,37 +60,41 @@
 		data-testid="allowances-grid"
 	>
 		<div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-			<SearchInput bind:searchTerm />
+			<SearchInput bind:searchTerm={airlinesList.searchTerm} />
 			<div class="flex justify-end">{@render sortButton()}</div>
 		</div>
 
-		{#if complianceStats.compliant > 0 && complianceStats.nonCompliant > 0}
+		{#if airlinesList.stats.compliant > 0 && airlinesList.stats.nonCompliant > 0}
 			<div class="flex flex-wrap justify-end gap-2" aria-label="Filter airlines by compliance">
 				<Toggle
 					size="sm"
 					variant="outline"
-					bind:pressed={showCompliant}
+					bind:pressed={airlinesList.showCompliant}
 					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
 				>
-					{showCompliant ? 'Hide' : 'Show'} Compliant ({complianceStats.compliant})
+					{airlinesList.showCompliant ? 'Hide' : 'Show'} Compliant (
+					{airlinesList.stats.compliant}
+					)
 				</Toggle>
 				<Toggle
 					size="sm"
 					variant="outline"
-					bind:pressed={showNonCompliant}
+					bind:pressed={airlinesList.showNonCompliant}
 					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
 				>
-					{showNonCompliant ? 'Hide' : 'Show'} Non-compliant ({complianceStats.nonCompliant})
+					{airlinesList.showNonCompliant ? 'Hide' : 'Show'} Non-compliant (
+					{airlinesList.stats.nonCompliant}
+					)
 				</Toggle>
 			</div>
 		{/if}
 
-		{#if noSearchResults}
+		{#if airlinesList.emptySearch}
 			<EmptyState
 				title="No airlines found"
-				description={`No airlines match your search "${searchTerm}".${mostSimilarAirline ? ` Did you mean "${mostSimilarAirline.airline}"?` : ''}`}
+				description={`No airlines match your search "${airlinesList.searchTerm}".${airlinesList.suggestion ? ` Did you mean "${airlinesList.suggestion.airline}"?` : ''}`}
 			/>
-		{:else if filteredVisibleAirlines.length === 0}
+		{:else if airlinesList.current.length === 0}
 			<EmptyState
 				title="Nothing to display"
 				description="Try adjusting your filters to see available allowances"
@@ -192,7 +108,7 @@
 {#snippet sortButton()}
 	<Button size="sm" variant="outline" onclick={toggleSortDirection} aria-label="Sort airlines">
 		Sort
-		{#if sortDirection === SortDirections.Ascending}
+		{#if airlinesList.sortDirection === SortDirections.Ascending}
 			<ArrowDownAZ class="size-4" />
 		{:else}
 			<ArrowUpAZ class="size-4" />
