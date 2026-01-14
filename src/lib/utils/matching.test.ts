@@ -79,6 +79,13 @@ describe('searchAirlines', () => {
 			expect(results.length).toBeGreaterThan(0);
 			expect(results[0].item.name).toBe('Lufthansa');
 		});
+
+		it('should return single result for exact match', () => {
+			const results = searchAirlines('Air France', mockAirlines, { key: 'airline' });
+			expect(results.length).toBe(1);
+			expect(results[0].item.airline).toBe('Air France');
+			expect(results[0].score).toBe(1);
+		});
 	});
 
 	describe('with string arrays', () => {

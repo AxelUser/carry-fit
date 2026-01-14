@@ -71,6 +71,10 @@ function matchTokens(queryTokens: string[], targetTokens: string[]): number {
 			bestScore = Math.max(bestScore, score);
 		}
 
+		if (queryTokens.length > 1 && bestScore === 0) {
+			return 0;
+		}
+
 		scores.push(bestScore);
 	}
 
