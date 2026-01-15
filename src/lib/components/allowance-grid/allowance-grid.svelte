@@ -13,8 +13,8 @@
 	import { Button } from '$ui/button';
 	import { VirtualList } from 'svelte-virtuallists';
 	import { MediaQuery } from 'svelte/reactivity';
-	import { Toggle } from '$ui/toggle';
 	import { AirlinesList } from './airlines-list.svelte';
+	import GroupToggle from './group-toggle.svelte';
 
 	interface Props {
 		measurementSystem: MeasurementSystem;
@@ -56,7 +56,7 @@
 		<Card.Title>Airlines</Card.Title>
 	</Card.Header>
 	<Card.Content
-		class="flex min-h-[300px] flex-col gap-4 overflow-x-auto"
+		class="flex min-h-[300px] flex-col gap-6 overflow-x-auto"
 		data-testid="allowances-grid"
 	>
 		<div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
@@ -65,24 +65,20 @@
 		</div>
 
 		{#if airlinesList.stats.compliant > 0 && airlinesList.stats.nonCompliant > 0}
-			<div class="flex flex-wrap justify-end gap-2" aria-label="Filter airlines by compliance">
-				<Toggle
-					size="sm"
-					variant="outline"
-					bind:pressed={airlinesList.showCompliant}
-					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
-				>
-					{airlinesList.showCompliant ? 'Hide' : 'Show'} Compliant ({airlinesList.stats.compliant})
-				</Toggle>
-				<Toggle
-					size="sm"
-					variant="outline"
-					bind:pressed={airlinesList.showNonCompliant}
-					class="h-8 gap-2 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
-				>
-					{airlinesList.showNonCompliant ? 'Hide' : 'Show'} Non-compliant ({airlinesList.stats
-						.nonCompliant})
-				</Toggle>
+			<div
+				class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2"
+				aria-label="Filter airlines by compliance"
+			>
+				<GroupToggle
+					bind:checked={airlinesList.showCompliant}
+					count={airlinesList.stats.compliant}
+					groupLabel="compliant"
+				/>
+				<GroupToggle
+					bind:checked={airlinesList.showNonCompliant}
+					count={airlinesList.stats.nonCompliant}
+					groupLabel="non-compliant"
+				/>
 			</div>
 		{/if}
 
