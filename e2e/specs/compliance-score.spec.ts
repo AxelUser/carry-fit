@@ -65,28 +65,22 @@ test.describe('Bag compliance scoring', () => {
 		// Enter dimensions that should result in no compliant airlines
 		await setBagDimensions(page, { height: '80', width: '60', depth: '40' });
 
-		// Wait for compliance results to load
-		await page.waitForTimeout(1000);
-
 		// Check that compliance toggles are not visible (since no airlines are compliant)
-		const compliantButton = page.getByRole('button', { name: /Compliant \(\d+\)/ });
-		const nonCompliantButton = page.getByRole('button', { name: /Non-compliant \(\d+\)/ });
+		const compliantToggle = page.getByRole('checkbox', { name: /^Compliant airlines/i });
+		const nonCompliantToggle = page.getByRole('checkbox', { name: /^Non-compliant airlines/i });
 
-		await expect(compliantButton).not.toBeVisible();
-		await expect(nonCompliantButton).not.toBeVisible();
+		await expect(compliantToggle).not.toBeVisible();
+		await expect(nonCompliantToggle).not.toBeVisible();
 
 		// Now enter dimensions that should make some airlines compliant
 		await setBagDimensions(page, { height: '55', width: '40', depth: '23' });
 
-		// Wait for compliance results to update
-		await page.waitForTimeout(1000);
-
 		// Check that both toggles are now visible
-		await expect(compliantButton).toBeVisible();
-		await expect(nonCompliantButton).toBeVisible();
+		await expect(compliantToggle).toBeVisible();
+		await expect(nonCompliantToggle).toBeVisible();
 
-		// Check that both toggles are enabled (have primary background color indicating active state)
-		await expect(compliantButton).toHaveClass(/bg-primary/);
-		await expect(nonCompliantButton).toHaveClass(/bg-primary/);
+		// Check that both toggles are enabled
+		await expect(compliantToggle).toBeChecked();
+		await expect(nonCompliantToggle).toBeChecked();
 	});
 });

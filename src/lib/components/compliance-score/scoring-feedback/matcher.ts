@@ -78,4 +78,3 @@ export class ScoringFeedbackMatcher {
 		return matchingRules[0].definition.result;
 	}
 }
-

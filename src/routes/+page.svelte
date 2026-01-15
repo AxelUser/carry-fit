@@ -215,7 +215,7 @@
 		<AllowanceGrid
 			measurementSystem={preferences.measurementSystem}
 			airlines={filteredAirlines}
-			complianceAirlines={airlinesWithCompliance}
+			complianceResults={airlinesWithCompliance}
 		/>
 
 		<FAQ airlinesCount={allAirlines.length} />
