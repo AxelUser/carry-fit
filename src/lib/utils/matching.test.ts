@@ -88,7 +88,7 @@ describe('searchAirlines', () => {
 			expect(results[0].score).toBe(1);
 		});
 
-		it('should return single result for exact match for mutli-token query', () => {
+		it('should return single result for exact match for multi-token query', () => {
 			const results = searchAirlines('Air France', mockAirlines, { key: 'airline' });
 			expect(results.length).toBe(1);
 			expect(results[0].item.airline).toBe('Air France');

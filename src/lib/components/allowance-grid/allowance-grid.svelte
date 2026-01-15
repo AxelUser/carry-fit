@@ -119,9 +119,12 @@
 						<AirlineCard
 							{airline}
 							{measurementSystem}
-							complianceResults={(airline as AirlineCompliance).complianceResults}
-							personalItemComplianceResults={(airline as AirlineCompliance)
-								.personalItemComplianceResults}
+							complianceResults={'complianceResults' in airline
+								? airline.complianceResults
+								: undefined}
+							personalItemComplianceResults={'personalItemComplianceResults' in airline
+								? airline.personalItemComplianceResults
+								: undefined}
 						/>
 					</div>
 				{/each}
