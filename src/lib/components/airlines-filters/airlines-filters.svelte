@@ -151,10 +151,8 @@
 						role="button"
 						tabindex="0"
 						class={cn(
-							'group cursor-pointer rounded-lg border-2 p-4 text-left transition-colors',
-							isSelected
-								? 'border-primary bg-primary/5'
-								: 'border-border bg-background hover:border-muted-foreground/50'
+							'group cursor-pointer rounded-lg border p-4 text-left transition-colors',
+							isSelected ? 'border-primary bg-primary/10 dark:bg-primary/20' : 'hover:bg-accent/50'
 						)}
 						onclick={() => {
 							filterMode = mode;
