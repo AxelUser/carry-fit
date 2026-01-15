@@ -71,7 +71,7 @@ export class AirlinesList {
 	private mostSimilarAirline: AirlinesToDisplay | undefined = $derived.by(() => {
 		const all = searchAirlines<AirlinesToDisplay>(this.searchTerm, this.visibleAirlines, {
 			key: 'airline',
-			threshold: 0
+			threshold: 0.1
 		} as SearchOptions<AirlinesToDisplay>);
 
 		if (all.length === 0) {

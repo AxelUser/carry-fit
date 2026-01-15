@@ -33,9 +33,7 @@ function normalize(text: string): string {
 }
 
 function tokenize(text: string): string[] {
-	return normalize(text)
-		.split(/\s+/)
-		.filter((token) => token.length > 0);
+	return text.split(/\s+/).filter((token) => token.length > 0);
 }
 
 function computeTokenScore(queryToken: string, targetToken: string): number {
@@ -118,8 +116,6 @@ export function searchAirlines<T extends string | object>(
 		}));
 	}
 
-	const queryTokens = tokenize(query);
-
 	const getSearchableText = (item: T): string => {
 		if (typeof item === 'string') {
 			return item;
@@ -133,11 +129,28 @@ export function searchAirlines<T extends string | object>(
 		return String(item);
 	};
 
-	const scoredResults = items
-		.map((item) => {
-			const targetTokens = tokenize(getSearchableText(item));
+	const normalizedQuery = normalize(query);
+	const queryTokens = tokenize(normalizedQuery);
+
+	const entries = items.map((item) => {
+		const itemText = getSearchableText(item);
+		const normalizedText = normalize(itemText);
+		return { item, normalizedText };
+	});
+
+	const exactMatches = entries
+		.filter((entry) => entry.normalizedText === normalizedQuery)
+		.map((entry) => ({ item: entry.item, score: 1 }));
+
+	if (exactMatches.length > 0) {
+		return exactMatches;
+	}
+
+	const scoredResults = entries
+		.map((entry) => {
+			const targetTokens = tokenize(entry.normalizedText);
 			const score = matchTokens(queryTokens, targetTokens);
-			return { item, score };
+			return { item: entry.item, score };
 		})
 		.filter((result) => result.score >= opts.threshold!);
 

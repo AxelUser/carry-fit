@@ -11,7 +11,8 @@ describe('searchAirlines', () => {
 			{ id: '5', airline: 'Aeroméxico' },
 			{ id: '6', airline: 'American Airlines' },
 			{ id: '7', airline: 'Delta Air Lines' },
-			{ id: '8', airline: 'easyJet' }
+			{ id: '8', airline: 'easyJet' },
+			{ id: '9', airline: 'RwandAir' }
 		];
 
 		it('should return all airlines when query is empty', () => {
@@ -80,7 +81,14 @@ describe('searchAirlines', () => {
 			expect(results[0].item.name).toBe('Lufthansa');
 		});
 
-		it('should return single result for exact match', () => {
+		it('should return single result for exact match for single-token query', () => {
+			const results = searchAirlines('Ryanair', mockAirlines, { key: 'airline' });
+			expect(results.length).toBe(1);
+			expect(results[0].item.airline).toBe('Ryanair');
+			expect(results[0].score).toBe(1);
+		});
+
+		it('should return single result for exact match for mutli-token query', () => {
 			const results = searchAirlines('Air France', mockAirlines, { key: 'airline' });
 			expect(results.length).toBe(1);
 			expect(results[0].item.airline).toBe('Air France');
