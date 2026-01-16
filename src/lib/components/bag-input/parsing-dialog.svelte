@@ -4,9 +4,12 @@
 	import { Textarea } from '$ui/textarea';
 	import { DimensionParser } from './parser';
 	import { Alert, AlertDescription } from '$ui/alert';
-	import { TriangleAlert, ClipboardPaste } from '@lucide/svelte';
+	import { TriangleAlert, ClipboardPaste, X } from '@lucide/svelte';
 	import type { MeasurementSystem, UserDimensions } from '$lib/types';
 	import { metrics } from '$lib/analytics';
+	import { ParsingDialogSuggestion } from './parsing-dialog-suggestion.svelte';
+	import * as Popover from '$lib/components/ui/popover';
+	import { watch } from 'runed';
 
 	let open = $state(false);
 	let pastedText = $state('');
@@ -17,12 +20,29 @@
 	interface Props {
 		measurementSystem: MeasurementSystem;
 		onDimensionsFound: (dimensions: UserDimensions) => void;
+		userDimensions: UserDimensions;
 	}
 
-	let { measurementSystem, onDimensionsFound }: Props = $props();
+	let { measurementSystem, onDimensionsFound, userDimensions }: Props = $props();
+
+	const suggestion = new ParsingDialogSuggestion(() => userDimensions);
+	let showSuggestion = $derived(suggestion.shouldShow());
+	let suggestionOpen = $state(false);
+	const closeAndDisableSuggestion = () => {
+		suggestionOpen = false;
+		suggestion.disable();
+	};
+
+	watch(
+		() => showSuggestion,
+		(v) => {
+			if (v) suggestionOpen = true;
+		}
+	);
 
 	function openDialog() {
 		open = true;
+		closeAndDisableSuggestion();
 		metrics.dimensionParsingOpened();
 	}
 
@@ -55,16 +75,46 @@
 	}
 </script>
 
-<Button
-	data-tour-id="paste-dimensions"
-	variant="ghost"
-	size="sm"
-	onclick={openDialog}
-	class="gap-1"
->
-	<ClipboardPaste class="size-4" />
-	<span>Parse</span>
-</Button>
+<Popover.Root bind:open={suggestionOpen} onOpenChange={(v) => !v && suggestion.disable()}>
+	<Popover.Trigger>
+		{#snippet child({ props }: { props: Record<string, unknown> })}
+			<Button
+				{...props}
+				data-tour-id="paste-dimensions"
+				variant="ghost"
+				size="sm"
+				onclick={openDialog}
+				class="relative gap-1"
+			>
+				<ClipboardPaste class="size-4" />
+				<span>Parse</span>
+			</Button>
+		{/snippet}
+	</Popover.Trigger>
+	<Popover.Content
+		trapFocus={false}
+		onOpenAutoFocus={(e) => e.preventDefault()}
+		class="relative w-64 p-4"
+		side="top"
+	>
+		<Button
+			variant="ghost"
+			size="icon"
+			class="absolute top-1 right-1 size-8"
+			onclick={closeAndDisableSuggestion}
+		>
+			<X class="size-4" />
+			<span class="sr-only">Close</span>
+		</Button>
+		<div class="space-y-1">
+			<p class="text-sm font-medium">Copy-pasting?</p>
+			<p class="text-muted-foreground text-sm">
+				Did you know that CarryFit can parse bag dimensions from text?
+			</p>
+		</div>
+		<Button variant="default" size="sm" class="mt-4 w-full" onclick={openDialog}>Let's try</Button>
+	</Popover.Content>
+</Popover.Root>
 
 <Dialog bind:open>
 	<DialogContent>
