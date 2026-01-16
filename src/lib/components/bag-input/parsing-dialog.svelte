@@ -35,14 +35,10 @@
 
 	watch(
 		() => showSuggestion,
-		(shouldShow) => {
-			suggestionOpen = shouldShow;
+		(v) => {
+			if (v) suggestionOpen = true;
 		}
 	);
-
-	$effect(() => {
-		suggestionOpen = showSuggestion;
-	});
 
 	function openDialog() {
 		open = true;
@@ -79,7 +75,7 @@
 	}
 </script>
 
-<Popover.Root bind:open={suggestionOpen}>
+<Popover.Root bind:open={suggestionOpen} onOpenChange={(v) => !v && suggestion.disable()}>
 	<Popover.Trigger>
 		{#snippet child({ props }: { props: Record<string, unknown> })}
 			<Button
@@ -98,7 +94,6 @@
 	<Popover.Content
 		trapFocus={false}
 		onOpenAutoFocus={(e) => e.preventDefault()}
-		onEscapeKeydown={closeAndDisableSuggestion}
 		class="relative w-64 p-4"
 		side="top"
 	>
