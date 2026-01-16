@@ -6,7 +6,7 @@
 	import * as Card from '$ui/card';
 	import { Checkbox } from '$ui/checkbox';
 	import { Button } from '$ui/button';
-	import PasteDimensionsDialog from './paste-dimensions-dialog.svelte';
+	import ParsingDialog from './parsing-dialog.svelte';
 	import ShareBagLink from './share-bag-link.svelte';
 	import BackpackFill from './backpack-fill.svelte';
 	import { cn } from '$lib/utils/ui';
@@ -136,7 +136,11 @@
 			{#if allDimensionsSet}
 				<ShareBagLink {userDimensions} {measurementSystem} />
 			{/if}
-			<PasteDimensionsDialog {measurementSystem} onDimensionsFound={handlePastedDimensions} />
+			<ParsingDialog
+				{measurementSystem}
+				onDimensionsFound={handlePastedDimensions}
+				{userDimensions}
+			/>
 			<Button variant="ghost" size="sm" onclick={resetDimensions} class="gap-1">
 				<Eraser class="size-4" />
 				<span>Clear</span>
