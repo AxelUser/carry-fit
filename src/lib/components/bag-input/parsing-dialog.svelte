@@ -25,7 +25,7 @@
 	let { measurementSystem, onDimensionsFound, userDimensions }: Props = $props();
 
 	const suggestion = new ParsingDialogSuggestion(() => userDimensions);
-	let showSuggestion = $derived(suggestion.shouldShow() || true);
+	let showSuggestion = $derived(suggestion.shouldShow());
 	let suggestionOpen = $state(false);
 	const closeSuggestion = () => {
 		suggestionOpen = false;
@@ -96,25 +96,30 @@
 			suggestionCta?.focus();
 		}}
 	>
-		<div>
-			<div class="absolute top-2 right-2">
-				<Button variant="ghost" size="icon" class="size-8" onclick={closeSuggestion}>
-					<X class="size-4" />
-					<span class="sr-only">Close</span>
-				</Button>
-			</div>
-			<div class="space-y-1 pr-6">
-				<p class="text-sm font-medium">Copy-pasting?</p>
-				<p class="text-muted-foreground text-sm">CarryFit can parse bag dimensions from text.</p>
-			</div>
+		<Button
+			variant="ghost"
+			size="icon"
+			class="absolute top-1 right-1 size-8"
+			onclick={closeSuggestion}
+		>
+			<X class="size-4" />
+			<span class="sr-only">Close</span>
+		</Button>
+		<div class="space-y-1">
+			<p class="text-sm font-medium">Copy-pasting?</p>
+			<p class="text-muted-foreground text-sm">
+				Did you know that CarryFit can parse bag dimensions from text?
+			</p>
 		</div>
 		<Button
 			bind:ref={suggestionCta}
 			variant="default"
 			size="sm"
 			class="mt-4 w-full"
-			onclick={openDialog}>Let's try</Button
+			onclick={openDialog}
 		>
+			Let's try
+		</Button>
 	</Popover.Content>
 </Popover.Root>
 
