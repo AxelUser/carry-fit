@@ -9,6 +9,7 @@
 	import { metrics } from '$lib/analytics';
 	import { ParsingDialogSuggestion } from './parsing-dialog-suggestion.svelte';
 	import * as Popover from '$lib/components/ui/popover';
+	import { watch } from 'runed';
 
 	let open = $state(false);
 	let pastedText = $state('');
@@ -27,11 +28,17 @@
 	const suggestion = new ParsingDialogSuggestion(() => userDimensions);
 	let showSuggestion = $derived(suggestion.shouldShow());
 	let suggestionOpen = $state(false);
-	const closeSuggestion = () => {
+	const closeAndDisableSuggestion = () => {
 		suggestionOpen = false;
 		suggestion.disable();
 	};
-	let suggestionCta = $state<HTMLButtonElement | null>(null);
+
+	watch(
+		() => showSuggestion,
+		(shouldShow) => {
+			suggestionOpen = shouldShow;
+		}
+	);
 
 	$effect(() => {
 		suggestionOpen = showSuggestion;
@@ -39,7 +46,7 @@
 
 	function openDialog() {
 		open = true;
-		closeSuggestion();
+		closeAndDisableSuggestion();
 		metrics.dimensionParsingOpened();
 	}
 
@@ -89,18 +96,17 @@
 		{/snippet}
 	</Popover.Trigger>
 	<Popover.Content
+		trapFocus={false}
+		onOpenAutoFocus={(e) => e.preventDefault()}
+		onEscapeKeydown={closeAndDisableSuggestion}
 		class="relative w-64 p-4"
 		side="top"
-		onOpenAutoFocus={(e) => {
-			e.preventDefault();
-			suggestionCta?.focus();
-		}}
 	>
 		<Button
 			variant="ghost"
 			size="icon"
 			class="absolute top-1 right-1 size-8"
-			onclick={closeSuggestion}
+			onclick={closeAndDisableSuggestion}
 		>
 			<X class="size-4" />
 			<span class="sr-only">Close</span>
@@ -111,15 +117,7 @@
 				Did you know that CarryFit can parse bag dimensions from text?
 			</p>
 		</div>
-		<Button
-			bind:ref={suggestionCta}
-			variant="default"
-			size="sm"
-			class="mt-4 w-full"
-			onclick={openDialog}
-		>
-			Let's try
-		</Button>
+		<Button variant="default" size="sm" class="mt-4 w-full" onclick={openDialog}>Let's try</Button>
 	</Popover.Content>
 </Popover.Root>
 
