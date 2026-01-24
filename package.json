@@ -66,7 +66,7 @@
 		"@tailwindcss/forms": "^0.5.11",
 		"driver.js": "^1.4.0",
 		"mode-watcher": "^1.1.0",
-		"posthog-js": "^1.309.1",
+		"posthog-js": "^1.335.2",
 		"runed": "^0.37.1",
 		"svelte-virtuallists": "^1.4.2"
 	},
