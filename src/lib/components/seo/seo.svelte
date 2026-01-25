@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { baseUrl } from '$lib/utils/navigation';
+
 	interface Props {
 		title?: string;
 		airlinesCount?: number;
@@ -9,7 +11,7 @@
 	let {
 		airlinesCount = 170,
 		title = 'CarryFit - Carry-on & Personal Item Size Checker',
-		url = 'https://carryon.fit/',
+		url = `${baseUrl}/`,
 		noindex = false
 	}: Props = $props();
 

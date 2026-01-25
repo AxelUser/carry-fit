@@ -4,11 +4,12 @@
 	import { page } from '$app/state';
 	import { Button } from '$ui/button';
 	import { Seo } from '$components/seo';
+	import { baseUrl } from '$lib/utils/navigation';
 
 	let { children } = $props();
 </script>
 
-<Seo title={page.data.title} />
+<Seo title={page.data.title} url={`${baseUrl}${page.url.pathname}`} />
 
 <div class="min-h-screen px-2 py-8 sm:px-4">
 	<div class="mx-auto max-w-3xl">

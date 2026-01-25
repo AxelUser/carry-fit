@@ -1,5 +1,7 @@
 import { resolve } from '$app/paths';
 
+const baseUrl = 'https://carryon.fit';
+
 const links = {
 	legal: {
 		privacy: resolve('/legal/privacy'),
@@ -9,4 +11,4 @@ const links = {
 	home: resolve('/')
 };
 
-export { links };
+export { links, baseUrl };
