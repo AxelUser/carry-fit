@@ -21,7 +21,7 @@ async function generateOgImage() {
     <!DOCTYPE html>
     <html>
       <head>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
         <style>
           /* Ensure proper rendering */
           body {
