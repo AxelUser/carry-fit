@@ -3174,5 +3174,19 @@ export const allowances: AirlineAllowance[] = [
 				pounds: 15.5
 			}
 		}
+	},
+	{
+		id: 'air-cairo',
+		airline: 'Air Cairo',
+		region: 'Middle East',
+		link: 'https://aircairo.com/en-gl/carry-on-baggage',
+		carryOn: {
+			dimensions: {
+				centimeters: [55, 40, 23],
+			},
+			weight: {
+				kilograms: 7
+			}
+		}
 	}
 ];
