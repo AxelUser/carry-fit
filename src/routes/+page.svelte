@@ -22,6 +22,7 @@
 	import { AirlinesFilters } from '$components/airlines-filters';
 	import { AllowanceGrid } from '$components/allowance-grid';
 	import { FAQ } from '$components/faq';
+	import { Seo } from '$components/seo';
 
 	const allAirlines = loadData();
 
@@ -159,6 +160,8 @@
 	});
 </script>
 
+<Seo airlinesCount={allAirlines.length} />
+
 <div class="min-h-screen px-3 py-8 sm:px-4">
 	<div class="mx-auto max-w-4xl space-y-6">
 		<div class="text-center">
@@ -168,6 +171,7 @@
 				>
 					CarryFit
 				</span>
+				<span class="sr-only"> - Airline Baggage Size Checker</span>
 				<span class="ml-2 inline-flex translate-y-1">
 					<CarryFitIcon class="h-10 w-10 sm:h-14 sm:w-14" />
 				</span>
@@ -193,6 +197,11 @@
 				clearSharedBagInfo();
 			}}
 		/>
+
+		<p class="text-muted-foreground text-center text-sm">
+			<span class="font-semibold">Tip:</span> Measure your bag from the wheels to the handle. Include
+			all pockets and straps.
+		</p>
 
 		{#if allDimensionsSet}
 			<ComplianceScore

@@ -7,6 +7,7 @@
 	import { MainLayout } from '$components/layout';
 	import type { CookieConsent } from '$lib/types';
 	import { cookieConsent } from '$lib/stores/cookie-consent.svelte';
+
 	let { children } = $props();
 	let error = $state<Error | null>(null);
 
