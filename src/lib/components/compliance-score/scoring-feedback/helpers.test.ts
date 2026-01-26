@@ -73,6 +73,11 @@ describe('isInRange', () => {
 		const range: ScoreRange = { min: 90, max: 100 };
 		expect(isInRange(101, range)).toBe(false);
 	});
+
+	test('rounds score to nearest integer', () => {
+		const range: ScoreRange = { min: 91, max: 100 };
+		expect(isInRange(90.5, range)).toBe(true);
+	});
 });
 
 describe('rangesOverlap', () => {

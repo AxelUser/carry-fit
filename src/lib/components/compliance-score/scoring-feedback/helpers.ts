@@ -27,7 +27,8 @@ export function calculateCoverage(definition: FeedbackRuleDefinition): number {
 }
 
 export function isInRange(score: number, range: ScoreRange): boolean {
-	return score >= range.min && score <= range.max;
+	const roundedScore = Math.round(score);
+	return roundedScore >= range.min && roundedScore <= range.max;
 }
 
 export function mergeRanges(ranges: ScoreRange[]): ScoreRange {
