@@ -23,12 +23,6 @@
 		className
 	)}
 >
-	<AnnouncementBar
-		message="🎁 Wrapping Up 2025: New Features Available! 🎄"
-		href="https://github.com/AxelUser/carry-fit/discussions/78"
-		storageKey="announcement-dismissed-wrapping-up-2025"
-		dismissible={true}
-	/>
 	<div class="mx-auto max-w-[1700px] px-4">
 		<div class="flex h-16 items-center justify-between">
 			<a href={links.home} class="flex items-center gap-2 transition-opacity hover:opacity-80">
