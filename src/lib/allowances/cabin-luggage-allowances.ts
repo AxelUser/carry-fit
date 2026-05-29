@@ -245,7 +245,7 @@ export const allowances: AirlineAllowance[] = [
 		id: 'etihad-airways',
 		airline: 'Etihad Airways',
 		region: 'Middle East',
-		link: 'https://www.etihad.com/content/eag/etihadairways/etihadcom/global/en/fly-etihad/baggage/cabin-bags.html',
+		link: 'https://www.etihad.com/en/help/faq/baggage#accordion-0c6dfe1615-item-772d4f7706',
 		carryOn: {
 			dimensions: {
 				centimeters: [56, 36, 23]
